@@ -1,4 +1,4 @@
-package com.withparadox2.showslowly;
+package com.withparadox2.showslowly.entity;
 
 public class Friend {
   private String id;

@@ -3,43 +3,50 @@ package com.withparadox2.showslowly;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
-import com.withparadox2.showslowly.util.FileUtil;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
+import com.withparadox2.showslowly.entity.Friend;
+import com.withparadox2.showslowly.entity.Persist;
+import com.withparadox2.showslowly.token.TokenManager;
 import com.withparadox2.showslowly.util.Util;
-import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ShowActivity extends AppCompatActivity {
-  private TextView mTextView;
+  private List<Friend> mFriendList = new ArrayList<>();
+
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mTextView = new TextView(this);
-    mTextView.setPadding(20, 20, 20, 20);
-    setContentView(mTextView);
+    setContentView(R.layout.main);
+    //final RecyclerView textView = findViewById(R.id.rv_friend);
+    //
+    //Collections.sort(mFriendList, new Comparator<Friend>() {
+    //  @Override public int compare(Friend o1, Friend o2) {
+    //    if (o1.getLastComment() == null && o2.getLastComment() == null) {
+    //      return 0;
+    //    } else if (o1.getLastComment() == null) {
+    //      return 1;
+    //    } else if (o2.getLastComment() == null) {
+    //      return -1;
+    //    } else {
+    //      return -o1.getLastComment().compareToIgnoreCase(o2.getLastComment());
+    //    }
+    //  }
+    //});
 
-    File dir = getFilesDir();
-    StringBuilder sb = new StringBuilder();
-    sb.append("dir = " + dir.getAbsolutePath() + "\n\n");
-    File slowDir = new File(dir.getParentFile().getParentFile(), "com.slowlyapp");
-    sb.append("slowly dir exist = " + slowDir.exists()+"\n");
-    if (slowDir.exists()) {
-      File jsonFile = new File(slowDir, "files/persistStore/persist-root");
-      sb.append("jsonFile exist = " + jsonFile.exists()+"\n\n");
-    }
-    try {
-      //Persist persist = parseJson(readFromAssets());
-      Persist persist = parseJson(FileUtil.readContent(new File(slowDir, "files/persistStore/persist-root")));
-      sb.append("token = " + persist.token + "\n\n");
+    //textView.setText(sb.toString());
+  }
 
-      for (Friend friend : persist.friendList) {
-        sb.append(friend.getId() + " " + friend.getName()).append("\n");
-      }
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-    mTextView.setText(sb.toString());
+  @Override protected void onResume() {
+    super.onResume();
+    TokenManager.checkTokenFromClicpBoard();
   }
 
   public Persist parseJson(String str) throws JSONException {
@@ -80,7 +87,32 @@ public class ShowActivity extends AppCompatActivity {
     return persist;
   }
 
-  private String readFromAssets() {
-    return FileUtil.readContentFromAssets(this, "persist-root");
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    MenuItem item = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, "Token");
+    item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == Menu.NONE) {
+      copyToken();
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void copyToken() {
+    Util.runAsync(new Runnable() {
+      @Override public void run() {
+        StringBuilder token = new StringBuilder();
+        String errMsg = TokenManager.readTokenFromSlowly(token);
+        if (TextUtils.isEmpty(token.toString())) {
+          Util.toast("error: " + errMsg);
+        } else {
+          Util.copyToClipboard(TokenManager.packToken(token.toString()));
+          Util.toast("Token has been copied");
+        }
+      }
+    });
   }
 }

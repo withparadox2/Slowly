@@ -1,4 +1,4 @@
-package com.withparadox2.showslowly;
+package com.withparadox2.showslowly.entity;
 
 import java.util.ArrayList;
 import java.util.List;
