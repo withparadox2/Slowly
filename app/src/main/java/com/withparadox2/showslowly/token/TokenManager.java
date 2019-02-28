@@ -69,7 +69,7 @@ public class TokenManager {
     return !TextUtils.isEmpty(pack) && pack.startsWith(PREFIX_TOKEN);
   }
 
-  public static boolean checkTokenFromClicpBoard() {
+  public static boolean checkTokenFromClipboard() {
     String candidate = Util.getTopTextFromClicpboard();
     if (candidate != null) {
       if (isTokenPack(candidate)) {

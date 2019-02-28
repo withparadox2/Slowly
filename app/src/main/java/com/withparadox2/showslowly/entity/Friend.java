@@ -1,11 +1,23 @@
 package com.withparadox2.showslowly.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Friend {
+  @SerializedName("user_id")
   private String id;
 
+  @SerializedName("name")
   private String name;
+
+  @SerializedName("last_login")
   private String lastLogin;
+
+  @SerializedName("latest_comment")
   private String lastComment;
+
+  @SerializedName("user_location")
+  private String userLocation;
+
   private double latitude;
   private double longitude;
 

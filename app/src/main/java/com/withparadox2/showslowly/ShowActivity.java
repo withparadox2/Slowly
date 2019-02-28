@@ -1,6 +1,7 @@
 package com.withparadox2.showslowly;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -9,15 +10,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.withparadox2.showslowly.entity.Friend;
 import com.withparadox2.showslowly.entity.Persist;
+import com.withparadox2.showslowly.net.ServiceManager;
+import com.withparadox2.showslowly.net.result.FriendListResult;
 import com.withparadox2.showslowly.token.TokenManager;
 import com.withparadox2.showslowly.util.Util;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ShowActivity extends AppCompatActivity {
   private List<Friend> mFriendList = new ArrayList<>();
@@ -25,7 +29,10 @@ public class ShowActivity extends AppCompatActivity {
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    //final RecyclerView textView = findViewById(R.id.rv_friend);
+    TokenManager.setPrefToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjY3OTk1MSwiaXNzIjoiaHR0cDovL2FwaS5nZXRzbG93bHkuY29tL2F1dGgvc29jaWFsIiwiaWF0IjoxNTUxMTU4NzU4LCJleHAiOjE1NTE3NjM1NTgsIm5iZiI6MTU1MTE1ODc1OCwianRpIjoiQklta2xteUNxc1pIU0JXSyJ9.5yrLUZbcBw3svca8oLkV1G2CqJlK_Qku2vF9MU0yt2I");
+    final RecyclerView recyclerView = findViewById(R.id.rv_friend);
+
+    loadFriends();
     //
     //Collections.sort(mFriendList, new Comparator<Friend>() {
     //  @Override public int compare(Friend o1, Friend o2) {
@@ -46,7 +53,27 @@ public class ShowActivity extends AppCompatActivity {
 
   @Override protected void onResume() {
     super.onResume();
-    TokenManager.checkTokenFromClicpBoard();
+    TokenManager.checkTokenFromClipboard();
+  }
+
+  private void loadFriends() {
+    ServiceManager.getSlowlyService().listFriends(TokenManager.getPrefToken()).enqueue(
+        new Callback<FriendListResult>() {
+          @Override
+          public void onResponse(@NonNull Call<FriendListResult> call, @NonNull Response<FriendListResult> response) {
+            if (response.body() != null) {
+              mFriendList = response.body().getFriendList();
+            }
+          }
+
+          @Override public void onFailure(@NonNull Call<FriendListResult> call, @NonNull Throwable t) {
+            Util.toast("error " + t.getMessage());
+          }
+        });
+  }
+
+  private void setupView() {
+
   }
 
   public Persist parseJson(String str) throws JSONException {
