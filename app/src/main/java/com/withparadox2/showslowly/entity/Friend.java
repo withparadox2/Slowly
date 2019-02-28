@@ -1,6 +1,7 @@
 package com.withparadox2.showslowly.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.withparadox2.showslowly.util.TypeUtil;
 
 public class Friend {
   @SerializedName("user_id")
@@ -71,5 +72,13 @@ public class Friend {
 
   public String getUserLocation() {
     return userLocation;
+  }
+
+  public void parseLocation() {
+    if (userLocation != null && userLocation.contains(",")) {
+      String[] arr = userLocation.split(",");
+      setLongitude(TypeUtil.parseDouble(arr[0], -1));
+      setLatitude(TypeUtil.parseDouble(arr[1], -1));
+    }
   }
 }

@@ -19,9 +19,12 @@ import android.widget.TextView;
 import com.withparadox2.showslowly.entity.Friend;
 import com.withparadox2.showslowly.net.ServiceManager;
 import com.withparadox2.showslowly.token.TokenManager;
+import com.withparadox2.showslowly.util.DateUtil;
 import com.withparadox2.showslowly.util.Util;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,6 +64,7 @@ public class ShowActivity extends AppCompatActivity {
               @NonNull Response<List<Friend>> response) {
             if (response.body() != null) {
               mFriendList = response.body();
+              updateFriendList();
               mAdapter.notifyDataSetChanged();
               Util.toast("size = " + mFriendList.size());
             }
@@ -70,6 +74,25 @@ public class ShowActivity extends AppCompatActivity {
             Util.toast("error " + t.getMessage());
           }
         });
+  }
+
+  private void updateFriendList() {
+    for (Friend friend : mFriendList) {
+      friend.parseLocation();
+      friend.setLastComment(addHour(friend.getLastComment(), 8));
+      friend.setLastLogin(addHour(friend.getLastLogin(), 8));
+    }
+  }
+
+  private String addHour(String dateInput, int hoursToAdd) {
+    if (dateInput == null) {
+      return null;
+    }
+    Date date = DateUtil.parseDate(dateInput);
+    if (date == null) {
+      return dateInput;
+    }
+    return DateUtil.formatDate(date.getTime() + TimeUnit.HOURS.toMillis(hoursToAdd));
   }
 
   private DividerItemDecoration createDivider() {
@@ -93,7 +116,7 @@ public class ShowActivity extends AppCompatActivity {
       Friend friend = mFriendList.get(i);
       viewHolder.tvBaseInfo.setText(friend.getId() + " " + friend.getName());
       viewHolder.tvLastComment.setText("最近回复：" + friend.getLastComment());
-      viewHolder.tvLastLogin.setText("最近登录：" + friend.getLastLogin());
+      viewHolder.tvLastLogin.setText("最近登录：" + (friend.getLastLogin() == null ? "" : friend.getLastLogin()));
       viewHolder.tvLocation.setText("最近位置：" + friend.getUserLocation());
     }
 
