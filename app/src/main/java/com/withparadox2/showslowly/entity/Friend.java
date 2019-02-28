@@ -68,4 +68,8 @@ public class Friend {
   public void setLongitude(double longitude) {
     this.longitude = longitude;
   }
+
+  public String getUserLocation() {
+    return userLocation;
+  }
 }

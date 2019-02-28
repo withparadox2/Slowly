@@ -1,54 +1,45 @@
 package com.withparadox2.showslowly;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import com.withparadox2.showslowly.entity.Friend;
-import com.withparadox2.showslowly.entity.Persist;
 import com.withparadox2.showslowly.net.ServiceManager;
-import com.withparadox2.showslowly.net.result.FriendListResult;
 import com.withparadox2.showslowly.token.TokenManager;
 import com.withparadox2.showslowly.util.Util;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import org.json.JSONException;
-import org.json.JSONObject;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ShowActivity extends AppCompatActivity {
   private List<Friend> mFriendList = new ArrayList<>();
+  private RecyclerView mRecyclerView;
+  private FriendAdapter mAdapter;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    TokenManager.setPrefToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjY3OTk1MSwiaXNzIjoiaHR0cDovL2FwaS5nZXRzbG93bHkuY29tL2F1dGgvc29jaWFsIiwiaWF0IjoxNTUxMTU4NzU4LCJleHAiOjE1NTE3NjM1NTgsIm5iZiI6MTU1MTE1ODc1OCwianRpIjoiQklta2xteUNxc1pIU0JXSyJ9.5yrLUZbcBw3svca8oLkV1G2CqJlK_Qku2vF9MU0yt2I");
-    final RecyclerView recyclerView = findViewById(R.id.rv_friend);
+    TokenManager.setPrefToken(
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjY3OTk1MSwiaXNzIjoiaHR0cDovL2FwaS5nZXRzbG93bHkuY29tL2F1dGgvc29jaWFsIiwiaWF0IjoxNTUxMTU4NzU4LCJleHAiOjE1NTE3NjM1NTgsIm5iZiI6MTU1MTE1ODc1OCwianRpIjoiQklta2xteUNxc1pIU0JXSyJ9.5yrLUZbcBw3svca8oLkV1G2CqJlK_Qku2vF9MU0yt2I");
+    mRecyclerView = findViewById(R.id.rv_friend);
+    mAdapter = new FriendAdapter();
+    mRecyclerView.setAdapter(mAdapter);
+    mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     loadFriends();
-    //
-    //Collections.sort(mFriendList, new Comparator<Friend>() {
-    //  @Override public int compare(Friend o1, Friend o2) {
-    //    if (o1.getLastComment() == null && o2.getLastComment() == null) {
-    //      return 0;
-    //    } else if (o1.getLastComment() == null) {
-    //      return 1;
-    //    } else if (o2.getLastComment() == null) {
-    //      return -1;
-    //    } else {
-    //      return -o1.getLastComment().compareToIgnoreCase(o2.getLastComment());
-    //    }
-    //  }
-    //});
-
-    //textView.setText(sb.toString());
   }
 
   @Override protected void onResume() {
@@ -58,60 +49,58 @@ public class ShowActivity extends AppCompatActivity {
 
   private void loadFriends() {
     ServiceManager.getSlowlyService().listFriends(TokenManager.getPrefToken()).enqueue(
-        new Callback<FriendListResult>() {
+        new Callback<List<Friend>>() {
           @Override
-          public void onResponse(@NonNull Call<FriendListResult> call, @NonNull Response<FriendListResult> response) {
+          public void onResponse(@NonNull Call<List<Friend>> call,
+              @NonNull Response<List<Friend>> response) {
             if (response.body() != null) {
-              mFriendList = response.body().getFriendList();
+              mFriendList = response.body();
+              mAdapter.notifyDataSetChanged();
+              Util.toast("size = " + mFriendList.size());
             }
           }
 
-          @Override public void onFailure(@NonNull Call<FriendListResult> call, @NonNull Throwable t) {
+          @Override public void onFailure(@NonNull Call<List<Friend>> call, @NonNull Throwable t) {
             Util.toast("error " + t.getMessage());
           }
         });
   }
 
-  private void setupView() {
+  private class FriendAdapter extends RecyclerView.Adapter<ViewHolder> {
 
+    @NonNull @Override public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+      return new ViewHolder(
+          LayoutInflater.from(ShowActivity.this).inflate(R.layout.item_friend, viewGroup, false));
+    }
+
+    @SuppressLint("SetTextI18n") @Override
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+      Friend friend = mFriendList.get(i);
+      viewHolder.tvBaseInfo.setText(friend.getId() + " " + friend.getName());
+      viewHolder.tvLastComment.setText("最近回复：" + friend.getLastComment());
+      viewHolder.tvLastLogin.setText("最近登录：" + friend.getLastLogin());
+      viewHolder.tvLocation.setText("最近位置：" + friend.getUserLocation());
+    }
+
+    @Override public int getItemCount() {
+      return mFriendList == null ? 0 : mFriendList.size();
+    }
   }
 
-  public Persist parseJson(String str) throws JSONException {
-    Persist persist = new Persist();
+  private static class ViewHolder extends RecyclerView.ViewHolder {
 
-    JSONObject jsonObject = new JSONObject(str);
+    TextView tvBaseInfo;
+    TextView tvLastComment;
+    TextView tvLastLogin;
+    TextView tvLocation;
 
-    String meStr = jsonObject.optString("me");
-    JSONObject meJsonObject = new JSONObject(meStr);
-    persist.token = meJsonObject.optString("token");
-
-    String contactsStr = jsonObject.optString("contacts");
-    JSONObject contactsJsonObject = new JSONObject(contactsStr);
-    Iterator<String> keys = contactsJsonObject.keys();
-    if (keys != null) {
-      while (keys.hasNext()) {
-        String key = keys.next();
-        if (!key.matches("\\d+")) {
-          continue;
-        }
-        JSONObject friendJsonObject = contactsJsonObject.getJSONObject(key);
-        Friend friend = new Friend();
-        friend.setId(key);
-        friend.setName(friendJsonObject.optString("name"));
-        friend.setLastComment(friendJsonObject.optString("latest_comment"));
-        friend.setLastLogin(friendJsonObject.optString("last_login"));
-        String locationStr = friendJsonObject.optString("user_location");
-        if (locationStr != null && locationStr.contains(",")) {
-          String[] locations = locationStr.split(",");
-          if (locations.length == 2) {
-            friend.setLatitude(Util.parseNumber(locations[0], -1));
-            friend.setLongitude(Util.parseNumber(locations[1], -1));
-          }
-        }
-        persist.friendList.add(friend);
-      }
+    public ViewHolder(@NonNull View itemView) {
+      super(itemView);
+      tvBaseInfo = itemView.findViewById(R.id.tv_base_info);
+      tvLastComment = itemView.findViewById(R.id.tv_last_comment);
+      tvLastLogin = itemView.findViewById(R.id.tv_last_login);
+      tvLocation = itemView.findViewById(R.id.tv_location);
     }
-    return persist;
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
