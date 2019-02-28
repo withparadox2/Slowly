@@ -1,6 +1,7 @@
 package com.withparadox2.showslowly;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.withparadox2.showslowly.entity.Friend;
+import com.withparadox2.showslowly.map.MapActivity;
 import com.withparadox2.showslowly.net.ServiceManager;
 import com.withparadox2.showslowly.token.TokenManager;
 import com.withparadox2.showslowly.util.DateUtil;
@@ -112,12 +114,20 @@ public class ShowActivity extends AppCompatActivity {
     }
 
     @SuppressLint("SetTextI18n") @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-      Friend friend = mFriendList.get(i);
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+      final Friend friend = mFriendList.get(i);
       viewHolder.tvBaseInfo.setText(friend.getId() + " " + friend.getName());
       viewHolder.tvLastComment.setText("最近回复：" + friend.getLastComment());
       viewHolder.tvLastLogin.setText("最近登录：" + (friend.getLastLogin() == null ? "" : friend.getLastLogin()));
       viewHolder.tvLocation.setText("最近位置：" + friend.getUserLocation());
+      viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          Intent intent = new Intent(ShowActivity.this, MapActivity.class);
+          intent.putExtra("friend", friend);
+          startActivity(intent);
+        }
+      });
     }
 
     @Override public int getItemCount() {

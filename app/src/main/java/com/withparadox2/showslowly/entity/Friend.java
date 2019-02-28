@@ -3,7 +3,9 @@ package com.withparadox2.showslowly.entity;
 import com.google.gson.annotations.SerializedName;
 import com.withparadox2.showslowly.util.TypeUtil;
 
-public class Friend {
+import java.io.Serializable;
+
+public class Friend implements Serializable {
   @SerializedName("user_id")
   private String id;
 
@@ -77,8 +79,8 @@ public class Friend {
   public void parseLocation() {
     if (userLocation != null && userLocation.contains(",")) {
       String[] arr = userLocation.split(",");
-      setLongitude(TypeUtil.parseDouble(arr[0], -1));
-      setLatitude(TypeUtil.parseDouble(arr[1], -1));
+      setLongitude(TypeUtil.parseDouble(arr[1], -1));
+      setLatitude(TypeUtil.parseDouble(arr[0], -1));
     }
   }
 }
