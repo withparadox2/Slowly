@@ -10,7 +10,7 @@ import java.io.File;
 import org.json.JSONException;
 
 public class TokenManager {
-  private static final String PREFIX_TOKEN = "showslowlytoken=";
+  private static final String PREFIX_TOKEN = "show_slowly_token=";
   private static final String PREF_KEY_TOKEN = "slowly_token";
 
   /**

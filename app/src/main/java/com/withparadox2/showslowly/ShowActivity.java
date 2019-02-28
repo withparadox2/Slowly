@@ -1,10 +1,12 @@
 package com.withparadox2.showslowly;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -26,16 +28,16 @@ import retrofit2.Response;
 
 public class ShowActivity extends AppCompatActivity {
   private List<Friend> mFriendList = new ArrayList<>();
-  private RecyclerView mRecyclerView;
   private FriendAdapter mAdapter;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    mRecyclerView = findViewById(R.id.rv_friend);
+    RecyclerView recyclerView = findViewById(R.id.rv_friend);
     mAdapter = new FriendAdapter();
-    mRecyclerView.setAdapter(mAdapter);
-    mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    recyclerView.setAdapter(mAdapter);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    recyclerView.addItemDecoration(createDivider());
 
     if (TokenManager.isTokenExist()) {
       loadFriends();
@@ -70,6 +72,15 @@ public class ShowActivity extends AppCompatActivity {
         });
   }
 
+  private DividerItemDecoration createDivider() {
+    DividerItemDecoration divider = new
+        DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+    ShapeDrawable drawable = new ShapeDrawable();
+    drawable.setIntrinsicHeight(1);
+    divider.setDrawable(drawable);
+    return divider;
+  }
+
   private class FriendAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @NonNull @Override public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -98,7 +109,7 @@ public class ShowActivity extends AppCompatActivity {
     TextView tvLastLogin;
     TextView tvLocation;
 
-    public ViewHolder(@NonNull View itemView) {
+    ViewHolder(@NonNull View itemView) {
       super(itemView);
       tvBaseInfo = itemView.findViewById(R.id.tv_base_info);
       tvLastComment = itemView.findViewById(R.id.tv_last_comment);
