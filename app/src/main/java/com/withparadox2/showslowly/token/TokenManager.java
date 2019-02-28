@@ -91,4 +91,8 @@ public class TokenManager {
   public static void setPrefToken(String token) {
     PreferencesUtil.putString(PREF_KEY_TOKEN, token);
   }
+
+  public static boolean isTokenExist() {
+    return !TextUtils.isEmpty(getPrefToken());
+  }
 }

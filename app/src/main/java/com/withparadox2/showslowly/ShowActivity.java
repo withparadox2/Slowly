@@ -32,19 +32,23 @@ public class ShowActivity extends AppCompatActivity {
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    TokenManager.setPrefToken(
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjY3OTk1MSwiaXNzIjoiaHR0cDovL2FwaS5nZXRzbG93bHkuY29tL2F1dGgvc29jaWFsIiwiaWF0IjoxNTUxMTU4NzU4LCJleHAiOjE1NTE3NjM1NTgsIm5iZiI6MTU1MTE1ODc1OCwianRpIjoiQklta2xteUNxc1pIU0JXSyJ9.5yrLUZbcBw3svca8oLkV1G2CqJlK_Qku2vF9MU0yt2I");
     mRecyclerView = findViewById(R.id.rv_friend);
     mAdapter = new FriendAdapter();
     mRecyclerView.setAdapter(mAdapter);
     mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-    loadFriends();
+    if (TokenManager.isTokenExist()) {
+      loadFriends();
+    } else {
+      Util.toast("Token doesn't exist");
+    }
   }
 
   @Override protected void onResume() {
     super.onResume();
-    TokenManager.checkTokenFromClipboard();
+    if (TokenManager.checkTokenFromClipboard()) {
+      loadFriends();
+    }
   }
 
   private void loadFriends() {
