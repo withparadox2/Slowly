@@ -6,6 +6,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +35,8 @@ import retrofit2.Response;
 public class ShowActivity extends AppCompatActivity {
   private List<Friend> mFriendList = new ArrayList<>();
   private FriendAdapter mAdapter;
+  private SwipeRefreshLayout mRefreshLayout;
+  private Call<?> mCurrentCall;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -43,6 +46,15 @@ public class ShowActivity extends AppCompatActivity {
     recyclerView.setAdapter(mAdapter);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
     recyclerView.addItemDecoration(createDivider());
+
+    mRefreshLayout = findViewById(R.id.layout_refresh);
+    mRefreshLayout.setEnabled(true);
+    mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+    mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override public void onRefresh() {
+        loadFriends();
+      }
+    });
 
     if (TokenManager.isTokenExist()) {
       loadFriends();
@@ -59,11 +71,17 @@ public class ShowActivity extends AppCompatActivity {
   }
 
   private void loadFriends() {
-    ServiceManager.getSlowlyService().listFriends(TokenManager.getPrefToken()).enqueue(
+    if (mCurrentCall != null) {
+      mCurrentCall.cancel();
+    }
+    Call<List<Friend>> call =
+        ServiceManager.getSlowlyService().listFriends(TokenManager.getPrefToken());
+    call.enqueue(
         new Callback<List<Friend>>() {
           @Override
           public void onResponse(@NonNull Call<List<Friend>> call,
               @NonNull Response<List<Friend>> response) {
+            mRefreshLayout.setRefreshing(false);
             if (response.body() != null) {
               mFriendList = response.body();
               updateFriendList();
@@ -73,9 +91,12 @@ public class ShowActivity extends AppCompatActivity {
           }
 
           @Override public void onFailure(@NonNull Call<List<Friend>> call, @NonNull Throwable t) {
+            mRefreshLayout.setRefreshing(false);
             Util.toast("error " + t.getMessage());
           }
         });
+    mCurrentCall = call;
+    mRefreshLayout.setRefreshing(true);
   }
 
   private void updateFriendList() {
@@ -118,7 +139,8 @@ public class ShowActivity extends AppCompatActivity {
       final Friend friend = mFriendList.get(i);
       viewHolder.tvBaseInfo.setText(friend.getId() + " " + friend.getName());
       viewHolder.tvLastComment.setText("最近回复：" + friend.getLastComment());
-      viewHolder.tvLastLogin.setText("最近登录：" + (friend.getLastLogin() == null ? "" : friend.getLastLogin()));
+      viewHolder.tvLastLogin.setText(
+          "最近登录：" + (friend.getLastLogin() == null ? "" : friend.getLastLogin()));
       viewHolder.tvLocation.setText("最近位置：" + friend.getUserLocation());
       viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override

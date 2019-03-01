@@ -62,4 +62,9 @@ public class Util {
   public static void runAsync(Runnable runnable) {
     AsyncTask.THREAD_POOL_EXECUTOR.execute(runnable);
   }
+
+  public static int dip2px(float dpValue) {
+    final float scale = App.instance.getResources().getDisplayMetrics().density;
+    return (int) (dpValue * scale + 0.5f);
+  }
 }
