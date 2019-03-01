@@ -25,7 +25,7 @@ public class Util {
     clipboard.setPrimaryClip(clip);
   }
 
-  public static String getTopTextFromClicpboard() {
+  public static String getTopTextFromClipboard() {
     ClipboardManager clipboard =
         (ClipboardManager) App.instance.getSystemService(Context.CLIPBOARD_SERVICE);
     final ClipData clipdata = clipboard.getPrimaryClip();

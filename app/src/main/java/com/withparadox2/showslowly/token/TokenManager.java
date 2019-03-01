@@ -70,7 +70,7 @@ public class TokenManager {
   }
 
   public static boolean checkTokenFromClipboard() {
-    String candidate = Util.getTopTextFromClicpboard();
+    String candidate = Util.getTopTextFromClipboard();
     if (candidate != null) {
       if (isTokenPack(candidate)) {
         String newToken = unpackToken(candidate);
