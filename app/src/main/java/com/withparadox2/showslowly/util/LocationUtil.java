@@ -64,8 +64,8 @@ public class LocationUtil {
     return sDistanceResult[0];
   }
 
-  public static double distance(com.withparadox2.showslowly.store.Location l1,
-      com.withparadox2.showslowly.store.Location l2) {
+  public static double distance(com.withparadox2.showslowly.entity.Location l1,
+      com.withparadox2.showslowly.entity.Location l2) {
     return distance(l1.lat, l1.lng, l2.lat, l2.lng);
   }
 }

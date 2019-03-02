@@ -1,4 +1,4 @@
-package com.withparadox2.showslowly.store;
+package com.withparadox2.showslowly.entity;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

@@ -22,7 +22,7 @@ import com.withparadox2.showslowly.map.MapActivity;
 import com.withparadox2.showslowly.net.ServiceManager;
 import com.withparadox2.showslowly.permission.PermissionManager;
 import com.withparadox2.showslowly.store.AppDatabase;
-import com.withparadox2.showslowly.store.Location;
+import com.withparadox2.showslowly.entity.Location;
 import com.withparadox2.showslowly.token.TokenManager;
 import com.withparadox2.showslowly.util.DateUtil;
 import com.withparadox2.showslowly.util.LocationUtil;
