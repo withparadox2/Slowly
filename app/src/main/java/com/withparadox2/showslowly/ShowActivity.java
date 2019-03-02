@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.withparadox2.showslowly.entity.Friend;
 import com.withparadox2.showslowly.map.MapActivity;
 import com.withparadox2.showslowly.net.ServiceManager;
+import com.withparadox2.showslowly.permission.PermissionManager;
 import com.withparadox2.showslowly.token.TokenManager;
 import com.withparadox2.showslowly.util.DateUtil;
 import com.withparadox2.showslowly.util.Util;
@@ -32,7 +33,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ShowActivity extends AppCompatActivity {
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+public class ShowActivity extends BaseActivity {
   private List<Friend> mFriendList = new ArrayList<>();
   private FriendAdapter mAdapter;
   private SwipeRefreshLayout mRefreshLayout;
@@ -40,6 +46,14 @@ public class ShowActivity extends AppCompatActivity {
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    PermissionManager.requestPermission(this, new Runnable() {
+      @Override public void run() {
+        setup();
+      }
+    }, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION);
+  }
+
+  private void setup() {
     setContentView(R.layout.activity_show);
     RecyclerView recyclerView = findViewById(R.id.rv_friend);
     mAdapter = new FriendAdapter();
@@ -86,7 +100,6 @@ public class ShowActivity extends AppCompatActivity {
               mFriendList = response.body();
               updateFriendList();
               mAdapter.notifyDataSetChanged();
-              Util.toast("size = " + mFriendList.size());
             }
           }
 
