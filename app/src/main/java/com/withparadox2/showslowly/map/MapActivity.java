@@ -1,7 +1,6 @@
 package com.withparadox2.showslowly.map;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
@@ -10,11 +9,12 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.withparadox2.showslowly.BaseActivity;
 import com.withparadox2.showslowly.R;
 import com.withparadox2.showslowly.entity.Friend;
 import com.withparadox2.showslowly.util.LocationUtil;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends BaseActivity {
   private MapView mMapView = null;
 
   @Override

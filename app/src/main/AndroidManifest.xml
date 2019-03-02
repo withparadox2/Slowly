@@ -22,12 +22,17 @@
         android:name="com.baidu.lbsapi.API_KEY"
         android:value="EDNvPE1IkcfIUvHqa6wN7YOCCiEAQBfq"/>
 
-    <activity android:name=".ShowActivity">
+    <activity
+        android:name=".ShowActivity"
+        android:screenOrientation="portrait">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity android:name=".map.MapActivity"/>
+    <activity
+        android:name=".map.MapActivity"
+        android:label="@string/location"
+        android:screenOrientation="portrait"/>
   </application>
 </manifest>
