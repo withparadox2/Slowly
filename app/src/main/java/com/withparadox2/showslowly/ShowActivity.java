@@ -21,8 +21,11 @@ import com.withparadox2.showslowly.entity.Friend;
 import com.withparadox2.showslowly.map.MapActivity;
 import com.withparadox2.showslowly.net.ServiceManager;
 import com.withparadox2.showslowly.permission.PermissionManager;
+import com.withparadox2.showslowly.store.AppDatabase;
+import com.withparadox2.showslowly.store.Location;
 import com.withparadox2.showslowly.token.TokenManager;
 import com.withparadox2.showslowly.util.DateUtil;
+import com.withparadox2.showslowly.util.LocationUtil;
 import com.withparadox2.showslowly.util.Util;
 import java.util.ArrayList;
 import java.util.Date;
@@ -99,6 +102,7 @@ public class ShowActivity extends BaseActivity {
             if (response.body() != null) {
               mFriendList = response.body();
               updateFriendList();
+              updateLocation();
               mAdapter.notifyDataSetChanged();
             }
           }
@@ -118,6 +122,28 @@ public class ShowActivity extends BaseActivity {
       friend.setLastComment(addHour(friend.getLastComment(), 8));
       friend.setLastLogin(addHour(friend.getLastLogin(), 8));
     }
+  }
+
+  private void updateLocation() {
+    Util.runAsync(new Runnable() {
+      @Override public void run() {
+        for (Friend friend : mFriendList) {
+          Location oldOne =
+              AppDatabase.instance().locationDao().getLocationByUserId(friend.getId());
+
+          Location newOne = new Location().setUserId(friend.getId())
+              .setLat(friend.getLatitude())
+              .setLng(friend.getLongitude())
+              .setDateTime(friend.getLastComment());
+
+          if (oldOne != null && LocationUtil.distance(oldOne, newOne) < 500) {
+            continue;
+          }
+
+          AppDatabase.instance().locationDao().insert(newOne);
+        }
+      }
+    });
   }
 
   private String addHour(String dateInput, int hoursToAdd) {
