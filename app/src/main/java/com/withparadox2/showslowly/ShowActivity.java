@@ -102,7 +102,11 @@ public class ShowActivity extends BaseActivity {
             if (response.body() != null) {
               mFriendList = response.body();
               updateFriendList();
-              updateLocation();
+              updateLocation(new Runnable() {
+                @Override public void run() {
+                  mAdapter.notifyDataSetChanged();
+                }
+              });
               mAdapter.notifyDataSetChanged();
             }
           }
@@ -124,7 +128,7 @@ public class ShowActivity extends BaseActivity {
     }
   }
 
-  private void updateLocation() {
+  private void updateLocation(final Runnable invalidateAction) {
     Util.runAsync(new Runnable() {
       @Override public void run() {
         for (Friend friend : mFriendList) {
@@ -136,12 +140,18 @@ public class ShowActivity extends BaseActivity {
               .setLng(friend.getLongitude())
               .setDateTime(friend.getLastComment());
 
-          if (oldOne != null && LocationUtil.distance(oldOne, newOne) < 500) {
-            continue;
+          if (oldOne != null) {
+            if (LocationUtil.distance(oldOne, newOne) < 500) {
+              continue;
+            } else {
+              friend.setLocationChanged(true);
+            }
           }
 
           AppDatabase.instance().locationDao().insert(newOne);
         }
+
+        Util.post(invalidateAction);
       }
     });
   }
@@ -181,6 +191,11 @@ public class ShowActivity extends BaseActivity {
       viewHolder.tvLastLogin.setText(
           "最近登录：" + (friend.getLastLogin() == null ? "" : friend.getLastLogin()));
       viewHolder.tvLocation.setText("最近位置：" + friend.getUserLocation());
+      if (friend.isLocationChanged()) {
+        viewHolder.tvLocation.setTextColor(getResources().getColor(R.color.colorAccent));
+      } else {
+        viewHolder.tvLocation.setTextColor(viewHolder.tvLastComment.getCurrentTextColor());
+      }
       viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
