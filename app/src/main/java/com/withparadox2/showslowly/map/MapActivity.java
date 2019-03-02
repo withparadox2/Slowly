@@ -2,7 +2,6 @@ package com.withparadox2.showslowly.map;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
@@ -16,46 +15,45 @@ import com.withparadox2.showslowly.entity.Friend;
 import com.withparadox2.showslowly.util.LocationUtil;
 
 public class MapActivity extends AppCompatActivity {
-    private MapView mMapView = null;
+  private MapView mMapView = null;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Friend friend = (Friend) getIntent().getSerializableExtra("friend");
-        setContentView(R.layout.activity_map);
-        mMapView = findViewById(R.id.bmapView);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    Friend friend = (Friend) getIntent().getSerializableExtra("friend");
+    setContentView(R.layout.activity_map);
+    mMapView = findViewById(R.id.bmapView);
 
-        if (friend != null) {
-            MapStatus.Builder builder = new MapStatus.Builder();
-            LatLng point = LocationUtil.convertGPSToBaidu(friend.getLatitude(), friend.getLongitude());
-            builder.target(point).zoom(18.0f);
-            mMapView.getMap().animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
+    if (friend != null) {
+      MapStatus.Builder builder = new MapStatus.Builder();
+      LatLng point = LocationUtil.convertGPSToBaidu(friend.getLatitude(), friend.getLongitude());
+      builder.target(point).zoom(18.0f);
+      mMapView.getMap().animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
 
-
-            BitmapDescriptor bitmap = BitmapDescriptorFactory
-                    .fromResource(R.drawable.icon_location);
-            OverlayOptions option = new MarkerOptions()
-                    .position(point)
-                    .icon(bitmap);
-            mMapView.getMap().addOverlay(option);
-        }
+      BitmapDescriptor bitmap = BitmapDescriptorFactory
+          .fromResource(R.drawable.icon_location);
+      OverlayOptions option = new MarkerOptions()
+          .position(point)
+          .icon(bitmap);
+      mMapView.getMap().addOverlay(option);
     }
+  }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
+  @Override
+  protected void onResume() {
+    super.onResume();
+    mMapView.onResume();
+  }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
+  @Override
+  protected void onPause() {
+    super.onPause();
+    mMapView.onPause();
+  }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-    }
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    mMapView.onDestroy();
+  }
 }
