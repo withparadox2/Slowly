@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.withparadox2.showslowly.entity.Friend;
+import com.withparadox2.showslowly.letter.LetterListActivity;
 import com.withparadox2.showslowly.map.MapActivity;
 import com.withparadox2.showslowly.net.ServiceManager;
 import com.withparadox2.showslowly.permission.PermissionManager;
@@ -58,7 +59,7 @@ public class ShowActivity extends BaseActivity {
 
   private void setup() {
     setContentView(R.layout.activity_show);
-    RecyclerView recyclerView = findViewById(R.id.rv_friend);
+    RecyclerView recyclerView = findViewById(R.id.rv_list);
     mAdapter = new FriendAdapter();
     recyclerView.setAdapter(mAdapter);
     recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -202,6 +203,14 @@ public class ShowActivity extends BaseActivity {
           Intent intent = new Intent(ShowActivity.this, MapActivity.class);
           intent.putExtra("friend", friend);
           startActivity(intent);
+        }
+      });
+      viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        @Override public boolean onLongClick(View v) {
+          Intent intent = new Intent(ShowActivity.this, LetterListActivity.class);
+          intent.putExtra("friend", friend);
+          startActivity(intent);
+          return true;
         }
       });
     }

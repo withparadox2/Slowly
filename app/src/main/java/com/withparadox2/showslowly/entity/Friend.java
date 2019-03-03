@@ -6,8 +6,11 @@ import com.withparadox2.showslowly.util.TypeUtil;
 import java.io.Serializable;
 
 public class Friend implements Serializable {
-  @SerializedName("user_id")
+  @SerializedName("id")
   private String id;
+
+  @SerializedName("user_id")
+  private String userId;
 
   @SerializedName("name")
   private String name;
@@ -91,5 +94,13 @@ public class Friend implements Serializable {
 
   public void setLocationChanged(boolean locationChanged) {
     isLocationChanged = locationChanged;
+  }
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 }

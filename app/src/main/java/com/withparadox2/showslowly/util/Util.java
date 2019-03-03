@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 import com.withparadox2.showslowly.App;
 import com.withparadox2.showslowly.R;
+import java.util.Collection;
 
 public class Util {
   public static double parseNumber(String input, double defaultValue) {
@@ -66,5 +67,9 @@ public class Util {
   public static int dip2px(float dpValue) {
     final float scale = App.instance.getResources().getDisplayMetrics().density;
     return (int) (dpValue * scale + 0.5f);
+  }
+
+  public static int collectionSize(Collection<?> collection) {
+    return collection == null ? 0 : collection.size();
   }
 }
