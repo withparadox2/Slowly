@@ -23,6 +23,6 @@ public interface LocationDao {
   @Delete
   public void delete(Location location);
 
-  @Query("select * from location where user_id = :userId order by date_time desc")
+  @Query("select * from location where user_id = :userId order by id desc")
   public Location getLocationByUserId(String userId);
 }

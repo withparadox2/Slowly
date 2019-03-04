@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class LetterListActivity extends BaseActivity {
     mFriend = (Friend) getIntent().getSerializableExtra("friend");
     setContentView(R.layout.activity_show);
     RecyclerView rv = findViewById(R.id.rv_list);
+    rv.setLayoutManager(new LinearLayoutManager(this));
     mAdapter = new LetterAdapter();
     rv.setAdapter(mAdapter);
 
@@ -49,7 +51,7 @@ public class LetterListActivity extends BaseActivity {
   private void loadLetters() {
     mRefreshLayout.setRefreshing(true);
     ServiceManager.getSlowlyService()
-        .listLetters(TokenManager.getPrefToken())
+        .listLetters(mFriend.getId(), TokenManager.getPrefToken(), 1)
         .enqueue(
             new Callback<LetterListResult>() {
               @Override

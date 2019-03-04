@@ -6,11 +6,11 @@ import java.util.List;
 
 public class LetterListResult {
 
-  //@SerializedName("comments")
-  //private Comments comments;
+  @SerializedName("comments")
+  private Comments comments;
 
   public Comments getComments() {
-    return new Comments();
+    return comments;
   }
 
   public static class Comments {

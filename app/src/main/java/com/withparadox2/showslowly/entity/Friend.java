@@ -24,8 +24,8 @@ public class Friend implements Serializable {
   @SerializedName("user_location")
   private String userLocation;
 
-  private transient double latitude;
-  private transient double longitude;
+  private double latitude;
+  private double longitude;
   private transient boolean isLocationChanged;
 
   public String getId() {

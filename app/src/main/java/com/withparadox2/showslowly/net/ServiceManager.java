@@ -7,7 +7,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ServiceManager {
   private static SlowlyService sSlowlyService = new Retrofit.Builder()
-      .addConverterFactory(new SlowlyConverterFactory())
+      //.addConverterFactory(new SlowlyConverterFactory())
       .addConverterFactory(ScalarsConverterFactory.create())
       .addConverterFactory(GsonConverterFactory.create())
       .baseUrl("https://api.getslowly.com/")

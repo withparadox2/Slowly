@@ -21,6 +21,7 @@ import com.withparadox2.showslowly.entity.Friend;
 import com.withparadox2.showslowly.letter.LetterListActivity;
 import com.withparadox2.showslowly.map.MapActivity;
 import com.withparadox2.showslowly.net.ServiceManager;
+import com.withparadox2.showslowly.net.result.FriendListResult;
 import com.withparadox2.showslowly.permission.PermissionManager;
 import com.withparadox2.showslowly.store.AppDatabase;
 import com.withparadox2.showslowly.entity.Location;
@@ -92,16 +93,16 @@ public class ShowActivity extends BaseActivity {
     if (mCurrentCall != null) {
       mCurrentCall.cancel();
     }
-    Call<List<Friend>> call =
+    Call<FriendListResult> call =
         ServiceManager.getSlowlyService().listFriends(TokenManager.getPrefToken());
     call.enqueue(
-        new Callback<List<Friend>>() {
+        new Callback<FriendListResult>() {
           @Override
-          public void onResponse(@NonNull Call<List<Friend>> call,
-              @NonNull Response<List<Friend>> response) {
+          public void onResponse(@NonNull Call<FriendListResult> call,
+              @NonNull Response<FriendListResult> response) {
             mRefreshLayout.setRefreshing(false);
             if (response.body() != null) {
-              mFriendList = response.body();
+              mFriendList = response.body().getFriendList();
               updateFriendList();
               updateLocation(new Runnable() {
                 @Override public void run() {
@@ -112,7 +113,7 @@ public class ShowActivity extends BaseActivity {
             }
           }
 
-          @Override public void onFailure(@NonNull Call<List<Friend>> call, @NonNull Throwable t) {
+          @Override public void onFailure(@NonNull Call<FriendListResult> call, @NonNull Throwable t) {
             mRefreshLayout.setRefreshing(false);
             Util.toast("error " + t.getMessage());
           }

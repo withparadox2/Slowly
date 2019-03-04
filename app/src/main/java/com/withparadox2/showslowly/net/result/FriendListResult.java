@@ -10,5 +10,5 @@ public class FriendListResult {
 
   public List<Friend> getFriendList() {
     return friendList;
-  }QA
+  }
 }
