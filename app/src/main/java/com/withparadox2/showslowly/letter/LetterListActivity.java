@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.github.nukc.LoadMoreWrapper.LoadMoreAdapter;
+import com.github.nukc.LoadMoreWrapper.LoadMoreWrapper;
 import com.withparadox2.showslowly.BaseActivity;
 import com.withparadox2.showslowly.R;
 import com.withparadox2.showslowly.entity.Friend;
@@ -27,6 +29,8 @@ public class LetterListActivity extends BaseActivity {
   private List<Letter> mLetterList;
   private LetterAdapter mAdapter;
   private Friend mFriend;
+  private int mPage = 1;
+  private LoadMoreAdapter mMoreAdapter;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -37,21 +41,32 @@ public class LetterListActivity extends BaseActivity {
     mAdapter = new LetterAdapter();
     rv.setAdapter(mAdapter);
 
+    mMoreAdapter = LoadMoreWrapper.with(mAdapter)
+        .setFooterView(null) // view or layout resource
+        .setShowNoMoreEnabled(true) // enable show NoMoreView，default false
+        .setLoadMoreEnabled(false)
+        .setListener(new LoadMoreAdapter.OnLoadMoreListener() {
+          @Override
+          public void onLoadMore(LoadMoreAdapter.Enabled enabled) {
+            loadLetters(mPage);
+          }
+        }).into(rv);
+
     mRefreshLayout = findViewById(R.id.layout_refresh);
     mRefreshLayout.setEnabled(true);
     mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
     mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override public void onRefresh() {
-        loadLetters();
+        loadLetters(1);
       }
     });
-    loadLetters();
+    loadLetters(1);
   }
 
-  private void loadLetters() {
+  private void loadLetters(final int page) {
     mRefreshLayout.setRefreshing(true);
     ServiceManager.getSlowlyService()
-        .listLetters(mFriend.getId(), TokenManager.getPrefToken(), 1)
+        .listLetters(mFriend.getId(), TokenManager.getPrefToken(), page)
         .enqueue(
             new Callback<LetterListResult>() {
               @Override
@@ -61,9 +76,11 @@ public class LetterListActivity extends BaseActivity {
                 if (response != null
                     && response.body() != null
                     && response.body().getComments() != null) {
-                  mLetterList = response.body().getComments().getLetterList();
+                  mLetterList.addAll(response.body().getComments().getLetterList());
                   mAdapter.notifyDataSetChanged();
+                  mPage = page + 1;
                 }
+                mMoreAdapter.setLoadMoreEnabled(false);
               }
 
               @Override public void onFailure(Call<LetterListResult> call, Throwable t) {

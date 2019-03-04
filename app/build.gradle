@@ -54,4 +54,5 @@ dependencies {
   implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
   implementation 'android.arch.persistence.room:runtime:1.1.1'
   annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
+  implementation 'com.github.nukc:loadmorewrapper:1.8.3'
 }
