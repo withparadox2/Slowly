@@ -28,7 +28,9 @@ import com.withparadox2.showslowly.entity.Location;
 import com.withparadox2.showslowly.token.TokenManager;
 import com.withparadox2.showslowly.util.DateUtil;
 import com.withparadox2.showslowly.util.LocationUtil;
+import com.withparadox2.showslowly.util.NetUtil;
 import com.withparadox2.showslowly.util.Util;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -110,6 +112,8 @@ public class ShowActivity extends BaseActivity {
                 }
               });
               mAdapter.notifyDataSetChanged();
+            } else {
+              NetUtil.handleError(response.errorBody());
             }
           }
 

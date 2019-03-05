@@ -19,6 +19,7 @@ import com.withparadox2.showslowly.entity.Letter;
 import com.withparadox2.showslowly.net.ServiceManager;
 import com.withparadox2.showslowly.net.result.LetterListResult;
 import com.withparadox2.showslowly.token.TokenManager;
+import com.withparadox2.showslowly.util.NetUtil;
 import com.withparadox2.showslowly.util.Util;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,8 @@ public class LetterListActivity extends BaseActivity {
                     mMoreAdapter.setShowNoMoreEnabled(!hasMore);
                     mMoreAdapter.setLoadMoreEnabled(hasMore);
                   }
+                } else {
+                  NetUtil.handleError(response.errorBody());
                 }
               }
 
