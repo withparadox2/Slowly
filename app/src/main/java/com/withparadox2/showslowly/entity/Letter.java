@@ -3,16 +3,16 @@ package com.withparadox2.showslowly.entity;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "letter")
 public class Letter {
 
-  @PrimaryKey(autoGenerate = true)
-  private int _id;
-
   @SerializedName("id")
+  @PrimaryKey
+  @NonNull
   @ColumnInfo(name = "letter_id")
   private String letterId;
 
@@ -46,14 +46,6 @@ public class Letter {
   @ColumnInfo(name = "post")
   @SerializedName("post")
   private String post;
-
-  public int getId() {
-    return _id;
-  }
-
-  public void setId(int _id) {
-    this._id = _id;
-  }
 
   public void setLetterId(String letterId) {
     this.letterId = letterId;
