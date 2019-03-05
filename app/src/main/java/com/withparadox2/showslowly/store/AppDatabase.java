@@ -4,11 +4,14 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import com.withparadox2.showslowly.App;
+import com.withparadox2.showslowly.entity.Letter;
 import com.withparadox2.showslowly.entity.Location;
 
-@Database(entities = { Location.class }, version = 1)
+@Database(entities = { Location.class, Letter.class }, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
   public abstract LocationDao locationDao();
+
+  public abstract LetterDao letterDao();
 
   private static AppDatabase sDatabase;
 

@@ -72,4 +72,10 @@ public class Util {
   public static int collectionSize(Collection<?> collection) {
     return collection == null ? 0 : collection.size();
   }
+
+  public static void assertOn(boolean on, String error) {
+    if (!on) {
+      throw new AssertionError(error);
+    }
+  }
 }
