@@ -86,6 +86,7 @@ public class ShowActivity extends BaseActivity {
 
   @Override protected void onResume() {
     super.onResume();
+    //FIXME refreshLayout is null
     if (TokenManager.checkTokenFromClipboard()) {
       loadFriends();
     }

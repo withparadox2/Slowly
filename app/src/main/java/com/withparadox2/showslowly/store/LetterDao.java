@@ -29,6 +29,6 @@ public interface LetterDao {
   @Query("delete from letter")
   void clear();
 
-  @Query("select * from letter where user_from = :userId order by letter_id asc")
-  public List<Letter> getLetterList(String userId);
+  @Query("select * from letter where post = :post order by letter_id desc")
+  public List<Letter> getLetterList(String post);
 }

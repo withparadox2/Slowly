@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 public class Letter {
 
   @PrimaryKey(autoGenerate = true)
-  public int id;
+  private int _id;
 
   @SerializedName("id")
   @ColumnInfo(name = "letter_id")
@@ -40,6 +40,49 @@ public class Letter {
   @ColumnInfo(name = "user_to")
   private String userTo;
 
+  /**
+   * Same as {@link Friend#id Friend#id}
+   */
+  @ColumnInfo(name = "post")
+  @SerializedName("post")
+  private String post;
+
+  public int getId() {
+    return _id;
+  }
+
+  public void setId(int _id) {
+    this._id = _id;
+  }
+
+  public void setLetterId(String letterId) {
+    this.letterId = letterId;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
+  }
+
+  public void setDeliverAt(String deliverAt) {
+    this.deliverAt = deliverAt;
+  }
+
+  public void setCreatedAt(String createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public void setLocationCode(String locationCode) {
+    this.locationCode = locationCode;
+  }
+
+  public void setUserFrom(String userFrom) {
+    this.userFrom = userFrom;
+  }
+
+  public void setUserTo(String userTo) {
+    this.userTo = userTo;
+  }
+
   public String getLetterId() {
     return letterId;
   }
@@ -68,7 +111,8 @@ public class Letter {
     return userTo;
   }
 
-  private String shortBody;
+  private transient String shortBody;
+
   public String getShortBody() {
     if (shortBody == null) {
       if (body != null) {
@@ -92,5 +136,13 @@ public class Letter {
     } else {
       return false;
     }
+  }
+
+  public String getPost() {
+    return post;
+  }
+
+  public void setPost(String post) {
+    this.post = post;
   }
 }

@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.widget.Toast;
 import com.withparadox2.showslowly.App;
 import com.withparadox2.showslowly.R;
@@ -77,5 +78,9 @@ public class Util {
     if (!on) {
       throw new AssertionError(error);
     }
+  }
+
+  public static boolean isMainThread() {
+    return Thread.currentThread() == Looper.getMainLooper().getThread();
   }
 }
