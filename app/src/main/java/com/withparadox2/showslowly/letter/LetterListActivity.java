@@ -1,5 +1,6 @@
 package com.withparadox2.showslowly.letter;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,11 +23,12 @@ public class LetterListActivity extends BaseActivity implements IDataCallback {
   private LetterAdapter mAdapter;
   private LoadMoreAdapter mMoreAdapter;
   private LetterDataManager mDataManager;
+  private Friend mFriend;
 
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    Friend friend = (Friend) getIntent().getSerializableExtra("friend");
-    mDataManager = new LetterDataManager(friend, this);
+    mFriend = (Friend) getIntent().getSerializableExtra("friend");
+    mDataManager = new LetterDataManager(mFriend, this);
 
     setContentView(R.layout.activity_show);
 
@@ -54,6 +56,7 @@ public class LetterListActivity extends BaseActivity implements IDataCallback {
       }
     });
     mDataManager.requestLoadData(true);
+    updateTitle();
   }
 
   @Override public void onServerDataLoaded(boolean isRefresh) {
@@ -61,12 +64,21 @@ public class LetterListActivity extends BaseActivity implements IDataCallback {
     mAdapter.notifyDataSetChanged();
     mMoreAdapter.setShowNoMoreEnabled(!mDataManager.isHasMoreData());
     mMoreAdapter.setLoadMoreEnabled(mDataManager.isHasMoreData());
+    updateTitle();
   }
 
   @Override public void onLocalDataLoaded() {
     mAdapter.notifyDataSetChanged();
     mMoreAdapter.setShowNoMoreEnabled(!mDataManager.isHasMoreData());
     mMoreAdapter.setLoadMoreEnabled(mDataManager.isHasMoreData());
+    updateTitle();
+  }
+
+  @SuppressLint("DefaultLocale") private void updateTitle() {
+    if (getSupportActionBar() != null) {
+      getSupportActionBar().setTitle(
+          String.format("%s(%d)", mFriend.getName(), mDataManager.getLetterList().size()));
+    }
   }
 
   @Override public void onError(String message) {
