@@ -122,7 +122,7 @@ public class LetterListActivity extends BaseActivity implements IDataCallback {
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == Menu.NONE) {
-      new SyncLetter(this).showSyncDialog();
+      new SyncLetter(this, mFriend).showSyncDialog();
       return true;
     }
     return super.onOptionsItemSelected(item);

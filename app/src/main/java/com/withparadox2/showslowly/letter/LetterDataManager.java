@@ -20,7 +20,7 @@ import retrofit2.Response;
  * Manage letters by fetching data from server and caching to database.
  */
 public class LetterDataManager implements IDataCallback {
-  private static final int START_PAGE = 1;
+  public static final int START_PAGE = 1;
 
   private int mPerPage = -1;
   /**
