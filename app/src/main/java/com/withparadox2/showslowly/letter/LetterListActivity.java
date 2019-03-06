@@ -41,7 +41,7 @@ public class LetterListActivity extends BaseActivity implements IDataCallback {
         .setListener(new LoadMoreAdapter.OnLoadMoreListener() {
           @Override
           public void onLoadMore(LoadMoreAdapter.Enabled enabled) {
-            //mDataManager.requestLoadData(false);
+            mDataManager.requestLoadData(false);
           }
         }).into(rv);
 

@@ -61,7 +61,7 @@ public class LetterDataManager implements IDataCallback {
         return;
       }
 
-      int nextPage = mLetterList.size() % mPerPage + START_PAGE;
+      int nextPage = mLetterList.size() / mPerPage + START_PAGE;
       loadDataFromServer(nextPage);
     }
   }
@@ -116,18 +116,20 @@ public class LetterDataManager implements IDataCallback {
                         }
                       } else {
                         if (mLetterList.size() % mPerPage != 0) {
-                          // TODO Something is wrong, add a mark and clear db on next refresh action
+                          // TODO Something is wrong, clear all letters which are old
                         }
                       }
                     }
                   }
 
+                  //TODO mark last letter in db
                   mPerPage = comments.getPerPage();
-                  mHasMore = TextUtils.isEmpty(comments.getNextPageUrl());
+                  mHasMore = !TextUtils.isEmpty(comments.getNextPageUrl());
 
                   onServerDataLoaded(isRefresh);
                 } else {
                   NetUtil.handleError(response.errorBody());
+                  onError("");
                 }
               }
 
@@ -145,6 +147,7 @@ public class LetterDataManager implements IDataCallback {
     for (int i = 0; i < sourceList.size(); i++) {
       if (sourceList.get(i).equals(toExclude)) {
         targetIndex = i;
+        break;
       }
     }
     return targetIndex < 0 ? sourceList : sourceList.subList(0, targetIndex);
@@ -155,6 +158,7 @@ public class LetterDataManager implements IDataCallback {
     for (int i = 0; i < sourceList.size(); i++) {
       if (sourceList.get(i).equals(fromExclude)) {
         targetIndex = i;
+        break;
       }
     }
     if (targetIndex < 0) {
@@ -162,7 +166,7 @@ public class LetterDataManager implements IDataCallback {
     } else if (targetIndex >= sourceList.size() - 1) {
       return new ArrayList<>();
     } else {
-      return sourceList.subList(targetIndex + 1, sourceList.size() - 1);
+      return sourceList.subList(targetIndex + 1, sourceList.size());
     }
   }
 
