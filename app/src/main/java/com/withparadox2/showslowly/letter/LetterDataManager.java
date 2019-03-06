@@ -45,7 +45,11 @@ public class LetterDataManager implements IDataCallback {
           List<Letter> list = loadLocalData();
           mLetterList.clear();
           mLetterList.addAll(list);
-          mHasMore = true;
+          if (mLetterList.size() > 0) {
+            mHasMore = !mLetterList.get(mLetterList.size() - 1).isEarliest();
+          } else {
+            mHasMore = true;
+          }
           onLocalDataLoaded();
           loadDataFromServer(START_PAGE);
         }
@@ -74,6 +78,7 @@ public class LetterDataManager implements IDataCallback {
               @Override
               public void onResponse(Call<LetterListResult> call,
                   Response<LetterListResult> response) {
+                boolean hasSetHasMoreState = false;
                 if (response.body() != null && response.body().getComments() != null) {
                   LetterListResult.Comments comments = response.body().getComments();
                   List<Letter> newList = comments.getLetterList();
@@ -85,10 +90,16 @@ public class LetterDataManager implements IDataCallback {
                       if (isContained(mLetterList, lastNewLetter) || mLetterList.size() == 0) {
                         // Resolve sublist containing letters that doesn't exist locally, on which is
                         // the part we are going to operate
-                        final List<Letter> freshList = mLetterList.size() == 0 ? newList : cutTo(newList, mLetterList.get(0));
+                        final List<Letter> freshList =
+                            mLetterList.size() == 0 ? newList : cutTo(newList, mLetterList.get(0));
                         if (freshList.size() > 0) {
                           mLetterList.addAll(0, freshList);
                           cacheData(freshList, true);
+                        }
+
+                        if (!mHasMore) {
+                          // We has already set this value, ignore any new settings
+                          hasSetHasMoreState = true;
                         }
                       } else {
                         // We are faraway from server, just drop all data in db and re-sync
@@ -117,14 +128,30 @@ public class LetterDataManager implements IDataCallback {
                       } else {
                         if (mLetterList.size() % mPerPage != 0) {
                           // TODO Something is wrong, clear all letters which are old
+
+                        } else {
+                          if (newList.size() > 0) {
+                            mLetterList.addAll(newList);
+                            cacheData(newList, true);
+                          }
                         }
                       }
                     }
                   }
 
-                  //TODO mark last letter in db
                   mPerPage = comments.getPerPage();
-                  mHasMore = !TextUtils.isEmpty(comments.getNextPageUrl());
+                  if (!hasSetHasMoreState) {
+                    mHasMore = !TextUtils.isEmpty(comments.getNextPageUrl());
+                    if (!mHasMore && mLetterList.size() > 0) {
+                      final Letter lastLetter = mLetterList.get(mLetterList.size() - 1);
+                      lastLetter.setIsEarliest(true);
+                      Util.runAsync(new Runnable() {
+                        @Override public void run() {
+                          mLetterDao.update(lastLetter);
+                        }
+                      });
+                    }
+                  }
 
                   onServerDataLoaded(isRefresh);
                 } else {

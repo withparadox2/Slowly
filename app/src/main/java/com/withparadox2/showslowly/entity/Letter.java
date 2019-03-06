@@ -47,6 +47,12 @@ public class Letter {
   @SerializedName("post")
   private String post;
 
+  /**
+   * If this letter is the earliest one, yes-1 and no-0
+   */
+  @ColumnInfo(name = "last_one")
+  private int earliestFlag = 0;
+
   public void setLetterId(String letterId) {
     this.letterId = letterId;
   }
@@ -101,6 +107,22 @@ public class Letter {
 
   public String getUserTo() {
     return userTo;
+  }
+
+  public boolean isEarliest() {
+    return earliestFlag == 1;
+  }
+
+  public void setIsEarliest(boolean isEarliest) {
+    earliestFlag = isEarliest ? 1 : 0;
+  }
+
+  public int getEarliestFlag() {
+    return earliestFlag;
+  }
+
+  public void setEarliestFlag(int earliestFlag) {
+    this.earliestFlag = earliestFlag;
   }
 
   private transient String shortBody;

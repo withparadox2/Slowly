@@ -65,6 +65,8 @@ public class LetterListActivity extends BaseActivity implements IDataCallback {
 
   @Override public void onLocalDataLoaded() {
     mAdapter.notifyDataSetChanged();
+    mMoreAdapter.setShowNoMoreEnabled(!mDataManager.isHasMoreData());
+    mMoreAdapter.setLoadMoreEnabled(mDataManager.isHasMoreData());
   }
 
   @Override public void onError(String message) {
@@ -81,7 +83,7 @@ public class LetterListActivity extends BaseActivity implements IDataCallback {
 
     @Override public void onBindViewHolder(@NonNull VH vh, int i) {
       Letter letter = mDataManager.getLetterList().get(i);
-      vh.tvContent.setText(letter.getBody());
+      vh.tvContent.setText(letter.getShortBody());
     }
 
     @Override public int getItemCount() {
