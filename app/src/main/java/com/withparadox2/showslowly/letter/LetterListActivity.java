@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -111,4 +113,19 @@ public class LetterListActivity extends BaseActivity implements IDataCallback {
       tvContent = (TextView) itemView;
     }
   }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    MenuItem item = menu.add(Menu.NONE, Menu.NONE, Menu.NONE, "Sync");
+    item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == Menu.NONE) {
+      new SyncLetter(this).showSyncDialog();
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
 }
