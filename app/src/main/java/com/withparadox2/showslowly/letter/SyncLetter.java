@@ -65,6 +65,7 @@ public class SyncLetter {
                     }
                     boolean hasMore = !TextUtils.isEmpty(comments.getNextPageUrl());
                     if (!hasMore) {
+                      LetterHelper.markLastLetterEarliestOne(mLetterList);
                       Util.runAsync(new Runnable() {
                         @Override public void run() {
                           AppDatabase.instance().letterDao().clear();
