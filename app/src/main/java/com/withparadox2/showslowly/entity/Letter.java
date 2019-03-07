@@ -4,7 +4,6 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "letter")
@@ -14,7 +13,7 @@ public class Letter {
   @PrimaryKey
   @NonNull
   @ColumnInfo(name = "letter_id")
-  private String letterId;
+  private Long letterId;
 
   @SerializedName("body")
   @ColumnInfo(name = "body")
@@ -53,7 +52,7 @@ public class Letter {
   @ColumnInfo(name = "last_one")
   private int earliestFlag = 0;
 
-  public void setLetterId(String letterId) {
+  public void setLetterId(Long letterId) {
     this.letterId = letterId;
   }
 
@@ -81,7 +80,7 @@ public class Letter {
     this.userTo = userTo;
   }
 
-  public String getLetterId() {
+  public Long getLetterId() {
     return letterId;
   }
 
@@ -146,7 +145,7 @@ public class Letter {
     if (obj == this) {
       return true;
     } else if (obj instanceof Letter) {
-      return TextUtils.equals(((Letter) obj).getLetterId(), getLetterId());
+      return ((Letter) obj).getLetterId().equals(getLetterId());
     } else {
       return false;
     }
