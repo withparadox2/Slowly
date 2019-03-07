@@ -31,4 +31,7 @@ public interface LetterDao {
 
   @Query("select * from letter where post = :post order by letter_id desc")
   public List<Letter> getLetterList(String post);
+
+  @Query("delete from letter where letter_id <= :letterId ")
+  public int deleteTo(long letterId);
 }

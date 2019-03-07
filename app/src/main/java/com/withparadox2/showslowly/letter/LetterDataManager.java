@@ -121,8 +121,11 @@ public class LetterDataManager implements IDataCallback {
                         }
                       } else {
                         if (mLetterList.size() % mPerPage != 0) {
-                          // TODO Something is wrong, clear all letters which are old
-
+                          // Refresh letter list
+                          Util.toast("Refresh list");
+                          requestLoadData(true);
+                          onServerDataLoaded(false);
+                          return;
                         } else {
                           if (newList.size() > 0) {
                             mLetterList.addAll(newList);
