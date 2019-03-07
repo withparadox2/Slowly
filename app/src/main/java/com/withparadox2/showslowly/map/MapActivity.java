@@ -26,7 +26,8 @@ public class MapActivity extends BaseActivity {
 
     if (friend != null) {
       MapStatus.Builder builder = new MapStatus.Builder();
-      LatLng point = LocationUtil.convertGPSToBaidu(friend.getLatitude(), friend.getLongitude());
+      double[] ll = LocationUtil.wgs2bd(friend.getLatitude(), friend.getLongitude());
+      LatLng point = new LatLng(ll[0], ll[1]);
       builder.target(point).zoom(18.0f);
       mMapView.getMap().animateMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
 
