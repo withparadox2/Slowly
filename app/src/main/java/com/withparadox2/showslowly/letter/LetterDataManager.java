@@ -31,7 +31,7 @@ public class LetterDataManager implements IDataCallback {
   private List<Letter> mLetterList = new ArrayList<>();
   private IDataCallback mCallback;
   private LetterDao mLetterDao = AppDatabase.instance().letterDao();
-  private volatile boolean mHasMore = true;
+  private boolean mHasMore = true;
 
   LetterDataManager(@NonNull Friend friend, IDataCallback callback) {
     this.mFriend = friend;
@@ -78,7 +78,6 @@ public class LetterDataManager implements IDataCallback {
               @Override
               public void onResponse(Call<LetterListResult> call,
                   Response<LetterListResult> response) {
-                boolean hasSetHasMoreState = false;
                 if (response.body() != null && response.body().getComments() != null) {
                   LetterListResult.Comments comments = response.body().getComments();
                   List<Letter> newList = comments.getLetterList();
@@ -95,11 +94,6 @@ public class LetterDataManager implements IDataCallback {
                         if (freshList.size() > 0) {
                           mLetterList.addAll(0, freshList);
                           cacheData(freshList, true);
-                        }
-
-                        if (!mHasMore) {
-                          // We has already set this value, ignore any new settings
-                          hasSetHasMoreState = true;
                         }
                       } else {
                         // We are faraway from server, just drop all data in db and re-sync
@@ -139,18 +133,19 @@ public class LetterDataManager implements IDataCallback {
                     }
                   }
 
+                  boolean localHasMore = !TextUtils.isEmpty(comments.getNextPageUrl());
+
                   mPerPage = comments.getPerPage();
-                  if (!hasSetHasMoreState) {
-                    mHasMore = !TextUtils.isEmpty(comments.getNextPageUrl());
-                    if (!mHasMore && mLetterList.size() > 0) {
-                      final Letter lastLetter = mLetterList.get(mLetterList.size() - 1);
-                      lastLetter.setIsEarliest(true);
-                      Util.runAsync(new Runnable() {
-                        @Override public void run() {
-                          mLetterDao.update(lastLetter);
-                        }
-                      });
-                    }
+                  mHasMore = localHasMore && mHasMore;
+
+                  if (!localHasMore && mLetterList.size() > 0) {
+                    final Letter lastLetter = mLetterList.get(mLetterList.size() - 1);
+                    lastLetter.setIsEarliest(true);
+                    Util.runAsync(new Runnable() {
+                      @Override public void run() {
+                        mLetterDao.update(lastLetter);
+                      }
+                    });
                   }
 
                   onServerDataLoaded(isRefresh);
