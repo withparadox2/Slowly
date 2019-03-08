@@ -39,5 +39,9 @@
         android:name=".letter.LetterListActivity"
         android:label="@string/letters"
         android:screenOrientation="portrait"/>
+
+    <activity
+        android:name=".letter.LetterStatActivity"
+        android:screenOrientation="portrait"/>
   </application>
 </manifest>

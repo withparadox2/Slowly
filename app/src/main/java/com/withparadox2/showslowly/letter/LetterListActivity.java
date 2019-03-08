@@ -1,6 +1,7 @@
 package com.withparadox2.showslowly.letter;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,8 +17,10 @@ import com.github.nukc.LoadMoreWrapper.LoadMoreAdapter;
 import com.github.nukc.LoadMoreWrapper.LoadMoreWrapper;
 import com.withparadox2.showslowly.BaseActivity;
 import com.withparadox2.showslowly.R;
+import com.withparadox2.showslowly.ShowActivity;
 import com.withparadox2.showslowly.entity.Friend;
 import com.withparadox2.showslowly.entity.Letter;
+import com.withparadox2.showslowly.map.MapActivity;
 import com.withparadox2.showslowly.util.Util;
 
 public class LetterListActivity extends BaseActivity implements IDataCallback {
@@ -122,7 +125,10 @@ public class LetterListActivity extends BaseActivity implements IDataCallback {
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == Menu.NONE) {
-      new SyncLetter(this, mFriend).showSyncDialog();
+      //new SyncLetter(this, mFriend).showSyncDialog();
+      Intent intent = new Intent(this, LetterStatActivity.class);
+      intent.putExtra("friend", mFriend);
+      startActivity(intent);
       return true;
     }
     return super.onOptionsItemSelected(item);
