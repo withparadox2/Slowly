@@ -68,7 +68,6 @@ function getToken() {
 }
 
 function parseError(err) {
-  console.error(err)
   if (err.response && err.response.data) {
     if (err.response.data.error) {
       return err.response.data.error
