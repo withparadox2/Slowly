@@ -15,7 +15,7 @@ function addParams(url, params) {
     }
     appendStr += `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`
   }
-  return `${url}${url.indexOf('?') ? '&' : '?'}${appendStr}`
+  return `${url}${url.indexOf('?') >= 0 ? '&' : '?'}${appendStr}`
 }
 
 function addToken(requireAuth, params) {
