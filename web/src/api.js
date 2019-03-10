@@ -1,4 +1,4 @@
-import { post } from './http'
+import { get, post } from './http'
 
 export function sendEmailPasscode(email) {
   return post({
@@ -20,5 +20,12 @@ export function verifyPasscode(email, passcode) {
       device: 'web',
       passcode
     }
+  })
+}
+
+export function getFriends() {
+  return get({
+    path: '/users/me/friends/v2',
+    requests: 1
   })
 }

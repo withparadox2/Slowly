@@ -147,7 +147,7 @@ export default {
             this.showPasscode = true
           }
         })
-        .catch(this.errorHandler)
+        .catch(this.$errorHandler)
     },
     login() {
       if (!this.passcode) {
@@ -163,11 +163,7 @@ export default {
             //TODO go to list
           }
         })
-        .catch(this.errorHandler)
-    },
-    errorHandler({ message }) {
-      this.fullscreenLoading = false
-      showError(this, message)
+        .catch(this.$errorHandler)
     },
     backToEmail() {
       this.showPasscode = false
