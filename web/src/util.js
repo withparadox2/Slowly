@@ -11,6 +11,14 @@ function showError(vue, message) {
   })
 }
 
+function showSuccess(vue, message) {
+  vue.$message({
+    showClose: true,
+    message: message,
+    type: "success"
+  })
+}
+
 export {
   validateEmail,
   showError

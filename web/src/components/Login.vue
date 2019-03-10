@@ -1,9 +1,16 @@
 <template>
-  <div>
+  <div class="page-wrapper">
     <div class="container">
-      <div class="title">Slowly</div>
+      <div class="header">
+        <transition name="fade">
+          <i class="el-icon-back back-to-email"
+             v-show="showPasscode"
+             @click="backToEmail"></i>
+        </transition>
+        <span class="title">Slowly</span>
+      </div>
       <div class="form-wrapper">
-        <transition-group name="fade"
+        <transition-group :name="fadeName"
                           mode="out-in">
           <div class="content-wrapper"
                :key="1"
@@ -33,13 +40,34 @@
   </div>
 </template>
 <style scoped>
+.page-wrapper {
+  overflow-x: hidden;
+}
 .container {
   width: 50%;
   margin: 10% auto 0 auto;
 }
+.header {
+  margin-bottom: 40px;
+  position: relative;
+}
+.title {
+  color: #66b1ff;
+  text-shadow: 2px 2px 8px #66b1ff;
+  font-size: 30px;
+}
+.back-to-email {
+  display: inline-block;
+  font-size: 26px;
+  color: #66b1ff;
+  position: absolute;
+  margin-top: 7px;
+  margin-left: -50px;
+  cursor: pointer;
+}
 .form-wrapper {
   position: relative;
-  overflow-x: hidden;
+  height: 200px;
 }
 .content-wrapper {
   position: absolute;
@@ -49,33 +77,46 @@
   margin: 30px auto 0 auto;
   width: 100%;
 }
-.title {
-  color: #66b1ff;
-  text-shadow: 2px 2px 8px #66b1ff;
-  font-size: 30px;
-  margin-bottom: 40px;
-}
 .tip-text {
   text-align: center;
   margin-top: 40px;
 }
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 100.4s ease;
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+  transform: scale(0);
 }
-.fade-enter {
+
+.fade-enter-active,
+.fade-leave-active,
+.slide-out-enter-active,
+.slide-out-leave-active,
+.slide-in-enter-active,
+.slide-in-leave-active {
+  transition: all 0.4s ease;
+}
+.slide-out-enter {
+  transform: translate(-100%, 0);
+  opacity: 0;
+}
+.slide-in-enter {
   transform: translate(100%, 0);
   opacity: 0;
 }
-.fade-leave-to {
+.slide-out-leave-to {
+  transform: translate(100%, 0);
+  opacity: 0;
+}
+.slide-in-leave-to {
   transform: translate(-100%, 0);
   opacity: 0;
 }
 </style>
 
 <script>
-import { validateEmail, showError } from "../util"
+import { validateEmail, showError, showSuccess } from "../util"
 import { sendEmailPasscode, verifyPasscode } from "../api"
+import { setToken } from "../http"
 export default {
   data() {
     return {
@@ -85,31 +126,52 @@ export default {
       showPasscode: false
     }
   },
+  computed: {
+    fadeName() {
+      return this.showPasscode ? "slide-in" : "slide-out"
+    }
+  },
   methods: {
     sendEmail() {
-      this.showPasscode = true
-      if (!validateEmail(this.input)) {
+      if (!validateEmail(this.email)) {
         showError(this, "请输入正确的邮箱格式")
         return
       }
 
       this.fullscreenLoading = true
-      sendEmailPasscode(this.input)
+      sendEmailPasscode(this.email)
         .then(response => {
           this.fullscreenLoading = false
           if (response && response.data && response.data.success) {
-            this.$message({
-              message: "验证码已发送至" + this.input,
-              type: "success"
-            })
+            showSuccess(this, `验证码已发送至${this.email}`)
+            this.showPasscode = true
           }
         })
-        .catch(({ message }) => {
-          this.fullscreenLoading = false
-          showError(this, message)
-        })
+        .catch(this.errorHandler)
     },
-    login() {}
+    login() {
+      if (!this.passcode) {
+        showError(this, "请输入验证码")
+        return
+      }
+      this.fullscreenLoading = true
+      verifyPasscode(this.email, this.passcode)
+        .then(response => {
+          this.fullscreenLoading = false
+          if (response && response.data && response.data.token) {
+            setToken(response.data.token)
+            //TODO go to list
+          }
+        })
+        .catch(this.errorHandler)
+    },
+    errorHandler({ message }) {
+      this.fullscreenLoading = false
+      showError(this, message)
+    },
+    backToEmail() {
+      this.showPasscode = false
+    }
   }
 }
 </script>
