@@ -8,8 +8,7 @@ function addParams(url, params) {
     return url
   }
   let appendStr = ''
-  let key
-  if (key in Object.keys(params)) {
+  for (let key in params) {
     if (appendStr.length != 0) {
       appendStr += '&'
     }
@@ -18,13 +17,14 @@ function addParams(url, params) {
   return `${url}${url.indexOf('?') >= 0 ? '&' : '?'}${appendStr}`
 }
 
-function addToken(requireAuth, params) {
+function addToken(params, requireAuth) {
   if (!params) {
     params = {}
   }
   if (requireAuth) {
     params.token = TOKEN
   }
+  return params
 }
 
 function post({
@@ -53,6 +53,12 @@ function get({
 }) {
   params = addToken(params, !noAuth)
   return axios.get(addParams(BASE_URL + path, params))
+    .catch((error) => {
+      return Promise.reject({
+        error,
+        message: parseError(error)
+      })
+    })
 }
 
 function setToken(token) {
