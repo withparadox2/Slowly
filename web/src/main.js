@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 
+import './main.css'
+
 import Login from './components/Login.vue'
 import FriendList from './components/FriendList.vue'
 

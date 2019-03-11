@@ -29,3 +29,11 @@ export function getFriends() {
     requests: 1
   })
 }
+
+export function getLetters(id, page) {
+  return get({
+    path: `/posts/${id}`,
+    ver: 2,
+    page
+  })
+}
