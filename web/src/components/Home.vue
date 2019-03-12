@@ -96,7 +96,6 @@
 <script>
 import { getFriends, getLetters, getMe as loadAccount } from "../api"
 import { showError } from "../util"
-import { friendListData } from "./friends-data"
 import * as friendStore from "../persist/friend-store"
 import { getToken, getAccount, setAccount } from "../persist/account"
 
