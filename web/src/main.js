@@ -6,9 +6,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 import './main.css'
 
 import Login from './components/Login.vue'
-import FriendList from './components/FriendList.vue'
+import Home from './components/Home.vue'
 
-import { setToken } from './http'
+import { setToken } from './persist/account'
+import { showError } from './util'
 
 Vue.use(ElementUI);
 Vue.use(VueRouter)
@@ -16,10 +17,21 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjY3OTk1MSwiaXNzIjoiaHR0cDovL2FwaS5nZXRzbG93bHkuY29tL2F1dGgvc29jaWFsIiwiaWF0IjoxNTUxNzc0MjIxLCJleHAiOjE1NTIzNzkwMjEsIm5iZiI6MTU1MTc3NDIyMSwianRpIjoiSzBCV2szcHREdklRcjhGdiJ9.eqEiMLl6FoSLVawRyw2rjYjB21L1RLqPebfhApts61A')
 
+Vue.prototype.$errorHandler = function () {
+  return ({ message }) => {
+    showError(this, message)
+    if (message == 'token_expired') {
+      this.$router.replace({
+        name: 'login'
+      })
+    }
+  }
+}
+
 const routes = [
-  { path: '/login', component: Login },
-  { path: '/friends', component: FriendList },
-  { path: '/', redirect: '/friends' }
+  { path: '/login', name: 'login', component: Login },
+  { path: '/home', component: Home },
+  { path: '/', redirect: '/home' }
 ]
 
 const router = new VueRouter({

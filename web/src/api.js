@@ -37,3 +37,9 @@ export function getLetters(id, page) {
     page
   })
 }
+
+export function getMe() {
+  return get({
+    path: '/users/me'
+  })
+}

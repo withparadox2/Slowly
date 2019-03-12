@@ -3,12 +3,16 @@ import { VERSION, upgradeVersion } from './versions'
 const DB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 const IDBKeyRange = window.IDBKeyRange || window.mozIDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
 
-const DB_NAME = "slowly"
+let DB_NAME = "slowly"
 
 let database = null
 
 function isSupported() {
   return !!DB
+}
+
+function setDBName(userId) {
+  DB_NAME = `${userId}-slowly`
 }
 
 function open() {

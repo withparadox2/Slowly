@@ -116,7 +116,7 @@
 <script>
 import { validateEmail, showError, showSuccess } from "../util"
 import { sendEmailPasscode, verifyPasscode } from "../api"
-import { setToken } from "../http"
+import { setToken } from "../persist/account"
 export default {
   data() {
     return {

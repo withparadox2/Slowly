@@ -1,7 +1,7 @@
 import axios from 'axios'
+import { getToken } from './persist/account'
 
 const BASE_URL = "https://api.getslowly.com"
-let TOKEN = ''
 
 function addParams(url, params) {
   if (!params || Object.keys(params).length == 0) {
@@ -22,7 +22,7 @@ function addToken(params, requireAuth) {
     params = {}
   }
   if (requireAuth) {
-    params.token = TOKEN
+    params.token = getToken()
   }
   return params
 }
@@ -61,18 +61,6 @@ function get({
     })
 }
 
-function setToken(token) {
-  TOKEN = token
-}
-
-function clearToken() {
-  TOKEN = ''
-}
-
-function getToken() {
-  return TOKEN
-}
-
 function parseError(err) {
   if (err.response && err.response.data) {
     if (err.response.data.error) {
@@ -88,8 +76,5 @@ function parseError(err) {
 
 export {
   post,
-  get,
-  setToken,
-  clearToken,
-  getToken
+  get
 }
