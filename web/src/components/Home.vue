@@ -1,7 +1,8 @@
 <template>
   <div>
     <div id="account-loading"
-         v-loading="loadingAccount"
+         v-if="!accountInfo"
+         v-loading="!accountInfo"
          element-loading-text="加载个人信息...">
     </div>
     <div class="friends section">
@@ -97,7 +98,7 @@ import { getFriends, getLetters, getMe as loadAccount } from "../api"
 import { showError } from "../util"
 import { friendListData } from "./friends-data"
 import { insertFriends } from "../persist/friend-store"
-import { getToken, getAccount } from "../persist/account"
+import { getToken, getAccount, setAccount } from "../persist/account"
 
 export default {
   data() {
@@ -107,7 +108,7 @@ export default {
       letterList: [],
       mapVisible: false,
       map: null,
-      loadingAccount: true
+      accountInfo: null
     }
   },
   methods: {
@@ -156,6 +157,9 @@ export default {
       //     this.friendList = (response.data && response.data.friends) || []
       //   })
       //   .catch(({ message }) => showError(this, message))
+    },
+    initPage() {
+      this.loadFriends()
     }
   },
   mounted() {
@@ -166,12 +170,17 @@ export default {
       return
     }
 
-    if (!getAccount()) {
+    this.accountInfo = getAccount()
+    if (!this.accountInfo) {
       loadAccount()
         .then(response => {
-          
+          this.accountInfo = response.data
+          setAccount(this.accountInfo)
+          this.initPage()
         })
         .catch(this.$errorHandler())
+    } else {
+      this.initPage()
     }
   }
 }
