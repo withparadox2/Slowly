@@ -85,6 +85,7 @@
 import { getFriends, getLetters } from "../api"
 import { showError } from "../util"
 import { friendListData } from "./friends-data"
+import { insertFriends } from '../db/friend-store'
 export default {
   data() {
     return {
@@ -133,6 +134,7 @@ export default {
   mounted() {
     this.friendList = friendListData
     this.checkedFriend = this.friendList[0]
+    insertFriends(this.friendList)
     // getFriends()
     //   .then(response => {
     //     this.friendList = (response.data && response.data.friends) || []

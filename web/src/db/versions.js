@@ -3,9 +3,13 @@ const VERSION = 1
 //TODO take care of login user id
 function upgradeVersion(event) {
   let db = event.target.result
-  if (event.oldVerion < 1) {
-    createStore(db, 'friends', 'user_id')
-    createStore(db, 'letters', 'letter_id')
+  if (event.oldVersion < 1) {
+    createStore(db, 'friends', 'user_id', {
+      owner_id: false
+    })
+    createStore(db, 'letters', 'letter_id', {
+      owner_id: false
+    })
   }
 }
 
