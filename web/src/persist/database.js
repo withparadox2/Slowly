@@ -1,9 +1,7 @@
 import { VERSION, upgradeVersion } from './versions'
+import { getAccount } from './account'
 
-const DB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
-const IDBKeyRange = window.IDBKeyRange || window.mozIDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
-
-let DB_NAME = "slowly"
+const DB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB
 
 let database = null
 
@@ -11,14 +9,15 @@ function isSupported() {
   return !!DB
 }
 
-function setDBName(userId) {
-  DB_NAME = `${userId}-slowly`
+function getDbName() {
+  let account = getAccount()
+  return account ? `${account.id}-slowly` : 'slowly'
 }
 
 function open() {
   return new Promise((resolve, reject) => {
     close()
-    const request = DB.open(DB_NAME, VERSION)
+    const request = DB.open(getDbName(), VERSION)
     request.onupgradeneeded = upgradeVersion
     request.onerror = e => {
       database = null
@@ -38,13 +37,17 @@ function close() {
   }
 }
 
-function get(store, key) {
+/**
+ * @param {*} store The name of object store
+ * @param {*} key Clue used to find target, or null
+ */
+function get(store, key = null) {
   return new Promise(async (resolve, reject) => {
     try {
       await open()
       const transaction = database.transaction([store], 'readonly')
       const objectStore = transaction.objectStore(store)
-      const request = objectStore.get(key)
+      const request = key ? objectStore.get(key) : objectStore.getAll()
       request.onsuccess = e => {
         resolve(e.target.result)
       }
@@ -128,7 +131,7 @@ function update(store, dataList) {
   })
 }
 
-function remove(store, key, dataList) {
+function remove(store, dataList, key = null) {
   dataList = makeSureList(dataList)
   return new Promise(async (resolve, reject) => {
     try {
@@ -142,8 +145,28 @@ function remove(store, key, dataList) {
         reject(e.target.error)
       }
       dataList.forEach(item => {
-        objectStore.delete(item[key])
+        objectStore.delete(key ? item[key] : item)
       })
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
+function clear(store) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await open()
+      const transaction = database.transaction([store], 'readwrite')
+      const objectStore = transaction.objectStore(store)
+      const request = objectStore.clear()
+      request.onsuccess = e => {
+        resolve(e.target.readyState)
+      }
+      request.onerror = e => {
+        reject(e.target.error)
+      }
+
     } catch (err) {
       reject(err)
     }
@@ -157,5 +180,6 @@ export {
   get,
   getAll,
   update,
-  remove
+  remove,
+  clear
 }

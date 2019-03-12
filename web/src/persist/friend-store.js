@@ -1,12 +1,12 @@
-import { insert, getAll } from './database'
+import { insert, clear } from './database'
+import { STORE_FRIENDS } from './versions'
 
 export function getFriends() {
-  return getAll('friends', 'owner_id', 1)
+  return get(STORE_FRIENDS)
 }
 
 export function insertFriends(friends) {
-  friends.forEach(element => {
-    element.owner_id = 1
+  return clear(STORE_FRIENDS).then(() => {
+    return insert(STORE_FRIENDS, friends)
   })
-  return insert('friends', friends)
 }
