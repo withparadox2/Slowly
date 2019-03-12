@@ -15,7 +15,11 @@ Vue.use(ElementUI);
 Vue.use(VueRouter)
 
 Vue.config.productionTip = false
+
 setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjY3OTk1MSwiaXNzIjoiaHR0cDovL2FwaS5nZXRzbG93bHkuY29tL2F1dGgvdWRpZC9yZWZyZXNoIiwiaWF0IjoxNTUyMzk3MDY4LCJleHAiOjE1NTMwMDE4NjgsIm5iZiI6MTU1MjM5NzA2OCwianRpIjoib1FzSTYwWlUyd2EzWXM4aCJ9.uSOgPWyvd2l57JlWu9_CNXI1crt3HZyqMkV8ppC62Og')
+window.__CONFIG__ = {
+  useCache: true
+}
 
 Vue.prototype.$errorHandler = function () {
   return ({ message }) => {

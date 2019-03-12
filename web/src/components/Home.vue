@@ -97,7 +97,7 @@
 import { getFriends, getLetters, getMe as loadAccount } from "../api"
 import { showError } from "../util"
 import { friendListData } from "./friends-data"
-import { insertFriends } from "../persist/friend-store"
+import * as friendStore from "../persist/friend-store"
 import { getToken, getAccount, setAccount } from "../persist/account"
 
 export default {
@@ -149,14 +149,25 @@ export default {
       })
     },
     loadFriends() {
-      this.friendList = friendListData
-      this.checkedFriend = this.friendList[0]
-      insertFriends(this.friendList)
-      // getFriends()
-      //   .then(response => {
-      //     this.friendList = (response.data && response.data.friends) || []
-      //   })
-      //   .catch(({ message }) => showError(this, message))
+      let loadFromServer = () => {
+        getFriends()
+          .then(response => {
+            this.friendList = (response.data && response.data.friends) || []
+            friendStore.insertFriends(this.friendList)
+          })
+          .catch(this.$errorHandler())
+      }
+      friendStore
+        .getFriends()
+        .then((list = []) => {
+          this.friendList = list || []
+          if (!__CONFIG__.useCache) {
+            loadFromServer()
+          }
+        })
+        .catch(() => {
+          loadFromServer()
+        })
     },
     initPage() {
       this.loadFriends()
