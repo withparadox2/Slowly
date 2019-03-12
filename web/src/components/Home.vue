@@ -169,6 +169,7 @@ export default {
     if (!getAccount()) {
       loadAccount()
         .then(response => {
+          
         })
         .catch(this.$errorHandler())
     }

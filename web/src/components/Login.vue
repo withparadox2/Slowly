@@ -116,7 +116,7 @@
 <script>
 import { validateEmail, showError, showSuccess } from "../util"
 import { sendEmailPasscode, verifyPasscode } from "../api"
-import { setToken } from "../persist/account"
+import { setToken, getToken } from "../persist/account"
 export default {
   data() {
     return {
@@ -167,6 +167,13 @@ export default {
     },
     backToEmail() {
       this.showPasscode = false
+    }
+  },
+  mounted() {
+    if (getToken()) {
+      this.$router.replace({
+        name: "home"
+      })
     }
   }
 }

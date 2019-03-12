@@ -21,6 +21,7 @@ Vue.prototype.$errorHandler = function () {
   return ({ message }) => {
     showError(this, message)
     if (message == 'token_expired') {
+      setToken('')
       this.$router.replace({
         name: 'login'
       })
@@ -30,7 +31,7 @@ Vue.prototype.$errorHandler = function () {
 
 const routes = [
   { path: '/login', name: 'login', component: Login },
-  { path: '/home', component: Home },
+  { path: '/home', name: 'home', component: Home },
   { path: '/', redirect: '/home' }
 ]
 
