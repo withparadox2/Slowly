@@ -20,7 +20,7 @@
            class="letter-item"
            :key="letter.id">
         <div>
-          {{letter.body.substring(0, 30)}}
+          {{letter.body}}
         </div>
       </div>
     </div>
@@ -127,14 +127,16 @@ export default {
       this.letterList = []
       getDataManager(friend.id)
         .setCallback((mgr, { isRefresh, isSync, dataList, isSuccess }) => {
-          if (isSync) {
-            this.letterState = `正在同步${mgr.syncPage}页`
-          } else if (isRefresh) {
-            this.letterState = `正在刷新`
-          } else {
-            this.letterState = isSuccess ? "" : "同步失败"
+          if (mgr.userId == this.checkedFriend.id) {
+            if (isSync) {
+              this.letterState = `正在同步${mgr.syncPage}页`
+            } else if (isRefresh) {
+              this.letterState = `正在刷新`
+            } else {
+              this.letterState = isSuccess ? "" : "同步失败"
+            }
+            this.letterList = dataList
           }
-          this.letterList = dataList
         })
         .requestData()
       // this.showMap(friend)

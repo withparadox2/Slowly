@@ -34,7 +34,6 @@ export class DataManager {
   }
 
   requestData() {
-    debugger
     if (this.syncState > STATE_DEFAULT && this.syncState < STATE_SUCCESS) {
       this.doCallback()
       return
@@ -55,7 +54,7 @@ export class DataManager {
         this.loadServerLetters(1)
       }
     }).catch(e => {
-      console.log(e)
+      console.error(e)
     })
   }
 
@@ -65,47 +64,50 @@ export class DataManager {
 
   loadServerLetters(page) {
     getLetters(this.userId, page)
-      .then((
-        ({ data }) => {
-          debugger
-          let list = data.comments.data || []
-          let hasMore = !!data.comments.next_page_url
-
-          if (this.syncState == STATE_REFRESH) {
-            let overlapIndex = this.subListTo(list, this.dataList[0])
-            if (overlapIndex < 0) {
-              // We are far away from server, we should do a full sync
-              this.syncState = STATE_SYNC
-            } else {
-              if (overlapIndex > 0) {
-                let subList = list.slice(0, overlapIndex)
-                this.dataList = subList.concat(this.dataList)
-              }
-              this.syncState = STATE_SUCCESS
-              this.doCallback()
-            }
-          }
-
-          if (this.syncState == STATE_SYNC) {
-            this.syncDataList.push(...list)
-            if (hasMore) {
-              this.syncPage = page + 1
-              this.loadServerLetters(this.syncPage)
-              this.doCallback()
-            } else {
-              this.syncState = STATE_SUCCESS
-              this.dataList = this.sortList(this.syncDataList)
-              this.insertLetters(this.dataList)
-              this.doCallback()
-            }
-          }
-        }
-      ).bind(this))
+      .then(this.getResultHandler(page))
       .catch((e) => {
         console.error(e)
         this.syncState = STATE_FAIL
         this.doCallback()
       })
+  }
+
+  getResultHandler(page) {
+    function handleResult({ data }) {
+      let list = data.comments.data || []
+      let hasMore = !!data.comments.next_page_url
+
+      if (this.syncState == STATE_REFRESH) {
+        let overlapIndex = this.subListTo(list, this.dataList[0])
+        if (overlapIndex < 0) {
+          // We are far away from server, we should do a full sync
+          this.syncState = STATE_SYNC
+        } else {
+          if (overlapIndex > 0) {
+            let subList = list.slice(0, overlapIndex)
+            this.insertLetters(subList)
+            this.dataList = subList.concat(this.dataList)
+          }
+          this.syncState = STATE_SUCCESS
+          this.doCallback()
+        }
+      }
+
+      if (this.syncState == STATE_SYNC) {
+        this.syncDataList.push(...list)
+        if (hasMore) {
+          this.syncPage = page + 1
+          this.loadServerLetters(this.syncPage)
+          this.doCallback()
+        } else {
+          this.syncState = STATE_SUCCESS
+          this.dataList = this.sortList(this.syncDataList)
+          this.insertLetters(this.dataList)
+          this.doCallback()
+        }
+      }
+    }
+    return handleResult.bind(this)
   }
 
   subListTo(list, target) {
