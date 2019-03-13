@@ -12,21 +12,35 @@
            @click="clickFriend(friend)"
            :key="friend.user_id">
         {{friend.name}}
+        <span class="btn-map"
+              @click.stop="showMap(friend)">地图</span>
       </div>
     </div>
-    <div class="letters section">
-      <div v-show="letterState">{{letterState}}</div>
-      <div v-for="letter in letterList"
-           class="letter-item"
-           :key="letter.id">
-        <div>
-          {{letter.body}}
+    <el-row class="right-section">
+      <el-col :span="editorVisible ? 12 : 24"
+              class="letters-section">
+        <button @click="newLetter">新增</button>
+        <div v-show="letterState">{{letterState}}</div>
+        <div v-for="letter in letterList"
+             class="letter-item"
+             :key="letter.id">
+          <div>
+            {{letter.body}}
+          </div>
         </div>
-      </div>
-    </div>
+      </el-col>
+      <el-col :span="12"
+              v-show="editorVisible"
+              class="editor-section">
+      </el-col>
+    </el-row>
     <div class="map-container"
-         v-if="mapVisible">
-      <div id="map"></div>
+         v-show="mapVisible">
+      <div class="map-wrapper">
+        <div id="map"></div>
+      </div>
+      <div class="btn-close-map"
+           @click="mapVisible = false">关闭</div>
     </div>
   </div>
 </template>
@@ -53,15 +67,30 @@
   background-color: #f5f5f5;
   background: #fafafa;
 }
-.letters {
+.friend-item .btn-map {
+  float: right;
+  font-size: 12px;
+  background: #ddffaa;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+.right-section {
   position: absolute;
   left: 200px;
   right: 0;
   top: 0;
   bottom: 0;
-  padding: 20px;
+  overflow-x: hidden;
+}
+.letters-section {
   overflow-y: auto;
   overflow-x: hidden;
+  padding: 20px;
+  height: 100%;
+}
+.editor-section {
+  overflow-y: auto;
+  height: 100%;
 }
 .letter-item {
   padding-bottom: 20px;
@@ -71,14 +100,33 @@
   font-size: 15px;
   white-space: pre-line;
   line-height: 25px;
+  max-width: 600px;
 }
 .map-container {
   z-index: 999;
   position: fixed;
+  background: #000000aa;
+  width: 100%;
+  height: 100%;
+}
+.map-wrapper {
+  position: absolute;
   top: 10%;
   bottom: 10%;
   right: 10%;
   left: 10%;
+}
+.btn-close-map {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 40px;
+  height: 30px;
+  margin-right: -55px;
+  white-space: nowrap;
+  color: white;
+  cursor: pointer;
+  text-align: right;
 }
 #map {
   width: 100%;
@@ -108,7 +156,8 @@ export default {
       mapVisible: false,
       map: null,
       accountInfo: null,
-      letterState: ""
+      letterState: "",
+      editorVisible: false
     }
   },
   computed: {
@@ -188,6 +237,9 @@ export default {
     },
     initPage() {
       this.loadFriends()
+    },
+    newLetter() {
+      this.editorVisible = !this.editorVisible
     }
   },
   mounted() {
