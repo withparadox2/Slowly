@@ -79,7 +79,7 @@ export class DataManager {
             } else {
               if (overlapIndex > 0) {
                 let subList = list.slice(0, overlapIndex)
-                this.dataList.splice(0, 0, subList)
+                this.dataList = subList.concat(this.dataList)
               }
               this.syncState = STATE_SUCCESS
               this.doCallback()
