@@ -160,7 +160,9 @@ export default {
           this.fullscreenLoading = false
           if (response && response.data && response.data.token) {
             setToken(response.data.token)
-            //TODO go to list
+            this.$router.replace({
+              name: 'home'
+            })
           }
         })
         .catch(this.$errorHandler)
