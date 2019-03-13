@@ -25,6 +25,8 @@
           {{letter.body.substring(0, 30)}}
         </div>
       </div>
+      <infinite-loading :identifier="infiniteId"
+                        @infinite="loadLetters"></infinite-loading>
     </div>
     <div class="map-container"
          v-if="mapVisible">
@@ -108,7 +110,9 @@ export default {
       letterList: [],
       mapVisible: false,
       map: null,
-      accountInfo: null
+      accountInfo: null,
+      letterPage: 1,
+      infiniteId: 1
     }
   },
   computed: {
@@ -122,13 +126,26 @@ export default {
   methods: {
     clickFriend(friend) {
       this.checkedFriend = friend
-      this.loadLetters(friend)
+      this.letterPage = 0
+      this.infiniteId++
+      this.letterList = []
       // this.showMap(friend)
     },
-    loadLetters(friend) {
-      getLetters(friend.id, 1)
-        .then(response => {
-          this.letterList = response.data.comments.data
+    loadLetters($state) {
+      if (!this.checkedFriend) {
+        $state.complete()
+        return
+      }
+      this.letterPage++
+      let friend = this.checkedFriend
+      getLetters(friend.id, this.letterPage)
+        .then(({ data }) => {
+          this.letterList.push(...data.comments.data)
+          if (data.comments.next_page_url) {
+            $state.loaded()
+          } else {
+            $state.complete()
+          }
         })
         .catch(({ message }) => showError(this, message))
     },

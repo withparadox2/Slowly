@@ -1,18 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css';
+import 'element-ui/lib/theme-chalk/index.css'
 
 import './main.css'
 
 import Login from './components/Login.vue'
 import Home from './components/Home.vue'
 
+import InfiniteLoading from 'vue-infinite-loading'
+
 import { setToken } from './persist/account'
 import { showError } from './util'
 
-Vue.use(ElementUI);
+Vue.use(ElementUI)
 Vue.use(VueRouter)
+Vue.use(InfiniteLoading)
 
 Vue.config.productionTip = false
 
