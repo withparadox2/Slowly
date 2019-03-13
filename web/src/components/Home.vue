@@ -6,7 +6,7 @@
          element-loading-text="加载个人信息...">
     </div>
     <div class="friends section">
-      <div v-for="friend in friendList"
+      <div v-for="friend in orderedFriendList"
            class="friend-item"
            :class="{checked: friend == checkedFriend}"
            @click="clickFriend(friend)"
@@ -22,7 +22,7 @@
 
         </div>
         <div>
-          {{letter.body}}
+          {{letter.body.substring(0, 30)}}
         </div>
       </div>
     </div>
@@ -40,6 +40,7 @@
   width: 200px;
   top: 0;
   bottom: 0;
+  overflow-y: auto;
 }
 .friend-item {
   cursor: pointer;
@@ -110,11 +111,19 @@ export default {
       accountInfo: null
     }
   },
+  computed: {
+    orderedFriendList() {
+      return (this.friendList || []).sort(
+        (first, second) =>
+          -first.latest_comment.localeCompare(second.latest_comment)
+      )
+    }
+  },
   methods: {
     clickFriend(friend) {
       this.checkedFriend = friend
-      // this.loadLetters(friend)
-      this.showMap(friend)
+      this.loadLetters(friend)
+      // this.showMap(friend)
     },
     loadLetters(friend) {
       getLetters(friend.id, 1)
@@ -160,7 +169,7 @@ export default {
         .getFriends()
         .then((list = []) => {
           this.friendList = list || []
-          if (!__CONFIG__.useCache) {
+          if (list.length == 0 || !__CONFIG__.useCache) {
             loadFromServer()
           }
         })
