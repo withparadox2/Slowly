@@ -15,18 +15,14 @@
       </div>
     </div>
     <div class="letters section">
+      <div v-show="letterState">{{letterState}}</div>
       <div v-for="letter in letterList"
            class="letter-item"
            :key="letter.id">
         <div>
-
-        </div>
-        <div>
           {{letter.body.substring(0, 30)}}
         </div>
       </div>
-      <infinite-loading :identifier="infiniteId"
-                        @infinite="loadLetters"></infinite-loading>
     </div>
     <div class="map-container"
          v-if="mapVisible">
@@ -101,6 +97,7 @@ import { getFriends, getLetters, getMe as loadAccount } from "../api"
 import { showError } from "../util"
 import * as friendStore from "../persist/friend-store"
 import { getToken, getAccount, setAccount } from "../persist/account"
+import { getDataManager } from "../persist/letter-store"
 
 export default {
   data() {
@@ -111,8 +108,7 @@ export default {
       mapVisible: false,
       map: null,
       accountInfo: null,
-      letterPage: 1,
-      infiniteId: 1
+      letterState: ""
     }
   },
   computed: {
@@ -129,25 +125,19 @@ export default {
       this.letterPage = 0
       this.infiniteId++
       this.letterList = []
-      // this.showMap(friend)
-    },
-    loadLetters($state) {
-      if (!this.checkedFriend) {
-        $state.complete()
-        return
-      }
-      this.letterPage++
-      let friend = this.checkedFriend
-      getLetters(friend.id, this.letterPage)
-        .then(({ data }) => {
-          this.letterList.push(...data.comments.data)
-          if (data.comments.next_page_url) {
-            $state.loaded()
+      getDataManager(friend.id)
+        .setCallback((mgr, { isRefresh, isSync, dataList, isSuccess }) => {
+          if (isSync) {
+            this.letterState = `正在同步${mgr.syncPage}页`
+          } else if (isRefresh) {
+            this.letterState = `正在刷新`
           } else {
-            $state.complete()
+            this.letterState = isSuccess ? "" : "同步失败"
           }
+          this.letterList = dataList
         })
-        .catch(({ message }) => showError(this, message))
+        .requestData()
+      // this.showMap(friend)
     },
     showMap(friend) {
       this.mapVisible = true

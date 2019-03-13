@@ -26,15 +26,19 @@ export function verifyPasscode(email, passcode) {
 export function getFriends() {
   return get({
     path: '/users/me/friends/v2',
-    requests: 1
+    params: {
+      requests: 1,
+    }
   })
 }
 
 export function getLetters(id, page) {
   return get({
     path: `/posts/${id}`,
-    ver: 2,
-    page
+    params: {
+      ver: 2,
+      page
+    }
   })
 }
 

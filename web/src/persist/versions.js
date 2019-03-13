@@ -8,7 +8,9 @@ function upgradeVersion(event) {
   let db = event.target.result
   if (event.oldVersion < 1) {
     createStore(db, STORE_FRIENDS, 'user_id')
-    createStore(db, STORE_LETTERS, 'letter_id')
+    createStore(db, STORE_LETTERS, 'id', {
+      owner_id: false
+    })
   }
 }
 

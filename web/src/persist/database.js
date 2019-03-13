@@ -39,7 +39,7 @@ function close() {
 
 /**
  * @param {*} store The name of object store
- * @param {*} key Clue used to find target, or null
+ * @param {*} key Clue used to find target, or null if rquest all data
  */
 function get(store, key = null) {
   return new Promise(async (resolve, reject) => {
