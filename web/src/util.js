@@ -21,5 +21,6 @@ function showSuccess(vue, message) {
 
 export {
   validateEmail,
-  showError
+  showError,
+  showSuccess
 }
