@@ -12,7 +12,8 @@
     "element-ui": "^2.6.1",
     "vue": "^2.6.6",
     "vue-infinite-loading": "^2.4.3",
-    "vue-router": "^3.0.2"
+    "vue-router": "^3.0.2",
+    "vuex": "^3.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",

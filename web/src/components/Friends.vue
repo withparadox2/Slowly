@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-for="friend in dataList"
+    <div v-for="friend in friendList"
          class="friend-item"
          :class="{checked: friend == checkedFriend}"
-         @click="clickItem(friend)"
+         @click="checkFriend(friend)"
          :key="friend.user_id">
       {{friend.name}}
     </div>
@@ -25,23 +25,14 @@
 }
 </style>
 <script>
+import { mapState, mapMutations } from "vuex"
+
 export default {
-  props: {
-    dataList: {
-      type: Array,
-      required: true,
-      default: () => []
-    }
-  },
-  data() {
-    return {
-      checkedFriend: ""
-    }
+  computed: {
+    ...mapState(["checkedFriend", "friendList"])
   },
   methods: {
-    clickItem(friend) {
-      this.$emit("clickFriend", friend)
-    }
+    ...mapMutations(["checkFriend"])
   }
 }
 </script>

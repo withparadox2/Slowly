@@ -12,8 +12,7 @@
     </div>
     <div class="main-content">
       <div class="left-section">
-        <friends :dataList="orderedFriendList"
-                 v-on:clickFriend="clickFriend($event)" />
+        <friends />
       </div>
       <el-row class="right-section">
         <el-col :span="editorVisible ? 12 : 24"
@@ -164,19 +163,18 @@
 }
 </style>
 <script>
+import { mapState, mapMutations } from "vuex"
 import * as api from "../api"
 import { showError, showSuccess } from "../util"
 import * as friendStore from "../persist/friend-store"
 import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
-
+import { sortFriends } from "../helper"
 import Friends from "./Friends.vue"
 
 export default {
   data() {
     return {
-      friendList: [],
-      checkedFriend: null,
       letterList: [],
       mapVisible: false,
       map: null,
@@ -195,9 +193,16 @@ export default {
         (first, second) =>
           -first.latest_comment.localeCompare(second.latest_comment)
       )
+    },
+    ...mapState(["checkedFriend", "friendList"])
+  },
+  watch: {
+    checkedFriend(newFriend) {
+      this.clickFriend(newFriend)
     }
   },
   methods: {
+    ...mapMutations(["setFriendList"]),
     exit() {
       //TODO check draft
       this.$confirm("是否确定退出?", "提示", {
@@ -216,7 +221,6 @@ export default {
       })
     },
     clickFriend(friend) {
-      this.checkedFriend = friend
       this.letterPage = 0
       this.infiniteId++
       this.letterList = []
@@ -264,8 +268,8 @@ export default {
       let loadFromServer = () => {
         api
           .getFriends()
-          .then(response => {
-            this.friendList = (response.data && response.data.friends) || []
+          .then(({ data }) => {
+            this.setFriendList(sortFriends(data.friends))
             friendStore.insertFriends(this.friendList)
           })
           .catch(this.$errorHandler())
@@ -273,7 +277,7 @@ export default {
       friendStore
         .getFriends()
         .then((list = []) => {
-          this.friendList = list || []
+          this.setFriendList(sortFriends(list))
           if (list.length == 0 || !__CONFIG__.useCache) {
             loadFromServer()
           }
@@ -281,9 +285,6 @@ export default {
         .catch(() => {
           loadFromServer()
         })
-    },
-    initPage() {
-      this.loadFriends()
     },
     newLetter() {
       this.editorVisible = !this.editorVisible
@@ -316,11 +317,11 @@ export default {
         .then(response => {
           this.accountInfo = response.data
           account.setAccount(this.accountInfo)
-          this.initPage()
+          this.loadFriends()
         })
         .catch(this.$errorHandler())
     } else {
-      this.initPage()
+      this.loadFriends()
     }
   }
 }
