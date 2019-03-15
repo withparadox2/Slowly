@@ -11,48 +11,44 @@
             @click="exit">退出</span>
     </div>
     <div class="main-content">
-      <div v-for="friend in orderedFriendList"
-           class="friend-item"
-           :class="{checked: friend == checkedFriend}"
-           @click="clickFriend(friend)"
-           :key="friend.user_id">
-        {{friend.name}}
+      <div class="left-section">
+        <friends :dataList="orderedFriendList"
+                 v-on:clickFriend="clickFriend($event)" />
       </div>
-    </div>
-    <el-row class="right-section">
-      <el-col :span="editorVisible ? 12 : 24"
-              class="letters-section">
-        <button @click="newLetter">新增</button>
-        <div v-show="letterState">{{letterState}}</div>
-        <div v-for="letter in letterList"
-             class="letter-item"
-             :key="letter.id">
-          <div>
-            {{letter.body}}
+      <el-row class="right-section">
+        <el-col :span="editorVisible ? 12 : 24"
+                class="letters-section">
+          <button @click="newLetter">新增</button>
+          <div v-show="letterState">{{letterState}}</div>
+          <div v-for="letter in letterList"
+               class="letter-item"
+               :key="letter.id">
+            <div>
+              {{letter.body}}
+            </div>
           </div>
-        </div>
-      </el-col>
-      <el-col :span="12"
-              v-show="editorVisible"
-              class="editor-section">
-        <button @click="sendLetter">发送</button>
-        <textarea name="letter"
-                  v-model="inputLetter"
-                  placeholder="请输入内容"
-                  cols="30"
-                  rows="10"></textarea>
-      </el-col>
-    </el-row>
-  </div>
-
-  <div class="map-container"
-       v-show="mapVisible">
-    <div class="map-wrapper">
-      <div id="map"></div>
+        </el-col>
+        <el-col :span="12"
+                v-show="editorVisible"
+                class="editor-section">
+          <button @click="sendLetter">发送</button>
+          <textarea name="letter"
+                    v-model="inputLetter"
+                    placeholder="请输入内容"
+                    cols="30"
+                    rows="10"></textarea>
+        </el-col>
+      </el-row>
     </div>
-    <div class="btn-close-map"
-         @click="mapVisible = false">关闭</div>
-  </div>
+
+    <div class="map-container"
+         v-show="mapVisible">
+      <div class="map-wrapper">
+        <div id="map"></div>
+      </div>
+      <div class="btn-close-map"
+           @click="mapVisible = false">关闭</div>
+    </div>
   </div>
 </template>
 <style scoped>
@@ -91,26 +87,6 @@
   top: 0;
   bottom: 0;
   overflow-y: auto;
-}
-.friend-item {
-  cursor: pointer;
-  padding: 10px;
-  color: #34373d;
-  font-size: 14px;
-}
-.friend-item.checked {
-  background-color: #ededed;
-}
-.friend-item:hover {
-  background-color: #f5f5f5;
-  background: #fafafa;
-}
-.friend-item .btn-map {
-  float: right;
-  font-size: 12px;
-  background: #ddffaa;
-  padding: 2px 5px;
-  border-radius: 3px;
 }
 .right-section {
   position: absolute;
@@ -191,13 +167,10 @@
 import * as api from "../api"
 import { showError, showSuccess } from "../util"
 import * as friendStore from "../persist/friend-store"
-import {
-  getToken,
-  getAccount,
-  setAccount,
-  clear as clearAccount
-} from "../persist/account"
+import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
+
+import Friends from "./Friends.vue"
 
 export default {
   data() {
@@ -212,6 +185,9 @@ export default {
       editorVisible: false,
       inputLetter: ""
     }
+  },
+  components: {
+    Friends
   },
   computed: {
     orderedFriendList() {
@@ -229,7 +205,7 @@ export default {
         cancelButtonText: "取消"
       })
         .then(() => {
-          clearAccount()
+          account.clear()
           this.goLogin()
         })
         .catch(() => {})
@@ -328,18 +304,18 @@ export default {
     }
   },
   mounted() {
-    if (!getToken()) {
+    if (!account.getToken()) {
       this.goLogin()
       return
     }
 
-    this.accountInfo = getAccount()
+    this.accountInfo = account.getAccount()
     if (!this.accountInfo) {
       api
         .getMe()
         .then(response => {
           this.accountInfo = response.data
-          setAccount(this.accountInfo)
+          account.setAccount(this.accountInfo)
           this.initPage()
         })
         .catch(this.$errorHandler())
