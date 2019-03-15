@@ -5,15 +5,18 @@
          v-loading="!accountInfo"
          element-loading-text="加载个人信息...">
     </div>
-    <div class="friends section">
+    <div class="nav-header">
+      <span class="title">Slowly</span>
+      <span class="btn-exit"
+            @click="exit">退出</span>
+    </div>
+    <div class="main-content">
       <div v-for="friend in orderedFriendList"
            class="friend-item"
            :class="{checked: friend == checkedFriend}"
            @click="clickFriend(friend)"
            :key="friend.user_id">
         {{friend.name}}
-        <span class="btn-map"
-              @click.stop="showMap(friend)">地图</span>
       </div>
     </div>
     <el-row class="right-section">
@@ -40,18 +43,47 @@
                   rows="10"></textarea>
       </el-col>
     </el-row>
-    <div class="map-container"
-         v-show="mapVisible">
-      <div class="map-wrapper">
-        <div id="map"></div>
-      </div>
-      <div class="btn-close-map"
-           @click="mapVisible = false">关闭</div>
+  </div>
+
+  <div class="map-container"
+       v-show="mapVisible">
+    <div class="map-wrapper">
+      <div id="map"></div>
     </div>
+    <div class="btn-close-map"
+         @click="mapVisible = false">关闭</div>
+  </div>
   </div>
 </template>
 <style scoped>
-.friends {
+.nav-header {
+  background-color: #0078d7;
+  height: 48px;
+  color: white;
+}
+.nav-header .title {
+  font-size: 18px;
+  line-height: 48px;
+  margin-left: 20px;
+}
+.nav-header .btn-exit {
+  font-size: 14px;
+  line-height: 48px;
+  float: right;
+  padding: 0 20px;
+  cursor: pointer;
+}
+.nav-header .btn-exit:hover {
+  background-color: #005a9e;
+}
+.main-content {
+  position: absolute;
+  top: 48px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.left-section {
   background: #f4f4f4;
   position: absolute;
   left: 0;
@@ -159,7 +191,12 @@
 import * as api from "../api"
 import { showError, showSuccess } from "../util"
 import * as friendStore from "../persist/friend-store"
-import { getToken, getAccount, setAccount } from "../persist/account"
+import {
+  getToken,
+  getAccount,
+  setAccount,
+  clear as clearAccount
+} from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 
 export default {
@@ -185,6 +222,23 @@ export default {
     }
   },
   methods: {
+    exit() {
+      //TODO check draft
+      this.$confirm("是否确定退出?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消"
+      })
+        .then(() => {
+          clearAccount()
+          this.goLogin()
+        })
+        .catch(() => {})
+    },
+    goLogin() {
+      this.$router.replace({
+        name: "login"
+      })
+    },
     clickFriend(friend) {
       this.checkedFriend = friend
       this.letterPage = 0
@@ -260,24 +314,22 @@ export default {
     },
     sendLetter() {
       if (!this.inputLetter) {
-        showError(this, '请输入内容')
+        showError(this, "请输入内容")
         return
       }
       api
         .sendLetter(this.checkedFriend.id, this.inputLetter)
         .then(response => {
-          this.inputLetter = ''
+          this.inputLetter = ""
           this.editorVisible = false
-          showSuccess(this, 'success')
+          showSuccess(this, "success")
         })
         .catch(this.$errorHandler())
     }
   },
   mounted() {
     if (!getToken()) {
-      this.$router.replace({
-        name: "login"
-      })
+      this.goLogin()
       return
     }
 
