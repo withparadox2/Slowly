@@ -32,7 +32,11 @@
             v-show="selectedLetter"
             class="right-section">
       <div v-if="selectedLetter"
-           class="letter-detail">{{selectedLetter.body}}</div>
+           class="letter-detail">
+        <img src="../../images/pen.png"
+             alt="">
+        <div>{{selectedLetter.body}}</div>
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -98,7 +102,7 @@
   font-size: 14px;
 }
 .right-section {
-  padding: 20px;
+  padding: 40px 20px 40px 20px;
   overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
@@ -109,13 +113,23 @@
   white-space: pre-wrap;
   white-space: pre-line;
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
   background: white;
   padding: 40px 20px;
   line-height: 26px;
   font-size: 14px;
   box-sizing: border-box;
   margin: 0 auto;
+  border-radius: 6px;
+  border: 1px solid #eaeaea;
+}
+.letter-detail img {
+  width: 100px;
+  float: right;
+}
+.letter-detail div {
+  clear: both;
+  padding-top: 10px;
 }
 </style>
 <script>
