@@ -47,3 +47,16 @@ export function getMe() {
     path: '/users/me'
   })
 }
+
+export function sendLetter(id, letter) {
+  return post({
+    path: `/posts/${id}/reply`,
+    content: {
+      body: letter,
+      attachments: "",
+      style: {},
+      stamp: "free",
+      host:  true
+    }
+  })
+}

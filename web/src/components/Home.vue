@@ -32,6 +32,12 @@
       <el-col :span="12"
               v-show="editorVisible"
               class="editor-section">
+        <button @click="sendLetter">发送</button>
+        <textarea name="letter"
+                  v-model="inputLetter"
+                  placeholder="请输入内容"
+                  cols="30"
+                  rows="10"></textarea>
       </el-col>
     </el-row>
     <div class="map-container"
@@ -89,8 +95,17 @@
   height: 100%;
 }
 .editor-section {
-  overflow-y: auto;
+  overflow: hidden;
   height: 100%;
+  padding: 15px;
+}
+.editor-section textarea {
+  width: 100%;
+  height: 100%;
+  max-width: 600px;
+  outline: none;
+  border: none;
+  font-size: 16px;
 }
 .letter-item {
   padding-bottom: 20px;
@@ -141,8 +156,8 @@
 }
 </style>
 <script>
-import { getFriends, getLetters, getMe as loadAccount } from "../api"
-import { showError } from "../util"
+import * as api from "../api"
+import { showError, showSuccess } from "../util"
 import * as friendStore from "../persist/friend-store"
 import { getToken, getAccount, setAccount } from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
@@ -157,7 +172,8 @@ export default {
       map: null,
       accountInfo: null,
       letterState: "",
-      editorVisible: false
+      editorVisible: false,
+      inputLetter: ""
     }
   },
   computed: {
@@ -216,7 +232,8 @@ export default {
     },
     loadFriends() {
       let loadFromServer = () => {
-        getFriends()
+        api
+          .getFriends()
           .then(response => {
             this.friendList = (response.data && response.data.friends) || []
             friendStore.insertFriends(this.friendList)
@@ -240,6 +257,20 @@ export default {
     },
     newLetter() {
       this.editorVisible = !this.editorVisible
+    },
+    sendLetter() {
+      if (!this.inputLetter) {
+        showError(this, '请输入内容')
+        return
+      }
+      api
+        .sendLetter(this.checkedFriend.id, this.inputLetter)
+        .then(response => {
+          this.inputLetter = ''
+          this.editorVisible = false
+          showSuccess(this, 'success')
+        })
+        .catch(this.$errorHandler())
     }
   },
   mounted() {
@@ -252,7 +283,8 @@ export default {
 
     this.accountInfo = getAccount()
     if (!this.accountInfo) {
-      loadAccount()
+      api
+        .getMe()
         .then(response => {
           this.accountInfo = response.data
           setAccount(this.accountInfo)
