@@ -8,7 +8,7 @@ export const store = new Vuex.Store({
     friendList: []
   },
   mutations: {
-    setFriendList(state, list) {
+    setFriends(state, list) {
       state.friendList = list
     },
     checkFriend(state, friend) {

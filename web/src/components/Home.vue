@@ -14,32 +14,10 @@
       <div class="left-section">
         <friends />
       </div>
-      <el-row class="right-section">
-        <el-col :span="editorVisible ? 12 : 24"
-                class="letters-section">
-          <button @click="newLetter">新增</button>
-          <div v-show="letterState">{{letterState}}</div>
-          <div v-for="letter in letterList"
-               class="letter-item"
-               :key="letter.id">
-            <div>
-              {{letter.body}}
-            </div>
-          </div>
-        </el-col>
-        <el-col :span="12"
-                v-show="editorVisible"
-                class="editor-section">
-          <button @click="sendLetter">发送</button>
-          <textarea name="letter"
-                    v-model="inputLetter"
-                    placeholder="请输入内容"
-                    cols="30"
-                    rows="10"></textarea>
-        </el-col>
-      </el-row>
+      <div class="right-section">
+        <letters />
+      </div>
     </div>
-
     <div class="map-container"
          v-show="mapVisible">
       <div class="map-wrapper">
@@ -95,35 +73,7 @@
   bottom: 0;
   overflow-x: hidden;
 }
-.letters-section {
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 20px;
-  height: 100%;
-}
-.editor-section {
-  overflow: hidden;
-  height: 100%;
-  padding: 15px;
-}
-.editor-section textarea {
-  width: 100%;
-  height: 100%;
-  max-width: 600px;
-  outline: none;
-  border: none;
-  font-size: 16px;
-}
-.letter-item {
-  padding-bottom: 20px;
-  font-size: 14px;
-  white-space: pre-wrap;
-  padding-bottom: 20px;
-  font-size: 15px;
-  white-space: pre-line;
-  line-height: 25px;
-  max-width: 600px;
-}
+
 .map-container {
   z-index: 999;
   position: fixed;
@@ -171,38 +121,25 @@ import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
 import Friends from "./Friends.vue"
+import Letters from "./Letters.vue"
 
 export default {
   data() {
     return {
-      letterList: [],
       mapVisible: false,
       map: null,
       accountInfo: null,
-      letterState: "",
-      editorVisible: false,
-      inputLetter: ""
     }
   },
   components: {
-    Friends
+    Friends,
+    Letters
   },
   computed: {
-    orderedFriendList() {
-      return (this.friendList || []).sort(
-        (first, second) =>
-          -first.latest_comment.localeCompare(second.latest_comment)
-      )
-    },
     ...mapState(["checkedFriend", "friendList"])
   },
-  watch: {
-    checkedFriend(newFriend) {
-      this.clickFriend(newFriend)
-    }
-  },
   methods: {
-    ...mapMutations(["setFriendList"]),
+    ...mapMutations(["setFriends"]),
     exit() {
       //TODO check draft
       this.$confirm("是否确定退出?", "提示", {
@@ -219,26 +156,6 @@ export default {
       this.$router.replace({
         name: "login"
       })
-    },
-    clickFriend(friend) {
-      this.letterPage = 0
-      this.infiniteId++
-      this.letterList = []
-      getDataManager(friend.id)
-        .setCallback((mgr, { isRefresh, isSync, dataList, isSuccess }) => {
-          if (mgr.userId == this.checkedFriend.id) {
-            if (isSync) {
-              this.letterState = `正在同步${mgr.syncPage}页`
-            } else if (isRefresh) {
-              this.letterState = `正在刷新`
-            } else {
-              this.letterState = isSuccess ? "" : "同步失败"
-            }
-            this.letterList = dataList
-          }
-        })
-        .requestData()
-      // this.showMap(friend)
     },
     showMap(friend) {
       this.mapVisible = true
@@ -269,7 +186,7 @@ export default {
         api
           .getFriends()
           .then(({ data }) => {
-            this.setFriendList(sortFriends(data.friends))
+            this.setFriends(sortFriends(data.friends))
             friendStore.insertFriends(this.friendList)
           })
           .catch(this.$errorHandler())
@@ -277,7 +194,7 @@ export default {
       friendStore
         .getFriends()
         .then((list = []) => {
-          this.setFriendList(sortFriends(list))
+          this.setFriends(sortFriends(list))
           if (list.length == 0 || !__CONFIG__.useCache) {
             loadFromServer()
           }
@@ -286,23 +203,6 @@ export default {
           loadFromServer()
         })
     },
-    newLetter() {
-      this.editorVisible = !this.editorVisible
-    },
-    sendLetter() {
-      if (!this.inputLetter) {
-        showError(this, "请输入内容")
-        return
-      }
-      api
-        .sendLetter(this.checkedFriend.id, this.inputLetter)
-        .then(response => {
-          this.inputLetter = ""
-          this.editorVisible = false
-          showSuccess(this, "success")
-        })
-        .catch(this.$errorHandler())
-    }
   },
   mounted() {
     if (!account.getToken()) {
