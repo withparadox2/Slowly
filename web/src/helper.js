@@ -6,3 +6,12 @@ export function sortFriends(friends) {
   )
   return friends
 }
+
+export function scrollToTop(vue, selector) {
+  vue.$nextTick(() => {
+    let dom = vue.$el.querySelector(selector)
+    if (dom) {
+      dom.scrollTop = 0
+    }
+  })
+}

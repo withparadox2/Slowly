@@ -141,13 +141,18 @@ import { mapState, mapMutations } from "vuex"
 import { getDataManager } from "../persist/letter-store"
 import * as api from "../api"
 import { showError, showSuccess } from "../util"
+import { scrollToTop } from "../helper"
+
 export default {
   computed: {
     ...mapState(["checkedFriend"])
   },
   watch: {
     checkedFriend(newFriend) {
+      this.letters = []
       this.loadLetters(newFriend)
+      this.selectedLetter = null
+      scrollToTop(this, ".letter-list")
     }
   },
   data() {
@@ -198,13 +203,7 @@ export default {
     },
     selectLetter(letter) {
       this.selectedLetter = letter
-      // scroll detail view to top
-      this.$nextTick(() => {
-        let dom = this.$el.querySelector(".right-section")
-        if (dom) {
-          dom.scrollTop = 0
-        }
-      })
+      scrollToTop(this, ".right-section")
     }
   }
 }
