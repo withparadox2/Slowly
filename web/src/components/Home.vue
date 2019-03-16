@@ -15,17 +15,10 @@
         <friends />
       </div>
       <div class="right-section">
-        <letters />
+        <letters v-on:showMap="showMap($event)" />
       </div>
     </div>
-    <div class="map-container"
-         v-show="mapVisible">
-      <div class="map-wrapper">
-        <div id="map"></div>
-      </div>
-      <div class="btn-close-map"
-           @click="mapVisible = false">关闭</div>
-    </div>
+    <map-node ref="map" />
   </div>
 </template>
 <style scoped>
@@ -74,36 +67,6 @@
   overflow-x: hidden;
 }
 
-.map-container {
-  z-index: 999;
-  position: fixed;
-  background: #000000aa;
-  width: 100%;
-  height: 100%;
-}
-.map-wrapper {
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  right: 10%;
-  left: 10%;
-}
-.btn-close-map {
-  position: absolute;
-  top: 10%;
-  right: 10%;
-  width: 40px;
-  height: 30px;
-  margin-right: -55px;
-  white-space: nowrap;
-  color: white;
-  cursor: pointer;
-  text-align: right;
-}
-#map {
-  width: 100%;
-  height: 100%;
-}
 #account-loading {
   z-index: 1000;
   position: fixed;
@@ -122,18 +85,18 @@ import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
 import Friends from "./Friends.vue"
 import Letters from "./Letters.vue"
+import Map from "./Map.vue"
 
 export default {
   data() {
     return {
-      mapVisible: false,
-      map: null,
-      accountInfo: null,
+      accountInfo: null
     }
   },
   components: {
     Friends,
-    Letters
+    Letters,
+    "map-node": Map
   },
   computed: {
     ...mapState(["checkedFriend", "friendList"])
@@ -158,28 +121,7 @@ export default {
       })
     },
     showMap(friend) {
-      this.mapVisible = true
-      this.$nextTick(() => {
-        if (!this.map) {
-          this.map = new BMap.Map("map")
-          this.map.enableScrollWheelZoom(true)
-        }
-        let locations = friend.user_location.split(",")
-        let point = new BMap.Point(
-          parseFloat(locations[1]),
-          parseFloat(locations[0])
-        )
-        this.transPoint(point)
-      })
-    },
-    transPoint(point) {
-      new BMap.Convertor().translate([point], 1, 5, data => {
-        if (data.status === 0) {
-          this.map.addOverlay(new BMap.Marker(data.points[0]))
-          // this.map.setCenter(data.points[0])
-          this.map.centerAndZoom(data.points[0], 15)
-        }
-      })
+      this.$refs.map.showMap(friend)
     },
     loadFriends() {
       let loadFromServer = () => {
@@ -202,7 +144,7 @@ export default {
         .catch(() => {
           loadFromServer()
         })
-    },
+    }
   },
   mounted() {
     if (!account.getToken()) {

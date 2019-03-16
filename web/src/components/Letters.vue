@@ -23,7 +23,7 @@
       <div class="friend-info">
         <span class="name">
           {{checkedFriend.name}}
-          <i class="el-icon-location"></i>
+          <i class="el-icon-location" @click="$emit('showMap', checkedFriend)"></i>
           <i class="el-icon-date"></i>
           <i v-show="showSyncIcon"
              class="el-icon-loading"></i>
