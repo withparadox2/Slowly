@@ -23,8 +23,11 @@
       <div class="friend-info">
         <span class="name">
           {{checkedFriend.name}}
-          <i class="el-icon-location" @click="$emit('showMap', checkedFriend)"></i>
+          <i class="el-icon-location"
+             @click="$emit('showMap', checkedFriend)"></i>
           <i class="el-icon-date"></i>
+          <i class="el-icon-plus"
+             @click="newLetter"></i>
           <i v-show="showSyncIcon"
              class="el-icon-loading"></i>
           <span v-show="letterState"
@@ -43,6 +46,8 @@
         <div>{{selectedLetter.body}}</div>
       </div>
     </el-col>
+    <new-letter ref="newLetter"
+                v-on:sendSuccess="loadLetters(checkedFriend)" />
   </el-row>
 </template>
 <style scoped>
@@ -69,9 +74,10 @@
   font-weight: bold;
 }
 .el-icon-location,
-.el-icon-date {
+.el-icon-date,
+.el-icon-plus {
   cursor: pointer;
-  margin-left: 5px;
+  margin-left: 10px;
 }
 .el-icon-date {
   margin-left: 10px;
@@ -158,8 +164,12 @@ import { getDataManager } from "../persist/letter-store"
 import * as api from "../api"
 import { showError, showSuccess } from "../util"
 import { scrollToTop } from "../helper"
+import NewLetter from "./NewLetter.vue"
 
 export default {
+  components: {
+    NewLetter
+  },
   computed: {
     ...mapState(["checkedFriend"])
   },
@@ -174,13 +184,11 @@ export default {
   data() {
     return {
       letters: [],
-      editorVisible: false,
       mapVisible: false,
       map: null,
       accountInfo: null,
       letterState: "",
       showSyncIcon: false,
-      inputLetter: "",
       selectedLetter: null
     }
   },
@@ -208,21 +216,7 @@ export default {
         .requestData()
     },
     newLetter() {
-      this.editorVisible = !this.editorVisible
-    },
-    sendLetter() {
-      if (!this.inputLetter) {
-        showError(this, "请输入内容")
-        return
-      }
-      api
-        .sendLetter(this.checkedFriend.id, this.inputLetter)
-        .then(response => {
-          this.inputLetter = ""
-          this.editorVisible = false
-          showSuccess(this, "success")
-        })
-        .catch(this.$errorHandler())
+      this.$refs.newLetter.showEditor()
     },
     selectLetter(letter) {
       this.selectedLetter = letter
