@@ -25,8 +25,12 @@
           {{checkedFriend.name}}
           <i class="el-icon-location"></i>
           <i class="el-icon-date"></i>
+          <i v-show="showSyncIcon"
+             class="el-icon-loading"></i>
+          <span v-show="letterState"
+                class="sync-state">{{letterState}}</span>
         </span>
-        <div v-show="letterState">{{letterState}}</div>
+
       </div>
     </el-col>
     <el-col :span="12"
@@ -56,8 +60,9 @@
   left: 0;
   right: 0;
   top: 0;
-  height: 50p;
-  padding: 20px;
+  height: 60px;
+  padding: 20px 20px 10px 26px;
+  box-sizing: border-box;
 }
 .friend-info .name {
   font-size: 20px;
@@ -70,6 +75,17 @@
 }
 .el-icon-date {
   margin-left: 10px;
+}
+.sync-state {
+  font-size: 14px;
+  color: #34373d;
+  font-weight: normal;
+  margin-left: 10px;
+  line-height: 20px;
+  float: right;
+}
+.el-icon-loading {
+  float: right;
 }
 .letter-list {
   position: absolute;
@@ -163,6 +179,7 @@ export default {
       map: null,
       accountInfo: null,
       letterState: "",
+      showSyncIcon: false,
       inputLetter: "",
       selectedLetter: null
     }
@@ -173,11 +190,17 @@ export default {
         .setCallback((mgr, { isRefresh, isSync, dataList, isSuccess }) => {
           if (mgr.userId == this.checkedFriend.id) {
             if (isSync) {
-              this.letterState = `正在同步${mgr.syncPage}页`
+              this.showSyncIcon = false
+              this.letterState = `正在同步第${mgr.syncPage}页`
             } else if (isRefresh) {
-              this.letterState = `正在刷新`
+              this.letterState = null
+              this.showSyncIcon = true
             } else {
-              this.letterState = isSuccess ? "" : "同步失败"
+              this.showSyncIcon = false
+              this.letterState = null
+              if (!isSuccess) {
+                showError(this, "同步失败")
+              }
             }
             this.letters = dataList
           }
