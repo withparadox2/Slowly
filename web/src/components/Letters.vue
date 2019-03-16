@@ -5,10 +5,11 @@
             class="left-section">
       <div class="letter-list">
         <div v-for="letter in letters"
+             :class="{'letter-checked': letter == selectedLetter}"
              class="letter-item"
              @click="selectLetter(letter)"
              :key="letter.id">
-          <div>
+          <div class="letter-item-content">
             <div>
               {{letter.name}}
               <span class="letter-deliver-time">{{letter.deliver_at}}</span>
@@ -77,18 +78,21 @@
   left: 0;
   right: 0;
   overflow-y: auto;
-  padding: 20px;
+  padding: 20px 10px;
 }
-
 .letter-item {
-  font-size: 14px;
-  /* white-space: pre-wrap; */
   font-size: 15px;
-  /* white-space: pre-line; */
   line-height: 25px;
-  border-bottom: 1px solid #88888888;
+  -webkit-box-shadow: 0 17px 0 -16px #e5e5e5;
+  box-shadow: 0 17px 0 -16px #e5e5e5;
   cursor: pointer;
-  padding: 5px 0px;
+  padding: 5px 16px;
+  box-sizing: border-box;
+}
+.letter-checked {
+  background: #f4f6ff;
+  -webkit-box-shadow: 0 17px 0 -16px #f4f6ff;
+  box-shadow: 0 17px 0 -16px #f4f6ff;
 }
 .letter-body {
   text-overflow: ellipsis;
@@ -194,6 +198,13 @@ export default {
     },
     selectLetter(letter) {
       this.selectedLetter = letter
+      // scroll detail view to top
+      this.$nextTick(() => {
+        let dom = this.$el.querySelector(".right-section")
+        if (dom) {
+          dom.scrollTop = 0
+        }
+      })
     }
   }
 }
