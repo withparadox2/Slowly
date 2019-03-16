@@ -49,9 +49,14 @@ export class DataManager {
         this.loadServerLetters(this.syncPage)
       } else {
         this.dataList = this.sortList(data)
-        this.syncState = STATE_REFRESH
-        this.doCallback()
-        this.loadServerLetters(1)
+        if (window.__CONFIG__.useCache) {
+          this.syncState = STATE_SUCCESS
+          this.doCallback()
+        } else {
+          this.syncState = STATE_REFRESH
+          this.doCallback()
+          this.loadServerLetters(1)
+        }
       }
     }).catch(e => {
       console.error(e)

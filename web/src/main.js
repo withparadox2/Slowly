@@ -23,7 +23,7 @@ Vue.config.productionTip = false
 
 setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjY3OTk1MSwiaXNzIjoiaHR0cDovL2FwaS5nZXRzbG93bHkuY29tL2F1dGgvc29jaWFsIiwiaWF0IjoxNTUyNjI4Mjk3LCJleHAiOjE1NTMyMzMwOTcsIm5iZiI6MTU1MjYyODI5NywianRpIjoiVTViNG9zNm5EV05DTDdDMCJ9.VijDgvtVTmW02yUxXfLtEwFPc-qvwJFFQh2LMIRtuiI')
 window.__CONFIG__ = {
-  useCache: false
+  useCache: true
 }
 
 Vue.prototype.$errorHandler = function () {
