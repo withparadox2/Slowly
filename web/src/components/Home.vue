@@ -7,8 +7,14 @@
     </div>
     <div class="nav-header">
       <span class="title">Slowly</span>
-      <span class="btn-exit"
-            @click="exit">退出</span>
+      <el-dropdown class="menu-more"
+                   trigger="click">
+        <i class="el-icon-more"></i>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="editLocation">修改位置</el-dropdown-item>
+          <el-dropdown-item @click.native="exit">退出</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
     <div class="main-content">
       <div class="left-section">
@@ -40,6 +46,18 @@
   cursor: pointer;
 }
 .nav-header .btn-exit:hover {
+  background-color: #005a9e;
+}
+.nav-header .menu-more {
+  float: right;
+  cursor: pointer;
+}
+.nav-header .el-icon-more {
+  color: white;
+  line-height: 48px;
+  padding: 0 20px;
+}
+.nav-header .el-icon-more:hover {
   background-color: #005a9e;
 }
 .main-content {
@@ -144,6 +162,10 @@ export default {
         .catch(() => {
           loadFromServer()
         })
+    },
+    editLocation() {
+      debugger
+      this.$refs.map.editLocation()
     }
   },
   mounted() {
@@ -164,6 +186,9 @@ export default {
         .catch(this.$errorHandler())
     } else {
       this.loadFriends()
+      api.getMe().then(response => {
+        account.setAccount(response.data)
+      })
     }
   }
 }

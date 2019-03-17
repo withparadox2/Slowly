@@ -4,8 +4,19 @@
     <div class="map-wrapper">
       <div id="map"></div>
     </div>
-    <i class="btn-close-map el-icon-circle-close"
-       @click="mapVisible = false" />
+    <el-button type="primary"
+               icon="el-icon-close"
+               circle
+               class="btn-close"
+               title="关闭地图"
+               @click="mapVisible = false"></el-button>
+
+    <el-button type="primary"
+               icon="el-icon-edit"
+               class="btn-update-location"
+               @click="updateToSelectLocation"
+               title="更新为选中的位置"
+               circle></el-button>
   </div>
 </template>
 <style scoped>
@@ -24,16 +35,20 @@
   right: 10%;
   left: 10%;
 }
-.btn-close-map {
+.btn-close {
   position: absolute;
   top: 10%;
   right: 10%;
   margin-right: -55px;
-  white-space: nowrap;
-  color: white;
   cursor: pointer;
-  text-align: right;
-  font-size: 30px;
+}
+.btn-update-location {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  margin-right: -55px;
+  margin-top: 60px;
+  cursor: pointer;
 }
 #map {
   width: 100%;
@@ -41,6 +56,11 @@
 }
 </style>
 <script>
+import * as account from "../persist/account"
+import { showError, showSuccess } from "../util"
+import { wgs2bd, bd2wgs } from "../coord-util"
+import { updateLocation } from "../api"
+import { mapState } from "vuex"
 export default {
   data() {
     return {
@@ -49,35 +69,98 @@ export default {
     }
   },
   methods: {
-    showMap(friend) {
-      this.mapVisible = true
-      this.$nextTick(() => {
-        if (!this.map) {
-          this.map = new BMap.Map("map")
-          this.map.enableScrollWheelZoom(true)
+    editLocation() {
+      if (account.getAccount()) {
+        if (!account.getAccount().location) {
+          showError(this, "当前账户坐标信息不存在")
+          this.showGpsLocation(0, 0)
+        } else {
+          this.showGpsLocationStr(account.getAccount().location)
         }
+      } else {
+        showError(this, "账户不存在")
+      }
+    },
+    onMapClick(e) {
+      this.removeOverlays()
+      this.addMarker(e.point, false)
+    },
+    showMap(friend) {
+      this.showGpsLocationStr(friend.user_location)
+    },
+    showGpsLocationStr(location) {
+      let locations = location.split(",")
+      this.showGpsLocation(parseFloat(locations[0]), parseFloat(locations[1]))
+    },
+    showGpsLocation(lat, lng) {
+      this.initMap().then(() => {
         this.removeOverlays()
-        let locations = friend.user_location.split(",")
-        let point = new BMap.Point(
-          parseFloat(locations[1]),
-          parseFloat(locations[0])
-        )
-        this.transPoint(point)
+        let latlng = wgs2bd(lat, lng)
+        this.addMarker(new BMap.Point(latlng[1], latlng[0]), true)
       })
     },
-    transPoint(point) {
-      new BMap.Convertor().translate([point], 1, 5, data => {
-        if (data.status === 0) {
-          this.map.addOverlay(new BMap.Marker(data.points[0]))
-          // this.map.setCenter(data.points[0])
-          this.map.centerAndZoom(data.points[0], 15)
-        }
+    initMap() {
+      this.mapVisible = true
+      return new Promise(fullfill => {
+        this.$nextTick(() => {
+          if (!this.map) {
+            this.map = new BMap.Map("map")
+            this.map.enableScrollWheelZoom(true)
+            this.map.addEventListener("click", e => {
+              this.onMapClick(e)
+            })
+          }
+          fullfill(this.map)
+        })
       })
+    },
+    addMarker(point, zoom) {
+      let marker = new BMap.Marker(point)
+      marker.slowly = true
+      this.map.addOverlay(marker)
+      if (zoom) {
+        this.map.centerAndZoom(point, 15)
+      }
     },
     removeOverlays() {
       let allOverlay = this.map.getOverlays()
-      for (let i = 0; i < allOverlay.length - 1; i++) {
+      for (let i = allOverlay.length - 1; i >= 0; i--) {
         this.map.removeOverlay(allOverlay[i])
+      }
+    },
+    updateToSelectLocation() {
+      let allOverlay = this.map.getOverlays()
+      let marker = null
+      for (let i = allOverlay.length - 1; i >= 0; i--) {
+        if (allOverlay[i].slowly) {
+          marker = allOverlay[i]
+          break
+        }
+      }
+      if (!marker) {
+        showError(this, "未选中点")
+      } else {
+        let latlng = bd2wgs(marker.point.lat, marker.point.lng)
+
+        this.$confirm("确定修改位置？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消"
+        })
+          .then(() => {
+            return updateLocation(latlng[0], latlng[1]).then(() => {
+              let accountInfo = account.getAccount()
+              accountInfo.location = `${latlng[0]},${latlng[1]}`
+              account.setAccount(accountInfo)
+              showSuccess(this, "修改成功")
+            })
+          })
+          .catch(error => {
+            if (error.message) {
+              showError(this, error.message)
+            } else if (error != "cancel") {
+              showError(this, "修改位置失败：" + error)
+            }
+          })
       }
     }
   }

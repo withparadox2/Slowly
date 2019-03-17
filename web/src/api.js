@@ -56,7 +56,20 @@ export function sendLetter(id, letter) {
       attachments: "",
       style: {},
       stamp: "free",
-      host:  true
+      host: true
+    }
+  })
+}
+
+export function updateLocation(lat, lng) {
+  return post({
+    path: '/users/me',
+    content: {
+      language: null, location: `${lat},${lng}`,
+      location_code: "CN",
+      device: 'web',
+      ver: 30200,
+      includes: null
     }
   })
 }
