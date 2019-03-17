@@ -43,6 +43,7 @@ export class DataManager {
     this.dataList = []
     this.syncDataList = []
     loadLocalLetters(this.userId).then(data => {
+      debugger
       if (!data || data.length == 0) {
         this.syncState = STATE_SYNC
         this.doCallback()
@@ -79,7 +80,7 @@ export class DataManager {
 
   getResultHandler(page) {
     function handleResult({ data }) {
-      let list = data.comments.data || []
+      let list = this.sortList(data.comments.data || [])
       let hasMore = !!data.comments.next_page_url
 
       if (this.syncState == STATE_REFRESH) {
