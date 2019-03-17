@@ -22,7 +22,7 @@
       </div>
       <div class="friend-info">
         <span class="name">
-          {{checkedFriend.name}}
+          {{checkedFriend.name}}({{letters.length}})
           <i class="el-icon-location"
              @click="$emit('showMap', checkedFriend)"></i>
           <i class="el-icon-date"></i>
@@ -135,7 +135,7 @@
 }
 .letter-deliver-time {
   float: right;
-  font-size: 14px;
+  font-size: 12px;
 }
 .right-section {
   padding: 40px 20px 40px 20px;
