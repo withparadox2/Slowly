@@ -120,6 +120,9 @@ export default {
       this.map.addOverlay(marker)
       if (zoom) {
         this.map.centerAndZoom(point, 15)
+        window.setTimeout(() => {
+          this.map.panTo(point)
+        }, 100)
       }
     },
     removeOverlays() {
