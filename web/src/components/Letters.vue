@@ -12,7 +12,7 @@
           <div class="letter-item-content">
             <div>
               {{letter.name}}
-              <span class="letter-deliver-time">{{letter.deliver_at}}</span>
+              <span class="letter-deliver-time">{{formatTime(letter.deliver_at)}}</span>
             </div>
             <div class="letter-body">
               {{letter.body.substring(0, 100)}}
@@ -50,8 +50,8 @@
              v-if="selectedLetter">
           <div><span class="title-label">字数</span>{{selectedLetter.body.length}}</div>
           <div><span class="title-label">发信人</span>{{selectedLetter.name}}</div>
-          <div><span class="title-label">送达时间</span>{{selectedLetter.deliver_at}}</div>
-          <div v-show="selectedLetter.read_at"><span class="title-label">阅读时间</span>{{selectedLetter.read_at}}</div>
+          <div><span class="title-label">送达时间</span>{{formatTime(selectedLetter.deliver_at)}}</div>
+          <div v-show="selectedLetter.read_at"><span class="title-label">阅读时间</span>{{formatTime(selectedLetter.read_at)}}</div>
         </div>
       </div>
 
@@ -186,7 +186,7 @@
 import { mapState, mapMutations } from "vuex"
 import { getDataManager } from "../persist/letter-store"
 import * as api from "../api"
-import { showError, showSuccess } from "../util"
+import { showError, showSuccess, formateDate } from "../util"
 import { scrollToTop } from "../helper"
 import NewLetter from "./NewLetter.vue"
 
@@ -245,6 +245,11 @@ export default {
     selectLetter(letter) {
       this.selectedLetter = letter
       scrollToTop(this, ".right-section")
+    },
+    formatTime(time) {
+      debugger
+      let d = new Date(time)
+      return formateDate(new Date(d.getTime() - d.getTimezoneOffset() * 60000))
     }
   }
 }
