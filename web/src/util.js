@@ -19,6 +19,18 @@ function showSuccess(vue, message) {
   })
 }
 
+function showWarning(vue, message) {
+  vue.$message({
+    showClose: true,
+    message: message,
+    type: "warning"
+  })
+}
+
+function offsetTimezoneDate(d) {
+  return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+}
+
 function formateDate(date) {
   let aaaa = date.getFullYear();
   let gg = date.getDate();
@@ -48,9 +60,17 @@ function formateDate(date) {
   return cur_day + " " + hours + ":" + minutes + ":" + seconds;
 }
 
+function getDaysCount(firstDate, secondDate) {
+  let oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  return Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)));
+}
+
 export {
   validateEmail,
   showError,
   showSuccess,
-  formateDate
+  formateDate,
+  getDaysCount,
+  offsetTimezoneDate,
+  showWarning
 }

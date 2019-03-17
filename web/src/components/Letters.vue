@@ -27,6 +27,7 @@
              title="查看位置"
              @click="$emit('showMap', checkedFriend)"></i>
           <i class="el-icon-date"
+             @click="showStat"
              title="统计"></i>
           <i class="el-icon-plus"
              title="新建"
@@ -61,6 +62,7 @@
     </el-col>
     <new-letter ref="newLetter"
                 v-on:sendSuccess="loadLetters(checkedFriend)" />
+    <stat ref="stat"></stat>
   </el-row>
 </template>
 <style scoped>
@@ -189,13 +191,15 @@
 import { mapState, mapMutations } from "vuex"
 import { getDataManager } from "../persist/letter-store"
 import * as api from "../api"
-import { showError, showSuccess, formateDate } from "../util"
+import { showError, showSuccess, showWarning, formateDate } from "../util"
 import { scrollToTop } from "../helper"
 import NewLetter from "./NewLetter.vue"
+import Stat from "./Stat.vue"
 
 export default {
   components: {
-    NewLetter
+    NewLetter,
+    Stat
   },
   computed: {
     ...mapState(["checkedFriend"])
@@ -250,9 +254,15 @@ export default {
       scrollToTop(this, ".right-section")
     },
     formatTime(time) {
-      debugger
       let d = new Date(time)
       return formateDate(new Date(d.getTime() - d.getTimezoneOffset() * 60000))
+    },
+    showStat() {
+      if (this.letters.length == 0) {
+        showWarning(this, "没有信件")
+      } else {
+        this.$refs.stat.showStat(this.checkedFriend, this.letters)
+      }
     }
   }
 }
