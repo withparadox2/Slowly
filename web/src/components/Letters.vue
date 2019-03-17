@@ -40,11 +40,21 @@
             v-show="selectedLetter"
             class="right-section">
       <div v-if="selectedLetter"
-           class="letter-detail">
-        <img src="../../images/pen.png"
-             alt="">
-        <div>{{selectedLetter.body}}</div>
+           class="letter-detail-wrapper">
+        <div class="letter-detail">
+          <img src="../../images/pen.png"
+               alt="">
+          <div>{{selectedLetter.body}}</div>
+        </div>
+        <div class="letter-info"
+             v-if="selectedLetter">
+          <div><span class="title-label">字数</span>{{selectedLetter.body.length}}</div>
+          <div><span class="title-label">发信人</span>{{selectedLetter.name}}</div>
+          <div><span class="title-label">送达时间</span>{{selectedLetter.deliver_at}}</div>
+          <div v-show="selectedLetter.read_at"><span class="title-label">阅读时间</span>{{selectedLetter.read_at}}</div>
+        </div>
       </div>
+
     </el-col>
     <new-letter ref="newLetter"
                 v-on:sendSuccess="loadLetters(checkedFriend)" />
@@ -135,17 +145,20 @@
   position: relative;
   background: rgb(245, 245, 245);
 }
+.letter-detail-wrapper {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
 .letter-detail {
   white-space: pre-wrap;
   white-space: pre-line;
   width: 100%;
-  max-width: 500px;
   background: white;
   padding: 40px 20px;
   line-height: 26px;
   font-size: 14px;
   box-sizing: border-box;
-  margin: 0 auto;
   border-radius: 6px;
   border: 1px solid #eaeaea;
 }
@@ -156,6 +169,17 @@
 .letter-detail div {
   clear: both;
   padding-top: 10px;
+}
+.letter-info {
+  font-size: 12px;
+  margin-top: 10px;
+  color: #666;
+  padding-right: 10px;
+  float: right;
+}
+.letter-info .title-label {
+  display: inline-block;
+  width: 60px;
 }
 </style>
 <script>
