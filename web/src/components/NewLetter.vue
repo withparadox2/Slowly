@@ -9,8 +9,10 @@
         <span class="sending-state"
               v-show="isSending">正在发送...</span>
         <span class="el-icon-close"
+              title="关闭"
               @click="close()"></span>
         <span class="el-icon-message"
+              title="发送"
               @click="send()"></span>
       </div>
       <textarea class="editor-body"

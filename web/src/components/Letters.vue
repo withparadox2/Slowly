@@ -22,11 +22,14 @@
       </div>
       <div class="friend-info">
         <span class="name">
-          {{checkedFriend.name}}({{letters.length}})
+          {{checkedFriend.name}}<span title="信件数量">({{letters.length}})</span>
           <i class="el-icon-location"
+             title="查看位置"
              @click="$emit('showMap', checkedFriend)"></i>
-          <i class="el-icon-date"></i>
+          <i class="el-icon-date"
+             title="统计"></i>
           <i class="el-icon-plus"
+             title="新建"
              @click="newLetter"></i>
           <i v-show="showSyncIcon"
              class="el-icon-loading"></i>
