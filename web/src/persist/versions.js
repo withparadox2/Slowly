@@ -1,4 +1,4 @@
-const VERSION = 2
+const VERSION = 1
 
 export const STORE_FRIENDS = "friends"
 export const STORE_LETTERS = "letters"
@@ -12,8 +12,6 @@ function upgradeVersion(event) {
     createStore(db, STORE_LETTERS, 'id', {
       owner_id: false
     })
-    createStore(db, STORE_DRAFT, 'user_id')
-  } else if (event.oldVersion < 2) {
     createStore(db, STORE_DRAFT, 'user_id')
   }
 }
