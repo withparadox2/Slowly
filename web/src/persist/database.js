@@ -131,6 +131,36 @@ function update(store, dataList) {
   })
 }
 
+function insertOrUpdate(store, obj, key) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await open()
+      debugger
+      const transaction = database.transaction([store], 'readwrite')
+      const objectStore = transaction.objectStore(store)
+
+      transaction.oncomplete = e => {
+        resolve(e.target.result)
+      }
+      transaction.onerror = e => {
+        reject(e.target.error)
+      }
+
+      let req = objectStore.openCursor(key);
+      req.onsuccess = function (e) {
+        var cursor = e.target.result;
+        if (cursor) {
+          cursor.update(obj);
+        } else {
+          objectStore.add(obj)
+        }
+      }
+    } catch (err) {
+      reject(err)
+    }
+  })
+}
+
 function remove(store, dataList, key = null) {
   dataList = makeSureList(dataList)
   return new Promise(async (resolve, reject) => {
@@ -181,5 +211,6 @@ export {
   getAll,
   update,
   remove,
-  clear
+  clear,
+  insertOrUpdate
 }

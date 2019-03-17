@@ -15,6 +15,7 @@
       </div>
       <textarea class="editor-body"
                 name="text"
+                placeholder="请写下文字"
                 v-model="inputData"
                 oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
       </textarea>
@@ -59,7 +60,7 @@
   background: transparent;
 }
 .editor-header {
-  padding: 10px;
+  padding: 10px 0 10px 10px;
   font-size: 16px;
   background-color: #0078d7;
   color: white;
@@ -81,12 +82,14 @@
   float: right;
   padding: 0 10px;
   cursor: pointer;
+  margin-top: 3px;
 }
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
 import * as api from "../api"
 import { showError, showSuccess } from "../util"
+import * as draft from "../persist/draft"
 
 export default {
   data() {
@@ -104,7 +107,22 @@ export default {
       this.editorVisible = true
       this.inputData = ""
       this.isSending = false
-      //TODO getDraft
+      draft
+        .getDraft(this.checkedFriend.id)
+        .then(draftItem => {
+          if (draftItem) {
+            this.inputData = draftItem.content
+          }
+        })
+        .catch(e => showError(this, "加载草稿失败：" + e))
+    },
+    saveDraft(content) {
+      return draft
+        .setDraft({
+          user_id: this.checkedFriend.id,
+          content: content
+        })
+        .catch(e => showError(this, "保存草稿失败：" + e))
     },
     close() {
       if (!this.inputData) {
@@ -116,7 +134,9 @@ export default {
         cancelButtonText: "取消"
       })
         .then(() => {
-          this.editorVisible = false
+          this.saveDraft(this.inputData).then(() => {
+            this.editorVisible = false
+          })
         })
         .catch(() => {})
     },
@@ -142,6 +162,7 @@ export default {
           this.editorVisible = false
           this.isSending = false
           this.$emit("sendSuccess")
+          this.saveDraft("")
           showSuccess(this, "success")
         })
         .catch(({ message }) => {

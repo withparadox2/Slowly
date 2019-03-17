@@ -1,7 +1,8 @@
-const VERSION = 1
+const VERSION = 2
 
 export const STORE_FRIENDS = "friends"
 export const STORE_LETTERS = "letters"
+export const STORE_DRAFT = "draft"
 
 //TODO take care of login user id
 function upgradeVersion(event) {
@@ -11,6 +12,9 @@ function upgradeVersion(event) {
     createStore(db, STORE_LETTERS, 'id', {
       owner_id: false
     })
+    createStore(db, STORE_DRAFT, 'user_id')
+  } else if (event.oldVersion < 2) {
+    createStore(db, STORE_DRAFT, 'user_id')
   }
 }
 
