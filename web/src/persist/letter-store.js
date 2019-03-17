@@ -1,5 +1,5 @@
 
-import { insert, remove, getAll } from './database'
+import { insert, remove, getAll, insertOrUpdate } from './database'
 import { STORE_LETTERS } from './versions'
 import { getLetters } from '../api'
 
@@ -43,7 +43,6 @@ export class DataManager {
     this.dataList = []
     this.syncDataList = []
     loadLocalLetters(this.userId).then(data => {
-      debugger
       if (!data || data.length == 0) {
         this.syncState = STATE_SYNC
         this.doCallback()
@@ -94,6 +93,9 @@ export class DataManager {
             this.insertLetters(subList)
             this.dataList = subList.concat(this.dataList)
           }
+          //TODO only update necessary parts
+          this.updateLetters(list)
+
           this.syncState = STATE_SUCCESS
           this.doCallback()
         }
@@ -139,6 +141,12 @@ export class DataManager {
       element.owner_id = this.userId
     })
     return insert(STORE_LETTERS, list)
+  }
+  updateLetters(list) {
+    list.forEach(element => {
+      element.owner_id = this.userId
+      insertOrUpdate(STORE_LETTERS, element, element.id)
+    })
   }
 }
 
