@@ -44,7 +44,7 @@
         <div class="letter-detail">
           <img src="../../images/pen.png"
                alt="">
-          <div>{{selectedLetter.body}}</div>
+          <div>{{selectedLetter.body && selectedLetter.body.trim()}}</div>
         </div>
         <div class="letter-info"
              v-if="selectedLetter">
