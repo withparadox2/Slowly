@@ -1,4 +1,4 @@
-import { get, post } from './http'
+import { get, post, buildUrl } from './http'
 
 export function sendEmailPasscode(email) {
   return post({
@@ -71,5 +71,11 @@ export function updateLocation(lat, lng) {
       ver: 30200,
       includes: null
     }
+  })
+}
+
+export function buildAttachmentUrl(name) {
+  return buildUrl({
+    path: `/attachments/${name}`
   })
 }

@@ -33,10 +33,9 @@ function post({
   content,
   noAuth = false
 }) {
-  params = addToken(params, !noAuth)
   return axios({
     method: 'post',
-    url: addParams(BASE_URL + path, params),
+    url: buildUrl({ path, params, noAuth }),
     data: content
   }).catch((error) => {
     return Promise.reject({
@@ -51,14 +50,22 @@ function get({
   params,
   noAuth = false
 }) {
-  params = addToken(params, !noAuth)
-  return axios.get(addParams(BASE_URL + path, params))
+  return axios.get(buildUrl({ path, params, noAuth }))
     .catch((error) => {
       return Promise.reject({
         error,
         message: parseError(error)
       })
     })
+}
+
+function buildUrl({
+  path,
+  params,
+  noAuth = false
+}) {
+  params = addToken(params, !noAuth)
+  return addParams(BASE_URL + path, params)
 }
 
 function parseError(err) {
@@ -76,5 +83,6 @@ function parseError(err) {
 
 export {
   post,
-  get
+  get,
+  buildUrl
 }

@@ -49,6 +49,18 @@
           <img src="../../images/pen.png"
                alt="">
           <div>{{selectedLetter.body && selectedLetter.body.trim()}}</div>
+          <div class="attachments"
+               v-if="attachments">
+            <grid-view :numColumns="attachments.length > 2 ? 3 : 2"
+                       :spaceX="10"
+                       :spaceY="10">
+              <a :key="url"
+                 :href="url"
+                 target="_blank"
+                 :style="{ backgroundImage: 'url(' + url + ')' }"
+                 v-for="url in attachments"></a>
+            </grid-view>
+          </div>
         </div>
         <div class="letter-info"
              v-if="selectedLetter">
@@ -186,6 +198,10 @@
   display: inline-block;
   width: 60px;
 }
+.attachments a {
+  background-size: cover;
+  background-repeat: no-repeat;
+}
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
@@ -195,14 +211,24 @@ import { showError, showSuccess, showWarning, formateDate } from "../util"
 import { scrollToTop } from "../helper"
 import NewLetter from "./NewLetter.vue"
 import Stat from "./Stat.vue"
+import GridView from "./common/GridView.vue"
 
 export default {
   components: {
     NewLetter,
-    Stat
+    Stat,
+    GridView
   },
   computed: {
-    ...mapState(["checkedFriend"])
+    ...mapState(["checkedFriend"]),
+    attachments() {
+      let l = this.selectedLetter
+      return l
+        ? l.attachments
+          ? l.attachments.split(",").map(name => api.buildAttachmentUrl(name))
+          : null
+        : null
+    }
   },
   watch: {
     checkedFriend(newFriend) {
