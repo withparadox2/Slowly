@@ -36,7 +36,7 @@ window.__CONFIG__ = {
 Vue.prototype.$errorHandler = function () {
   return ({ message }) => {
     showError(this, message)
-    if (message == 'token_expired') {
+    if (message == 'token_expired' || message == 'token_invalid') {
       setToken('')
       this.$router.replace({
         name: 'login'
