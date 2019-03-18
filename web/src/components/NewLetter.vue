@@ -93,6 +93,7 @@ import { mapState, mapMutations } from "vuex"
 import * as api from "../api"
 import { showError, showSuccess } from "../util"
 import * as draft from "../persist/draft"
+import * as account from '../persist/account'
 
 export default {
   data() {
@@ -159,8 +160,9 @@ export default {
     },
     sendImpl() {
       this.isSending = true
+      let accountInfo = account.getAccount()
       api
-        .sendLetter(this.checkedFriend.id, this.inputData)
+        .sendLetter(this.checkedFriend.id, this.inputData, this.checkedFriend.joined == accountInfo.id)
         .then(response => {
           this.editorVisible = false
           this.isSending = false

@@ -48,7 +48,7 @@ export function getMe() {
   })
 }
 
-export function sendLetter(id, letter) {
+export function sendLetter(id, letter, isHost) {
   return post({
     path: `/posts/${id}/reply`,
     content: {
@@ -56,7 +56,7 @@ export function sendLetter(id, letter) {
       attachments: "",
       style: {},
       stamp: "free",
-      host: true
+      host: isHost
     }
   })
 }
