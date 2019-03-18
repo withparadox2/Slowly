@@ -50,7 +50,7 @@
   border-bottom-right-radius: 6px;
   padding: 10px 20px;
   max-height: calc(100vh - 124px);
-  min-height: 142px;
+  min-height: 250px;
   overflow-y: auto;
   width: 100%;
   box-sizing: border-box;
