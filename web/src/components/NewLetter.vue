@@ -18,6 +18,7 @@
       <textarea class="editor-body"
                 name="text"
                 placeholder="请写下文字"
+                spellcheck="false"
                 v-model="inputData"
                 oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
       </textarea>

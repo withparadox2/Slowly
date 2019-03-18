@@ -16,7 +16,8 @@
                :key="1"
                v-show="!showPasscode">
             <el-input v-model="email"
-                      placeholder="电邮"></el-input>
+                      spellcheck="false"
+                      placeholder="电邮"/>
             <el-button class="login-button"
                        type="primary"
                        icon="el-icon-message"
@@ -27,7 +28,8 @@
                :key="2"
                v-show="showPasscode">
             <el-input v-model="passcode"
-                      placeholder="验证码"></el-input>
+                      spellcheck="false"
+                      placeholder="验证码"/>
             <el-button class="login-button"
                        type="primary"
                        icon="el-icon-message"
@@ -161,7 +163,7 @@ export default {
           if (response && response.data && response.data.token) {
             setToken(response.data.token)
             this.$router.replace({
-              name: 'home'
+              name: "home"
             })
           }
         })
