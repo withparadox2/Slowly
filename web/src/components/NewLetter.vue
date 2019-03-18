@@ -162,7 +162,7 @@ export default {
       this.isSending = true
       let accountInfo = account.getAccount()
       api
-        .sendLetter(this.checkedFriend.id, this.inputData, this.checkedFriend.joined == accountInfo.id)
+        .sendLetter(this.checkedFriend.id, this.inputData, this.checkedFriend.joined != accountInfo.id)
         .then(response => {
           this.editorVisible = false
           this.isSending = false
