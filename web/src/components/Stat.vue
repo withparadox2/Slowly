@@ -154,4 +154,8 @@ export default {
   },
   mounted() {}
 }
+function renderSvg(id, cells) {
+  let canvas = SVG(id).size(300, 300)
+  
+}
 </script>

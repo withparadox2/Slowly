@@ -21,7 +21,10 @@
               </span>
             </div>
             <div class="letter-body">
-              {{letter.body.substring(0, 100)}}
+              <span class="letter-content">{{letter.body.substring(0, 200)}}</span>
+              <img class="letter-attacments"
+                   v-show="letter.attachments && isLetterArrive(letter)"
+                   src="../../images/icon_attachments.png" />
             </div>
           </div>
         </div>
@@ -150,11 +153,23 @@
   box-shadow: 0 17px 0 -16px #f4f6ff;
 }
 .letter-body {
+  clear: both;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.letter-body .letter-content {
+  flex: 1;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
   font-size: 13px;
   color: #666;
+}
+.letter-body .letter-attacments {
+  margin-left: 4px;
+  height: 16px;
+  vertical-align: middle;
 }
 .letter-deliver-time {
   font-size: 12px;
@@ -162,6 +177,7 @@
 .letter-state {
   float: right;
 }
+.letter-state img,
 .letter-in-out {
   height: 16px;
   vertical-align: middle;
