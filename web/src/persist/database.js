@@ -135,7 +135,6 @@ function insertOrUpdate(store, obj, key) {
   return new Promise(async (resolve, reject) => {
     try {
       await open()
-      debugger
       const transaction = database.transaction([store], 'readwrite')
       const objectStore = transaction.objectStore(store)
 

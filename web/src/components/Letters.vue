@@ -21,10 +21,10 @@
               </span>
             </div>
             <div class="letter-body">
-              <span class="letter-content">{{letter.body.substring(0, 200)}}</span>
+              <span class="letter-content">{{letter.body.substring(0, 150)}}</span>
               <img class="letter-attacments"
                    v-show="letter.attachments && isLetterArrive(letter)"
-                   src="../../images/icon_attachments.png" />
+                   src="../../images/ic_attachments.png" />
             </div>
           </div>
         </div>
