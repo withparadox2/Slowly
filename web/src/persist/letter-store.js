@@ -11,8 +11,9 @@ const STATE_SUCCESS = 4
 const STATE_FAIL = 5
 
 export class DataManager {
-  constructor(userId) {
-    this.userId = userId
+  constructor(friend) {
+    this.friend = friend
+    this.userId = friend.id
     this.syncPage = 1
     this.syncState = STATE_DEFAULT
     this.dataList = []
@@ -49,7 +50,11 @@ export class DataManager {
         this.loadServerLetters(this.syncPage)
       } else {
         this.dataList = this.sortList(data)
-        if (window.__CONFIG__.useCache) {
+
+        let useCache = window.__CONFIG__.useCache ||
+          this.friend.lastRefreshTime && (Date.now() - this.friend.lastRefreshTime < 10 * 60 * 1000)
+
+        if (useCache) {
           this.syncState = STATE_SUCCESS
           this.doCallback()
         } else {
@@ -95,6 +100,7 @@ export class DataManager {
           }
           //TODO only update necessary parts
           this.updateLetters(list)
+          this.friend.lastRefreshTime = Date.now()
 
           this.syncState = STATE_SUCCESS
           this.doCallback()
@@ -152,11 +158,11 @@ export class DataManager {
 
 let map = {}
 
-export function getDataManager(userId) {
-  if (!map[userId]) {
-    map[userId] = new DataManager(userId)
+export function getDataManager(friend) {
+  if (!map[friend.id]) {
+    map[friend.id] = new DataManager(friend)
   }
-  return map[userId]
+  return map[friend.id]
 }
 
 export function loadLocalLetters(userId) {

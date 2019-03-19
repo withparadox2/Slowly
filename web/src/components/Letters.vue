@@ -287,7 +287,7 @@ export default {
   },
   methods: {
     loadLetters(friend) {
-      getDataManager(friend.id)
+      getDataManager(friend)
         .setCallback((mgr, { isRefresh, isSync, dataList, isSuccess }) => {
           if (mgr.userId == this.checkedFriend.id) {
             if (isSync) {
