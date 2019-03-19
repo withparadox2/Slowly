@@ -12,7 +12,13 @@
           <div class="letter-item-content">
             <div>
               {{letter.name}}
-              <span class="letter-deliver-time">{{formatTime(letter.deliver_at)}}</span>
+              <span class="letter-state">
+                <span class="letter-deliver-time"
+                      v-if="isLetterArrive(letter)">{{formatTime(letter.deliver_at)}}</span>
+                <img class="letter-in-out"
+                     v-else
+                     :src="isLetterOut(letter) ? icLetterInOut[1] : icLetterInOut[0]" />
+              </span>
             </div>
             <div class="letter-body">
               {{letter.body.substring(0, 100)}}
@@ -151,8 +157,14 @@
   color: #666;
 }
 .letter-deliver-time {
-  float: right;
   font-size: 12px;
+}
+.letter-state {
+  float: right;
+}
+.letter-in-out {
+  height: 16px;
+  vertical-align: middle;
 }
 .right-section {
   padding: 40px 20px 40px 20px;
@@ -209,9 +221,14 @@ import { getDataManager } from "../persist/letter-store"
 import * as api from "../api"
 import { showError, showSuccess, showWarning, formateDate } from "../util"
 import { scrollToTop } from "../helper"
+import { getAccount } from "../persist/account"
+
 import NewLetter from "./NewLetter.vue"
 import Stat from "./Stat.vue"
 import GridView from "./common/GridView.vue"
+
+import iconLetterOut from "../../images/ic_mail_out.png"
+import iconLetterIn from "../../images/ic_mail_in.png"
 
 export default {
   components: {
@@ -228,6 +245,9 @@ export default {
           ? l.attachments.split(",").map(name => api.buildAttachmentUrl(name))
           : null
         : null
+    },
+    icLetterInOut() {
+      return [iconLetterIn, iconLetterOut]
     }
   },
   watch: {
@@ -243,10 +263,10 @@ export default {
       letters: [],
       mapVisible: false,
       map: null,
-      accountInfo: null,
       letterState: "",
       showSyncIcon: false,
-      selectedLetter: null
+      selectedLetter: null,
+      account: getAccount()
     }
   },
   methods: {
@@ -280,8 +300,11 @@ export default {
       scrollToTop(this, ".right-section")
     },
     formatTime(time) {
-      let d = new Date(time)
-      return formateDate(new Date(d.getTime() - d.getTimezoneOffset() * 60000))
+      return formateDate(new Date(this.formatLetterTimeToMillis(time)))
+    },
+    formatLetterTimeToMillis(timeStr) {
+      let d = new Date(timeStr)
+      return d.getTime() - d.getTimezoneOffset() * 60000
     },
     showStat() {
       if (this.letters.length == 0) {
@@ -289,6 +312,12 @@ export default {
       } else {
         this.$refs.stat.showStat(this.checkedFriend, this.letters)
       }
+    },
+    isLetterArrive(letter) {
+      return this.formatLetterTimeToMillis(letter.deliver_at) < Date.now()
+    },
+    isLetterOut(letter) {
+      return letter.user == this.account.id
     }
   }
 }
