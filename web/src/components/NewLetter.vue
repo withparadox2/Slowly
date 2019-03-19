@@ -56,7 +56,7 @@
   box-sizing: border-box;
   border: none;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 24px;
   resize: none;
   outline: 0;
   font-family: inherit;
