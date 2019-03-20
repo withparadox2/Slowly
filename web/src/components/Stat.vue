@@ -169,7 +169,8 @@ export default {
             stat.firstLetter.from = friend.name
             stat.firstLetter.to = "你"
           }
-        } else if (i == 0) {
+        } 
+        if (i == 0) {
           stat.lastLetter.date = date
         }
         if (perday.dateStr == null) {

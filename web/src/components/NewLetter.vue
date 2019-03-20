@@ -166,6 +166,7 @@ export default {
         .then(response => {
           this.editorVisible = false
           this.isSending = false
+          this.checkedFriend.lastRefreshTime = 0
           this.$emit("sendSuccess")
           this.saveDraft("")
           showSuccess(this, "success")

@@ -28,7 +28,7 @@ export function drawSvg(id, dataList) {
     let lastDate = cellList[0].date
     let firstDate = cellList[cellList.length - 1].date
     let totalDays = getDaysCount(lastDate, firstDate)
-    svgWidth = (totalDays / 7 + 1) * 16 + startX
+    svgWidth = (totalDays / 7 + 3) * 16 + startX
   }
 
   let draw = SVG(id).size(svgWidth, 168)
@@ -155,7 +155,7 @@ function getCellList(letterList) {
       continue
     }
     let date = offsetTimezoneDate(new Date(letter.deliver_at))
-    let isFrom = letter.user == accountInfo.id
+    let isFrom = letter.user != accountInfo.id
     if (lastDate && compareDate(lastDate, date) == 0) {
       lastCell.num++
       if (isFrom) {
