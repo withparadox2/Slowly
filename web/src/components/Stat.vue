@@ -9,27 +9,37 @@
               @click="close()"></span>
       </div>
       <div class="stat-content">
+        <div class="stat-detail">
+          <div>
+            <span>{{stat.firstLetter.dateStr}}</span>
+            这一天
+            <span>{{stat.firstLetter.from}}</span>
+            给
+            <span>{{stat.firstLetter.to}}</span>
+            写了第一封信
+          </div>
+          <div>
+            距离现在有<span>{{stat.totalDays}}天了</span>
+          </div>
+          <div>
+            你们一共写了{{stat.totalCount}}封信
+          </div>
+          <div>
+            包含整整{{stat.totalWordCount}}个字
+          </div>
+          <div v-show="stat.perday.count > 2">
+            特别的，在{{stat.perday.dateStr}}这天，你们往来了{{stat.perday.count}}封信
+          </div>
+          <div v-show="stat.sinLastDays > 1">你们有{{stat.sinLastDays}}天没有联系了</div>
+        </div>
+
         <div>
-          <span>{{stat.firstLetter.dateStr}}</span>
-          这一天
-          <span>{{stat.firstLetter.from}}</span>
-          给
-          <span>{{stat.firstLetter.to}}</span>
-          写了第一封信
+          <div class="svg-info">
+            <span class="from">来</span>
+            <span class="to">往</span>
+          </div>
+          <div id="svg-container"></div>
         </div>
-        <div>
-          距离现在有<span>{{stat.totalDays}}天了</span>
-        </div>
-        <div>
-          你们一共写了{{stat.totalCount}}封信
-        </div>
-        <div>
-          包含整整{{stat.totalWordCount}}个字
-        </div>
-        <div v-show="stat.perday.count > 2">
-          特别的，在{{stat.perday.dateStr}}这天，你们往来了{{stat.perday.count}}封信
-        </div>
-        <div v-show="stat.sinLastDays > 1">你们有{{stat.sinLastDays}}天没有联系了</div>
       </div>
     </div>
   </div>
@@ -65,13 +75,43 @@
   overflow-y: auto;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  padding: 10px 20px;
+  padding: 10px 0 0 0;
   max-height: calc(100vh - 124px);
   min-height: 142px;
   width: 100%;
   box-sizing: border-box;
   font-size: 14px;
   line-height: 25px;
+}
+.stat-detail {
+  padding: 0 20px;
+}
+#svg-container {
+  background: white;
+  padding: 0 10px;
+  margin-top: 10px;
+  overflow-x: auto;
+}
+.svg-info {
+  text-align: right;
+  padding-right: 10px;
+}
+.svg-info span {
+  font-size: 12px;
+  display: inline-block;
+  border-radius: 4px;
+  width: 18px;
+  height: 18px;
+  color: white;
+  line-height: 18px;
+  text-align: center;
+}
+.svg-info .from {
+  margin-right: 5px;
+  background: #3296fc;
+}
+.svg-info .to {
+  background: #86d666;
 }
 .el-icon-close {
   float: right;
@@ -83,6 +123,7 @@
 <script>
 import { formateDate, offsetTimezoneDate, getDaysCount } from "../util"
 import { getAccount } from "../persist/account"
+import { drawSvg } from "./stat"
 export default {
   data() {
     return {
@@ -150,12 +191,14 @@ export default {
       stat.sinLastDays = getDaysCount(new Date(), stat.lastLetter.date)
 
       this.stat = stat
+      this.$nextTick(() => {
+        drawSvg("svg-container", letterList)
+      })
     }
   },
   mounted() {}
 }
 function renderSvg(id, cells) {
   let canvas = SVG(id).size(300, 300)
-  
 }
 </script>
