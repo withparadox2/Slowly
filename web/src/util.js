@@ -1,3 +1,9 @@
+Date.prototype.addDays = function (days) {
+  let date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+}
+
 function validateEmail(email) {
   let re = /\S+@\S+\.\S+/
   return re.test(email)

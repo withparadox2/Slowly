@@ -1,12 +1,6 @@
-import { formateDate, offsetTimezoneDate, getDaysCount } from "../util"
+import { offsetTimezoneDate, getDaysCount } from "../util"
 import { getAccount } from '../persist/account'
 import SVG from 'svg.js'
-
-Date.prototype.addDays = function (days) {
-  let date = new Date(this.valueOf());
-  date.setDate(date.getDate() + days);
-  return date;
-}
 
 const COLOR_BLUE = ['#C6E2FF', '#3296FC', '#036CD9']
 const COLOR_GREEN = ['#C9ECB4', '#86D666', '#11AE2B']
@@ -128,9 +122,7 @@ export function drawSvg(id, dataList) {
 }
 
 function compareDate(d1, d2) {
-  let n1 = d1.getFullYear() * 10000 + d1.getMonth() * 100 + d1.getDate()
-  let n2 = d2.getFullYear() * 10000 + d2.getMonth() * 100 + d2.getDate()
-  return n1 - n2
+  return calDateIndex(d1) - calDateIndex(d2)
 }
 
 function calDateIndex(date) {
@@ -173,16 +165,20 @@ function getCellList(letterList) {
     }
     lastDate = date
   }
-
-  let nowDate = new Date()
-  let lastDayOfThisMonth = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0)
-  let lastDayInWeek = lastDayOfThisMonth.getDay()
-  let moreDays = 6 - lastDayInWeek
-  let firstDateToAdd = lastDayOfThisMonth.addDays(moreDays)
+  
+  let firstDateToAdd = getNearestSaturdayAfterThisMonth()
 
   cellList.splice(0, 0, {
     date: firstDateToAdd,
     num: 0
   })
   return cellList
+}
+
+function getNearestSaturdayAfterThisMonth() {
+  let nowDate = new Date()
+  let lastDayOfThisMonth = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0)
+  let lastDayInWeek = lastDayOfThisMonth.getDay()
+  let moreDays = 6 - lastDayInWeek
+  return lastDayOfThisMonth.addDays(moreDays)
 }
