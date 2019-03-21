@@ -121,11 +121,10 @@ export function drawSvg(id, dataList) {
     }
   }
 
-  //draw text
-  draw.text('日').font({ fill: 'rgba(0,0,0,0.25)', size: 8 }).attr('x', 10).attr('y', 51)
-  draw.text('二').font({ fill: 'rgba(0,0,0,0.25)', size: 8 }).attr('x', 10).attr('y', 83)
-  draw.text('四').font({ fill: 'rgba(0,0,0,0.25)', size: 8 }).attr('x', 10).attr('y', 115)
-  draw.text('六').font({ fill: 'rgba(0,0,0,0.25)', size: 8 }).attr('x', 10).attr('y', 147)
+  const weekDays = ['日', '二', '四', '六']
+  weekDays.forEach((day, index) => {
+    draw.text(day).font({ fill: 'rgba(0,0,0,0.25)', size: 8 }).attr('x', 10).attr('y', 51 + index * 32)
+  })
 }
 
 function compareDate(d1, d2) {
