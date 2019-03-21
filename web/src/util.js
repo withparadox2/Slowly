@@ -102,7 +102,7 @@ function formatDateReadable(date) {
 
 function getHourDesc(hour) {
   if (1 <= hour && hour <= 4) {
-    return "清晨"
+    return "凌晨"
   } else if (5 <= hour && hour <= 7) {
     return "清晨"
   } else if (8 <= hour && hour <= 10) {
