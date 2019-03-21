@@ -11,10 +11,10 @@ function getColorIndex(num) {
 }
 
 export function drawSvg(id, dataList) {
-  debugger
-
   const startX = 22
   const startY = 48
+  const cellSize = 16
+
   let cellList = getCellList(dataList)
   let svgWidth = 300
 
@@ -22,7 +22,7 @@ export function drawSvg(id, dataList) {
     let lastDate = cellList[0].date
     let firstDate = cellList[cellList.length - 1].date
     let totalDays = getDaysCount(lastDate, firstDate)
-    svgWidth = (totalDays / 7 + 3) * 16 + startX
+    svgWidth = (totalDays / 7 + 3) * cellSize + startX
   }
 
   let draw = SVG(id).size(svgWidth, 168)
@@ -58,14 +58,14 @@ export function drawSvg(id, dataList) {
       break
     }
 
-    let cellX = startX + col * 16
-    let cellY = startY + row * 16
+    let cellX = startX + col * cellSize
+    let cellY = startY + row * cellSize
     let group = draw.group().transform({ x: cellX, y: cellY })
     if (drawColor.length == 1) {
-      let rect = draw.rect(14, 14).attr({ fill: drawColor[0] }).radius(4)
+      let rect = draw.rect(cellSize - 2, cellSize - 2).attr({ fill: drawColor[0] }).radius(4)
       group.add(rect)
       if (nowDateIndex == loopDateIndex) {
-        group.add(draw.rect(16, 16).attr({ fill: "rgba(0,0,0,0)", stroke: "rgba(0,0,0,0.70)", x: -1, y: -1 }).radius(4))
+        group.add(draw.rect(cellSize, cellSize).attr({ fill: "rgba(0,0,0,0)", stroke: "rgba(0,0,0,0.70)", x: -1, y: -1 }).radius(4))
       }
     } else {
       let path1 = draw.path('M0 7 V4 Q0 0 4 0 H10 Q14 0 14 4 V7 Z').attr({ fill: drawColor[0] })
@@ -73,7 +73,7 @@ export function drawSvg(id, dataList) {
       group.add(path1)
       group.add(path2)
       if (nowDateIndex == loopDateIndex) {
-        group.add(draw.rect(16, 16).attr({ fill: "rgba(0,0,0,0)", stroke: "rgba(0,0,0,0.70)", x: -1, y: -1 }).radius(4))
+        group.add(draw.rect(cellSize, cellSize).attr({ fill: "rgba(0,0,0,0)", stroke: "rgba(0,0,0,0.70)", x: -1, y: -1 }).radius(4))
       }
     }
 
@@ -166,6 +166,7 @@ function getCellList(letterList) {
     lastDate = date
   }
   
+  // This cell will be located at bottom-left corner of graph
   let firstDateToAdd = getNearestSaturdayAfterThisMonth()
 
   cellList.splice(0, 0, {
