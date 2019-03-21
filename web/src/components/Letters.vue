@@ -14,7 +14,7 @@
               {{letter.name}}
               <span class="letter-state">
                 <span class="letter-deliver-time"
-                      v-if="isLetterArrive(letter)">{{formatTime(letter.deliver_at)}}</span>
+                      v-if="isLetterArrive(letter)">{{formatReadableTime(letter.deliver_at)}}</span>
                 <img class="letter-in-out"
                      v-else
                      :src="isLetterOut(letter) ? icLetterInOut[1] : icLetterInOut[0]" />
@@ -235,7 +235,13 @@
 import { mapState, mapMutations } from "vuex"
 import { getDataManager } from "../persist/letter-store"
 import * as api from "../api"
-import { showError, showSuccess, showWarning, formateDate } from "../util"
+import {
+  showError,
+  showSuccess,
+  showWarning,
+  formateDate,
+  formatDateReadable
+} from "../util"
 import { scrollToTop } from "../helper"
 import { getAccount } from "../persist/account"
 
@@ -317,6 +323,9 @@ export default {
     },
     formatTime(time) {
       return formateDate(new Date(this.formatLetterTimeToMillis(time)))
+    },
+    formatReadableTime(time) {
+      return formatDateReadable(new Date(this.formatLetterTimeToMillis(time)))
     },
     formatLetterTimeToMillis(timeStr) {
       let d = new Date(timeStr)
