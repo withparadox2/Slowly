@@ -1,5 +1,5 @@
-import { offsetTimezoneDate, getDaysCount } from "../util"
-import { getAccount } from '../persist/account'
+import { offsetTimezoneDate, getDaysCount } from "./util"
+import { getAccount } from './persist/account'
 import SVG from 'svg.js'
 
 const COLOR_BLUE = ['#C6E2FF', '#3296FC', '#036CD9']

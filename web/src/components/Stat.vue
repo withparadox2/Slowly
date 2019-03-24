@@ -123,7 +123,7 @@
 <script>
 import { formateDate, offsetTimezoneDate, getDaysCount } from "../util"
 import { getAccount } from "../persist/account"
-import { drawSvg } from "./stat"
+import { drawSvg } from "../stat"
 export default {
   data() {
     return {
