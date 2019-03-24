@@ -34,6 +34,9 @@ function showWarning(vue, message) {
 }
 
 function offsetTimezoneDate(d) {
+  if (!(d instanceof Date)) {
+    d = new Date(d)
+  }
   return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
 }
 

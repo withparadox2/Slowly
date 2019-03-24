@@ -1,7 +1,8 @@
 <template>
   <div class="editor-container"
        v-show="editorVisible">
-    <div class="editor-wrapper">
+    <div class="editor-wrapper"
+         :class="{large:isShowLetter}">
       <div class="editor-header">
         <span>To {{checkedFriend && checkedFriend.name}}</span>
         <span class="word-count"
@@ -10,18 +11,32 @@
               v-show="isSending">正在发送...</span>
         <span class="el-icon-close"
               title="关闭"
-              @click="close()"></span>
+              @click="close()" />
+        <span class="el-icon-tickets"
+              title="历史信件"
+              @click="toggleShowLetter()" />
         <span class="el-icon-message"
               title="发送"
-              @click="send()"></span>
+              @click="send()" />
       </div>
-      <textarea class="editor-body"
-                name="text"
-                placeholder="请写下文字"
-                spellcheck="false"
-                v-model="inputData"
-                oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
-      </textarea>
+      <el-row class=" editor-content">
+        <el-col :span="isShowLetter ? 12 : 24">
+          <textarea class="editor-body"
+                    name="text"
+                    placeholder="请写下文字"
+                    spellcheck="false"
+                    v-model="inputData"
+                    oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
+          </textarea>
+        </el-col>
+        <el-col :span="12"
+                v-if="isShowLetter && checkedFriend.letters"
+                class="letter-list">
+          <letter-item v-for="item in checkedFriend.letters"
+                       :key="item.id"
+                       :letter="item || 2"></letter-item>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -44,15 +59,35 @@
   transform: translateX(-50%);
   border-radius: 6px;
 }
-.editor-body {
-  overflow-y: auto;
+.editor-wrapper.large {
+  max-width: 80%;
+  width: 960px;
+}
+.editor-content {
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  padding: 10px 20px;
+  max-height: calc(100vh - 124px);
+  overflow-y: hidden;
+  background: transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+.letter-list {
+  overflow-y: auto;
   max-height: calc(100vh - 124px);
   min-height: 250px;
-  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+}
+.letter-list > div {
+  margin-bottom: 50px;
+}
+.editor-body {
+  padding: 10px;
   width: 100%;
+  overflow-y: auto;
+  max-height: calc(100vh - 124px);
+  min-height: 250px;
   box-sizing: border-box;
   border: none;
   font-size: 14px;
@@ -80,6 +115,7 @@
   margin-left: 10px;
   color: #ffffffaa;
 }
+.el-icon-tickets,
 .el-icon-close,
 .el-icon-message {
   float: right;
@@ -93,18 +129,30 @@ import { mapState, mapMutations } from "vuex"
 import * as api from "../api"
 import { showError, showSuccess } from "../util"
 import * as draft from "../persist/draft"
-import * as account from '../persist/account'
+import * as account from "../persist/account"
+import LetterItem from "./LetterItem.vue"
+import { scrollToTop } from "../helper"
+import { debug } from "util"
 
 export default {
   data() {
     return {
       editorVisible: false,
       inputData: "",
-      isSending: false
+      isSending: false,
+      isShowLetter: false
     }
+  },
+  components: {
+    LetterItem
   },
   computed: {
     ...mapState(["checkedFriend"])
+  },
+  watch: {
+    editorVisible(visible) {
+      this.scrollLetterListToTop()
+    }
   },
   methods: {
     showEditor() {
@@ -162,7 +210,11 @@ export default {
       this.isSending = true
       let accountInfo = account.getAccount()
       api
-        .sendLetter(this.checkedFriend.id, this.inputData, this.checkedFriend.joined != accountInfo.id)
+        .sendLetter(
+          this.checkedFriend.id,
+          this.inputData,
+          this.checkedFriend.joined != accountInfo.id
+        )
         .then(response => {
           this.editorVisible = false
           this.isSending = false
@@ -175,6 +227,15 @@ export default {
           this.isSending = false
           showError(this, message)
         })
+    },
+    toggleShowLetter() {
+      this.isShowLetter = !this.isShowLetter
+      this.scrollLetterListToTop()
+    },
+    scrollLetterListToTop() {
+      if (this.isShowLetter) {
+        scrollToTop(this, ".letter-list")
+      }
     }
   }
 }
