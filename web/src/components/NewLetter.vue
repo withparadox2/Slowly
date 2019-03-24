@@ -32,7 +32,7 @@
         <el-col :span="12"
                 v-if="isShowLetter && checkedFriend.letters"
                 class="letter-list">
-          <letter-item v-for="item in checkedFriend.letters"
+          <letter-item v-for="item in renderLetters"
                        :key="item.id"
                        :letter="item || 2"></letter-item>
         </el-col>
@@ -132,7 +132,7 @@ import * as draft from "../persist/draft"
 import * as account from "../persist/account"
 import LetterItem from "./LetterItem.vue"
 import { scrollToTop } from "../helper"
-import { debug } from "util"
+import { setTimeout } from "timers"
 
 export default {
   data() {
@@ -140,17 +140,24 @@ export default {
       editorVisible: false,
       inputData: "",
       isSending: false,
-      isShowLetter: false
+      isShowLetter: false,
+      fastRender: true
     }
   },
   components: {
     LetterItem
   },
   computed: {
-    ...mapState(["checkedFriend"])
+    ...mapState(["checkedFriend"]),
+    renderLetters() {
+      return this.fastRender
+        ? this.checkedFriend.letters.slice(0, 5)
+        : this.checkedFriend.letters
+    }
   },
   watch: {
     editorVisible(visible) {
+      this.optimiseRender()
       this.scrollLetterListToTop()
     }
   },
@@ -230,11 +237,20 @@ export default {
     },
     toggleShowLetter() {
       this.isShowLetter = !this.isShowLetter
+      this.optimiseRender()
       this.scrollLetterListToTop()
     },
     scrollLetterListToTop() {
       if (this.isShowLetter) {
         scrollToTop(this, ".letter-list")
+      }
+    },
+    optimiseRender() {
+      if (this.isShowLetter) {
+        this.fastRender = true
+        setTimeout(() => {
+          this.fastRender = false
+        }, 300)
       }
     }
   }
