@@ -83,7 +83,7 @@
   margin-bottom: 50px;
 }
 .editor-body {
-  padding: 10px;
+  padding: 20px;
   width: 100%;
   overflow-y: auto;
   max-height: calc(100vh - 124px);
