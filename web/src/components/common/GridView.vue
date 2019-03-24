@@ -42,7 +42,7 @@ export default {
       return createElement("div", { class: "grid-view" }, [])
     }
 
-    let parentWidth = this.width - this.getPadding()
+    let parentWidth = this.width - this.getPadding() - 1
     let childWidth =
       Math.floor((parentWidth + this.spaceX) / this.numColumns) - this.spaceX
 
