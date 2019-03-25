@@ -330,6 +330,7 @@ export default {
       reader.readAsDataURL(file)
     },
     uploadImages() {
+      debugger
       api
         .uploadImages(
           this.checkedFriend.id,

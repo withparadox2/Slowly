@@ -37,9 +37,14 @@ export default {
     }
   },
   render(createElement) {
+    debugger
     // 当前没有宽度，渲染空的div
     if (this.width == 0 || !this.$el) {
-      return createElement("div", { class: "grid-view" }, [])
+      if (this.width == 0 && this.$el) {
+        this.width == this.$el.offsetWidth == 0
+      } else {
+        return createElement("div", { class: "grid-view" }, [])
+      }
     }
 
     let parentWidth = this.width - this.getPadding() - 1
