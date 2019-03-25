@@ -38,13 +38,12 @@ export default {
   },
   render(createElement) {
     debugger
+    if (this.$el && this.$el.offsetWidth > 0) {
+      this.width = this.$el.offsetWidth
+    }
     // 当前没有宽度，渲染空的div
-    if (this.width == 0 || !this.$el) {
-      if (this.width == 0 && this.$el) {
-        this.width == this.$el.offsetWidth == 0
-      } else {
+    if (this.width == 0) {
         return createElement("div", { class: "grid-view" }, [])
-      }
     }
 
     let parentWidth = this.width - this.getPadding() - 1

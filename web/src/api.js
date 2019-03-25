@@ -89,15 +89,15 @@ export function buildUploadUrl(post) {
   })
 }
 
-export function uploadImages(post, files) {
+export function uploadImages(postId, files) {
   let data = new FormData()
   files.forEach((item, index) => {
-    data.append(`image[${index}]`, item)
+    data.append(`image`, item)
   })
   return post({
     path: '/attachments',
     params: {
-      post
+      post: postId
     },
     content: data
   })

@@ -44,8 +44,8 @@
                      accept="image/png, image/jpeg" />
             </form>
             <grid-view :numColumns="4"
-                       :spaceX="10"
-                       :spaceY="10">
+                       :spaceX="20"
+                       :spaceY="20">
               <div class="image-item"
                    :key="item.key"
                    v-for="item in rawImageList">
@@ -133,11 +133,23 @@
   background: transparent;
 }
 .form-section {
-  padding: 10px 20px;
+  padding: 20px;
 }
 .image-item img {
   width: 100%;
   height: 100%;
+}
+.btn-add-image {
+  font-size: 80px;
+  color: #ddd;
+  background: #eee;
+  position: relative;
+}
+.btn-add-image > i {
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  position: absolute;
 }
 .editor-header {
   padding: 10px 0 10px 10px;
@@ -313,30 +325,35 @@ export default {
     },
     onImageChange() {
       let images = this.$el.querySelector("#input-image").files || []
-      this.rawImageList = []
       for (let i = 0; i < images.length; i++) {
-        this.loadImage(images[i], i)
+        this.loadImage(images[i])
       }
     },
-    loadImage(file, i) {
+    loadImage(file) {
       let reader = new FileReader()
       reader.onload = e => {
         this.rawImageList.push({
           src: e.target.result,
           file,
-          key: i
+          key: this.generateImageKey()
         })
       }
       reader.readAsDataURL(file)
     },
+    generateImageKey() {
+      if (this.imageKey == null) {
+        this.imageKey = 0
+      }
+      return this.imageKey++
+    },
     uploadImages() {
-      debugger
       api
         .uploadImages(
           this.checkedFriend.id,
           this.rawImageList.map(item => item.file)
         )
         .then(result => {
+          showSuccess(result.data)
           debugger
         })
         .catch(({ message }) => {
