@@ -1,7 +1,8 @@
 <template>
   <div v-if="letter"
        class="letter-detail-wrapper">
-    <div class="letter-detail">
+    <div class="letter-detail"
+         :class="{'dialog-mode': dialogMode}">
       <img src="../../images/pen.png"
            alt="">
       <div>{{letter.body && letter.body.trim()}}</div>
@@ -46,6 +47,9 @@
   border-radius: 6px;
   border: 1px solid #eaeaea;
 }
+.letter-detail.dialog-mode {
+  padding-bottom: 20px;
+}
 .letter-detail img {
   width: 100px;
   float: right;
@@ -82,6 +86,12 @@ export default {
     letter: {
       type: Object,
       required: true
+    },
+    dialogMode: {
+      type: Boolean,
+      default() {
+        return false
+      }
     }
   },
   computed: {

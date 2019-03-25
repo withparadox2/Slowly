@@ -34,7 +34,8 @@
                 class="letter-list">
           <letter-item v-for="item in renderLetters"
                        :key="item.id"
-                       :letter="item || 2"></letter-item>
+                       :dialogMode="true"
+                       :letter="item"></letter-item>
         </el-col>
       </el-row>
     </div>
