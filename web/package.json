@@ -10,11 +10,16 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.6.1",
+    "jQuery": "^1.7.4",
+    "jsdom": "^14.0.0",
+    "location": "0.0.1",
+    "navigator": "^1.0.1",
     "svg.js": "^2.7.1",
     "vue": "^2.6.6",
     "vue-infinite-loading": "^2.4.3",
     "vue-router": "^3.0.2",
-    "vuex": "^3.1.0"
+    "vuex": "^3.1.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",

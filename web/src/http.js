@@ -31,12 +31,14 @@ function post({
   path,
   params,
   content,
-  noAuth = false
+  noAuth = false,
+  headers
 }) {
   return axios({
     method: 'post',
     url: buildUrl({ path, params, noAuth }),
-    data: content
+    data: content,
+    headers
   }).catch((error) => {
     return Promise.reject({
       error,

@@ -19,8 +19,9 @@
               title="发送"
               @click="send()" />
       </div>
-      <el-row class=" editor-content">
-        <el-col :span="isShowLetter ? 12 : 24">
+      <el-row class="editor-content">
+        <el-col :span="isShowLetter ? 12 : 24"
+                class="editor-left-section">
           <textarea class="editor-body"
                     name="text"
                     placeholder="请写下文字"
@@ -28,6 +29,34 @@
                     v-model="inputData"
                     oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
           </textarea>
+          <div class="form-section">
+            <form id='formSumbit'
+                  style="width:0;height:0;"
+                  :action='formUploadUrl()'
+                  method='post'
+                  enctype='multipart/form-data'>
+              <input type="file"
+                     style="width:0;height:0;"
+                     @change="onImageChange()"
+                     id="input-image"
+                     name="image"
+                     multiple
+                     accept="image/png, image/jpeg" />
+            </form>
+            <grid-view :numColumns="4"
+                       :spaceX="10"
+                       :spaceY="10">
+              <div class="image-item"
+                   :key="item.key"
+                   v-for="item in rawImageList">
+                <img :src="item.src" />
+              </div>
+              <div class="btn-add-image"
+                   @click="addImage()">
+                <i class="el-icon-plus"></i>
+              </div>
+            </grid-view>
+          </div>
         </el-col>
         <el-col :span="12"
                 v-if="isShowLetter && checkedFriend.letters"
@@ -83,11 +112,16 @@
 .letter-list > div {
   margin-bottom: 50px;
 }
+.editor-left-section {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 124px);
+}
 .editor-body {
   padding: 20px;
   width: 100%;
   overflow-y: auto;
-  max-height: calc(100vh - 124px);
+  flex: 1;
   min-height: 250px;
   box-sizing: border-box;
   border: none;
@@ -97,6 +131,13 @@
   outline: 0;
   font-family: inherit;
   background: transparent;
+}
+.form-section {
+  padding: 10px 20px;
+}
+.image-item img {
+  width: 100%;
+  height: 100%;
 }
 .editor-header {
   padding: 10px 0 10px 10px;
@@ -127,13 +168,17 @@
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
+// import $ from 'jQuery'
+
 import * as api from "../api"
 import { showError, showSuccess } from "../util"
 import * as draft from "../persist/draft"
 import * as account from "../persist/account"
-import LetterItem from "./LetterItem.vue"
 import { scrollToTop } from "../helper"
 import { setTimeout } from "timers"
+
+import LetterItem from "./LetterItem.vue"
+import GridView from "./common/GridView.vue"
 
 export default {
   data() {
@@ -142,11 +187,13 @@ export default {
       inputData: "",
       isSending: false,
       isShowLetter: false,
-      fastRender: true
+      fastRender: true,
+      rawImageList: []
     }
   },
   components: {
-    LetterItem
+    LetterItem,
+    GridView
   },
   computed: {
     ...mapState(["checkedFriend"]),
@@ -163,6 +210,9 @@ export default {
     }
   },
   methods: {
+    formUploadUrl() {
+      return api.buildUploadUrl(this.checkedFriend.id)
+    },
     showEditor() {
       this.editorVisible = true
       this.inputData = ""
@@ -210,7 +260,11 @@ export default {
         cancelButtonText: "取消"
       })
         .then(() => {
-          this.sendImpl()
+          if (this.rawImageList.length > 0) {
+            this.uploadImages()
+          } else {
+            this.sendImpl()
+          }
         })
         .catch(() => {})
     },
@@ -253,6 +307,40 @@ export default {
           this.fastRender = false
         }, 300)
       }
+    },
+    addImage() {
+      this.$el.querySelector("#input-image").click()
+    },
+    onImageChange() {
+      let images = this.$el.querySelector("#input-image").files || []
+      this.rawImageList = []
+      for (let i = 0; i < images.length; i++) {
+        this.loadImage(images[i], i)
+      }
+    },
+    loadImage(file, i) {
+      let reader = new FileReader()
+      reader.onload = e => {
+        this.rawImageList.push({
+          src: e.target.result,
+          file,
+          key: i
+        })
+      }
+      reader.readAsDataURL(file)
+    },
+    uploadImages() {
+      api
+        .uploadImages(
+          this.checkedFriend.id,
+          this.rawImageList.map(item => item.file)
+        )
+        .then(result => {
+          debugger
+        })
+        .catch(({ message }) => {
+          showError(this, message)
+        })
     }
   }
 }

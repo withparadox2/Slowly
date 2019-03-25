@@ -79,3 +79,26 @@ export function buildAttachmentUrl(name) {
     path: `/attachments/${name}`
   })
 }
+
+export function buildUploadUrl(post) {
+  return buildUrl({
+    path: '/attachments',
+    params: {
+      post
+    }
+  })
+}
+
+export function uploadImages(post, files) {
+  let data = new FormData()
+  files.forEach((item, index) => {
+    data.append(`image[${index}]`, item)
+  })
+  return post({
+    path: '/attachments',
+    params: {
+      post
+    },
+    content: data
+  })
+}
