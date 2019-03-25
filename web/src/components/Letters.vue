@@ -4,7 +4,7 @@
     <el-col :span="selectedLetter ? 12 : 24"
             class="left-section">
       <div class="letter-list">
-        <div v-for="letter in letters"
+        <div v-for="letter in renderLetters"
              :class="{'letter-checked': letter == selectedLetter}"
              class="letter-item"
              @click="selectLetter(letter)"
@@ -204,6 +204,9 @@ export default {
     },
     icLetterInOut() {
       return [iconLetterIn, iconLetterOut]
+    },
+    renderLetters() {
+      return this.fastRender ? this.letters.slice(0, 25) : this.letters
     }
   },
   watch: {
@@ -222,7 +225,8 @@ export default {
       letterState: "",
       showSyncIcon: false,
       selectedLetter: null,
-      account: getAccount()
+      account: getAccount(),
+      fastRender: false
     }
   },
   methods: {
@@ -242,6 +246,9 @@ export default {
               if (!isSuccess) {
                 showError(this, "同步失败")
               }
+            }
+            if (this.letters.length == 0) {
+              this.optimiseRender()
             }
             this.letters = dataList
             this.checkedFriend.letters = dataList
@@ -271,6 +278,14 @@ export default {
     },
     isLetterOut(letter) {
       return letter.user == this.account.id
+    },
+    optimiseRender() {
+      if (this.checkedFriend) {
+        this.fastRender = true
+        setTimeout(() => {
+          this.fastRender = false
+        }, 0)
+      }
     }
   }
 }
