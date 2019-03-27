@@ -317,7 +317,7 @@ export default {
         this.fastRender = true
         setTimeout(() => {
           this.fastRender = false
-        }, 300)
+        }, 0)
       }
     },
     addImage() {
