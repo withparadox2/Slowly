@@ -180,7 +180,6 @@
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
-// import $ from 'jQuery'
 
 import * as api from "../api"
 import { showError, showSuccess } from "../util"
