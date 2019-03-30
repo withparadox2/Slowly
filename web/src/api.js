@@ -48,12 +48,12 @@ export function getMe() {
   })
 }
 
-export function sendLetter(id, letter, isHost) {
+export function sendLetter(id, letter, isHost, attachments) {
   return post({
     path: `/posts/${id}/reply`,
     content: {
       body: letter,
-      attachments: "",
+      attachments,
       style: {},
       stamp: "free",
       host: isHost
@@ -90,10 +90,12 @@ export function buildUploadUrl(post) {
 }
 
 export function uploadImages(postId, files) {
+  return Promise.all(files.map(file => uploadImage(postId, file)))
+}
+
+export function uploadImage(postId, file) {
   let data = new FormData()
-  files.forEach((item, index) => {
-    data.append(`image`, item)
-  })
+  data.append(`image`, file)
   return post({
     path: '/attachments',
     params: {

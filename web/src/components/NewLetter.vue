@@ -8,7 +8,7 @@
         <span class="word-count"
               v-show="inputData">{{inputData.length}}</span>
         <span class="sending-state"
-              v-show="isSending">正在发送...</span>
+              v-show="sendingState">{{sendingState}}</span>
         <span class="el-icon-close"
               title="关闭"
               @click="close()" />
@@ -43,7 +43,7 @@
                      multiple
                      accept="image/png, image/jpeg" />
             </form>
-            <div>添加图片</div>
+            <div>添加图片<span v-show="rawImageList.length">({{rawImageList.length}})</span></div>
             <div class="image-container">
               <div class="btn-add-image"
                    @click="addImage()">
@@ -51,8 +51,13 @@
               </div>
               <div class="image-item"
                    :key="item.key"
-                   v-for="item in rawImageList">
-                <img :src="item.src" />
+                   v-for="(item, index) in rawImageList">
+
+                <img :src="item.src"
+                     @click="viewImage(item.src)" />
+
+                <i class="el-icon-remove"
+                   @click="removeImage(index)"></i>
               </div>
             </div>
           </div>
@@ -134,22 +139,7 @@
 .form-section {
   padding: 20px 20px 0 20px;
 }
-.image-item img {
-  width: 100%;
-  height: 100%;
-}
-.btn-add-image {
-  font-size: 80px;
-  color: #ddd;
-  background: #eee;
-  position: relative;
-}
-.btn-add-image > i {
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  position: absolute;
-}
+
 .editor-header {
   padding: 10px 0 10px 10px;
   font-size: 16px;
@@ -176,19 +166,46 @@
   cursor: pointer;
   margin-top: 3px;
 }
+.image-item {
+  position: relative;
+}
+.image-item img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.btn-add-image {
+  font-size: 80px;
+  color: #ddd;
+  background: #eee;
+  position: relative;
+}
+.btn-add-image > i {
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  position: absolute;
+}
 .image-container {
   overflow-x: auto;
   overflow-y: hidden;
   height: 120px;
-  margin-top: 10px;
   white-space: nowrap;
-  padding-bottom: 30px;
+  padding-bottom: 20px;
+  padding-top: 10px;
 }
 .image-container > div {
   display: inline-block;
   width: 120px;
   height: 120px;
   margin-right: 20px;
+}
+.el-icon-remove {
+  position: absolute;
+  margin-left: -10px;
+  margin-top: -6px;
+  color: red;
+  cursor: pointer;
 }
 </style>
 <script>
@@ -210,9 +227,11 @@ export default {
       editorVisible: false,
       inputData: "",
       isSending: false,
+      isUploading: false,
       isShowLetter: false,
       fastRender: true,
-      rawImageList: []
+      rawImageList: [],
+      attachments: ""
     }
   },
   components: {
@@ -225,12 +244,20 @@ export default {
       return this.fastRender
         ? this.checkedFriend.letters.slice(0, 5)
         : this.checkedFriend.letters
+    },
+    sendingState() {
+      if (this.isSending || this.isUploading) {
+        return this.isUploading ? "正在上传图片..." : "正在发送..."
+      }
+      return ""
     }
   },
   watch: {
     editorVisible(visible) {
-      this.optimiseRender()
-      this.scrollLetterListToTop()
+      if (visible) {
+        this.optimiseRender()
+        this.scrollLetterListToTop()
+      }
     }
   },
   methods: {
@@ -241,6 +268,8 @@ export default {
       this.editorVisible = true
       this.inputData = ""
       this.isSending = false
+      this.isUploading = false
+      this.rawImageList = []
       draft
         .getDraft(this.checkedFriend.id)
         .then(draftItem => {
@@ -299,7 +328,8 @@ export default {
         .sendLetter(
           this.checkedFriend.id,
           this.inputData,
-          this.checkedFriend.joined != accountInfo.id
+          this.checkedFriend.joined != accountInfo.id,
+          this.attachments
         )
         .then(response => {
           this.editorVisible = false
@@ -358,19 +388,36 @@ export default {
       }
       return this.imageKey++
     },
+    removeImage(index) {
+      this.rawImageList.splice(index, 1)
+    },
     uploadImages() {
+      this.isUploading = true
       api
         .uploadImages(
           this.checkedFriend.id,
           this.rawImageList.map(item => item.file)
         )
         .then(result => {
-          showSuccess(result.data)
-          debugger
+          this.isUploading = false
+          this.attachments = result.map(item => item.data).join(",")
+          this.sendImpl()
+          console.log(result)
         })
-        .catch(({ message }) => {
-          showError(this, message)
+        .catch(result => {
+          this.isUploading = false
+          console.log(result)
+          showError(this, result)
         })
+    },
+    viewImage(base64) {
+      window
+        .open()
+        .document.write(
+          '<iframe src="' +
+            base64 +
+            '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
+        )
     }
   }
 }
