@@ -43,19 +43,18 @@
                      multiple
                      accept="image/png, image/jpeg" />
             </form>
-            <grid-view :numColumns="4"
-                       :spaceX="20"
-                       :spaceY="20">
+            <div>添加图片</div>
+            <div class="image-container">
+              <div class="btn-add-image"
+                   @click="addImage()">
+                <i class="el-icon-plus"></i>
+              </div>
               <div class="image-item"
                    :key="item.key"
                    v-for="item in rawImageList">
                 <img :src="item.src" />
               </div>
-              <div class="btn-add-image"
-                   @click="addImage()">
-                <i class="el-icon-plus"></i>
-              </div>
-            </grid-view>
+            </div>
           </div>
         </el-col>
         <el-col :span="12"
@@ -104,7 +103,7 @@
 }
 .letter-list {
   overflow-y: auto;
-  max-height: calc(100vh - 124px);
+  height: calc(100vh - 124px);
   min-height: 250px;
   overflow-x: hidden;
   padding: 10px;
@@ -115,7 +114,7 @@
 .editor-left-section {
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 124px);
+  height: calc(100vh - 124px);
 }
 .editor-body {
   padding: 20px;
@@ -133,7 +132,7 @@
   background: transparent;
 }
 .form-section {
-  padding: 20px;
+  padding: 20px 20px 0 20px;
 }
 .image-item img {
   width: 100%;
@@ -176,6 +175,20 @@
   padding: 0 10px;
   cursor: pointer;
   margin-top: 3px;
+}
+.image-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  height: 120px;
+  margin-top: 10px;
+  white-space: nowrap;
+  padding-bottom: 30px;
+}
+.image-container > div {
+  display: inline-block;
+  width: 120px;
+  height: 120px;
+  margin-right: 20px;
 }
 </style>
 <script>
