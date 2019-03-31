@@ -164,7 +164,6 @@ export default {
         })
     },
     editLocation() {
-      debugger
       this.$refs.map.editLocation()
     }
   },

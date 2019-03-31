@@ -37,7 +37,6 @@ export default {
     }
   },
   render(createElement) {
-    debugger
     if (this.$el && this.$el.offsetWidth > 0) {
       this.width = this.$el.offsetWidth
     }
