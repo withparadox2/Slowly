@@ -43,7 +43,7 @@
                      multiple
                      accept="image/png, image/jpeg" />
             </form>
-            <div>添加图片<span v-show="rawImageList.length">({{rawImageList.length}})</span></div>
+            <div class="tip-add-image">添加图片<span v-show="rawImageList.length">({{rawImageList.length}})</span></div>
             <div class="image-container">
               <div class="btn-add-image"
                    @click="addImage()">
@@ -166,6 +166,10 @@
   cursor: pointer;
   margin-top: 3px;
 }
+.tip-add-image {
+  font-size: 13px;
+  color: #666;
+}
 .image-item {
   position: relative;
 }
@@ -175,7 +179,7 @@
   cursor: pointer;
 }
 .btn-add-image {
-  font-size: 80px;
+  font-size: 60px;
   color: #ddd;
   background: #eee;
   position: relative;
