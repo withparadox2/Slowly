@@ -296,7 +296,7 @@ export default {
         this.editorVisible = false
         return
       }
-      this.$confirm("关闭后将会保存为草稿，是否关闭？", "提示", {
+      this.$confirm(`关闭后将会保存为草稿，${this.rawImageList.length > 0 ? '但图片会丢失，' : ''}是否关闭？`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消"
       })
