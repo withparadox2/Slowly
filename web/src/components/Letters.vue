@@ -4,10 +4,10 @@
     <el-col :span="selectedLetter ? 12 : 24"
             class="left-section">
       <div class="letter-list">
-        <div v-for="letter in renderLetters"
+        <div v-for="(letter, index) in renderLetters"
              :class="{'letter-checked': letter == selectedLetter}"
              class="letter-item"
-             @click="selectLetter(letter)"
+             @click="selectLetter(letter, index)"
              :key="letter.id">
           <div class="letter-item-content">
             <div>
@@ -53,6 +53,14 @@
             v-if="selectedLetter"
             class="right-section">
       <letter-item :letter="selectedLetter"></letter-item>
+      <div class="letter-nav">
+        <span class="last-letter"
+              v-show="this.selecteLetterIndex > 0"
+              @click="lastLetter">上一封</span>
+        <span class="next-letter"
+              v-show="this.selecteLetterIndex < this.renderLetters.length - 1"
+              @click="nextLetter">下一封</span>
+      </div>
     </el-col>
     <new-letter ref="newLetter"
                 v-on:sendSuccess="loadLetters(checkedFriend)" />
@@ -163,6 +171,23 @@
   position: relative;
   background: rgb(245, 245, 245);
 }
+.letter-nav {
+  max-width: 500px;
+  margin: 10px auto;
+}
+.last-letter,
+.next-letter {
+  cursor: pointer;
+  color: #666;
+  padding: 10px;
+  font-size: 12px;
+}
+.last-letter {
+  float: left;
+}
+.next-letter {
+  float: right;
+}
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
@@ -225,6 +250,7 @@ export default {
       letterState: "",
       showSyncIcon: false,
       selectedLetter: null,
+      selecteLetterIndex: -1,
       account: getAccount(),
       fastRender: false
     }
@@ -259,8 +285,9 @@ export default {
     newLetter() {
       this.$refs.newLetter.showEditor()
     },
-    selectLetter(letter) {
+    selectLetter(letter, index) {
       this.selectedLetter = letter
+      this.selecteLetterIndex = index
       scrollToTop(this, ".right-section")
     },
     formatReadableTime(time) {
@@ -286,6 +313,18 @@ export default {
           this.fastRender = false
         }, 0)
       }
+    },
+    lastLetter() {
+      this.selectLetter(
+        this.renderLetters[this.selecteLetterIndex - 1],
+        this.selecteLetterIndex - 1
+      )
+    },
+    nextLetter() {
+      this.selectLetter(
+        this.renderLetters[this.selecteLetterIndex + 1],
+        this.selecteLetterIndex + 1
+      )
     }
   }
 }
