@@ -93,14 +93,15 @@
   position: absolute;
   right: 30px;
   bottom: 30px;
-  font-size: 14px;
+  font-size: 13px;
+  color: white;
+  border-radius: 5px;
   white-space: nowrap;
-  background: white;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  padding: 10px;
+  background: #0078d7;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
+  padding: 5px 10px;
   cursor: pointer;
 }
-
 #account-loading {
   z-index: 1000;
   position: fixed;
@@ -117,7 +118,7 @@ import * as friendStore from "../persist/friend-store"
 import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
-import { checkVersion } from "../update"
+import { checkVersion, updateVersion } from "../update"
 import Friends from "./Friends.vue"
 import Letters from "./Letters.vue"
 import Map from "./Map.vue"
@@ -185,7 +186,7 @@ export default {
       this.$refs.map.editLocation()
     },
     updateNewVersion() {
-      
+      updateVersion()
     }
   },
   mounted() {

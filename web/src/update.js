@@ -3,14 +3,26 @@ import axios from 'axios'
 const localVersion = SLOWLY_VERSION
 
 export function checkVersion() {
-  const p = new Promise()
-  axios({
-    method: 'get',
-    url: './version.json'
-  }).then(response => {
-    p.resolve(response.data && response.data.versionCode > localVersion.versionCode)
-  }).catch((error) => {
-    p.resolve(false)
+  return new Promise((resolve, reject) => {
+    axios({
+      method: 'get',
+      url: './version.json'
+    }).then(response => {
+      resolve(response.data && response.data.versionCode > localVersion.versionCode)
+    }).catch((error) => {
+      resolve(false)
+    })
   })
-  return p
+}
+
+function buildUrlWithStamp() {
+  let url = window.location.href
+  let appendChar = url.indexOf('?') >= 0 ? '&' : '?'
+  let arr = url.split('#')
+  arr.splice(1, 0, `${appendChar}t=${Date.now()}#`)
+  return arr.join('')
+}
+
+export function updateVersion() {
+  window.location.href = buildUrlWithStamp()
 }
