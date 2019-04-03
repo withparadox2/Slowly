@@ -23,6 +23,11 @@
       <div class="right-section">
         <letters v-on:showMap="showMap($event)" />
       </div>
+      <div class="new-version"
+           @click="updateNewVersion()"
+           v-show="newVersion">
+        检测到新版本，点击刷新
+      </div>
     </div>
     <map-node ref="map" />
   </div>
@@ -84,6 +89,17 @@
   bottom: 0;
   overflow-x: hidden;
 }
+.new-version {
+  position: absolute;
+  right: 30px;
+  bottom: 30px;
+  font-size: 14px;
+  white-space: nowrap;
+  background: white;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  cursor: pointer;
+}
 
 #account-loading {
   z-index: 1000;
@@ -101,6 +117,7 @@ import * as friendStore from "../persist/friend-store"
 import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
+import { checkVersion } from "../update"
 import Friends from "./Friends.vue"
 import Letters from "./Letters.vue"
 import Map from "./Map.vue"
@@ -108,7 +125,8 @@ import Map from "./Map.vue"
 export default {
   data() {
     return {
-      accountInfo: null
+      accountInfo: null,
+      newVersion: false
     }
   },
   components: {
@@ -165,6 +183,9 @@ export default {
     },
     editLocation() {
       this.$refs.map.editLocation()
+    },
+    updateNewVersion() {
+      
     }
   },
   mounted() {
@@ -189,6 +210,10 @@ export default {
         account.setAccount(response.data)
       })
     }
+
+    checkVersion().then(newVersion => {
+      this.newVersion = newVersion
+    })
   }
 }
 </script>

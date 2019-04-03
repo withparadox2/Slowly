@@ -14,6 +14,7 @@ import InfiniteLoading from 'vue-infinite-loading'
 import { setToken } from './persist/account'
 import { showError } from './util'
 import { store } from './store'
+import './update.js'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
