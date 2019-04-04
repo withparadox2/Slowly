@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const localVersion = SLOWLY_VERSION
+window.appVersion = SLOWLY_VERSION
 
 export function checkVersion() {
   return new Promise((resolve, reject) => {
