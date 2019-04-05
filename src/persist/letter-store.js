@@ -1,5 +1,5 @@
 
-import { insert, remove, getAll, insertOrUpdate } from './database'
+import { insert, remove, getAll, insertOrUpdate, clear } from './database'
 import { STORE_LETTERS } from './versions'
 import { getLetters } from '../api'
 
@@ -116,6 +116,7 @@ export class DataManager {
         } else {
           this.syncState = STATE_SUCCESS
           this.dataList = this.sortList(this.syncDataList)
+          clear(STORE_LETTERS)
           this.insertLetters(this.dataList)
           this.doCallback()
         }
