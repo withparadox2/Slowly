@@ -10,7 +10,7 @@ function getColorIndex(num) {
   return num - 1 > 2 ? 2 : num - 1
 }
 
-export function drawSvg(id, dataList) {
+export function drawSvg(id, dataList, onHover) {
   const startX = 22
   const startY = 48
   const cellSize = 16
@@ -90,11 +90,11 @@ export function drawSvg(id, dataList) {
       }
     }
     group.dateStr = loopDateStr
-    group.mouseenter(function () {
-      console.log('in = ' + this.dateStr)
+    group.mouseover(function () {
+      onHover && onHover(this.dateStr)
     })
     group.mouseout(function () {
-      console.log('out = ' + this.dateStr)
+      onHover && onHover('')
     })
 
     // draw year

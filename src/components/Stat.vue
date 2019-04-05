@@ -33,11 +33,13 @@
           <div v-show="stat.sinLastDays > 1">你们有{{stat.sinLastDays}}天没有联系了</div>
         </div>
 
-        <div>
+        <div class="date-map-section">
           <div class="svg-info">
             <span class="from">来</span>
             <span class="to">往</span>
           </div>
+          <span class="hover-text"
+                :class="{'hide': hideDateStr}">{{hoverDateStr}}</span>
           <div id="svg-container"></div>
         </div>
       </div>
@@ -86,6 +88,22 @@
 .stat-detail {
   padding: 0 20px;
 }
+.date-map-section {
+  position: relative;
+}
+.hover-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 0;
+  line-height: 24px;
+  color: #666;
+  font-size: 12px;
+  transition: all 0.3s;
+}
+.hover-text.hide {
+  opacity: 0;
+}
 #svg-container {
   background: white;
   padding: 0 10px;
@@ -124,12 +142,15 @@
 import { formateDate, offsetTimezoneDate, getDaysCount } from "../util"
 import { getAccount } from "../persist/account"
 import { drawSvg } from "../stat"
+import { setTimeout, clearTimeout } from "timers"
 export default {
   data() {
     return {
       cellDataList: [],
       stat: null,
-      account: getAccount()
+      account: getAccount(),
+      hoverDateStr: "",
+      hideDateStr: false
     }
   },
   methods: {
@@ -169,7 +190,7 @@ export default {
             stat.firstLetter.from = friend.name
             stat.firstLetter.to = "你"
           }
-        } 
+        }
         if (i == 0) {
           stat.lastLetter.date = date
         }
@@ -193,13 +214,23 @@ export default {
 
       this.stat = stat
       this.$nextTick(() => {
-        drawSvg("svg-container", letterList)
+        drawSvg("svg-container", letterList, date => {
+          if (!date) {
+            this.dateTimeoutId = setTimeout(() => {
+              // start hide transition
+              this.hideDateStr = true
+              this.dateTimeoutId = setTimeout(() => {
+                this.hoverDateStr = ""
+              }, 300)
+            }, 500)
+          } else {
+            clearTimeout(this.dateTimeoutId)
+            this.hideDateStr = false
+            this.hoverDateStr = date
+          }
+        })
       })
     }
-  },
-  mounted() {}
-}
-function renderSvg(id, cells) {
-  let canvas = SVG(id).size(300, 300)
+  }
 }
 </script>
