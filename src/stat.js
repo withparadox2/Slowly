@@ -39,6 +39,7 @@ export function drawSvg(id, dataList) {
     let cell = cellList[cellIndex]
     let curDate = cell.date
     let curDateIndex = calDateIndex(curDate)
+    let loopDateStr = formatDate(loopDate)
     let loopDateIndex = calDateIndex(loopDate)
     let cp = loopDateIndex - curDateIndex
     let drawColor = ['#F7F7F7']
@@ -62,10 +63,18 @@ export function drawSvg(id, dataList) {
     let cellY = startY + row * cellSize
     let group = draw.group().transform({ x: cellX, y: cellY })
     if (drawColor.length == 1) {
-      let rect = draw.rect(cellSize - 2, cellSize - 2).attr({ fill: drawColor[0] }).radius(4)
+      let rect = draw.rect(cellSize - 2, cellSize - 2)
+        .attr({
+          fill: drawColor[0]
+        })
+        .radius(4)
       group.add(rect)
       if (nowDateIndex == loopDateIndex) {
-        group.add(draw.rect(cellSize, cellSize).attr({ fill: "rgba(0,0,0,0)", stroke: "rgba(0,0,0,0.70)", x: -1, y: -1 }).radius(4))
+        group.add(
+          draw.rect(cellSize, cellSize)
+            .attr({ fill: "rgba(0,0,0,0)", stroke: "rgba(0,0,0,0.70)", x: -1, y: -1 })
+            .radius(4)
+        )
       }
     } else {
       let path1 = draw.path('M0 7 V4 Q0 0 4 0 H10 Q14 0 14 4 V7 Z').attr({ fill: drawColor[0] })
@@ -73,9 +82,20 @@ export function drawSvg(id, dataList) {
       group.add(path1)
       group.add(path2)
       if (nowDateIndex == loopDateIndex) {
-        group.add(draw.rect(cellSize, cellSize).attr({ fill: "rgba(0,0,0,0)", stroke: "rgba(0,0,0,0.70)", x: -1, y: -1 }).radius(4))
+        group.add(
+          draw.rect(cellSize, cellSize)
+            .attr({ fill: "rgba(0,0,0,0)", stroke: "rgba(0,0,0,0.70)", x: -1, y: -1 })
+            .radius(4)
+        )
       }
     }
+    group.dateStr = loopDateStr
+    group.mouseenter(function () {
+      console.log('in = ' + this.dateStr)
+    })
+    group.mouseout(function () {
+      console.log('out = ' + this.dateStr)
+    })
 
     // draw year
     if (lastYear < 0 || lastYear != loopDate.getFullYear()) {
@@ -165,7 +185,7 @@ function getCellList(letterList) {
     }
     lastDate = date
   }
-  
+
   // This cell will be located at bottom-left corner of graph
   let firstDateToAdd = getNearestSaturdayAfterThisMonth()
 
@@ -182,4 +202,8 @@ function getNearestSaturdayAfterThisMonth() {
   let lastDayInWeek = lastDayOfThisMonth.getDay()
   let moreDays = 6 - lastDayInWeek
   return lastDayOfThisMonth.addDays(moreDays)
+}
+
+function formatDate(d) {
+  return `${d.getFullYear()}-${d.getMonth() < 9 ? '0' : ''}${d.getMonth() + 1}-${d.getDate() < 10 ? '0' : ''}${d.getDate()}`
 }
