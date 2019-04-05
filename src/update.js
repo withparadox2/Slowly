@@ -7,7 +7,7 @@ export function checkVersion() {
   return new Promise((resolve, reject) => {
     axios({
       method: 'get',
-      url: './version.json'
+      url: `./version.json?t=${Date.now()}`,
     }).then(response => {
       resolve(response.data && response.data.versionCode > localVersion.versionCode)
     }).catch((error) => {
