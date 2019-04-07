@@ -40,15 +40,12 @@
   white-space: pre-line;
   width: 100%;
   background: white;
-  padding: 40px 20px;
+  padding: 40px 20px 20px 20px;
   line-height: 26px;
-  font-size: 14px;
+  font-size: 13px;
   box-sizing: border-box;
   border-radius: 6px;
   border: 1px solid #eaeaea;
-}
-.letter-detail.dialog-mode {
-  padding-bottom: 20px;
 }
 .letter-detail img {
   width: 100px;
