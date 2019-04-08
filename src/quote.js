@@ -1,4 +1,4 @@
-[
+export const quotes = [
     {
         "content": "也许，我喜欢你，就是因为你是我认识的人中，唯一不可归类的人。",
         "ref_name": "《余欢》",

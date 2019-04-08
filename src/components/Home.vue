@@ -21,7 +21,13 @@
         <friends />
       </div>
       <div class="right-section">
-        <letters v-on:showMap="showMap($event)" />
+        <letters v-on:showMap="showMap($event)"
+                 v-if="checkedFriend" />
+        <div v-else
+             class="quote-section">
+          <div class="content">{{quote.content}}</div>
+          <div class="author">{{quoteAuthor}}</div>
+        </div>
       </div>
       <div class="new-version"
            @click="updateNewVersion()"
@@ -89,6 +95,27 @@
   bottom: 0;
   overflow-x: hidden;
 }
+.quote-section {
+  max-width: 70%;
+  margin: 0 auto;
+  min-width: 300px;
+  top: 30%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  position: absolute;
+}
+.quote-section .content {
+  font-size: 20px;
+  color: #555;
+  line-height: 30px;
+  white-space: pre-wrap;
+}
+.quote-section .author {
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: right;
+  color: #777;
+}
 .new-version {
   position: absolute;
   right: 30px;
@@ -119,6 +146,7 @@ import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
 import { checkVersion, updateVersion } from "../update"
+import { quotes } from "../quote"
 import Friends from "./Friends.vue"
 import Letters from "./Letters.vue"
 import Map from "./Map.vue"
@@ -136,7 +164,15 @@ export default {
     "map-node": Map
   },
   computed: {
-    ...mapState(["checkedFriend", "friendList"])
+    ...mapState(["checkedFriend", "friendList"]),
+    quote() {
+      return quotes[parseInt(Math.random() * quotes.length)]
+    },
+    quoteAuthor() {
+      let first = this.quote.ref_name || this.quote.au_name
+      let second = this.quote.ref_name ? this.quote.au_name : ""
+      return `——${first}${second ? " · " : ""}${second}`
+    }
   },
   methods: {
     ...mapMutations(["setFriends"]),
