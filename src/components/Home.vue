@@ -22,8 +22,8 @@
       </div>
       <div class="right-section">
         <letters v-on:showMap="showMap($event)"
-                 v-if="checkedFriend" />
-        <div v-else
+                 v-show="checkedFriend" />
+        <div v-show="!checkedFriend"
              class="quote-section">
           <div class="content">{{quote.content}}</div>
           <div class="author">{{quoteAuthor}}</div>
