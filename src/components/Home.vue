@@ -171,7 +171,7 @@ export default {
     quoteAuthor() {
       let first = this.quote.ref_name || this.quote.au_name
       let second = this.quote.ref_name ? this.quote.au_name : ""
-      return `——${first}${second ? " · " : ""}${second}`
+      return first ? `——${first}${second ? " · " : ""}${second}` : ""
     }
   },
   methods: {
