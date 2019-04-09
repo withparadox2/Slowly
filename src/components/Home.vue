@@ -24,6 +24,7 @@
         <letters v-on:showMap="showMap($event)"
                  v-show="checkedFriend" />
         <div v-show="!checkedFriend"
+             @click="changeQuote"
              class="quote-section">
           <div class="content">{{quote.content}}</div>
           <div class="author">{{quoteAuthor}}</div>
@@ -103,6 +104,7 @@
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
   position: absolute;
+  cursor: pointer;
 }
 .quote-section .content {
   font-size: 20px;
@@ -155,7 +157,8 @@ export default {
   data() {
     return {
       accountInfo: null,
-      newVersion: false
+      newVersion: false,
+      quoteRef: 1
     }
   },
   components: {
@@ -166,7 +169,7 @@ export default {
   computed: {
     ...mapState(["checkedFriend", "friendList"]),
     quote() {
-      return quotes[parseInt(Math.random() * quotes.length)]
+      return this.quoteRef && quotes[parseInt(Math.random() * quotes.length)]
     },
     quoteAuthor() {
       let first = this.quote.ref_name || this.quote.au_name
@@ -223,6 +226,9 @@ export default {
     },
     updateNewVersion() {
       updateVersion()
+    },
+    changeQuote() {
+      this.quoteRef++
     }
   },
   mounted() {
