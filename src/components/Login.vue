@@ -83,14 +83,6 @@
   text-align: center;
   margin-top: 40px;
 }
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-  transform: scale(0);
-}
-
-.fade-enter-active,
-.fade-leave-active,
 .slide-out-enter-active,
 .slide-out-leave-active,
 .slide-in-enter-active,
