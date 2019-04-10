@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const ZipPlugin = require('zip-webpack-plugin')
 
 module.exports = {
   runtimeCompiler: true,
@@ -8,9 +9,21 @@ module.exports = {
     : '/',
   chainWebpack: config => {
     config.plugin('define').tap(args => {
-      args[0]['SLOWLY_VERSION'] = readVersionContent() 
+      args[0]['SLOWLY_VERSION'] = readVersionContent()
       return args
     })
+  },
+  configureWebpack: config => {
+    let plugins = []
+    if (process.env.NODE_ENV === 'production') {
+      plugins.push(new ZipPlugin({
+        path: path.join(__dirname, './dist'),
+        filename: 'dist.zip'
+      }))
+    }
+    return {
+      plugins
+    }
   }
 }
 
