@@ -129,7 +129,7 @@
   min-height: 250px;
   box-sizing: border-box;
   border: none;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 24px;
   resize: none;
   outline: 0;
@@ -137,9 +137,8 @@
   background: transparent;
 }
 .form-section {
-  padding: 20px 20px 0 20px;
+  padding: 10px 20px 0 20px;
 }
-
 .editor-header {
   padding: 10px 0 10px 10px;
   font-size: 16px;
@@ -183,6 +182,7 @@
   color: #ddd;
   background: #eee;
   position: relative;
+  cursor: pointer;
 }
 .btn-add-image > i {
   top: 50%;
@@ -193,15 +193,15 @@
 .image-container {
   overflow-x: auto;
   overflow-y: hidden;
-  height: 120px;
+  height: 100px;
   white-space: nowrap;
   padding-bottom: 20px;
   padding-top: 10px;
 }
 .image-container > div {
   display: inline-block;
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   margin-right: 20px;
 }
 .el-icon-remove {
