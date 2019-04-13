@@ -1,5 +1,5 @@
 <template>
-  <div class="map-container"
+  <div class="component-container"
        v-show="mapVisible">
     <div class="map-wrapper">
       <div id="map"></div>
@@ -19,42 +19,37 @@
                circle></el-button>
   </div>
 </template>
-<style scoped>
-.map-container {
-  z-index: 999;
-  position: fixed;
-  background: #000000aa;
-  width: 100%;
-  height: 100%;
-  top: 0;
-}
-.map-wrapper {
-  position: absolute;
-  top: 10%;
-  bottom: 10%;
-  right: 10%;
-  left: 10%;
-}
-.btn-close {
-  position: absolute;
-  top: 10%;
-  right: 10%;
-  margin-right: -55px;
-  cursor: pointer;
-}
-.btn-update-location {
-  position: absolute;
-  top: 10%;
-  right: 10%;
-  margin-right: -55px;
-  margin-top: 60px;
-  cursor: pointer;
-}
-#map {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-}
+<style lang="stylus" scoped>
+.component-container
+  z-index 999
+  position fixed
+  background #000000aa
+  width 100%
+  height 100%
+  top 0
+.map-wrapper
+  position absolute
+  top 10%
+  bottom 10%
+  right 10%
+  left 10%
+  #map
+    width 100%
+    height 100%
+    border-radius 10px
+.btn-close
+  position absolute
+  top 10%
+  right 10%
+  margin-right -55px
+  cursor pointer
+.btn-update-location
+  position absolute
+  top 10%
+  right 10%
+  margin-right -55px
+  margin-top 60px
+  cursor pointer
 </style>
 <script>
 import * as account from "../persist/account"

@@ -1,5 +1,5 @@
 <template>
-  <div class="editor-container"
+  <div class="component-container"
        v-show="editorVisible">
     <div class="editor-wrapper"
          :class="{large:isShowLetter}">
@@ -74,143 +74,120 @@
     </div>
   </div>
 </template>
-<style scoped>
-.editor-container {
-  z-index: 1000;
-  position: fixed;
-  background: #000000aa;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-.editor-wrapper {
-  position: absolute;
-  top: 5%;
-  width: 650px;
-  background: #f4f6ff;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  border-radius: 6px;
-}
-.editor-wrapper.large {
-  max-width: 80%;
-  width: 960px;
-}
-.editor-content {
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  max-height: calc(100vh - 124px);
-  overflow-y: hidden;
-  background: transparent;
-  width: 100%;
-  box-sizing: border-box;
-}
-.letter-list {
-  overflow-y: auto;
-  height: calc(100vh - 124px);
-  min-height: 250px;
-  overflow-x: hidden;
-  padding: 10px;
-}
-.letter-list > div {
-  margin-bottom: 50px;
-}
-.editor-left-section {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 124px);
-}
-.editor-body {
-  padding: 20px;
-  width: 100%;
-  overflow-y: auto;
-  flex: 1;
-  min-height: 250px;
-  box-sizing: border-box;
-  border: none;
-  font-size: 13px;
-  line-height: 24px;
-  resize: none;
-  outline: 0;
-  font-family: inherit;
-  background: transparent;
-}
-.form-section {
-  padding: 10px 20px 0 20px;
-}
-.editor-header {
-  padding: 10px 0 10px 10px;
-  font-size: 16px;
-  background-color: #0078d7;
-  color: white;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-}
-.word-count {
-  font-size: 12px;
-  margin-left: 10px;
-  color: #ffffffaa;
-}
-.sending-state {
-  font-size: 12px;
-  margin-left: 10px;
-  color: #ffffffaa;
-}
-.el-icon-tickets,
-.el-icon-close,
-.el-icon-message {
-  float: right;
-  padding: 0 10px;
-  cursor: pointer;
-  margin-top: 3px;
-}
-.tip-add-image {
-  font-size: 13px;
-  color: #666;
-}
-.image-item {
-  position: relative;
-}
-.image-item img {
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
-.btn-add-image {
-  font-size: 60px;
-  color: #ddd;
-  background: #eee;
-  position: relative;
-  cursor: pointer;
-}
-.btn-add-image > i {
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  position: absolute;
-}
-.image-container {
-  overflow-x: auto;
-  overflow-y: hidden;
-  height: 100px;
-  white-space: nowrap;
-  padding-bottom: 20px;
-  padding-top: 10px;
-}
-.image-container > div {
-  display: inline-block;
-  width: 100px;
-  height: 100px;
-  margin-right: 20px;
-}
-.el-icon-remove {
-  position: absolute;
-  margin-left: -10px;
-  margin-top: -6px;
-  color: red;
-  cursor: pointer;
-}
+<style lang="stylus" scoped>
+.component-container
+  z-index 1000
+  position fixed
+  background #000000aa
+  top 0
+  left 0
+  right 0
+  bottom 0
+.editor-wrapper
+  position absolute
+  top 5%
+  width 650px
+  background #f4f6ff
+  margin-left 50%
+  transform translateX(-50%)
+  border-radius 6px
+  &.large
+    max-width 80%
+    width 960px
+.editor-content
+  border-bottom-left-radius 6px
+  border-bottom-right-radius 6px
+  max-height calc(100vh - 124px)
+  overflow-y hidden
+  background transparent
+  width 100%
+  box-sizing border-box
+.letter-list
+  overflow-y auto
+  height calc(100vh - 124px)
+  min-height 250px
+  overflow-x hidden
+  padding 10px
+.letter-list > div
+  margin-bottom 50px
+.editor-left-section
+  display flex
+  flex-direction column
+  height calc(100vh - 124px)
+.editor-body
+  padding 20px
+  width 100%
+  overflow-y auto
+  flex 1
+  min-height 250px
+  box-sizing border-box
+  border none
+  font-size 13px
+  line-height 24px
+  resize none
+  outline 0
+  font-family inherit
+  background transparent
+.form-section
+  padding 10px 20px 0 20px
+.editor-header
+  padding 10px 0 10px 10px
+  font-size 16px
+  background-color #0078d7
+  color white
+  border-top-left-radius 6px
+  border-top-right-radius 6px
+.word-count
+  font-size 12px
+  margin-left 10px
+  color #ffffffaa
+.sending-state
+  font-size 12px
+  margin-left 10px
+  color #ffffffaa
+.el-icon-tickets, .el-icon-close, .el-icon-message
+  float right
+  padding 0 10px
+  cursor pointer
+  margin-top 3px
+.tip-add-image
+  font-size 13px
+  color #666
+.image-item
+  position relative
+.image-item img
+  width 100%
+  height 100%
+  cursor pointer
+.btn-add-image
+  font-size 60px
+  color #ddd
+  background #eee
+  position relative
+  cursor pointer
+.btn-add-image > i
+  top 50%
+  left 50%
+  transform translateX(-50%) translateY(-50%)
+  position absolute
+.image-container
+  overflow-x auto
+  overflow-y hidden
+  height 100px
+  white-space nowrap
+  padding-bottom 20px
+  padding-top 10px
+  > div
+    display inline-block
+    width 100px
+    height 100px
+    margin-right 20px
+.el-icon-remove
+  position absolute
+  margin-left -10px
+  margin-top -6px
+  color red
+  cursor pointer
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
@@ -296,10 +273,16 @@ export default {
         this.editorVisible = false
         return
       }
-      this.$confirm(`关闭后将会保存为草稿，${this.rawImageList.length > 0 ? '但图片会丢失，' : ''}是否关闭？`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
-      })
+      this.$confirm(
+        `关闭后将会保存为草稿，${
+          this.rawImageList.length > 0 ? "但图片会丢失，" : ""
+        }是否关闭？`,
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消"
+        }
+      )
         .then(() => {
           this.saveDraft(this.inputData).then(() => {
             this.editorVisible = false

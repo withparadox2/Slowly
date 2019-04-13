@@ -46,97 +46,83 @@
     </div>
   </div>
 </template>
-<style scoped>
-.stat-info {
-  z-index: 2000;
-  background: #000000aa;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-.stat-info-content {
-  position: absolute;
-  top: 5%;
-  width: 650px;
-  background: #f4f6ff;
-  margin-left: 50%;
-  transform: translateX(-50%);
-  border-radius: 6px;
-}
-.stat-header {
-  padding: 10px 0 10px 10px;
-  font-size: 16px;
-  background-color: #0078d7;
-  color: white;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-}
-.stat-content {
-  overflow-y: auto;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
-  padding: 10px 0 0 0;
-  max-height: calc(100vh - 124px);
-  min-height: 142px;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 14px;
-  line-height: 25px;
-}
-.stat-detail {
-  padding: 0 20px;
-}
-.date-map-section {
-  position: relative;
-}
-.hover-text {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  top: 0;
-  line-height: 24px;
-  color: #666;
-  font-size: 12px;
-  transition: all 0.3s;
-}
-.hover-text.hide {
-  opacity: 0;
-}
-#svg-container {
-  background: white;
-  padding: 0 10px;
-  margin-top: 10px;
-  overflow-x: auto;
-}
-.svg-info {
-  text-align: right;
-  padding-right: 10px;
-}
-.svg-info span {
-  font-size: 12px;
-  display: inline-block;
-  border-radius: 4px;
-  width: 18px;
-  height: 18px;
-  color: white;
-  line-height: 18px;
-  text-align: center;
-}
-.svg-info .from {
-  margin-right: 5px;
-  background: #3296fc;
-}
-.svg-info .to {
-  background: #86d666;
-}
-.el-icon-close {
-  float: right;
-  padding: 0 10px;
-  cursor: pointer;
-  margin-top: 3px;
-}
+<style lang="stylus" scoped>
+.stat-info
+  z-index 2000
+  background #000000aa
+  position fixed
+  top 0
+  left 0
+  right 0
+  bottom 0
+.stat-info-content
+  position absolute
+  top 5%
+  width 650px
+  background #f4f6ff
+  margin-left 50%
+  transform translateX(-50%)
+  border-radius 6px
+.stat-header
+  padding 10px 0 10px 10px
+  font-size 16px
+  background-color #0078d7
+  color white
+  border-top-left-radius 6px
+  border-top-right-radius 6px
+.stat-content
+  overflow-y auto
+  border-bottom-left-radius 6px
+  border-bottom-right-radius 6px
+  padding 10px 0 0 0
+  max-height calc(100vh - 124px)
+  min-height 142px
+  width 100%
+  box-sizing border-box
+  font-size 14px
+  line-height 25px
+.stat-detail
+  padding 0 20px
+.date-map-section
+  position relative
+.hover-text
+  position absolute
+  width 100%
+  text-align center
+  top 0
+  line-height 24px
+  color #666
+  font-size 12px
+  transition all 0.3s
+.hover-text.hide
+  opacity 0
+#svg-container
+  background white
+  padding 0 10px
+  margin-top 10px
+  overflow-x auto
+.svg-info
+  text-align right
+  padding-right 10px
+.svg-info span
+  font-size 12px
+  display inline-block
+  border-radius 4px
+  width 18px
+  height 18px
+  color white
+  line-height 18px
+  text-align center
+.svg-info .from
+  margin-right 5px
+  background #3296fc
+.svg-info .to
+  background #86d666
+.el-icon-close
+  float right
+  padding 0 10px
+  cursor pointer
+  margin-top 3px
 </style>
 <script>
 import { formateDate, offsetTimezoneDate, getDaysCount } from "../util"

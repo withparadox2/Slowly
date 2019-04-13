@@ -17,7 +17,7 @@
                v-show="!showPasscode">
             <el-input v-model="email"
                       spellcheck="false"
-                      placeholder="电邮"/>
+                      placeholder="电邮" />
             <el-button class="login-button"
                        type="primary"
                        icon="el-icon-message"
@@ -29,7 +29,7 @@
                v-show="showPasscode">
             <el-input v-model="passcode"
                       spellcheck="false"
-                      placeholder="验证码"/>
+                      placeholder="验证码" />
             <el-button class="login-button"
                        type="primary"
                        icon="el-icon-message"
@@ -41,70 +41,53 @@
     </div>
   </div>
 </template>
-<style scoped>
-.page-wrapper {
-  overflow-x: hidden;
-}
-.container {
-  width: 50%;
-  margin: 10% auto 0 auto;
-}
-.header {
-  margin-bottom: 40px;
-  position: relative;
-}
-.title {
-  color: #66b1ff;
-  text-shadow: 2px 2px 8px #66b1ff;
-  font-size: 30px;
-}
-.back-to-email {
-  display: inline-block;
-  font-size: 26px;
-  color: #66b1ff;
-  position: absolute;
-  margin-top: 7px;
-  margin-left: -50px;
-  cursor: pointer;
-}
-.form-wrapper {
-  position: relative;
-  height: 200px;
-}
-.content-wrapper {
-  position: absolute;
-  width: 100%;
-}
-.login-button {
-  margin: 30px auto 0 auto;
-  width: 100%;
-}
-.tip-text {
-  text-align: center;
-  margin-top: 40px;
-}
-.slide-out-enter-active,
-.slide-out-leave-active,
-.slide-in-enter-active,
-.slide-in-leave-active {
-  transition: all 0.4s ease;
-}
-.slide-out-enter {
-  transform: translate(-100%, 0);
-  opacity: 0;
-}
-.slide-in-enter {
-  transform: translate(100%, 0);
-  opacity: 0;
-}
-.slide-out-leave-to {
-  transform: translate(100%, 0);
-  opacity: 0;
-}
-.slide-in-leave-to {
-  transform: translate(-100%, 0);
-  opacity: 0;
-}
+<style lang="stylus" scoped>
+.page-wrapper
+  overflow-x hidden
+.container
+  width 50%
+  margin 10% auto 0 auto
+.header
+  margin-bottom 40px
+  position relative
+.title
+  color #66b1ff
+  text-shadow 2px 2px 8px #66b1ff
+  font-size 30px
+.back-to-email
+  display inline-block
+  font-size 26px
+  color #66b1ff
+  position absolute
+  margin-top 7px
+  margin-left -50px
+  cursor pointer
+.form-wrapper
+  position relative
+  height 200px
+.content-wrapper
+  position absolute
+  width 100%
+.login-button
+  margin 30px auto 0 auto
+  width 100%
+.tip-text
+  text-align center
+  margin-top 40px
+.slide-out-enter-active, .slide-out-leave-active, .slide-in-enter-active, .slide-in-leave-active
+  transition all 0.4s ease
+.slide-out-enter
+  transform translate(-100%, 0)
+  opacity 0
+.slide-in-enter
+  transform translate(100%, 0)
+  opacity 0
+.slide-out-leave-to
+  transform translate(100%, 0)
+  opacity 0
+.slide-in-leave-to
+  transform translate(-100%, 0)
+  opacity 0
 </style>
 
 <script>

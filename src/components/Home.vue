@@ -39,105 +39,91 @@
     <map-node ref="map" />
   </div>
 </template>
-<style scoped>
-.nav-header {
-  background-color: #0078d7;
-  height: 48px;
-  color: white;
-}
-.nav-header .title {
-  font-size: 18px;
-  line-height: 48px;
-  margin-left: 20px;
-}
-.nav-header .btn-exit {
-  font-size: 14px;
-  line-height: 48px;
-  float: right;
-  padding: 0 20px;
-  cursor: pointer;
-}
-.nav-header .btn-exit:hover {
-  background-color: #005a9e;
-}
-.nav-header .menu-more {
-  float: right;
-  cursor: pointer;
-}
-.nav-header .el-icon-more {
-  color: white;
-  line-height: 48px;
-  padding: 0 20px;
-}
-.nav-header .el-icon-more:hover {
-  background-color: #005a9e;
-}
-.main-content {
-  position: absolute;
-  top: 48px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
-.left-section {
-  background: #f4f4f4;
-  position: absolute;
-  left: 0;
-  width: 200px;
-  top: 0;
-  bottom: 0;
-  overflow-y: auto;
-}
-.right-section {
-  position: absolute;
-  left: 200px;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  overflow-x: hidden;
-}
-.quote-section {
-  max-width: 70%;
-  margin: 0 auto;
-  min-width: 300px;
-  top: 30%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
-  position: absolute;
-  cursor: pointer;
-}
-.quote-section .content {
-  font-size: 20px;
-  color: #555;
-  line-height: 30px;
-  white-space: pre-wrap;
-}
-.quote-section .author {
-  margin-top: 10px;
-  font-size: 14px;
-  text-align: right;
-  color: #777;
-}
-.new-version {
-  position: absolute;
-  right: 30px;
-  bottom: 30px;
-  font-size: 13px;
-  color: white;
-  border-radius: 5px;
-  white-space: nowrap;
-  background: #0078d7;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
-  padding: 5px 10px;
-  cursor: pointer;
-}
-#account-loading {
-  z-index: 1000;
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: white;
-}
+<style lang="stylus" scoped>
+@require ('../var.styl')
+.nav-header
+  background-color $main-color
+  height 48px
+  color white
+  .title
+    font-size 18px
+    line-height 48px
+    margin-left 20px
+  .btn-exit
+    font-size 14px
+    line-height 48px
+    float right
+    padding 0 20px
+    cursor pointer
+  .btn-exit:hover
+    background-color $main-color-dark
+  .menu-more
+    float right
+    cursor pointer
+  .el-icon-more
+    color white
+    line-height 48px
+    padding 0 20px
+  .el-icon-more:hover
+    background-color $main-color-dark
+.main-content
+  position absolute
+  top 48px
+  left 0
+  right 0
+  bottom 0
+.left-section
+  background #f4f4f4
+  position absolute
+  left 0
+  width 200px
+  top 0
+  bottom 0
+  overflow-y auto
+.right-section
+  position absolute
+  left 200px
+  right 0
+  top 0
+  bottom 0
+  overflow-x hidden
+.quote-section
+  max-width 70%
+  margin 0 auto
+  min-width 300px
+  top 30%
+  left 50%
+  transform translateY(-50%) translateX(-50%)
+  position absolute
+  cursor pointer
+.quote-section .content
+  font-size 20px
+  color #555
+  line-height 30px
+  white-space pre-wrap
+.quote-section .author
+  margin-top 10px
+  font-size 14px
+  text-align right
+  color #777
+.new-version
+  position absolute
+  right 30px
+  bottom 30px
+  font-size 13px
+  color white
+  border-radius 5px
+  white-space nowrap
+  background $main-color
+  box-shadow 0 2px 12px 0 rgba(0, 0, 0, 0.4)
+  padding 5px 10px
+  cursor pointer
+#account-loading
+  z-index 1000
+  position fixed
+  width 100%
+  height 100%
+  background white
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"

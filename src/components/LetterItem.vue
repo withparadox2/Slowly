@@ -28,48 +28,41 @@
     </div>
   </div>
 </template>
-<style scoped>
-.letter-detail-wrapper {
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-.letter-detail {
-  white-space: pre-wrap;
-  white-space: pre-line;
-  width: 100%;
-  background: white;
-  padding: 40px 20px 20px 20px;
-  line-height: 26px;
-  font-size: 13px;
-  box-sizing: border-box;
-  border-radius: 6px;
-  border: 1px solid #eaeaea;
-}
-.letter-detail img {
-  width: 100px;
-  float: right;
-}
-.letter-detail div {
-  clear: both;
-  padding-top: 10px;
-}
-.letter-info {
-  font-size: 12px;
-  margin-top: 10px;
-  color: #666;
-  padding-right: 10px;
-  float: right;
-}
-.letter-info .title-label {
-  display: inline-block;
-  width: 60px;
-}
-.attachments a {
-  background-size: cover;
-  background-repeat: no-repeat;
-}
+<style lang="stylus" scoped>
+@require ('../var.styl')
+.letter-detail-wrapper
+  width 100%
+  max-width 500px
+  margin 0 auto
+  overflow hidden
+.letter-detail
+  white-space pre-line
+  width 100%
+  background white
+  padding 40px 20px 20px 20px
+  line-height 26px
+  font-size $font-letter
+  box-sizing border-box
+  border-radius 6px
+  border 1px solid #eaeaea
+  img
+    width 100px
+    float right
+  div
+    clear both
+    padding-top 10px
+  .attachments a
+    background-size cover
+    background-repeat no-repeat
+.letter-info
+  font-size $font-tiny
+  margin-top 10px
+  color #666
+  padding-right 10px
+  float right
+  .title-label
+    display inline-block
+    width 60px
 </style>
 <script>
 import * as util from "../util"
