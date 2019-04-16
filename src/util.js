@@ -69,6 +69,10 @@ function formateDate(date) {
   return cur_day + " " + hours + ":" + minutes + ":" + seconds
 }
 
+function formatDateYMD(d) {
+  return `${d.getFullYear()}-${d.getMonth() < 9 ? '0' : ''}${d.getMonth() + 1}-${d.getDate() < 10 ? '0' : ''}${d.getDate()}`
+}
+
 function getDaysCount(firstDate, secondDate) {
   let oneDay = 24 * 60 * 60 * 1000 // hours*minutes*seconds*milliseconds
   return Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)))
@@ -131,5 +135,6 @@ export {
   getDaysCount,
   offsetTimezoneDate,
   showWarning,
-  formatDateReadable
+  formatDateReadable,
+  formatDateYMD
 }

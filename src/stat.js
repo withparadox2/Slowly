@@ -1,6 +1,7 @@
 import { offsetTimezoneDate, getDaysCount } from "./util"
 import { getAccount } from './persist/account'
 import SVG from 'svg.js'
+import { formatDateYMD } from './util'
 
 const COLOR_BLUE = ['#C6E2FF', '#3296FC', '#036CD9']
 const COLOR_GREEN = ['#C9ECB4', '#86D666', '#11AE2B']
@@ -10,7 +11,7 @@ function getColorIndex(num) {
   return num - 1 > 2 ? 2 : num - 1
 }
 
-export function drawSvg(id, dataList, onHover) {
+export function drawSvg(id, dataList, { onHover, onClick }) {
   const startX = 22
   const startY = 48
   const cellSize = 16
@@ -39,7 +40,7 @@ export function drawSvg(id, dataList, onHover) {
     let cell = cellList[cellIndex]
     let curDate = cell.date
     let curDateIndex = calDateIndex(curDate)
-    let loopDateStr = formatDate(loopDate)
+    let loopDateStr = formatDateYMD(loopDate)
     let loopDateIndex = calDateIndex(loopDate)
     let cp = loopDateIndex - curDateIndex
     let drawColor = ['#F7F7F7']
@@ -92,9 +93,18 @@ export function drawSvg(id, dataList, onHover) {
     group.dateStr = loopDateStr
     group.mouseover(function () {
       onHover && onHover(this.dateStr)
+      this.stroke({
+        color: "rgba(0,0,0,0.3)"
+      })
     })
     group.mouseout(function () {
       onHover && onHover('')
+      this.stroke({
+        color: "rgba(0,0,0,0)"
+      })
+    })
+    group.click(function () {
+      onClick && onClick(this.dateStr)
     })
 
     // draw year
@@ -202,8 +212,4 @@ function getNearestSaturdayAfterThisMonth() {
   let lastDayInWeek = lastDayOfThisMonth.getDay()
   let moreDays = 6 - lastDayInWeek
   return lastDayOfThisMonth.addDays(moreDays)
-}
-
-function formatDate(d) {
-  return `${d.getFullYear()}-${d.getMonth() < 9 ? '0' : ''}${d.getMonth() + 1}-${d.getDate() < 10 ? '0' : ''}${d.getDate()}`
 }

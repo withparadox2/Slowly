@@ -200,19 +200,25 @@ export default {
 
       this.stat = stat
       this.$nextTick(() => {
-        drawSvg("svg-container", letterList, date => {
-          if (!date) {
-            this.dateTimeoutId = setTimeout(() => {
-              // start hide transition
-              this.hideDateStr = true
+        drawSvg("svg-container", letterList, {
+          onHover: date => {
+            if (!date) {
               this.dateTimeoutId = setTimeout(() => {
-                this.hoverDateStr = ""
-              }, 300)
-            }, 500)
-          } else {
-            clearTimeout(this.dateTimeoutId)
-            this.hideDateStr = false
-            this.hoverDateStr = date
+                // start hide transition
+                this.hideDateStr = true
+                this.dateTimeoutId = setTimeout(() => {
+                  this.hoverDateStr = ""
+                }, 300)
+              }, 500)
+            } else {
+              clearTimeout(this.dateTimeoutId)
+              this.hideDateStr = false
+              this.hoverDateStr = date
+            }
+          },
+          onClick: date => {
+            this.close()
+            this.$emit("scrollToDate", date)
           }
         })
       })

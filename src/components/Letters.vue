@@ -5,7 +5,7 @@
             class="left-section">
       <div class="letter-list">
         <div v-for="(letter, index) in renderLetters"
-             :class="{'letter-checked': letter == selectedLetter}"
+             :class="{'letter-checked': letter == selectedLetter, 'letter-highlight': highlightDate && letter.highlight}"
              class="letter-item"
              @click="selectLetter(letter, index)"
              :key="letter.id">
@@ -64,7 +64,8 @@
     </el-col>
     <new-letter ref="newLetter"
                 v-on:sendSuccess="loadLetters(checkedFriend)" />
-    <stat ref="stat"></stat>
+    <stat ref="stat"
+          v-on:scrollToDate="scrollToDate($event)"></stat>
   </el-row>
 </template>
 <style lang="stylus" scoped>
@@ -116,10 +117,13 @@
   cursor pointer
   padding 5px 16px
   box-sizing border-box
+  transition background-color 1000ms linear
 .letter-checked
   background #f4f6ff
   -webkit-box-shadow 0 17px 0 -16px #f4f6ff
   box-shadow 0 17px 0 -16px #f4f6ff
+.letter-highlight
+  background #ededed
 .letter-body
   clear both
   display flex
@@ -173,7 +177,8 @@ import {
   showWarning,
   offsetTimezoneDate,
   formateDate,
-  formatDateReadable
+  formatDateReadable,
+  formatDateYMD
 } from "../util"
 import { scrollToTop } from "../helper"
 import { getAccount } from "../persist/account"
@@ -226,7 +231,8 @@ export default {
       selectedLetter: null,
       selecteLetterIndex: -1,
       account: getAccount(),
-      fastRender: false
+      fastRender: false,
+      highlightDate: null
     }
   },
   methods: {
@@ -299,6 +305,30 @@ export default {
         this.renderLetters[this.selecteLetterIndex + 1],
         this.selecteLetterIndex + 1
       )
+    },
+    scrollToDate(date) {
+      let index = -1
+      let find = false
+      this.renderLetters.forEach(letter => {
+        let str = formatDateYMD(offsetTimezoneDate(letter.deliver_at))
+        if (!find) {
+          if (str == date) {
+            find = true
+          }
+          index++
+        }
+        letter.highlight = str == date
+      })
+      this.highlightDate = date
+      if (find) {
+        let elList = this.$el.querySelector(".letter-list")
+        if (elList && elList.children && elList.children.length > index) {
+          elList.scrollTop = elList.children[index].offsetTop
+        }
+      }
+      setTimeout(() => {
+        this.highlightDate = null
+      }, 1000)
     }
   }
 }
