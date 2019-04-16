@@ -117,13 +117,13 @@
   cursor pointer
   padding 5px 16px
   box-sizing border-box
-  transition background-color 1000ms linear
+  transition background-color 400ms linear
 .letter-checked
   background #f4f6ff
   -webkit-box-shadow 0 17px 0 -16px #f4f6ff
   box-shadow 0 17px 0 -16px #f4f6ff
 .letter-highlight
-  background #ededed
+  background #f4f6ff
 .letter-body
   clear both
   display flex
