@@ -201,7 +201,7 @@ export default {
       this.stat = stat
       this.$nextTick(() => {
         drawSvg("svg-container", letterList, {
-          onHover: date => {
+          onHover: (date, fromNum, toNum) => {
             if (!date) {
               this.dateTimeoutId = setTimeout(() => {
                 // start hide transition
@@ -213,7 +213,7 @@ export default {
             } else {
               clearTimeout(this.dateTimeoutId)
               this.hideDateStr = false
-              this.hoverDateStr = date
+              this.hoverDateStr = `${date} 来${fromNum || 0} 往${toNum || 0}`
             }
           },
           onClick: date => {

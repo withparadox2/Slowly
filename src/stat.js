@@ -91,8 +91,10 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
       }
     }
     group.dateStr = loopDateStr
+    group.fromNum = cell.fromNum
+    group.toNum = cell.toNum
     group.mouseover(function () {
-      onHover && onHover(this.dateStr)
+      onHover && onHover(this.dateStr, this.fromNum, this.toNum)
       this.stroke({
         color: "rgba(0,0,0,0.3)"
       })
