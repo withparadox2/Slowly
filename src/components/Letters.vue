@@ -31,7 +31,7 @@
       </div>
       <div class="friend-info">
         <span class="name">
-          {{checkedFriend.name}}<span title="信件数量">({{letters.length}})</span>
+          <span :title="checkedFriendInfo">{{checkedFriend.name}}<span title="信件数量">({{letters.length}})</span></span>
           <i class="el-icon-location"
              title="查看位置"
              @click="$emit('showMap', checkedFriend)"></i>
@@ -211,6 +211,17 @@ export default {
     },
     renderLetters() {
       return this.fastRender ? this.letters.slice(0, 25) : this.letters
+    },
+    checkedFriendInfo() {
+      if (this.checkedFriend) {
+        return (
+          `姓名：${this.checkedFriend.name}\n` +
+          `生日：${this.checkedFriend.dob}\n` +
+          `回复时间：${this.checkedFriend.latest_comment}\n`
+        )
+      } else {
+        return ""
+      }
     }
   },
   watch: {
