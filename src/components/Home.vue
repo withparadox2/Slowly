@@ -166,7 +166,6 @@ export default {
   methods: {
     ...mapMutations(["setFriends"]),
     exit() {
-      //TODO check draft
       this.$confirm("退出后数据仍在，是否确定退出?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消"
