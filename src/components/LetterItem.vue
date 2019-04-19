@@ -5,7 +5,7 @@
          :class="{'dialog-mode': dialogMode}">
       <img src="../../images/pen.png"
            alt="">
-      <div>{{letter.body && letter.body.trim()}}</div>
+      <div v-html="highlightBody(letter)"></div>
       <div class="attachments"
            v-if="attachments">
         <grid-view :numColumns="attachments.length > 2 ? 3 : 2"
@@ -28,6 +28,13 @@
     </div>
   </div>
 </template>
+<style lang="stylus">
+.letter-detail
+  .highlight
+    color red
+    font-weight bold
+</style>
+
 <style lang="stylus" scoped>
 @require ('../var.styl')
 .letter-detail-wrapper
@@ -65,6 +72,7 @@
     width 60px
 </style>
 <script>
+import { mapState, mapMutations } from "vuex"
 import * as util from "../util"
 import * as api from "../api"
 import GridView from "./common/GridView.vue"
@@ -85,6 +93,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["checkedFriend", "searchValue"]),
     attachments() {
       let l = this.letter
       return l
@@ -97,6 +106,14 @@ export default {
   methods: {
     formatTime(time) {
       return util.formateDate(util.offsetTimezoneDate(time))
+    },
+    highlightBody(letter) {
+      let body = (letter.body && letter.body.trim()) || ""
+      return this.searchValue
+        ? body
+            .split(this.searchValue)
+            .join('<span class="highlight">' + this.searchValue + "</span>")
+        : body
     }
   }
 }
