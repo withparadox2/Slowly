@@ -5,7 +5,8 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     checkedFriend: null,
-    friendList: []
+    friendList: [],
+    searchValue: ""
   },
   mutations: {
     setFriends(state, list) {
@@ -13,6 +14,9 @@ export const store = new Vuex.Store({
     },
     checkFriend(state, friend) {
       state.checkedFriend = friend
+    },
+    setSearchValue(state, value) {
+      state.searchValue = value
     }
   }
 })

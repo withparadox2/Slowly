@@ -7,9 +7,12 @@
     </div>
     <div class="nav-header">
       <span class="title">Slowly</span>
+      <div class="middle">
+        <input-box></input-box>
+      </div>
       <el-dropdown class="menu-more"
                    trigger="click">
-        <i class="el-icon-more"></i>
+        <i class="el-icon-more"></i>`
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="editLocation">修改位置</el-dropdown-item>
           <el-dropdown-item @click.native="exit">退出</el-dropdown-item>
@@ -45,10 +48,17 @@
   background-color $main-color
   height 48px
   color white
+  display flex
   .title
     font-size 18px
     line-height 48px
     margin-left 20px
+  .middle
+    flex 1
+    display flex
+    align-items center
+    justify-content center
+    flex-direction row
   .btn-exit
     font-size 14px
     line-height 48px
@@ -138,6 +148,7 @@ import { quotes } from "../quote"
 import Friends from "./Friends.vue"
 import Letters from "./Letters.vue"
 import Map from "./Map.vue"
+import InputBox from "./InputBox.vue"
 
 export default {
   data() {
@@ -150,7 +161,8 @@ export default {
   components: {
     Friends,
     Letters,
-    "map-node": Map
+    "map-node": Map,
+    InputBox
   },
   computed: {
     ...mapState(["checkedFriend", "friendList"]),

@@ -31,7 +31,7 @@
       </div>
       <div class="friend-info">
         <span class="name">
-          <span :title="checkedFriendInfo">{{checkedFriend.name}}<span title="信件数量">({{letters.length}})</span></span>
+          <span :title="checkedFriendInfo">{{checkedFriend.name}}<span title="信件数量">({{searchValue ? renderLetters.length : letters.length}})</span></span>
           <i class="el-icon-location"
              title="查看位置"
              @click="$emit('showMap', checkedFriend)"></i>
@@ -197,7 +197,7 @@ export default {
     LetterItem
   },
   computed: {
-    ...mapState(["checkedFriend"]),
+    ...mapState(["checkedFriend", "searchValue"]),
     attachments() {
       let l = this.selectedLetter
       return l
@@ -210,7 +210,12 @@ export default {
       return [iconLetterIn, iconLetterOut]
     },
     renderLetters() {
-      return this.fastRender ? this.letters.slice(0, 25) : this.letters
+      let tempList = this.fastRender ? this.letters.slice(0, 25) : this.letters
+      return this.searchValue
+        ? tempList.filter(letter => {
+            return letter.body.indexOf(this.searchValue) >= 0
+          })
+        : tempList
     },
     checkedFriendInfo() {
       if (this.checkedFriend) {
