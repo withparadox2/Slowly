@@ -1,6 +1,7 @@
 <template>
   <div class="input-container">
-    <input v-model="content" />
+    <input v-model="content"
+           :placeholder="placeHolder" />
     <i class="el-icon-search"></i>
     <i class="el-icon-close"
        @click="clear"
@@ -28,6 +29,8 @@
     padding 0 35px
     &:hover, &:focus
       background rgba(244, 246, 255, 1)
+    &::placeholder
+      color #346fef
   i
     color #346fef
     position absolute
@@ -48,7 +51,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(["searchValue"])
+    ...mapState(["searchValue", "checkedFriend"]),
+    placeHolder() {
+      return this.checkedFriend ? `搜索${this.checkedFriend.name}的信` : ""
+    }
   },
   watch: {
     content(value) {
