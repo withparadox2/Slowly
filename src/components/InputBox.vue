@@ -1,7 +1,13 @@
 <template>
   <div class="input-container">
     <input v-model="content"
-           :placeholder="placeHolder" />
+           ref="input"
+           @focus="inputFocus = true"
+           @blur="inputFocus = false" />
+    <span v-show="checkedFriend && !content && !inputFocus"
+          class="placeholder">
+      搜索<span class="name">{{checkedFriend.name}}</span>的信...
+    </span>
     <i class="el-icon-search"></i>
     <i class="el-icon-close"
        @click="clear"
@@ -29,8 +35,15 @@
     padding 0 35px
     &:hover, &:focus
       background rgba(244, 246, 255, 1)
-    &::placeholder
-      color #346fef
+  .placeholder
+    font-size 13px
+    line-height 32px
+    margin-left 35px
+    color #346fef
+    position absolute
+    pointer-events none
+    .name
+      font-weight bold
   i
     color #346fef
     position absolute
@@ -47,14 +60,12 @@ import { mapState, mapMutations } from "vuex"
 export default {
   data() {
     return {
-      content: ""
+      content: "",
+      inputFocus: false
     }
   },
   computed: {
-    ...mapState(["searchValue", "checkedFriend"]),
-    placeHolder() {
-      return this.checkedFriend ? `搜索${this.checkedFriend.name}的信` : ""
-    }
+    ...mapState(["searchValue", "checkedFriend"])
   },
   watch: {
     content(value) {
