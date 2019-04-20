@@ -1,13 +1,13 @@
 <template>
   <el-row v-if="checkedFriend"
           class="component-wrapper">
-    <el-col :span="selectedLetter ? 12 : 24"
+    <el-col :span="checkedLetter ? 12 : 24"
             class="left-section">
       <div class="letter-list">
         <div v-for="(letter, index) in renderLetters"
-             :class="{'letter-checked': letter == selectedLetter, 'letter-highlight': highlightDate && letter.highlight}"
+             :class="{'letter-checked': letter == checkedLetter, 'letter-highlight': highlightDate && letter.highlight}"
              class="letter-item"
-             @click="selectLetter(letter, index)"
+             @click="checkLetter(letter, index)"
              :key="letter.id">
           <div class="letter-item-content">
             <div>
@@ -53,15 +53,15 @@
       </div>
     </el-col>
     <el-col :span="12"
-            v-if="selectedLetter"
+            v-if="checkedLetter"
             class="right-section">
-      <letter-item :letter="selectedLetter"></letter-item>
+      <letter-item :letter="checkedLetter"></letter-item>
       <div class="letter-nav">
         <span class="last-letter"
-              v-show="this.selecteLetterIndex > 0"
+              v-show="this.checkedLetterIndex > 0"
               @click="lastLetter">上一封</span>
         <span class="next-letter"
-              v-show="this.selecteLetterIndex < this.renderLetters.length - 1"
+              v-show="this.checkedLetterIndex < this.renderLetters.length - 1"
               @click="nextLetter">下一封</span>
       </div>
     </el-col>
@@ -202,7 +202,7 @@ export default {
   computed: {
     ...mapState(["checkedFriend", "searchValue"]),
     attachments() {
-      let l = this.selectedLetter
+      let l = this.checkedLetter
       return l
         ? l.attachments
           ? l.attachments.split(",").map(name => api.buildAttachmentUrl(name))
@@ -220,10 +220,10 @@ export default {
           })
         : tempList
       if (
-        this.selectedLetter &&
-        !resultList.find(letter => letter.id == this.selectedLetter.id)
+        this.checkedLetter &&
+        !resultList.find(letter => letter.id == this.checkedLetter.id)
       ) {
-        this.selectedLetter = null
+        this.checkedLetter = null
       }
       return resultList
     },
@@ -243,7 +243,7 @@ export default {
     checkedFriend(newFriend) {
       this.letters = []
       this.loadLetters(newFriend)
-      this.selectedLetter = null
+      this.checkedLetter = null
       scrollToTop(this, ".letter-list")
     }
   },
@@ -254,8 +254,8 @@ export default {
       map: null,
       letterState: "",
       showSyncIcon: false,
-      selectedLetter: null,
-      selecteLetterIndex: -1,
+      checkedLetter: null,
+      checkedLetterIndex: -1,
       account: getAccount(),
       fastRender: false,
       highlightDate: null
@@ -291,9 +291,9 @@ export default {
     newLetter() {
       this.$refs.newLetter.showEditor()
     },
-    selectLetter(letter, index) {
-      this.selectedLetter = letter
-      this.selecteLetterIndex = index
+    checkLetter(letter, index) {
+      this.checkedLetter = letter
+      this.checkedLetterIndex = index
       scrollToTop(this, ".right-section")
     },
     formatReadableTime(time) {
@@ -321,15 +321,15 @@ export default {
       }
     },
     lastLetter() {
-      this.selectLetter(
-        this.renderLetters[this.selecteLetterIndex - 1],
-        this.selecteLetterIndex - 1
+      this.checkLetter(
+        this.renderLetters[this.checkedLetterIndex - 1],
+        this.checkedLetterIndex - 1
       )
     },
     nextLetter() {
-      this.selectLetter(
-        this.renderLetters[this.selecteLetterIndex + 1],
-        this.selecteLetterIndex + 1
+      this.checkLetter(
+        this.renderLetters[this.checkedLetterIndex + 1],
+        this.checkedLetterIndex + 1
       )
     },
     scrollToDate(date) {
