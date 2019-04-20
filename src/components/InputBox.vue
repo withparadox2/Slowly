@@ -2,6 +2,7 @@
   <div class="input-container">
     <input v-model="content"
            ref="input"
+           spellcheck="false"
            :class="{'has-content': content}"
            @focus="inputFocus = true"
            @blur="inputFocus = false" />
