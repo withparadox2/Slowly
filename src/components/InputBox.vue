@@ -2,6 +2,7 @@
   <div class="input-container">
     <input v-model="content"
            ref="input"
+           :class="{'has-content': content}"
            @focus="inputFocus = true"
            @blur="inputFocus = false" />
     <span v-show="checkedFriend && !content && !inputFocus"
@@ -33,7 +34,7 @@
     outline none
     background rgba(244, 246, 255, 0.8)
     padding 0 35px
-    &:hover, &:focus
+    &:hover, &:focus, &.has-content
       background rgba(244, 246, 255, 1)
   .placeholder
     font-size 13px
