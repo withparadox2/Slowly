@@ -30,8 +30,9 @@
         </div>
       </div>
       <div class="friend-info">
-        <span class="name">
-          <span :title="checkedFriendInfo">{{checkedFriend.name}}<span title="信件数量">({{searchValue ? renderLetters.length : letters.length}})</span></span>
+        <span v-show="!searchValue">
+          <span :title="checkedFriendInfo"
+                class="name">{{checkedFriend.name}}<span title="信件数量">({{searchValue ? renderLetters.length : letters.length}})</span></span>
           <i class="el-icon-location"
              title="查看位置"
              @click="$emit('showMap', checkedFriend)"></i>
@@ -46,7 +47,9 @@
           <span v-show="letterState"
                 class="sync-state">{{letterState}}</span>
         </span>
-
+        <span v-show="searchValue">
+          <span class="name">搜索"{{searchValue}}"({{renderLetters.length}})</span>
+        </span>
       </div>
     </el-col>
     <el-col :span="12"
@@ -84,9 +87,9 @@
   height 60px
   padding 20px 20px 10px 26px
   box-sizing border-box
-.friend-info .name
-  font-size 20px
-  font-weight bold
+  .name
+    font-size 20px
+    font-weight bold
 .el-icon-location, .el-icon-date, .el-icon-plus
   cursor pointer
   margin-left 10px
