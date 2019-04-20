@@ -68,12 +68,12 @@
   .btn-exit:hover
     background-color $main-color-dark
   .menu-more
-    float right
     cursor pointer
   .el-icon-more
     color white
     line-height 48px
     padding 0 20px
+    display block
   .el-icon-more:hover
     background-color $main-color-dark
 .main-content
