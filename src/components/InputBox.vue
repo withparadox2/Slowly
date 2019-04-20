@@ -6,7 +6,7 @@
            :class="{'has-content': content}"
            @focus="inputFocus = true"
            @blur="inputFocus = false" />
-    <span v-show="checkedFriend && !content && !inputFocus"
+    <span v-if="checkedFriend && !content && !inputFocus"
           class="placeholder">
       搜索<span class="name">{{checkedFriend.name}}</span>的信...
     </span>

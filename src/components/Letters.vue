@@ -214,11 +214,18 @@ export default {
     },
     renderLetters() {
       let tempList = this.fastRender ? this.letters.slice(0, 25) : this.letters
-      return this.searchValue
+      let resultList = this.searchValue
         ? tempList.filter(letter => {
             return letter.body.indexOf(this.searchValue) >= 0
           })
         : tempList
+      if (
+        this.selectedLetter &&
+        !resultList.find(letter => letter.id == this.selectedLetter.id)
+      ) {
+        this.selectedLetter = null
+      }
+      return resultList
     },
     checkedFriendInfo() {
       if (this.checkedFriend) {
