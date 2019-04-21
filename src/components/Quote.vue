@@ -70,7 +70,6 @@ export default {
         tempList.splice(0, 1, lastQuote)
       }
       this.quoteList = tempList
-      this.quoteSectionStyle = {}
       this.setQuoteListStyle()
     },
     getQuoteInfo(quote) {
@@ -95,6 +94,9 @@ export default {
       })
     },
     setQuoteListStyle() {
+      // Reset style to get intrinsic height of quote item
+      this.quoteSectionStyle = {}
+
       this.$nextTick(() => {
         let el = this.$el.querySelector(".quote-section")
         el.scrollTop = 0
