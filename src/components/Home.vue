@@ -26,12 +26,7 @@
       <div class="right-section">
         <letters v-on:showMap="showMap($event)"
                  v-show="checkedFriend" />
-        <div v-show="!checkedFriend"
-             @click="changeQuote"
-             class="quote-section">
-          <div class="content">{{quote.content}}</div>
-          <div class="author">{{quoteAuthor}}</div>
-        </div>
+        <quote-node v-show="!checkedFriend"></quote-node>
       </div>
       <div class="new-version"
            @click="updateNewVersion()"
@@ -97,25 +92,6 @@
   top 0
   bottom 0
   overflow-x hidden
-.quote-section
-  max-width 70%
-  margin 0 auto
-  min-width 300px
-  top 30%
-  left 50%
-  transform translateY(-50%) translateX(-50%)
-  position absolute
-  cursor pointer
-.quote-section .content
-  font-size 20px
-  color #555
-  line-height 30px
-  white-space pre-wrap
-.quote-section .author
-  margin-top 10px
-  font-size 14px
-  text-align right
-  color #777
 .new-version
   position absolute
   right 30px
@@ -144,36 +120,28 @@ import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
 import { checkVersion, updateVersion } from "../update"
-import { quotes } from "../quote"
 import Friends from "./Friends.vue"
 import Letters from "./Letters.vue"
 import Map from "./Map.vue"
 import InputBox from "./InputBox.vue"
+import Quote from "./Quote.vue"
 
 export default {
   data() {
     return {
       accountInfo: null,
-      newVersion: false,
-      quoteRef: 1
+      newVersion: false
     }
   },
   components: {
     Friends,
     Letters,
     "map-node": Map,
-    InputBox
+    InputBox,
+    "quote-node": Quote
   },
   computed: {
-    ...mapState(["checkedFriend", "friendList"]),
-    quote() {
-      return this.quoteRef && quotes[parseInt(Math.random() * quotes.length)]
-    },
-    quoteAuthor() {
-      let first = this.quote.ref_name || this.quote.au_name
-      let second = this.quote.ref_name ? this.quote.au_name : ""
-      return first ? `——${first}${second ? " · " : ""}${second}` : ""
-    }
+    ...mapState(["checkedFriend", "friendList"])
   },
   methods: {
     ...mapMutations(["setFriends"]),
@@ -223,9 +191,6 @@ export default {
     },
     updateNewVersion() {
       updateVersion()
-    },
-    changeQuote() {
-      this.quoteRef++
     }
   },
   mounted() {
