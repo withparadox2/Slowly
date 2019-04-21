@@ -1,66 +1,128 @@
 <template>
-  <div @click="changeQuote"
-       class="quote-section">
-    <div class="content">{{quote.content}}</div>
-    <div class="author">{{quoteAuthor}}</div>
+  <div class="no-scroll-bar">
+    <div @click="changeQuote"
+         class="quote-section"
+         :class="{'no-smooth' : disableSmooth}"
+         :style="quoteSectionStyle">
+      <div v-for="quote in quoteList"
+           class="quote-item"
+           :style="quoteSectionStyle"
+           :key="quote.content">
+        <div class="content">{{quote.content}}</div>
+        <div class="author">{{quote.quoteInfo}}</div>
+      </div>
+    </div>
   </div>
 </template>
 <style lang="stylus" scoped>
-.quote-section
+.no-scroll-bar
   max-width 70%
   margin 0 auto
-  min-width 300px
-  top 30%
+  top 20%
   left 50%
-  transform translateY(-50%) translateX(-50%)
+  transform translateX(-50%)
   position absolute
+  overflow hidden
+.quote-section
   cursor pointer
-.quote-section .content
-  font-size 20px
-  color #555
-  line-height 30px
-  white-space pre-wrap
-.quote-section .author
-  margin-top 10px
-  font-size 14px
-  text-align right
-  color #777
+  overflow auto
+  padding-right 20px
+  scroll-behavior smooth
+  width 100%
+  &.no-smooth
+    scroll-behavior auto
+  .quote-item
+    padding 10px 10px
+    .content
+      font-size 20px
+      color #555
+      line-height 30px
+      white-space pre-wrap
+    .author
+      margin-top 10px
+      font-size 14px
+      text-align right
+      color #777
 </style>
-
 <script>
 import { quotes } from "../quote"
 export default {
   data() {
     return {
-      quoteRef: 1,
-      timeoutId: null
-    }
-  },
-  computed: {
-    quote() {
-      return this.quoteRef && quotes[parseInt(Math.random() * quotes.length)]
-    },
-    quoteAuthor() {
-      let first = this.quote.ref_name || this.quote.au_name
-      let second = this.quote.ref_name ? this.quote.au_name : ""
-      return first ? `——${first}${second ? " · " : ""}${second}` : ""
+      quoteList: [],
+      quoteSectionStyle: {},
+      disableSmooth: false
     }
   },
   methods: {
-    changeQuote() {
-      this.diceTimes = 0
-      clearTimeout(this.timeoutId)
-      this.changeQuoteImpl()
-    },
-    changeQuoteImpl() {
-      if (this.diceTimes++ > 8) {
-        return
+    fillQuotes() {
+      let tempList = []
+      let i = 0
+      while (i++ < 10) {
+        let newItem = quotes[parseInt(Math.random() * quotes.length)]
+        newItem.quoteInfo = this.getQuoteInfo(newItem)
+        tempList.push(newItem)
       }
-      this.timeoutId = setTimeout(() => {
-        this.quoteRef++
-        this.changeQuoteImpl()
-      }, 60)
+      let lastQuote =
+        this.quoteList.length > 0 && this.quoteList[this.quoteList.length - 1]
+      if (lastQuote) {
+        tempList.splice(0, 1, lastQuote)
+      }
+      this.quoteList = tempList
+      this.quoteSectionStyle = {}
+      this.setQuoteListStyle()
+    },
+    getQuoteInfo(quote) {
+      let first = quote.ref_name || quote.au_name
+      let second = quote.ref_name ? quote.au_name : ""
+      return first ? `——${first}${second ? " · " : ""}${second}` : ""
+    },
+    changeQuote() {
+      let el = this.$el.querySelector(".quote-section")
+      let scrollTop = 0
+      for (let i = 0; i < el.children.length - 1; i++) {
+        scrollTop += el.children[i].offsetHeight
+      }
+      el.scrollTop = scrollTop
+
+      let lastScrollTop = -1
+      let timeOutAction = () => {
+        if (lastScrollTop >= el.scrollTop) {
+          this.disableSmooth = true
+          this.fillQuotes()
+          this.$nextTick(() => {
+            this.disableSmooth = false
+          })
+        } else {
+          lastScrollTop = el.scrollTop
+          setTimeout(timeOutAction, 20)
+        }
+      }
+      setTimeout(timeOutAction, 20)
+    },
+    setQuoteListStyle() {
+      this.$nextTick(() => {
+        let el = this.$el.querySelector(".quote-section")
+        el.scrollTop = 0
+        if (el) {
+          let maxHeight = 0
+          for (let i = 0; i < el.children.length; i++) {
+            let h = el.children[i].offsetHeight
+            if (h > maxHeight) {
+              maxHeight = h
+            }
+          }
+          if (maxHeight > 0) {
+            this.quoteSectionStyle = {
+              height: maxHeight + "px"
+            }
+          }
+        }
+      })
     }
+  },
+  mounted() {
+    this.fillQuotes()
   }
 }
 </script>
