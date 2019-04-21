@@ -6,6 +6,8 @@
          element-loading-text="加载个人信息...">
     </div>
     <div class="nav-header">
+      <img class="logo"
+           src="../../images/ic_logo.svg" />
       <span class="title">Slowly</span>
       <div class="middle">
         <input-box></input-box>
@@ -44,10 +46,13 @@
   height 48px
   color white
   display flex
+  .logo
+    margin-left 10px
+    width 25px
   .title
     font-size 18px
     line-height 48px
-    margin-left 20px
+    margin-left 10px
   .middle
     flex 1
     display flex
