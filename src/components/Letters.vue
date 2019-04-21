@@ -185,7 +185,7 @@ import {
   formatDateYMD,
   offsetAndFormatDate
 } from "../util"
-import { scrollToTop } from "../helper"
+import { scrollToTop, onScrollEnd } from "../helper"
 import { getAccount } from "../persist/account"
 
 import NewLetter from "./NewLetter.vue"
@@ -366,19 +366,11 @@ export default {
           elList.scrollTop = elList.children[index].offsetTop
         }
       }
-      let lastScrollTop = -1
-      let timeOutAction = () => {
-        // Animate background of highlighted item after scroll animation
-        if (lastScrollTop == elList.scrollTop) {
-          setTimeout(() => {
-            this.highlightDate = null
-          }, 2000)
-        } else {
-          lastScrollTop = elList.scrollTop
-          setTimeout(timeOutAction, 20)
-        }
-      }
-      setTimeout(timeOutAction, 20)
+      onScrollEnd(elList, () => {
+        setTimeout(() => {
+          this.highlightDate = null
+        }, 2000)
+      })
     }
   }
 }

@@ -15,3 +15,16 @@ export function scrollToTop(vue, selector) {
     }
   })
 }
+
+export function onScrollEnd(el, endCallback) {
+  let lastScrollTop = -1
+  let timeOutAction = () => {
+    if (lastScrollTop >= el.scrollTop) {
+      endCallback && endCallback()
+    } else {
+      lastScrollTop = el.scrollTop
+      setTimeout(timeOutAction, 20)
+    }
+  }
+  setTimeout(timeOutAction, 20)
+}

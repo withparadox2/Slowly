@@ -46,6 +46,7 @@
 </style>
 <script>
 import { quotes } from "../quote"
+import { onScrollEnd } from "../helper"
 export default {
   data() {
     return {
@@ -85,20 +86,13 @@ export default {
       }
       el.scrollTop = scrollTop
 
-      let lastScrollTop = -1
-      let timeOutAction = () => {
-        if (lastScrollTop >= el.scrollTop) {
-          this.disableSmooth = true
-          this.fillQuotes()
-          this.$nextTick(() => {
-            this.disableSmooth = false
-          })
-        } else {
-          lastScrollTop = el.scrollTop
-          setTimeout(timeOutAction, 20)
-        }
-      }
-      setTimeout(timeOutAction, 20)
+      onScrollEnd(el, () => {
+        this.disableSmooth = true
+        this.fillQuotes()
+        this.$nextTick(() => {
+          this.disableSmooth = false
+        })
+      })
     },
     setQuoteListStyle() {
       this.$nextTick(() => {
