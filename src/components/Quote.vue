@@ -32,7 +32,8 @@ import { quotes } from "../quote"
 export default {
   data() {
     return {
-      quoteRef: 1
+      quoteRef: 1,
+      timeoutId: null
     }
   },
   computed: {
@@ -47,7 +48,18 @@ export default {
   },
   methods: {
     changeQuote() {
-      this.quoteRef++
+      this.diceTimes = 0
+      clearTimeout(this.timeoutId)
+      this.changeQuoteImpl()
+    },
+    changeQuoteImpl() {
+      if (this.diceTimes++ > 8) {
+        return
+      }
+      this.timeoutId = setTimeout(() => {
+        this.quoteRef++
+        this.changeQuoteImpl()
+      }, 60)
     }
   }
 }
