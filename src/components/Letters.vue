@@ -112,6 +112,7 @@
   right 0
   overflow-y auto
   padding 20px 10px
+  scroll-behavior smooth
 .letter-item
   font-size 15px
   line-height 25px
@@ -233,10 +234,14 @@ export default {
         return (
           `姓名：${this.checkedFriend.name}\n` +
           `生日：${this.checkedFriend.dob}\n` +
-          `回复时间：${offsetAndFormatDate(this.checkedFriend.latest_comment)}\n` +
+          `回复时间：${offsetAndFormatDate(
+            this.checkedFriend.latest_comment
+          )}\n` +
           // last_login is set in letter-store.js
           (this.checkedFriend.last_login
-            ? `登录时间：${offsetAndFormatDate(this.checkedFriend.last_login)}\n`
+            ? `登录时间：${offsetAndFormatDate(
+                this.checkedFriend.last_login
+              )}\n`
             : "")
         )
       } else {
@@ -354,15 +359,26 @@ export default {
         letter.highlight = str == date
       })
       this.highlightDate = date
+      let elList = this.$el.querySelector(".letter-list")
+
       if (find) {
-        let elList = this.$el.querySelector(".letter-list")
         if (elList && elList.children && elList.children.length > index) {
           elList.scrollTop = elList.children[index].offsetTop
         }
       }
-      setTimeout(() => {
-        this.highlightDate = null
-      }, 1000)
+      let lastScrollTop = -1
+      let timeOutAction = () => {
+        // Animate background of highlighted item after scroll animation
+        if (lastScrollTop == elList.scrollTop) {
+          setTimeout(() => {
+            this.highlightDate = null
+          }, 2000)
+        } else {
+          lastScrollTop = elList.scrollTop
+          setTimeout(timeOutAction, 20)
+        }
+      }
+      setTimeout(timeOutAction, 20)
     }
   }
 }
