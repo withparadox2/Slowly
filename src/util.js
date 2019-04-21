@@ -33,6 +33,10 @@ function showWarning(vue, message) {
   })
 }
 
+function offsetAndFormatDate(time) {
+  return formateDate(offsetTimezoneDate(time))
+}
+
 function offsetTimezoneDate(d) {
   if (!(d instanceof Date)) {
     d = new Date(d)
@@ -136,5 +140,6 @@ export {
   offsetTimezoneDate,
   showWarning,
   formatDateReadable,
-  formatDateYMD
+  formatDateYMD,
+  offsetAndFormatDate
 }

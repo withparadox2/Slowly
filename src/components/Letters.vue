@@ -181,7 +181,8 @@ import {
   offsetTimezoneDate,
   formateDate,
   formatDateReadable,
-  formatDateYMD
+  formatDateYMD,
+  offsetAndFormatDate
 } from "../util"
 import { scrollToTop } from "../helper"
 import { getAccount } from "../persist/account"
@@ -232,7 +233,11 @@ export default {
         return (
           `姓名：${this.checkedFriend.name}\n` +
           `生日：${this.checkedFriend.dob}\n` +
-          `回复时间：${this.checkedFriend.latest_comment}\n`
+          `回复时间：${offsetAndFormatDate(this.checkedFriend.latest_comment)}\n` +
+          // last_login is set in letter-store.js
+          (this.checkedFriend.last_login
+            ? `登录时间：${offsetAndFormatDate(this.checkedFriend.last_login)}\n`
+            : "")
         )
       } else {
         return ""
@@ -240,9 +245,12 @@ export default {
     }
   },
   watch: {
-    checkedFriend(newFriend) {
+    checkedFriend(newVal, oldVal) {
+      if (newVal && oldVal && newVal.id == oldVal.id) {
+        return
+      }
       this.letters = []
-      this.loadLetters(newFriend)
+      this.loadLetters(newVal)
       this.checkedLetter = null
       scrollToTop(this, ".letter-list")
     }

@@ -2,6 +2,7 @@
 import { insert, remove, getAll, insertOrUpdate, remove as removeLetter } from './database'
 import { STORE_LETTERS } from './versions'
 import { getLetters } from '../api'
+import Vue from 'vue'
 
 const STATE_DEFAULT = 0
 const STATE_START = 1
@@ -84,6 +85,9 @@ export class DataManager {
 
   getResultHandler(page) {
     function handleResult({ data }) {
+      if (data.user) {
+        Vue.set(this.friend, 'last_login', data.user.last_login)
+      }
       let list = this.sortList(data.comments.data || [])
       let hasMore = !!data.comments.next_page_url
 

@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     formatTime(time) {
-      return util.formateDate(util.offsetTimezoneDate(time))
+      return util.offsetAndFormatDate(time)
     },
     highlightBody(letter) {
       let body = (letter.body && letter.body.trim()) || ""
