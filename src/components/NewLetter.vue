@@ -78,7 +78,7 @@
 .component-container
   z-index 1000
   position fixed
-  background #000000aa
+  background rgba(0, 0, 0, 0.7)
   top 0
   left 0
   right 0
@@ -140,11 +140,11 @@
 .word-count
   font-size 12px
   margin-left 10px
-  color #ffffffaa
+  color rgba(255, 255, 255, 0.7)
 .sending-state
   font-size 12px
   margin-left 10px
-  color #ffffffaa
+  color rgba(255, 255, 255, 0.7)
 .el-icon-tickets, .el-icon-close, .el-icon-message
   float right
   padding 0 10px

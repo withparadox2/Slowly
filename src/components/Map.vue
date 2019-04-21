@@ -23,7 +23,7 @@
 .component-container
   z-index 999
   position fixed
-  background #000000aa
+  background rgba(0, 0, 0, 0.7)
   width 100%
   height 100%
   top 0
