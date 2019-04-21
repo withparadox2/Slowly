@@ -10,7 +10,7 @@
            src="../../images/ic_logo.svg" />
       <span class="title">Slowly</span>
       <div class="middle">
-        <input-box></input-box>
+        <input-box v-if="checkedFriend"></input-box>
       </div>
       <el-dropdown class="menu-more"
                    trigger="click">
