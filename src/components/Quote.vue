@@ -3,6 +3,7 @@
     <div @click="changeQuote"
          class="quote-section"
          :class="{'no-smooth' : disableSmooth}"
+         @wheel.prevent="nothing"
          :style="quoteSectionStyle">
       <div v-for="quote in quoteList"
            class="quote-item"
@@ -33,6 +34,7 @@
     scroll-behavior auto
   .quote-item
     padding 10px 10px
+    user-select none
     .content
       font-size 20px
       color #555
@@ -56,6 +58,7 @@ export default {
     }
   },
   methods: {
+    nothing() {},
     fillQuotes() {
       let tempList = []
       let i = 0
