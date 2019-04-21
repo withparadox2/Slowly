@@ -15,6 +15,7 @@
   padding 10px
   color #34373d
   font-size 14px
+  transition background-color 200ms linear
 .friend-item.checked
   background-color #ededed
 .friend-item:hover
