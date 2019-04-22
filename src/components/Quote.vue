@@ -17,7 +17,7 @@
 </template>
 <style lang="stylus" scoped>
 .no-scroll-bar
-  max-width 70%
+  width 600px
   margin 0 auto
   top 20%
   left 50%
@@ -49,6 +49,7 @@
 <script>
 import { quotes } from "../quote"
 import { onScrollEnd } from "../helper"
+import { setTimeout } from "timers"
 export default {
   data() {
     return {
@@ -62,7 +63,7 @@ export default {
     fillQuotes() {
       let tempList = []
       let i = 0
-      while (i++ < 10) {
+      while (i++ < 3) {
         let newItem = quotes[parseInt(Math.random() * quotes.length)]
         newItem.quoteInfo = this.getQuoteInfo(newItem)
         tempList.push(newItem)
@@ -82,6 +83,7 @@ export default {
     },
     changeQuote() {
       let el = this.$el.querySelector(".quote-section")
+
       let scrollTop = 0
       for (let i = 0; i < el.children.length - 1; i++) {
         scrollTop += el.children[i].offsetHeight
@@ -89,11 +91,7 @@ export default {
       el.scrollTop = scrollTop
 
       onScrollEnd(el, () => {
-        this.disableSmooth = true
         this.fillQuotes()
-        this.$nextTick(() => {
-          this.disableSmooth = false
-        })
       })
     },
     setQuoteListStyle() {
@@ -102,7 +100,6 @@ export default {
 
       this.$nextTick(() => {
         let el = this.$el.querySelector(".quote-section")
-        el.scrollTop = 0
         if (el) {
           let maxHeight = 0
           for (let i = 0; i < el.children.length; i++) {
@@ -117,6 +114,11 @@ export default {
             }
           }
         }
+        this.disableSmooth = true
+        setTimeout(() => {
+          el.scrollTop = 0
+          this.disableSmooth = false
+        }, 200)
       })
     }
   },
