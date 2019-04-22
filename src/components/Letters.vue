@@ -221,12 +221,26 @@ export default {
             return letter.body.indexOf(this.searchValue) >= 0
           })
         : tempList
-      if (
-        this.checkedLetter &&
-        !resultList.find(letter => letter.id == this.checkedLetter.id)
-      ) {
-        this.checkedLetter = null
+
+      let lastSearchText = this.searchValue
+      if (this.checkedLetter) {
+        let checkedIndex = -1
+        for (let i = 0; i < resultList.length; i++) {
+          if (resultList[i].id == this.checkedLetter.id) {
+            checkedIndex = i
+            break
+          }
+        }
+
+        if (checkedIndex < 0) {
+          this.checkedLetter = null
+        } else if (lastSearchText != this.lastSearchText) {
+          this.$nextTick(() => {
+            this.scorllToIndex(checkedIndex)
+          })
+        }
       }
+      this.lastSearchText = lastSearchText
       return resultList
     },
     checkedFriendInfo() {
@@ -362,15 +376,21 @@ export default {
       let elList = this.$el.querySelector(".letter-list")
 
       if (find) {
-        if (elList && elList.children && elList.children.length > index) {
-          elList.scrollTop = elList.children[index].offsetTop
-        }
+        this.scorllToIndex(index)
       }
       onScrollEnd(elList, () => {
         setTimeout(() => {
           this.highlightDate = null
         }, 2000)
       })
+    },
+    scorllToIndex(index, elList) {
+      if (!elList) {
+        elList = this.$el.querySelector(".letter-list")
+      }
+      if (elList && elList.children && elList.children.length > index) {
+        elList.scrollTop = elList.children[index].offsetTop
+      }
     }
   }
 }
