@@ -115,6 +115,7 @@ export default {
           }
         }
         this.disableSmooth = true
+        //TODO nextTick can not set scrollTop correctly, find a better way
         setTimeout(() => {
           el.scrollTop = 0
           this.disableSmooth = false
