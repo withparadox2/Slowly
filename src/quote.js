@@ -15221,38 +15221,13 @@ export const quotes = [
         "ref_name": "《等到永远》"
     },
     {
-        "content": "Choose Life. Choose a job. Choose a career. Choose a family. Choose a fucking big television, choose washing machines, cars, compact disc players and electrical tin openers. Choose good health, low cholesterol, and dental insurance. Choose fixed interest mortgage repayments. Choose a starter home. Choose your friends. Choose leisurewear and matching luggage. Choose a three-piece suite on hire purchase in a range of fucking fabrics. Choose DIY and wondering who the fuck you are on a Sunday morning. Choose sitting on that couch watching mind-numbing, spirit-crushing game shows, stuffing fucking junk food into your mouth. Choose rotting away at the end of it all, pishing your last in a miserable home, nothing more than an embarrassment to the selfish, fucked up brats you spawned to replace yourself. Choose your future. Choose life... But why would I want to do a thing like that? I chose not to choose life. I chose somethin' else. And the reasons? There are no reasons. Who needs reasons when you've got heroin? ",
-        "au_name": "",
-        "ref_name": ""
+        "content": "我要抱着草长马发情的伟大真诚去做一切事，而不是在人前羞羞答答的表演。在我看来，人都是为了要表演，失去了自己的存在。",
+        "au_name": "王小波",
+        "ref_name": "《三十而立》" 
     },
     {
-        "content": "Choose Life. Choose a job. Choose a career. Choose a family. Choose a fucking big television, choose washing machines, cars, compact disc players and electrical tin openers. Choose good health, low cholesterol, and dental insurance. Choose fixed interest mortgage repayments. Choose a starter home. Choose your friends. Choose leisurewear and matching luggage. Choose a three-piece suite on hire purchase in a range of fucking fabrics. Choose DIY and wondering who the fuck you are on a Sunday morning. Choose sitting on that couch watching mind-numbing, spirit-crushing game shows, stuffing fucking junk food into your mouth. Choose rotting away at the end of it all, pishing your last in a miserable home, nothing more than an embarrassment to the selfish, fucked up brats you spawned to replace yourself. Choose your future. Choose life... But why would I want to do a thing like that? I chose not to choose life. I chose somethin' else. And the reasons? There are no reasons. Who needs reasons when you've got heroin? ",
-        "au_name": "",
-        "ref_name": ""
-    },
-    {
-        "content": "Choose Life. Choose a job. Choose a career. Choose a family. Choose a fucking big television, choose washing machines, cars, compact disc players and electrical tin openers. Choose good health, low cholesterol, and dental insurance. Choose fixed interest mortgage repayments. Choose a starter home. Choose your friends. Choose leisurewear and matching luggage. Choose a three-piece suite on hire purchase in a range of fucking fabrics. Choose DIY and wondering who the fuck you are on a Sunday morning. Choose sitting on that couch watching mind-numbing, spirit-crushing game shows, stuffing fucking junk food into your mouth. Choose rotting away at the end of it all, pishing your last in a miserable home, nothing more than an embarrassment to the selfish, fucked up brats you spawned to replace yourself. Choose your future. Choose life... But why would I want to do a thing like that? I chose not to choose life. I chose somethin' else. And the reasons? There are no reasons. Who needs reasons when you've got heroin? ",
-        "au_name": "",
-        "ref_name": ""
-    },
-    {
-        "content": "You’re not your job. You’re not how much money you have in the bank. You’re not the car you drive. You’re not the contents of your wallet. You’re not your fucking khakis. You’re the all-singing, all-dancing crap of the world. ",
-        "au_name": "",
-        "ref_name": ""
-    },
-    {
-        "content": "You’re not your job. You’re not how much money you have in the bank. You’re not the car you drive. You’re not the contents of your wallet. You’re not your fucking khakis. You’re the all-singing, all-dancing crap of the world. ",
-        "au_name": "",
-        "ref_name": ""
-    },
-    {
-        "content": "Beneath this mask there is an idea,and ideas are bulletproof.",
-        "au_name": "",
-        "ref_name": "V"
-    },
-    {
-        "content": "I hope you come back someday.",
-        "au_name": "",
-        "ref_name": "Someday"
+        "content": "妈妈，我想像花瓣一样一分为二；一瓣给你，照顾你，一瓣给我，想怎么活怎么活。",
+        "au_name": "双雪涛",
+        "ref_name": "《飞行家》" 
     }
 ]
