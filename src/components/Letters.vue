@@ -14,7 +14,7 @@
               {{letter.name}}
               <span class="letter-state">
                 <span class="letter-deliver-time"
-                      v-if="isLetterArrive(letter)">{{formatReadableTime(letter.deliver_at)}}</span>
+                      v-if="isLetterArrive(letter)">{{formatReadableTime(letter.created_at)}}</span>
                 <img class="letter-in-out"
                      v-else
                      :src="isLetterOut(letter) ? icLetterInOut[1] : icLetterInOut[0]" />
