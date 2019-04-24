@@ -42,10 +42,14 @@
           <i class="el-icon-plus"
              title="新建"
              @click="newLetter"></i>
-          <i v-show="showSyncIcon"
-             class="el-icon-loading"></i>
-          <span v-show="letterState"
-                class="sync-state">{{letterState}}</span>
+          <div class="right-container">
+            <i v-show="showSyncIcon"
+               class="el-icon-loading"></i>
+            <span v-show="letterState"
+                  class="sync-state">{{letterState}}</span>
+            <i class="el-icon-close btn-close-letter"
+               @click="closeLetters" />
+          </div>
         </span>
         <span v-show="searchValue">
           <span class="name">搜索"{{searchValue}}"({{renderLetters.length}})</span>
@@ -91,19 +95,25 @@
     font-size 20px
     font-weight bold
 .el-icon-location, .el-icon-date, .el-icon-plus
+  font-size 16px
   cursor pointer
   margin-left 10px
 .el-icon-date
   margin-left 10px
-.sync-state
-  font-size 14px
-  color #34373d
-  font-weight normal
-  margin-left 10px
-  line-height 20px
+.right-container
   float right
-.el-icon-loading
-  float right
+  font-size 16px
+  line-height 30px
+  .sync-state
+    font-size 14px
+    color #34373d
+    font-weight normal
+    margin-right 10px
+    line-height 20px
+  .btn-close-letter
+    cursor pointer
+  .el-icon-loading
+    margin-right 10px
 .letter-list
   position absolute
   top 60px
@@ -133,17 +143,17 @@
   display flex
   flex-direction row
   align-items center
-.letter-body .letter-content
-  flex 1
-  text-overflow ellipsis
-  overflow hidden
-  white-space nowrap
-  font-size 13px
-  color #666
-.letter-body .letter-attacments
-  margin-left 4px
-  height 16px
-  vertical-align middle
+  .letter-content
+    flex 1
+    text-overflow ellipsis
+    overflow hidden
+    white-space nowrap
+    font-size 13px
+    color #666
+  .letter-attacments
+    margin-left 4px
+    height 16px
+    vertical-align middle
 .letter-deliver-time
   font-size 12px
 .letter-state
@@ -289,6 +299,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(["checkFriend"]),
     loadLetters(friend) {
       getDataManager(friend)
         .setCallback((mgr, { isRefresh, isSync, dataList, isSuccess }) => {
@@ -391,6 +402,9 @@ export default {
       if (elList && elList.children && elList.children.length > index) {
         elList.scrollTop = elList.children[index].offsetTop
       }
+    },
+    closeLetters() {
+      this.checkFriend(null)
     }
   }
 }
