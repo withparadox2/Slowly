@@ -17,6 +17,7 @@
         <i class="el-icon-more"></i>`
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="editLocation">修改位置</el-dropdown-item>
+          <el-dropdown-item @click.native="showAbout">关于</el-dropdown-item>
           <el-dropdown-item @click.native="exit">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -37,6 +38,7 @@
       </div>
     </div>
     <map-node ref="map" />
+    <about ref="about" />
   </div>
 </template>
 <style lang="stylus" scoped>
@@ -130,6 +132,7 @@ import Letters from "./Letters.vue"
 import Map from "./Map.vue"
 import InputBox from "./InputBox.vue"
 import Quote from "./Quote.vue"
+import About from "./About.vue"
 
 export default {
   data() {
@@ -143,7 +146,8 @@ export default {
     Letters,
     "map-node": Map,
     InputBox,
-    "quote-node": Quote
+    "quote-node": Quote,
+    About
   },
   computed: {
     ...mapState(["checkedFriend", "friendList"])
@@ -196,6 +200,9 @@ export default {
     },
     updateNewVersion() {
       updateVersion()
+    },
+    showAbout() {
+      this.$refs.about.show()
     }
   },
   mounted() {
