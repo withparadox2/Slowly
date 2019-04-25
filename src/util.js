@@ -140,6 +140,13 @@ function copyToClipboard(str) {
   document.body.removeChild(el)
 }
 
+function getRequestParam(val, def = null) {
+  let uri = window.location.search
+  let re = new RegExp("[&?]" + val + "=([^&?]*)")
+  let result = uri.match(re)
+  return result ? decodeURIComponent(result[1]) : def
+}
+
 export {
   validateEmail,
   showError,
@@ -151,5 +158,6 @@ export {
   formatDateReadable,
   formatDateYMD,
   offsetAndFormatDate,
-  copyToClipboard
+  copyToClipboard,
+  getRequestParam
 }

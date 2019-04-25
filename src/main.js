@@ -14,48 +14,50 @@ import InfiniteLoading from 'vue-infinite-loading'
 import { setToken } from './persist/account'
 import { showError } from './util'
 import { store } from './store'
-import './update.js'
+import { redirectUrl } from './update.js'
 
-Vue.use(ElementUI)
-Vue.use(VueRouter)
-Vue.use(InfiniteLoading)
+if (!redirectUrl()) {
+  Vue.use(ElementUI)
+  Vue.use(VueRouter)
+  Vue.use(InfiniteLoading)
 
-Vue.config.productionTip = false
+  Vue.config.productionTip = false
 
-if (true) {
-  let url = new URL(window.location.href)
-  let token = url.searchParams.get("token")
-  if (token) {
-    setToken(token)
-  }
-}
-
-window.__CONFIG__ = {
-  useCache: false
-}
-
-Vue.prototype.$errorHandler = function () {
-  return ({ message }) => {
-    showError(this, message)
-    if (message == 'token_expired' || message == 'token_invalid') {
-      setToken('')
-      this.$router.replace({
-        name: 'login'
-      })
+  if (true) {
+    let url = new URL(window.location.href)
+    let token = url.searchParams.get("token")
+    if (token) {
+      setToken(token)
     }
   }
+
+  window.__CONFIG__ = {
+    useCache: false
+  }
+
+  Vue.prototype.$errorHandler = function () {
+    return ({ message }) => {
+      showError(this, message)
+      if (message == 'token_expired' || message == 'token_invalid') {
+        setToken('')
+        this.$router.replace({
+          name: 'login'
+        })
+      }
+    }
+  }
+
+  const routes = [
+    { path: '/login', name: 'login', component: Login },
+    { path: '/home', name: 'home', component: Home },
+    { path: '/', redirect: '/home' }
+  ]
+
+  const router = new VueRouter({
+    routes
+  })
+
+  new Vue({
+    router, store
+  }).$mount('#app')
 }
-
-const routes = [
-  { path: '/login', name: 'login', component: Login },
-  { path: '/home', name: 'home', component: Home },
-  { path: '/', redirect: '/home' }
-]
-
-const router = new VueRouter({
-  routes
-})
-
-new Vue({
-  router, store
-}).$mount('#app')
