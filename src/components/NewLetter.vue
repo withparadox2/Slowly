@@ -1,5 +1,5 @@
 <template>
-  <div class="component-container"
+  <div class="modal"
        v-show="editorVisible">
     <div class="editor-wrapper"
          :class="{large:isShowLetter}">
@@ -75,14 +75,6 @@
   </div>
 </template>
 <style lang="stylus" scoped>
-.component-container
-  z-index 1000
-  position fixed
-  background rgba(0, 0, 0, 0.7)
-  top 0
-  left 0
-  right 0
-  bottom 0
 .editor-wrapper
   position absolute
   top 5%

@@ -1,5 +1,5 @@
 <template>
-  <div class="component-container"
+  <div class="modal"
        v-show="visible"
        @click="visible = false">
     <div class="content">
@@ -11,13 +11,6 @@
   </div>
 </template>
 <style lang="stylus" scoped>
-.component-container
-  z-index 1000
-  position fixed
-  background rgba(0, 0, 0, 0.7)
-  width 100%
-  height 100%
-  top 0
 .content
   position absolute
   top 10%

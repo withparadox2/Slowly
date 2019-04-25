@@ -1,5 +1,5 @@
 <template>
-  <div class="component-container"
+  <div class="modal"
        v-show="mapVisible">
     <div class="map-wrapper">
       <div id="map"></div>
@@ -20,13 +20,6 @@
   </div>
 </template>
 <style lang="stylus" scoped>
-.component-container
-  z-index 999
-  position fixed
-  background rgba(0, 0, 0, 0.7)
-  width 100%
-  height 100%
-  top 0
 .map-wrapper
   position absolute
   top 10%

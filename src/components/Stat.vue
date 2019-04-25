@@ -1,5 +1,5 @@
 <template>
-  <div class="stat-info"
+  <div class="modal"
        v-if="stat">
     <div class="stat-info-content">
       <div class="stat-header">
@@ -47,14 +47,6 @@
   </div>
 </template>
 <style lang="stylus" scoped>
-.stat-info
-  z-index 2000
-  background #000000aa
-  position fixed
-  top 0
-  left 0
-  right 0
-  bottom 0
 .stat-info-content
   position absolute
   top 5%

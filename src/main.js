@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
-import './main.css'
+import './main.styl'
 
 import Login from './components/Login.vue'
 import Home from './components/Home.vue'
