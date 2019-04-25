@@ -5,7 +5,7 @@ const localVersion = SLOWLY_VERSION
 window.appVersion = SLOWLY_VERSION
 
 const KEY_TIMESTAMP = "key_url_timestamp"
-const PARAM_TIMESTAMP = "timestamp"
+const PARAM_TIMESTAMP = "t"
 
 export function checkVersion() {
   return new Promise((resolve, reject) => {
@@ -49,12 +49,14 @@ export function updateVersion() {
 
 export function redirectUrl() {
   let lastTimestamp = localStorage.getItem(KEY_TIMESTAMP)
+  let curTimestamp = getRequestParam(PARAM_TIMESTAMP)
   if (lastTimestamp) {
-    let curTimestamp = getRequestParam(PARAM_TIMESTAMP)
     if (!curTimestamp || curTimestamp < lastTimestamp) {
       redirectWithTimestamp(lastTimestamp)
       return true
     }
+  } else {
+    localStorage.setItem(KEY_TIMESTAMP, curTimestamp)
   }
   return false
 }
