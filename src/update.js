@@ -49,13 +49,17 @@ export function updateVersion() {
 
 export function redirectUrl() {
   let lastTimestamp = localStorage.getItem(KEY_TIMESTAMP)
+  if (lastTimestamp == "null") {
+    localStorage.removeItem(KEY_TIMESTAMP)
+    lastTimestamp = null
+  }
   let curTimestamp = getRequestParam(PARAM_TIMESTAMP)
   if (lastTimestamp) {
     if (!curTimestamp || curTimestamp < lastTimestamp) {
       redirectWithTimestamp(lastTimestamp)
       return true
     }
-  } else {
+  } else if (curTimestamp) {
     localStorage.setItem(KEY_TIMESTAMP, curTimestamp)
   }
   return false
