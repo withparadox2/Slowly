@@ -125,7 +125,8 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
     lastYear = loopDate.getFullYear()
 
     // draw month
-    if ((lastMonth < 0 || lastMonth != loopDate.getMonth()) && loopDate.getMonth() <= nowDate.getMonth()) {
+    if ((lastMonth < 0 || lastMonth != loopDate.getMonth()) &&
+      loopDate.getFullYear() * 100 + loopDate.getMonth() <= nowDate.getFullYear() * 100 + nowDate.getMonth()) {
       draw.text(function (add) {
         add.tspan(`${loopDate.getMonth() + 1}月`).dy(0)
       })
