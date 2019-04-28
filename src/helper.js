@@ -18,13 +18,12 @@ export function scrollToTop(vue, selector) {
 
 export function onScrollEnd(el, endCallback) {
   let lastScrollTop = -1
-  let timeOutAction = () => {
+  let intervalId = setInterval(() => {
     if (lastScrollTop >= el.scrollTop) {
       endCallback && endCallback()
+      clearInterval(intervalId)
     } else {
       lastScrollTop = el.scrollTop
-      setTimeout(timeOutAction, 20)
     }
-  }
-  setTimeout(timeOutAction, 20)
+  }, 20)
 }
