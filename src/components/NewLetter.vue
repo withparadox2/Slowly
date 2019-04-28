@@ -8,7 +8,7 @@
         <span class="word-count"
               v-show="inputData">{{inputData.length}}</span>
         <span class="sending-state"
-              v-show="sendingState">{{sendingState}}</span>
+              v-show="letterState">{{letterState}}</span>
         <span class="el-icon-close"
               title="关闭"
               @click="close()" />
@@ -189,7 +189,7 @@ import { showError, showSuccess } from "../util"
 import * as draft from "../persist/draft"
 import * as account from "../persist/account"
 import { scrollToTop } from "../helper"
-import { setTimeout } from "timers"
+import { setTimeout, setInterval, clearInterval } from "timers"
 
 import LetterItem from "./LetterItem.vue"
 import GridView from "./common/GridView.vue"
@@ -204,7 +204,8 @@ export default {
       isShowLetter: false,
       fastRender: true,
       rawImageList: [],
-      attachments: ""
+      attachments: "",
+      isAutoSaving: false
     }
   },
   components: {
@@ -218,9 +219,13 @@ export default {
         ? this.checkedFriend.letters.slice(0, 5)
         : this.checkedFriend.letters
     },
-    sendingState() {
-      if (this.isSending || this.isUploading) {
-        return this.isUploading ? "正在上传图片..." : "正在发送..."
+    letterState() {
+      if (this.isSending || this.isUploading || this.isAutoSaving) {
+        return this.isUploading
+          ? "正在上传图片..."
+          : this.isSending
+          ? "正在发送..."
+          : "正在保存草稿..."
       }
       return ""
     }
@@ -230,6 +235,11 @@ export default {
       if (visible) {
         this.optimiseRender()
         this.scrollLetterListToTop()
+      } else {
+        if (this.intervalId) {
+          clearInterval(this.intervalId)
+          this.intervalId = null
+        }
       }
     }
   },
@@ -251,6 +261,13 @@ export default {
           }
         })
         .catch(e => showError(this, "加载草稿失败：" + e))
+      this.intervalId = setInterval(() => {
+        this.saveDraft(this.inputData)
+        this.isAutoSaving = true
+        setTimeout(() => {
+          this.isAutoSaving = false
+        }, 2000)
+      }, 15000)
     },
     saveDraft(content) {
       return draft
