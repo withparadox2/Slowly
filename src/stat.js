@@ -78,10 +78,15 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
         )
       }
     } else {
-      let path1 = draw.path('M0 7 V4 Q0 0 4 0 H10 Q14 0 14 4 V7 Z').attr({ fill: drawColor[0] })
-      let path2 = draw.path('M0 7 V10 Q0 14 4 14 H10 Q14 14 14 10 V7 Z').attr({ fill: drawColor[1] })
+      let path1 = draw.path('M0 7 V4 Q0 0 4 0 H10 Q14 0 14 4 V7 Z').attr({ fill: drawColor[0], 'stroke-width': 0 })
+      let path2 = draw.path('M0 7 V10 Q0 14 4 14 H10 Q14 14 14 10 V7 Z').attr({ fill: drawColor[1], 'stroke-width': 0 })
+      let strokePath = draw.rect(cellSize - 2, cellSize - 2).attr({
+        fill: "rgba(0,0,0,0)"
+      })
+        .radius(4)
       group.add(path1)
       group.add(path2)
+      group.add(strokePath)
       if (nowDateIndex == loopDateIndex) {
         group.add(
           draw.rect(cellSize, cellSize)
