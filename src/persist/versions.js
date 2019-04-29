@@ -4,7 +4,6 @@ export const STORE_FRIENDS = "friends"
 export const STORE_LETTERS = "letters"
 export const STORE_DRAFT = "draft"
 
-//TODO take care of login user id
 function upgradeVersion(event) {
   let db = event.target.result
   if (event.oldVersion < 1) {

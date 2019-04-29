@@ -3,7 +3,6 @@ const KEY_ACCOUNT = "slowly-key-account"
 
 let token, account
 
-//TODO deal with token expired
 function getToken() {
   if (!token) {
     token = localStorage.getItem(KEY_TOKEN)
