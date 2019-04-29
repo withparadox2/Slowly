@@ -1,3 +1,4 @@
+import { formateDate, offsetAndFormatDate } from './util'
 export function sortFriends(friends) {
   friends = friends || []
   friends.sort(
@@ -26,4 +27,32 @@ export function onScrollEnd(el, endCallback) {
       lastScrollTop = el.scrollTop
     }
   }, 20)
+}
+
+export function exportLetters(frinend, letters) {
+  let file = new Blob(
+    [(letters || []).map(letter => getLetteText(letter)).join("\n\n\n\n")],
+    { type: "text/plain" }
+  )
+  const a = document.createElement("a")
+  const url = URL.createObjectURL(file)
+  a.href = url
+  a.download = `${frinend.name}.txt`
+  document.body.appendChild(a)
+  a.click()
+  setTimeout(function () {
+    document.body.removeChild(a)
+    window.URL.revokeObjectURL(url)
+  }, 0)
+}
+
+function getLetteText(letter) {
+  let content = letter.body
+  content += `\n发信人：${letter.name}`
+  content += `\n字数：${letter.body.length}`
+  content += `\n发送时间：${offsetAndFormatDate(letter.created_at)}`
+  if (letter.read_at) {
+    content += `\n阅读时间：${offsetAndFormatDate(letter.read_at)}`
+  }
+  return content
 }

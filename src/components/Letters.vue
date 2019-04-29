@@ -42,6 +42,9 @@
           <i class="el-icon-plus"
              title="新建"
              @click="newLetter"></i>
+          <i class="el-icon-download"
+             title="导出信件"
+             @click="doExport"></i>
           <div class="right-container">
             <i v-show="showSyncIcon"
                class="el-icon-loading"></i>
@@ -94,7 +97,7 @@
   .name
     font-size 20px
     font-weight bold
-.el-icon-location, .el-icon-date, .el-icon-plus
+.el-icon-location, .el-icon-date, .el-icon-plus, .el-icon-download
   font-size 16px
   cursor pointer
   margin-left 10px
@@ -195,7 +198,7 @@ import {
   formatDateYMD,
   offsetAndFormatDate
 } from "../util"
-import { scrollToTop, onScrollEnd } from "../helper"
+import { scrollToTop, onScrollEnd, exportLetters } from "../helper"
 import { getAccount } from "../persist/account"
 
 import NewLetter from "./NewLetter.vue"
@@ -405,6 +408,9 @@ export default {
     },
     closeLetters() {
       this.checkFriend(null)
+    },
+    doExport() {
+      exportLetters(this.checkedFriend, this.letters)
     }
   }
 }
