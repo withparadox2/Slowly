@@ -325,6 +325,16 @@ export default {
             }
             this.letters = dataList
             this.checkedFriend.letters = dataList
+
+            if (this.checkedLetter) {
+              this.checkedLetter = dataList.find()
+              for (let i = 0; i < dataList.length; i++) {
+                if (dataList[i].id == this.checkedLetter.id) {
+                  this.checkLetter(dataList[i], i, true)
+                  break
+                }
+              }
+            }
           }
         })
         .requestData()
@@ -332,10 +342,12 @@ export default {
     newLetter() {
       this.$refs.newLetter.showEditor()
     },
-    checkLetter(letter, index) {
+    checkLetter(letter, index, stickPosition) {
       this.checkedLetter = letter
       this.checkedLetterIndex = index
-      scrollToTop(this, ".right-section")
+      if (!stickPosition) {
+        scrollToTop(this, ".right-section")
+      }
     },
     formatReadableTime(time) {
       return formatDateReadable(offsetTimezoneDate(time))

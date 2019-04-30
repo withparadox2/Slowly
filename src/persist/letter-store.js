@@ -97,17 +97,14 @@ export class DataManager {
           // We are far away from server, we should do a full sync
           this.syncState = STATE_SYNC
         } else {
-          if (overlapIndex > 0) {
-            let subList = list.slice(0, overlapIndex)
-            this.insertLetters(subList)
-            this.dataList = subList.concat(this.dataList)
-          }
-          //TODO only update necessary parts
           this.updateLetters(list)
           this.friend.lastRefreshTime = Date.now()
-
           this.syncState = STATE_SUCCESS
-          this.doCallback()
+
+          loadLocalLetters(this.userId).then(data => {
+            this.dataList = this.sortList(data)
+            this.doCallback()
+          })
         }
       }
 
