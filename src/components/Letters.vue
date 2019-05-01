@@ -62,14 +62,23 @@
     <el-col :span="12"
             v-if="checkedLetter"
             class="right-section">
-      <letter-item :letter="checkedLetter"></letter-item>
-      <div class="letter-nav">
-        <span class="last-letter"
-              v-show="this.checkedLetterIndex > 0"
-              @click="lastLetter">上一封</span>
-        <span class="next-letter"
-              v-show="this.checkedLetterIndex < this.renderLetters.length - 1"
-              @click="nextLetter">下一封</span>
+      <div class="search-nav"
+           v-if="false">
+        <span class="result"></span>
+        <span class="nav-item el-icon-arrow-up"></span>
+        <span class="nav-item el-icon-arrow-down"></span>
+      </div>
+      <div class="scroll-container">
+        <letter-item ref="letterItem"
+                     :letter="checkedLetter"></letter-item>
+        <div class="letter-nav">
+          <span class="last-letter"
+                v-show="this.checkedLetterIndex > 0"
+                @click="lastLetter">上一封</span>
+          <span class="next-letter"
+                v-show="this.checkedLetterIndex < this.renderLetters.length - 1"
+                @click="nextLetter">下一封</span>
+        </div>
       </div>
     </el-col>
     <new-letter ref="newLetter"
@@ -165,12 +174,16 @@
   height 16px
   vertical-align middle
 .right-section
-  padding 40px 20px 40px 20px
-  overflow-y auto
-  overflow-x hidden
   height 100%
   position relative
   background rgb(245, 245, 245)
+  .scroll-container
+    box-sizing border-box
+    width 100%
+    height 100%
+    padding 40px 20px 40px 20px
+    overflow-y auto
+    overflow-x hidden
 .letter-nav
   max-width 500px
   margin 10px auto
@@ -183,6 +196,23 @@
   float left
 .next-letter
   float right
+.search-nav
+  position absolute
+  top 0
+  left 0
+  background white
+  border-bottom-right-radius 6px
+  border-right #ccc 1px solid
+  border-bottom #ccc 1px solid
+  .result
+    font-size 12px
+    line-height 20px
+    display inline-block
+    padding 0 5px 2px 5px
+  .nav-item
+    cursor pointer
+    display inline-block
+    padding 0 5px
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
@@ -274,6 +304,16 @@ export default {
       } else {
         return ""
       }
+    },
+    searchNav() {
+      if (!this.checkedFriend || !this.searchValue || !this.refs.letterItem) {
+        return {
+          show: false
+        }
+      }
+      return {
+        show: true,
+      }
     }
   },
   watch: {
@@ -327,7 +367,6 @@ export default {
             this.checkedFriend.letters = dataList
 
             if (this.checkedLetter) {
-              this.checkedLetter = dataList.find()
               for (let i = 0; i < dataList.length; i++) {
                 if (dataList[i].id == this.checkedLetter.id) {
                   this.checkLetter(dataList[i], i, true)
