@@ -7,7 +7,9 @@
              v-show="showPasscode"
              @click="backToEmail"></i>
         </transition>
-        <span class="title">Slowly</span>
+        <a href="https://www.getslowly.com/en/" class="title-link">
+          <span class="title">Slowly</span>
+        </a>
       </div>
       <div class="form-wrapper">
         <transition-group :name="fadeName"
@@ -50,6 +52,8 @@
 .header
   margin-bottom 40px
   position relative
+.title-link
+  text-decoration none
 .title
   color #66b1ff
   text-shadow 2px 2px 8px #66b1ff
