@@ -188,7 +188,7 @@ import * as api from "../api"
 import { showError, showSuccess } from "../util"
 import * as draft from "../persist/draft"
 import * as account from "../persist/account"
-import { scrollToTop } from "../helper"
+import { scrollToTop, createListRender } from "../helper"
 import { setTimeout, setInterval, clearInterval } from "timers"
 
 import LetterItem from "./LetterItem.vue"
@@ -202,10 +202,12 @@ export default {
       isSending: false,
       isUploading: false,
       isShowLetter: false,
-      fastRender: true,
       rawImageList: [],
       attachments: "",
-      isAutoSaving: false
+      isAutoSaving: false,
+      listRender: createListRender({
+        preloadCount: 5
+      })
     }
   },
   components: {
@@ -215,9 +217,7 @@ export default {
   computed: {
     ...mapState(["checkedFriend"]),
     renderLetters() {
-      return this.fastRender
-        ? this.checkedFriend.letters.slice(0, 5)
-        : this.checkedFriend.letters
+      return this.listRender.renderedList()
     },
     letterState() {
       if (this.isSending || this.isUploading || this.isAutoSaving) {
@@ -233,13 +233,18 @@ export default {
   watch: {
     editorVisible(visible) {
       if (visible) {
-        this.optimiseRender()
+        this.listRender.optimise()
         this.scrollLetterListToTop()
       } else {
         if (this.intervalId) {
           clearInterval(this.intervalId)
           this.intervalId = null
         }
+      }
+    },
+    checkedFriend(friend) {
+      if (friend) {
+        this.listRender.dataList = friend.letters || []
       }
     }
   },
@@ -342,20 +347,12 @@ export default {
     },
     toggleShowLetter() {
       this.isShowLetter = !this.isShowLetter
-      this.optimiseRender()
+      this.listRender.optimise()
       this.scrollLetterListToTop()
     },
     scrollLetterListToTop() {
       if (this.isShowLetter) {
         scrollToTop(this, ".letter-list")
-      }
-    },
-    optimiseRender() {
-      if (this.isShowLetter) {
-        this.fastRender = true
-        setTimeout(() => {
-          this.fastRender = false
-        }, 0)
       }
     },
     addImage() {

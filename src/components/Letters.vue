@@ -228,7 +228,7 @@ import {
   formatDateYMD,
   offsetAndFormatDate
 } from "../util"
-import { scrollToTop, onScrollEnd, exportLetters } from "../helper"
+import { scrollToTop, onScrollEnd, exportLetters, createListRender } from "../helper"
 import { getAccount } from "../persist/account"
 
 import NewLetter from "./NewLetter.vue"
@@ -258,7 +258,7 @@ export default {
       return [iconLetterIn, iconLetterOut]
     },
     renderLetters() {
-      let tempList = this.fastRender ? this.letters.slice(0, 25) : this.letters
+      let tempList = this.listRender.renderedList()
       let resultList = this.searchValue
         ? tempList.filter(letter => {
             return letter.body.indexOf(this.searchValue) >= 0
@@ -337,8 +337,10 @@ export default {
       checkedLetter: null,
       checkedLetterIndex: -1,
       account: getAccount(),
-      fastRender: false,
-      highlightDate: null
+      highlightDate: null,
+      listRender: createListRender({
+        preloadCount: 25
+      })
     }
   },
   methods: {
@@ -361,9 +363,10 @@ export default {
               }
             }
             if (this.letters.length == 0) {
-              this.optimiseRender()
+              this.listRender.optimise()
             }
             this.letters = dataList
+            this.listRender.dataList = this.letters
             this.checkedFriend.letters = dataList
 
             if (this.checkedLetter) {
@@ -403,14 +406,6 @@ export default {
     },
     isLetterOut(letter) {
       return letter.user == this.account.id
-    },
-    optimiseRender() {
-      if (this.checkedFriend) {
-        this.fastRender = true
-        setTimeout(() => {
-          this.fastRender = false
-        }, 0)
-      }
     },
     lastLetter() {
       this.checkLetter(

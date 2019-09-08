@@ -31,16 +31,16 @@ export function onScrollEnd(el, endCallback) {
 
 export function exportLetters(frinend, letters) {
   let file = new Blob(
-    [(letters || []).map(letter => getLetteText(letter)).join("\n\n\n\n")],
-    { type: "text/plain" }
+    [(letters || []).map(letter => getLetteText(letter)).join('\n\n\n\n')],
+    { type: 'text/plain' }
   )
-  const a = document.createElement("a")
+  const a = document.createElement('a')
   const url = URL.createObjectURL(file)
   a.href = url
   a.download = `${frinend.name}.txt`
   document.body.appendChild(a)
   a.click()
-  setTimeout(function () {
+  setTimeout(function() {
     document.body.removeChild(a)
     window.URL.revokeObjectURL(url)
   }, 0)
@@ -55,4 +55,32 @@ function getLetteText(letter) {
     content += `\n阅读时间：${offsetAndFormatDate(letter.read_at)}`
   }
   return content
+}
+
+/**
+ * Delay rendering of a whole large list to next round of update by
+ * showing a preloaded count of the list first.
+ *
+ * The caller should keep dataList updated.
+ */
+export function createListRender({ preloadCount = 5, dataList = [] }) {
+  function Factory() {
+    this.fastRender = false
+    this.dataList = dataList
+    this.preloadCount = preloadCount
+  }
+  Factory.prototype = {
+    optimise() {
+      this.fastRender = true
+      setTimeout(() => {
+        this.fastRender = false
+      }, 0)
+    },
+    renderedList() {
+      return this.fastRender
+        ? this.dataList.slice(0, this.preloadCount)
+        : this.dataList
+    }
+  }
+  return new Factory()
 }
