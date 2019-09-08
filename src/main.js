@@ -10,6 +10,7 @@ import Login from './components/Login.vue'
 import Home from './components/Home.vue'
 
 import InfiniteLoading from 'vue-infinite-loading'
+import VueLazyload from 'vue-lazyload'
 
 import { setToken } from './persist/account'
 import { showError } from './util'
@@ -20,6 +21,7 @@ if (!redirectUrl()) {
   Vue.use(ElementUI)
   Vue.use(VueRouter)
   Vue.use(InfiniteLoading)
+  Vue.use(VueLazyload)
 
   Vue.config.productionTip = false
 

@@ -14,7 +14,7 @@
           <a :key="url"
              :href="url"
              target="_blank"
-             :style="{ backgroundImage: 'url(' + url + ')' }"
+             v-lazy:background-image="url"
              v-for="url in attachments"></a>
         </grid-view>
       </div>
