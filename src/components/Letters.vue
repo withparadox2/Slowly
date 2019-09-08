@@ -388,7 +388,7 @@ export default {
       this.checkedLetter = letter
       this.checkedLetterIndex = index
       if (!stickPosition) {
-        scrollToTop(this, ".right-section")
+        scrollToTop(this, ".right-section .scroll-container")
       }
     },
     formatReadableTime(time) {
