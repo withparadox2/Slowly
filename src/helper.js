@@ -2,8 +2,15 @@ import { formateDate, offsetAndFormatDate } from './util'
 export function sortFriends(friends) {
   friends = friends || []
   friends.sort(
-    (first, second) =>
-      -first.latest_comment.localeCompare(second.latest_comment)
+    (first, second) => {
+      if (!first.latest_comment) {
+        return 1
+      } else if (!second.latest_comment) {
+        return -1
+      } else  {
+        return -first.latest_comment.localeCompare(second.latest_comment)
+      }
+    }
   )
   return friends
 }
