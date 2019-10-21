@@ -27,6 +27,12 @@
           <div>
             包含整整{{stat.totalWordCount}}个字
           </div>
+          <div>
+            其中，你写了{{stat.totalToCount}}封信，包含{{stat.totalToWordCount}}个字
+          </div>
+          <div>
+            {{stat.name}}写了{{stat.totalFromCount}}封信，包含{{stat.totalFromWordCount}}个字
+          </div>
           <div v-show="stat.perday.count > 2">
             特别的，在{{stat.perday.dateStr}}这天，你们往来了{{stat.perday.count}}封信
           </div>
@@ -146,14 +152,28 @@ export default {
           dateStr: ""
         },
         totalCount: 0,
-        totalWordCount: 0
+        totalWordCount: 0,
+        totalFromCount: 0,
+        totalFromWordCount: 0,
+        totalToCount: 0,
+        totalToWordCount: 0
       }
 
       let perday = {}
       for (let i = 0; i < letterList.length; i++) {
         let letter = letterList[i]
+        let isSendLetter = letter.user == this.account.id
+
         stat.totalCount++
         stat.totalWordCount += letter.body.length
+
+        if (isSendLetter) {
+          stat.totalToCount++
+          stat.totalToWordCount += letter.body.length
+        } else {
+          stat.totalFromCount++
+          stat.totalFromWordCount += letter.body.length
+        }
 
         let date = offsetTimezoneDate(new Date(letter.deliver_at))
         let fullDateStr = formateDate(date)
@@ -161,7 +181,7 @@ export default {
         if (i == letterList.length - 1) {
           stat.firstLetter.dateStr = dateStr
           stat.firstLetter.date = date
-          if (letter.user == this.account.id) {
+          if (isSendLetter) {
             stat.firstLetter.from = "你"
             stat.firstLetter.to = friend.name
           } else {
