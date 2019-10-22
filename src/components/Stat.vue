@@ -10,16 +10,16 @@
       </div>
       <div class="stat-content">
         <div class="stat-detail">
-          <div>
+          <div class="no-space">
             <span>{{stat.firstLetter.dateStr}}</span>
-            这一天
+            <span>这一天</span>
             <span>{{stat.firstLetter.from}}</span>
-            给
+            <span>给</span>
             <span>{{stat.firstLetter.to}}</span>
-            写了第一封信
+            <span>写了第一封信</span>
           </div>
           <div>
-            距离现在有<span>{{stat.totalDays}}天了</span>
+            距离现在已有<span>{{stat.totalDays}}天了</span>
           </div>
           <div>
             你们一共写了{{stat.totalCount}}封信
@@ -28,10 +28,10 @@
             包含整整{{stat.totalWordCount}}个字
           </div>
           <div>
-            其中，你写了{{stat.totalToCount}}封信，包含{{stat.totalToWordCount}}个字
+            其中，你给{{stat.name}}写了{{stat.totalToCount}}封信，包含{{stat.totalToWordCount}}个字
           </div>
           <div>
-            {{stat.name}}写了{{stat.totalFromCount}}封信，包含{{stat.totalFromWordCount}}个字
+            {{stat.name}}给你写了{{stat.totalFromCount}}封信，包含{{stat.totalFromWordCount}}个字
           </div>
           <div v-show="stat.perday.count > 2">
             特别的，在{{stat.perday.dateStr}}这天，你们往来了{{stat.perday.count}}封信
@@ -81,6 +81,11 @@
   line-height 25px
 .stat-detail
   padding 0 20px
+  .no-space  
+    font-size 0px
+    line-height 14px
+    span
+      font-size 14px
 .date-map-section
   position relative
 .hover-text
