@@ -22,10 +22,7 @@
             距离现在已有<span>{{stat.totalDays}}天了</span>
           </div>
           <div>
-            你们一共写了{{stat.totalCount}}封信
-          </div>
-          <div>
-            包含整整{{stat.totalWordCount}}个字
+            你们一共写了{{stat.totalCount}}封信，包含整整{{stat.totalWordCount}}个字
           </div>
           <div>
             其中，你给{{stat.name}}写了{{stat.totalToCount}}封信，包含{{stat.totalToWordCount}}个字
