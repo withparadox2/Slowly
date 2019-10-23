@@ -17,6 +17,14 @@
                @click="updateToSelectLocation"
                title="更新为选中的位置"
                circle></el-button>
+
+    <el-button type="primary"
+               v-if="false"
+               icon="el-icon-location-outline"
+               class="btn-locate"
+               @click="locate"
+               title="定位当前位置"
+               circle></el-button>
   </div>
 </template>
 <style lang="stylus" scoped>
@@ -42,6 +50,13 @@
   right 10%
   margin-right -55px
   margin-top 60px
+  cursor pointer
+.btn-locate
+  position absolute
+  top 10%
+  right 10%
+  margin-right -55px
+  margin-top 120px
   cursor pointer
 </style>
 <script>
@@ -71,6 +86,7 @@ export default {
       }
     },
     onMapClick(e) {
+      console.log(e.point)
       this.removeOverlays()
       this.addMarker(e.point, false)
     },
@@ -154,6 +170,33 @@ export default {
             }
           })
       }
+    },
+    locate() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            this.showGpsLocation(
+              position.coords.latitude,
+              position.coords.longitude
+            )
+          },
+          error => {
+            console.log(error)
+          }
+        )
+      } else {
+        console.log("Location is not avaiable")
+      }
+      // const geolocation = new BMap.Geolocation()
+      // geolocation.enableSDKLocation()
+      // geolocation.getCurrentPosition(position => {
+      //   if (position && position.point) {
+      //     this.showGpsLocation(position.point.lat, position.point.lng)
+      //   } else {
+      //     console.log("Locate error")
+      //   }
+      //   console.log(position.point)
+      // })
     }
   }
 }
