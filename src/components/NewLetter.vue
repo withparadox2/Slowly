@@ -347,6 +347,10 @@ export default {
     },
     toggleShowLetter() {
       this.isShowLetter = !this.isShowLetter
+      if (this.isShowLetter && this.checkedFriend) {
+          // letters data may has changed for incremental update, reassign data again
+          this.listRender.dataList = this.checkedFriend.letters || []
+      }
       this.listRender.optimise()
       this.scrollLetterListToTop()
     },
