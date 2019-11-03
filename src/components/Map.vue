@@ -59,6 +59,16 @@
   margin-top 120px
   cursor pointer
 </style>
+<style lang="stylus">
+.mobile-mode
+  .btn-close, .btn-update-location
+    margin-right 10px
+  .btn-close
+    margin-top 10px
+  .btn-update-location
+    margin-top 70px    
+</style>
+
 <script>
 import * as account from "../persist/account"
 import { showError, showSuccess } from "../util"

@@ -17,6 +17,9 @@ import { showError } from './util'
 import { store } from './store'
 import { redirectUrl } from './update.js'
 
+updateMobileMode()
+window.addEventListener('resize', updateMobileMode)
+
 if (!redirectUrl()) {
   Vue.use(ElementUI)
   Vue.use(VueRouter)
@@ -27,7 +30,7 @@ if (!redirectUrl()) {
 
   if (true) {
     let url = new URL(window.location.href)
-    let token = url.searchParams.get("token")
+    let token = url.searchParams.get('token')
     if (token) {
       setToken(token)
     }
@@ -37,7 +40,7 @@ if (!redirectUrl()) {
     useCache: false
   }
 
-  Vue.prototype.$errorHandler = function () {
+  Vue.prototype.$errorHandler = function() {
     return ({ message }) => {
       showError(this, message)
       if (message == 'token_expired' || message == 'token_invalid') {
@@ -60,6 +63,11 @@ if (!redirectUrl()) {
   })
 
   new Vue({
-    router, store
+    router,
+    store
   }).$mount('#app')
+}
+
+function updateMobileMode() {
+  store.commit('setMobileMode', window.innerWidth <= 850)
 }

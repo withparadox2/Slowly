@@ -1,6 +1,7 @@
 <template>
   <el-row v-if="checkedFriend"
-          class="component-wrapper">
+          class="component-wrapper"
+          :class="{'mobile-mode': mobileMode}">
     <el-col :span="checkedLetter ? 12 : 24"
             class="left-section">
       <div class="letter-list">
@@ -30,21 +31,27 @@
         </div>
       </div>
       <div class="friend-info">
-        <span v-show="!searchValue">
-          <span :title="checkedFriendInfo"
-                class="name">{{checkedFriend.name}}<span title="信件数量">({{searchValue ? renderLetters.length : letters.length}})</span></span>
-          <i class="el-icon-location"
-             title="查看位置"
-             @click="$emit('showMap', checkedFriend)"></i>
-          <i class="el-icon-date"
-             @click="showStat"
-             title="统计"></i>
-          <i class="el-icon-plus"
-             title="新建"
-             @click="newLetter"></i>
-          <i class="el-icon-download"
-             title="导出信件"
-             @click="doExport"></i>
+        <div v-show="!searchValue"
+             class="friendinfo-header">
+          <div class="left-container">
+            <div class="content">
+              <span :title="checkedFriendInfo"
+                    class="name">{{checkedFriend.name}}<span title="信件数量">({{searchValue ? renderLetters.length : letters.length}})</span></span>
+              <i class="el-icon-location"
+                 title="查看位置"
+                 @click="$emit('showMap', checkedFriend)"></i>
+              <i class="el-icon-date"
+                 @click="showStat"
+                 title="统计"></i>
+              <i class="el-icon-plus"
+                 v-if="!mobileMode"
+                 title="新建"
+                 @click="newLetter"></i>
+              <i class="el-icon-download"
+                 title="导出信件"
+                 @click="doExport"></i>
+            </div>
+          </div>
           <div class="right-container">
             <i v-show="showSyncIcon"
                class="el-icon-loading"></i>
@@ -53,7 +60,7 @@
             <i class="el-icon-close btn-close-letter"
                @click="closeLetters" />
           </div>
-        </span>
+        </div>
         <span v-show="searchValue">
           <span class="name">搜索"{{searchValue}}"({{renderLetters.length}})</span>
         </span>
@@ -69,15 +76,18 @@
         <span class="nav-item el-icon-arrow-down"></span>
       </div>
       <div class="scroll-container">
+
         <letter-item ref="letterItem"
                      :letter="checkedLetter"></letter-item>
         <div class="letter-nav">
           <span class="last-letter"
-                v-show="this.checkedLetterIndex > 0"
+                :style="{opacity: this.checkedLetterIndex > 0 ? 1 : 0}"
                 @click="lastLetter">上一封</span>
           <span class="next-letter"
-                v-show="this.checkedLetterIndex < this.renderLetters.length - 1"
+                :style="{opacity: this.checkedLetterIndex < this.renderLetters.length - 1 ? 1 : 0}"
                 @click="nextLetter">下一封</span>
+          <i class="el-icon-close btn-close-letter"
+             @click="checkedLetter = null" />
         </div>
       </div>
     </el-col>
@@ -106,6 +116,15 @@
   .name
     font-size 20px
     font-weight bold
+.friendinfo-header
+  display flex
+  .left-container
+    flex 1
+    overflow-x auto
+    overflow-y hidden
+    margin-right 5px
+    .content
+      white-space nowrap
 .el-icon-location, .el-icon-date, .el-icon-plus, .el-icon-download
   font-size 16px
   cursor pointer
@@ -185,17 +204,26 @@
     overflow-y auto
     overflow-x hidden
 .letter-nav
-  max-width 500px
-  margin 10px auto
+  position absolute
+  bottom 0
+  left 0
+  right 0
+  background #f4f4f4
+  border-top 1px solid #eaeaea
+  text-align center
+  height 30px
+  line-height 30px
+  .btn-close-letter
+    cursor pointer
+    color #666
+    float left
+    margin-left 10px
+    margin-top 7px
 .last-letter, .next-letter
   cursor pointer
   color #666
-  padding 10px
+  padding 0 10px
   font-size 12px
-.last-letter
-  float left
-.next-letter
-  float right
 .search-nav
   position absolute
   top 0
@@ -213,11 +241,19 @@
     cursor pointer
     display inline-block
     padding 0 5px
+.mobile-mode
+  .right-section
+    position absolute
+    top 0
+    left 0
+    width 100%
+    height 100%
+    z-index 40
 </style>
 <script>
-import { mapState, mapMutations } from "vuex"
-import { getDataManager } from "../persist/letter-store"
-import * as api from "../api"
+import { mapState, mapMutations } from 'vuex'
+import { getDataManager } from '../persist/letter-store'
+import * as api from '../api'
 import {
   showError,
   showSuccess,
@@ -227,16 +263,21 @@ import {
   formatDateReadable,
   formatDateYMD,
   offsetAndFormatDate
-} from "../util"
-import { scrollToTop, onScrollEnd, exportLetters, createListRender } from "../helper"
-import { getAccount } from "../persist/account"
+} from '../util'
+import {
+  scrollToTop,
+  onScrollEnd,
+  exportLetters,
+  createListRender
+} from '../helper'
+import { getAccount } from '../persist/account'
 
-import NewLetter from "./NewLetter.vue"
-import Stat from "./Stat.vue"
-import LetterItem from "./LetterItem.vue"
+import NewLetter from './NewLetter.vue'
+import Stat from './Stat.vue'
+import LetterItem from './LetterItem.vue'
 
-import iconLetterOut from "../../images/ic_mail_out.png"
-import iconLetterIn from "../../images/ic_mail_in.png"
+import iconLetterOut from '../../images/ic_mail_out.png'
+import iconLetterIn from '../../images/ic_mail_in.png'
 
 export default {
   components: {
@@ -245,12 +286,12 @@ export default {
     LetterItem
   },
   computed: {
-    ...mapState(["checkedFriend", "searchValue"]),
+    ...mapState(['checkedFriend', 'searchValue', 'mobileMode']),
     attachments() {
       let l = this.checkedLetter
       return l
         ? l.attachments
-          ? l.attachments.split(",").map(name => api.buildAttachmentUrl(name))
+          ? l.attachments.split(',').map(name => api.buildAttachmentUrl(name))
           : null
         : null
     },
@@ -299,10 +340,10 @@ export default {
             ? `登录时间：${offsetAndFormatDate(
                 this.checkedFriend.last_login
               )}\n`
-            : "")
+            : '')
         )
       } else {
-        return ""
+        return ''
       }
     },
     searchNav() {
@@ -312,19 +353,19 @@ export default {
         }
       }
       return {
-        show: true,
+        show: true
       }
     }
   },
   watch: {
     checkedFriend(newVal, oldVal) {
-      if (newVal && oldVal && newVal.id == oldVal.id) {
+      if (!newVal || (newVal && oldVal && newVal.id == oldVal.id)) {
         return
       }
       this.letters = []
       this.loadLetters(newVal)
       this.checkedLetter = null
-      scrollToTop(this, ".letter-list")
+      scrollToTop(this, '.letter-list')
     }
   },
   data() {
@@ -332,7 +373,7 @@ export default {
       letters: [],
       mapVisible: false,
       map: null,
-      letterState: "",
+      letterState: '',
       showSyncIcon: false,
       checkedLetter: null,
       checkedLetterIndex: -1,
@@ -344,7 +385,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["checkFriend"]),
+    ...mapMutations(['checkFriend']),
     loadLetters(friend) {
       getDataManager(friend)
         .setCallback((mgr, { isRefresh, isSync, dataList, isSuccess }) => {
@@ -359,7 +400,7 @@ export default {
               this.showSyncIcon = false
               this.letterState = null
               if (!isSuccess) {
-                showError(this, "同步失败")
+                showError(this, '同步失败')
               }
             }
             if (this.letters.length == 0) {
@@ -388,7 +429,7 @@ export default {
       this.checkedLetter = letter
       this.checkedLetterIndex = index
       if (!stickPosition) {
-        scrollToTop(this, ".right-section .scroll-container")
+        scrollToTop(this, '.right-section .scroll-container')
       }
     },
     formatReadableTime(time) {
@@ -396,7 +437,7 @@ export default {
     },
     showStat() {
       if (this.letters.length == 0) {
-        showWarning(this, "没有信件")
+        showWarning(this, '没有信件')
       } else {
         this.$refs.stat.showStat(this.checkedFriend, this.letters)
       }
@@ -433,7 +474,7 @@ export default {
         letter.highlight = str == date
       })
       this.highlightDate = date
-      let elList = this.$el.querySelector(".letter-list")
+      let elList = this.$el.querySelector('.letter-list')
 
       if (find) {
         this.scorllToIndex(index)
@@ -446,7 +487,7 @@ export default {
     },
     scorllToIndex(index, elList) {
       if (!elList) {
-        elList = this.$el.querySelector(".letter-list")
+        elList = this.$el.querySelector('.letter-list')
       }
       if (elList && elList.children && elList.children.length > index) {
         elList.scrollTop = elList.children[index].offsetTop
