@@ -36,6 +36,7 @@
           <div class="left-container">
             <div class="content">
               <span :title="checkedFriendInfo"
+                    @click="showFriendInfo"
                     class="name">{{checkedFriend.name}}<span title="信件数量">({{searchValue ? renderLetters.length : letters.length}})</span></span>
               <i class="el-icon-location"
                  title="查看位置"
@@ -250,6 +251,15 @@
     height 100%
     z-index 40
 </style>
+
+<style>
+.dialog-friend-info .el-message__content {
+  white-space: pre;
+  line-height: 20px;
+}
+</style>
+
+
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { getDataManager } from '../persist/letter-store'
@@ -386,6 +396,16 @@ export default {
   },
   methods: {
     ...mapMutations(['checkFriend']),
+    showFriendInfo() {
+      const h = this.$createElement
+      this.$message({
+        dangerouslyUseHTMLString: true,
+        message: this.checkedFriendInfo,
+        duration: 10000,
+        showClose: true,
+        customClass: 'dialog-friend-info'
+      })
+    },
     loadLetters(friend) {
       getDataManager(friend)
         .setCallback((mgr, { isRefresh, isSync, dataList, isSuccess }) => {
