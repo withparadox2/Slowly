@@ -252,11 +252,18 @@
     z-index 40
 </style>
 
-<style>
+<style lang="stylus">
 .dialog-friend-info .el-message__content {
   white-space: pre;
   line-height: 20px;
 }
+@media screen and (max-width: 550px) 
+  .mobile-mode .right-section .scroll-container
+    padding 0 0 40px 0
+    .letter-detail
+      font-size 14px
+      border none
+      border-radius 0px
 </style>
 
 
