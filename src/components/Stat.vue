@@ -10,13 +10,8 @@
       </div>
       <div class="stat-content">
         <div class="stat-detail">
-          <div class="no-space">
-            <span>{{stat.firstLetter.dateStr}}</span>
-            <span>这一天</span>
-            <span>{{stat.firstLetter.from}}</span>
-            <span>给</span>
-            <span>{{stat.firstLetter.to}}</span>
-            <span>写了第一封信</span>
+          <div>
+            {{stat.firstLetter.dateStr}}这一天{{stat.firstLetter.from}}给{{stat.firstLetter.to}}写了第一封信
           </div>
           <div>
             距离现在已有<span>{{stat.totalDays}}天了</span>
@@ -25,10 +20,10 @@
             你们一共写了{{stat.totalCount}}封信，包含整整{{stat.totalWordCount}}个字
           </div>
           <div>
-            其中，你给{{stat.name}}写了{{stat.totalToCount}}封信，包含{{stat.totalToWordCount}}个字
+            你给“{{stat.name}}”写了{{stat.totalToCount}}封信，包含{{stat.totalToWordCount}}个字
           </div>
           <div>
-            {{stat.name}}给你写了{{stat.totalFromCount}}封信，包含{{stat.totalFromWordCount}}个字
+            “{{stat.name}}”给你写了{{stat.totalFromCount}}封信，包含{{stat.totalFromWordCount}}个字
           </div>
           <div v-show="stat.perday.count > 2">
             特别的，在{{stat.perday.dateStr}}这天，你们往来了{{stat.perday.count}}封信
@@ -76,14 +71,11 @@
   width 100%
   box-sizing border-box
   font-size 14px
-  line-height 25px
+  line-height 22px
 .stat-detail
   padding 0 20px
-  .no-space
-    font-size 0px
-    line-height 14px
-    span
-      font-size 14px
+  > div
+    margin-bottom 8px
 .date-map-section
   position relative
 .hover-text
@@ -186,9 +178,9 @@ export default {
           stat.firstLetter.date = date
           if (isSendLetter) {
             stat.firstLetter.from = '你'
-            stat.firstLetter.to = friend.name
+            stat.firstLetter.to = `“${friend.name}”`
           } else {
-            stat.firstLetter.from = friend.name
+            stat.firstLetter.from = `“${friend.name}”`
             stat.firstLetter.to = '你'
           }
         }

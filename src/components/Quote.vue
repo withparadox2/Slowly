@@ -17,7 +17,8 @@
 </template>
 <style lang="stylus" scoped>
 .no-scroll-bar
-  width 600px
+  max-width 600px
+  width 90%
   margin 0 auto
   top 20%
   left 50%

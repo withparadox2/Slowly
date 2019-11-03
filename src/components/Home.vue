@@ -158,6 +158,7 @@
 .right-section
   flex 1
   overflow hidden
+  position relative
 .new-version
   position absolute
   right 30px
