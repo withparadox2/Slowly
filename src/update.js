@@ -13,7 +13,14 @@ export function checkVersion() {
       method: 'get',
       url: `./version.json?t=${Date.now()}`,
     }).then(response => {
-      resolve(response.data && response.data.versionCode > localVersion.versionCode)
+      if (response.data) {
+        resolve({
+          newVersion: response.data.versionCode > localVersion.versionCode,
+          content: response.data.content
+        })
+      } else {
+        resolve(false)
+      }
     }).catch((error) => {
       resolve(false)
     })

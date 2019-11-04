@@ -46,9 +46,7 @@
       </div>
       <div class="new-version"
            @click="updateNewVersion()"
-           v-show="newVersion">
-        检测到新版本，点击刷新
-      </div>
+           v-show="newVersion">点击更新{{newVersion.content ? '\n' +newVersion.content : '' }}</div>
     </div>
     <map-node ref="map" />
     <about ref="about" />
@@ -171,6 +169,8 @@
   box-shadow 0 2px 12px 0 rgba(0, 0, 0, 0.4)
   padding 5px 10px
   cursor pointer
+  white-space pre-line
+  max-width 200px
 #account-loading
   z-index 1000
   position fixed
@@ -179,20 +179,20 @@
   background white
 </style>
 <script>
-import { mapState, mapMutations } from 'vuex'
-import * as api from '../api'
-import { showError, showSuccess } from '../util'
-import * as friendStore from '../persist/friend-store'
-import * as account from '../persist/account'
-import { getDataManager } from '../persist/letter-store'
-import { sortFriends } from '../helper'
-import { checkVersion, updateVersion } from '../update'
-import Friends from './Friends.vue'
-import Letters from './Letters.vue'
-import Map from './Map.vue'
-import InputBox from './InputBox.vue'
-import Quote from './Quote.vue'
-import About from './About.vue'
+import { mapState, mapMutations } from "vuex"
+import * as api from "../api"
+import { showError, showSuccess } from "../util"
+import * as friendStore from "../persist/friend-store"
+import * as account from "../persist/account"
+import { getDataManager } from "../persist/letter-store"
+import { sortFriends } from "../helper"
+import { checkVersion, updateVersion } from "../update"
+import Friends from "./Friends.vue"
+import Letters from "./Letters.vue"
+import Map from "./Map.vue"
+import InputBox from "./InputBox.vue"
+import Quote from "./Quote.vue"
+import About from "./About.vue"
 
 export default {
   data() {
@@ -205,20 +205,20 @@ export default {
   components: {
     Friends,
     Letters,
-    'map-node': Map,
+    "map-node": Map,
     InputBox,
-    'quote-node': Quote,
+    "quote-node": Quote,
     About
   },
   computed: {
-    ...mapState(['checkedFriend', 'friendList', 'mobileMode'])
+    ...mapState(["checkedFriend", "friendList", "mobileMode"])
   },
   methods: {
-    ...mapMutations(['setFriends']),
+    ...mapMutations(["setFriends"]),
     exit() {
-      this.$confirm('退出后数据仍在，是否确定退出?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消'
+      this.$confirm("退出后数据仍在，是否确定退出?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消"
       })
         .then(() => {
           account.clear()
@@ -228,7 +228,7 @@ export default {
     },
     goLogin() {
       this.$router.replace({
-        name: 'login'
+        name: "login"
       })
     },
     showMap(friend) {
@@ -303,8 +303,10 @@ export default {
       })
     }
 
-    checkVersion().then(newVersion => {
-      this.newVersion = newVersion
+    checkVersion().then((result) => {
+      if (result && result.newVersion) {
+        this.newVersion = result
+      }
     })
   }
 }
