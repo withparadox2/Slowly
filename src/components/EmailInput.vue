@@ -8,6 +8,7 @@
       <div>
         <div v-for="email in cachedEmails"
              :key="email"
+             class="item"
              @click="checkEmail(email)">
           {{email}}
         </div>
@@ -24,6 +25,8 @@
 .email-popover
   width 50%
   box-sizing border-box
+  .item
+    cursor pointer
 </style>
 <script>
 export default {
