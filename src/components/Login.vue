@@ -7,7 +7,8 @@
              v-show="showPasscode"
              @click="backToEmail"></i>
         </transition>
-        <a href="https://www.getslowly.com/en/" class="title-link">
+        <a href="https://www.getslowly.com/en/"
+           class="title-link">
           <span class="title">Slowly</span>
         </a>
       </div>
@@ -17,9 +18,8 @@
           <div class="content-wrapper"
                :key="1"
                v-show="!showPasscode">
-            <el-input v-model="email"
-                      spellcheck="false"
-                      placeholder="电邮" />
+            <email-input v-model="email"
+                         ref="emailInput" />
             <el-button class="login-button"
                        type="primary"
                        icon="el-icon-message"
@@ -98,6 +98,8 @@
 import { validateEmail, showError, showSuccess } from "../util"
 import { sendEmailPasscode, verifyPasscode } from "../api"
 import { setToken, getToken } from "../persist/account"
+import EmailInput from "./EmailInput.vue"
+
 export default {
   data() {
     return {
@@ -106,6 +108,9 @@ export default {
       fullscreenLoading: false,
       showPasscode: false
     }
+  },
+  components: {
+    EmailInput
   },
   computed: {
     fadeName() {
@@ -126,9 +131,13 @@ export default {
           if (response && response.data && response.data.success) {
             showSuccess(this, `验证码已发送至${this.email}`)
             this.showPasscode = true
+            this.$refs.emailInput.save()
           }
         })
-        .catch(this.$errorHandler)
+        .catch(err => {
+          this.fullscreenLoading = false
+          this.$errorHandler()(err)
+        })
     },
     login() {
       if (!this.passcode) {
@@ -146,7 +155,10 @@ export default {
             })
           }
         })
-        .catch(this.$errorHandler)
+        .catch(err => {
+          this.fullscreenLoading = false
+          this.$errorHandler()(err)
+        })
     },
     backToEmail() {
       this.showPasscode = false
