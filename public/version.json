@@ -1,5 +1,5 @@
 {
-    "versionName": "1.8.2",
-    "versionCode": 27,
-    "content": "1，增加更新内容提示\n2，修改引言切换方式"
+    "versionName": "1.8.3",
+    "versionCode": 28,
+    "content": "缓存邮箱地址"
 }
