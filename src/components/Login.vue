@@ -136,7 +136,7 @@ export default {
         })
         .catch(err => {
           this.fullscreenLoading = false
-          this.$errorHandler()(err)
+          this.$errorHandler(err)
         })
     },
     login() {
@@ -157,7 +157,7 @@ export default {
         })
         .catch(err => {
           this.fullscreenLoading = false
-          this.$errorHandler()(err)
+          this.$errorHandler(err)
         })
     },
     backToEmail() {

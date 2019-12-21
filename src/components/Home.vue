@@ -242,7 +242,7 @@ export default {
             this.setFriends(sortFriends(data.friends))
             friendStore.insertFriends(this.friendList)
           })
-          .catch(this.$errorHandler())
+          .catch(this.$errorHandler)
       }
       friendStore
         .getFriends()
@@ -295,7 +295,7 @@ export default {
           account.setAccount(this.accountInfo)
           this.loadFriends()
         })
-        .catch(this.$errorHandler())
+        .catch(this.$errorHandler)
     } else {
       this.loadFriends()
       api.getMe().then(response => {

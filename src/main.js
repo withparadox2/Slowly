@@ -39,15 +39,14 @@ if (!redirectUrl()) {
     useCache: false
   }
 
-  Vue.prototype.$errorHandler = function() {
-    return ({ message }) => {
-      showError(this, message)
-      if (message == 'token_expired' || message == 'token_invalid') {
-        setToken('')
-        this.$router.replace({
-          name: 'login'
-        })
-      }
+  Vue.prototype.$errorHandler = function ({ message }) {
+    debugger
+    showError(this, message)
+    if (message == 'token_expired' || message == 'token_invalid') {
+      setToken('')
+      this.$router.replace({
+        name: 'login'
+      })
     }
   }
 
