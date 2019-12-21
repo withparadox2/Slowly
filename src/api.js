@@ -104,3 +104,12 @@ export function uploadImage(postId, file) {
     content: data
   })
 }
+
+export function readLetter(ids) {
+  return post({
+    path: '/comments/read',
+    params: {
+      ids,
+    }
+  })
+}

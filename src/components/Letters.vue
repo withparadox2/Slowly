@@ -458,6 +458,12 @@ export default {
       if (!stickPosition) {
         scrollToTop(this, '.right-section .scroll-container')
       }
+      if (!letter.read_at) {
+        api.readLetter(letter.id).then(response => {
+        }).catch((e) => {
+          console.log(e)
+        })
+      }
     },
     formatReadableTime(time) {
       return formatDateReadable(offsetTimezoneDate(time))
