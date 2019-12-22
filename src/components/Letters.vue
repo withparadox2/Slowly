@@ -348,7 +348,7 @@ export default {
       if (this.checkedFriend) {
         return (
           `姓名：${this.checkedFriend.name}\n` +
-          `生日：${this.checkedFriend.dob}\n` +
+          `生日：${this.checkedFriend.dob ? this.checkedFriend.dob : '保密'}\n` +
           `回复时间：${offsetAndFormatDate(
             this.checkedFriend.latest_comment
           )}\n` +
