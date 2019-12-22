@@ -181,6 +181,22 @@
   color red
   cursor pointer
 </style>
+<style lang="stylus">
+.mobile-mode
+  .editor-wrapper, .editor-wrapper.large
+    width 100%
+    max-width 100%
+    top 0
+    bottom 0
+    left 0
+    right 0
+    display flex
+    flex-direction column
+  .editor-left-section, .editor-content, .letter-list
+    height 100%
+    max-height 100%
+    flex 1
+</style>
 <script>
 import { mapState, mapMutations } from "vuex"
 
@@ -348,8 +364,8 @@ export default {
     toggleShowLetter() {
       this.isShowLetter = !this.isShowLetter
       if (this.isShowLetter && this.checkedFriend) {
-          // letters data may has changed for incremental update, reassign data again
-          this.listRender.dataList = this.checkedFriend.letters || []
+        // letters data may has changed for incremental update, reassign data again
+        this.listRender.dataList = this.checkedFriend.letters || []
       }
       this.listRender.optimise()
       this.scrollLetterListToTop()

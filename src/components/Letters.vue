@@ -45,7 +45,6 @@
                  @click="showStat"
                  title="统计"></i>
               <i class="el-icon-plus"
-                 v-if="!mobileMode"
                  title="新建"
                  @click="newLetter"></i>
               <i class="el-icon-download"
