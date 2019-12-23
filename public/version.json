@@ -1,5 +1,5 @@
 {
-    "versionName": "1.8.6",
-    "versionCode": 31,
-    "content": "1，修改显示效果"
+    "versionName": "1.8.7",
+    "versionCode": 32,
+    "content": "1，显示信件阅读状态\n2，自动填入上次使用的邮件"
 }
