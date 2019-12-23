@@ -56,14 +56,7 @@ export default {
         email = this.value
       }
 
-      let emails = this.loadEmails()
-      for (let i = 0; i < emails.length; i++) {
-        if (emails[i] == email) {
-          emails.splice(i, 1)
-          break
-        }
-      }
-
+      const emails = this.loadEmails().filter(item => item != email)
       emails.splice(0, 0, email)
 
       localStorage.setItem("email-cache-json", JSON.stringify(emails))
@@ -76,6 +69,12 @@ export default {
       this.$nextTick(() => {
         this.visible = false
       })
+    }
+  },
+  mounted() {
+    const cachedEmails = this.loadEmails()
+    if (cachedEmails.length > 0) {
+      this.checkEmail(cachedEmails[0])
     }
   }
 }
