@@ -457,7 +457,7 @@ export default {
       if (!stickPosition) {
         scrollToTop(this, '.right-section .scroll-container')
       }
-      if (!letter.read_at) {
+      if (!letter.read_at && !this.isLetterOut(letter)) {
         api.readLetter(letter.id).then(response => {
         }).catch((e) => {
           console.log(e)
