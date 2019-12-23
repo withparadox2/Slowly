@@ -15,7 +15,11 @@
               {{letter.name}}
               <span class="letter-state">
                 <span class="letter-deliver-time"
-                      v-if="isLetterArrive(letter)">{{formatReadableTime(letter.created_at)}}</span>
+                      v-if="isLetterArrive(letter)">
+                  <span>{{formatReadableTime(letter.created_at)}}</span>
+                  <span v-if="!letter.read_at"
+                        class="letter-read-state" />
+                </span>
                 <img class="letter-in-out"
                      v-else
                      :src="isLetterOut(letter) ? icLetterInOut[1] : icLetterInOut[0]" />
@@ -189,6 +193,14 @@
   font-size 12px
 .letter-state
   float right
+.letter-read-state
+  display inline-block
+  background red
+  width 4px
+  height 4px
+  border-radius 3px
+  margin-left 3px
+  vertical-align middle
 .letter-state img, .letter-in-out
   height 16px
   vertical-align middle
@@ -252,11 +264,10 @@
 </style>
 
 <style lang="stylus">
-.dialog-friend-info .el-message__content {
-  white-space: pre;
-  line-height: 20px;
-}
-@media screen and (max-width: 550px) 
+.dialog-friend-info .el-message__content
+  white-space pre
+  line-height 20px
+@media screen and (max-width: 550px)
   .mobile-mode .right-section .scroll-container
     padding 0 0 40px 0
     .letter-detail
@@ -267,9 +278,9 @@
 
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-import { getDataManager } from '../persist/letter-store'
-import * as api from '../api'
+import { mapState, mapMutations } from "vuex"
+import { getDataManager } from "../persist/letter-store"
+import * as api from "../api"
 import {
   showError,
   showSuccess,
@@ -279,21 +290,21 @@ import {
   formatDateReadable,
   formatDateYMD,
   offsetAndFormatDate
-} from '../util'
+} from "../util"
 import {
   scrollToTop,
   onScrollEnd,
   exportLetters,
   createListRender
-} from '../helper'
-import { getAccount } from '../persist/account'
+} from "../helper"
+import { getAccount } from "../persist/account"
 
-import NewLetter from './NewLetter.vue'
-import Stat from './Stat.vue'
-import LetterItem from './LetterItem.vue'
+import NewLetter from "./NewLetter.vue"
+import Stat from "./Stat.vue"
+import LetterItem from "./LetterItem.vue"
 
-import iconLetterOut from '../../images/ic_mail_out.png'
-import iconLetterIn from '../../images/ic_mail_in.png'
+import iconLetterOut from "../../images/ic_mail_out.png"
+import iconLetterIn from "../../images/ic_mail_in.png"
 
 export default {
   components: {
@@ -302,12 +313,12 @@ export default {
     LetterItem
   },
   computed: {
-    ...mapState(['checkedFriend', 'searchValue', 'mobileMode']),
+    ...mapState(["checkedFriend", "searchValue", "mobileMode"]),
     attachments() {
       let l = this.checkedLetter
       return l
         ? l.attachments
-          ? l.attachments.split(',').map(name => api.buildAttachmentUrl(name))
+          ? l.attachments.split(",").map(name => api.buildAttachmentUrl(name))
           : null
         : null
     },
@@ -347,7 +358,9 @@ export default {
       if (this.checkedFriend) {
         return (
           `姓名：${this.checkedFriend.name}\n` +
-          `生日：${this.checkedFriend.dob ? this.checkedFriend.dob : '保密'}\n` +
+          `生日：${
+            this.checkedFriend.dob ? this.checkedFriend.dob : "保密"
+          }\n` +
           `回复时间：${offsetAndFormatDate(
             this.checkedFriend.latest_comment
           )}\n` +
@@ -356,10 +369,10 @@ export default {
             ? `登录时间：${offsetAndFormatDate(
                 this.checkedFriend.last_login
               )}\n`
-            : '')
+            : "")
         )
       } else {
-        return ''
+        return ""
       }
     },
     searchNav() {
@@ -381,7 +394,7 @@ export default {
       this.letters = []
       this.loadLetters(newVal)
       this.checkedLetter = null
-      scrollToTop(this, '.letter-list')
+      scrollToTop(this, ".letter-list")
     }
   },
   data() {
@@ -389,7 +402,7 @@ export default {
       letters: [],
       mapVisible: false,
       map: null,
-      letterState: '',
+      letterState: "",
       showSyncIcon: false,
       checkedLetter: null,
       checkedLetterIndex: -1,
@@ -401,7 +414,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['checkFriend']),
+    ...mapMutations(["checkFriend"]),
     showFriendInfo() {
       const h = this.$createElement
       this.$message({
@@ -409,7 +422,7 @@ export default {
         message: this.checkedFriendInfo,
         duration: 10000,
         showClose: true,
-        customClass: 'dialog-friend-info'
+        customClass: "dialog-friend-info"
       })
     },
     loadLetters(friend) {
@@ -426,7 +439,7 @@ export default {
               this.showSyncIcon = false
               this.letterState = null
               if (!isSuccess) {
-                showError(this, '同步失败')
+                showError(this, "同步失败")
               }
             }
             if (this.letters.length == 0) {
@@ -455,13 +468,15 @@ export default {
       this.checkedLetter = letter
       this.checkedLetterIndex = index
       if (!stickPosition) {
-        scrollToTop(this, '.right-section .scroll-container')
+        scrollToTop(this, ".right-section .scroll-container")
       }
       if (!letter.read_at && !this.isLetterOut(letter)) {
-        api.readLetter(letter.id).then(response => {
-        }).catch((e) => {
-          console.log(e)
-        })
+        api
+          .readLetter(letter.id)
+          .then(response => {})
+          .catch(e => {
+            console.log(e)
+          })
       }
     },
     formatReadableTime(time) {
@@ -469,7 +484,7 @@ export default {
     },
     showStat() {
       if (this.letters.length == 0) {
-        showWarning(this, '没有信件')
+        showWarning(this, "没有信件")
       } else {
         this.$refs.stat.showStat(this.checkedFriend, this.letters)
       }
@@ -506,7 +521,7 @@ export default {
         letter.highlight = str == date
       })
       this.highlightDate = date
-      let elList = this.$el.querySelector('.letter-list')
+      let elList = this.$el.querySelector(".letter-list")
 
       if (find) {
         this.scorllToIndex(index)
@@ -519,7 +534,7 @@ export default {
     },
     scorllToIndex(index, elList) {
       if (!elList) {
-        elList = this.$el.querySelector('.letter-list')
+        elList = this.$el.querySelector(".letter-list")
       }
       if (elList && elList.children && elList.children.length > index) {
         elList.scrollTop = elList.children[index].offsetTop
