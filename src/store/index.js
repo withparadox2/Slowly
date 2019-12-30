@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 Vue.use(Vuex)
+import { getAccount } from '../persist/account'
 
 export const store = new Vuex.Store({
   state: {
@@ -11,7 +12,12 @@ export const store = new Vuex.Store({
   },
   mutations: {
     setFriends(state, list) {
-      state.friendList = list
+      const account = getAccount()
+      if (account && account.id == '679951') {
+        state.friendList = list.slice(0, 4)
+      } else {
+        state.friendList = list
+      }
     },
     checkFriend(state, friend) {
       state.checkedFriend = friend
