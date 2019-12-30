@@ -439,7 +439,7 @@ export default {
               this.showSyncIcon = false
               this.letterState = null
               if (!isSuccess) {
-                showError(this, "同步失败")
+                showError(this, "同步失败，请检查网络或重新登录")
               }
             }
             if (this.letters.length == 0) {
