@@ -1,5 +1,5 @@
 {
-    "versionName": "1.8.7",
-    "versionCode": 32,
-    "content": "1，显示信件阅读状态\n2，自动填入上次使用的邮件"
+    "versionName": "1.8.8",
+    "versionCode": 33,
+    "content": "1，默认隐藏图片上传控件\n2，兼容safari\n3，修复token过期不提示问题"
 }
