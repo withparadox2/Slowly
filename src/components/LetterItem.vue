@@ -25,7 +25,7 @@
       <div><span class="title-label">发信人</span>{{letter.name}}</div>
       <div><span class="title-label">发送时间</span>{{formatTime(letter.created_at)}}</div>
       <div><span class="title-label">送达时间</span>{{formatTime(letter.deliver_at)}}</div>
-      <div v-show="letter.read_at"><span class="title-label">阅读时间</span>{{formatTime(letter.read_at)}}</div>
+      <div v-if="letter.read_at"><span class="title-label">阅读时间</span>{{formatTime(letter.read_at)}}</div>
     </div>
   </div>
 </template>
