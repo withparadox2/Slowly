@@ -2,7 +2,7 @@
   <div class="modal"
        v-show="visible"
        @click="visible = false">
-    <div class="content">
+    <div class="content soft-scrollable">
       <template v-if="changeLog">
         <div v-for="log in changeLog"
              :key="log.versionCode">
