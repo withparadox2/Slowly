@@ -3,6 +3,7 @@ const path = require('path')
 const ZipPlugin = require('zip-webpack-plugin')
 
 module.exports = {
+  productionSourceMap: false,
   runtimeCompiler: true,
   publicPath: process.env.NODE_ENV === 'production'
     ? '/Slowly/'
