@@ -11,12 +11,15 @@ export function checkVersion() {
   return new Promise((resolve, reject) => {
     axios({
       method: 'get',
-      url: `./version.json?t=${Date.now()}`,
+      url: `./change-log.json?t=${Date.now()}`,
     }).then(response => {
-      if (response.data) {
+      if (response.data && response.data.length > 0) {
+        let remoteVersion = response.data[0]
         resolve({
-          newVersion: response.data.versionCode > localVersion.versionCode,
-          content: response.data.content
+          newVersion: remoteVersion && remoteVersion.versionCode > localVersion.versionCode ? {
+            content: remoteVersion.content
+          } : null,
+          changeLog: response.data
         })
       } else {
         resolve(false)

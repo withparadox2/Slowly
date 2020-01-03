@@ -2,7 +2,7 @@
   <div class="modal"
        v-show="visible"
        @click="visible = false">
-    <div class="content">
+    <div class="content soft-scrollable">
       子夜的灯
       是一条未穿衣裳的
       小河
@@ -14,8 +14,8 @@
       读江河如读一面镜
       读镜中你的笑
       如读泡沫
-          
-          — 子夜读信·洛夫
+
+      — 子夜读信·洛夫
     </div>
   </div>
 </template>

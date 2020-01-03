@@ -8,7 +8,8 @@ export const store = new Vuex.Store({
     checkedFriend: null,
     friendList: [],
     searchValue: "",
-    mobileMode: false
+    mobileMode: false,
+    changeLog: null
   },
   mutations: {
     setFriends(state, list) {
@@ -28,6 +29,9 @@ export const store = new Vuex.Store({
     },
     setMobileMode(state, value) {
       state.mobileMode = value
+    },
+    setChangeLog(state, changeLog) {
+      state.changeLog = changeLog
     }
   }
 })

@@ -29,6 +29,7 @@ module.exports = {
 }
 
 function readVersionContent() {
-  const filePath = path.resolve(__dirname, './public/version.json')
-  return fs.readFileSync(filePath).toString()
+  const filePath = path.resolve(__dirname, './public/change-log.json')
+  const versions = JSON.parse(fs.readFileSync(filePath).toString())
+  return JSON.stringify(versions[0])
 }

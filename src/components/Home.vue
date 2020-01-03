@@ -19,6 +19,7 @@
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="editLocation">修改位置</el-dropdown-item>
           <el-dropdown-item @click.native="showAbout">关于</el-dropdown-item>
+          <el-dropdown-item @click.native="showChangeLog">更新内容</el-dropdown-item>
           <el-dropdown-item @click.native="exit">退出</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
@@ -50,6 +51,7 @@
     </div>
     <map-node ref="map" />
     <about ref="about" />
+    <change-log ref="changeLog" />
   </div>
 </template>
 <style lang="stylus" scoped>
@@ -193,6 +195,7 @@ import Map from "./Map.vue"
 import InputBox from "./InputBox.vue"
 import Quote from "./Quote.vue"
 import About from "./About.vue"
+import ChangeLog from "./ChangeLog.vue"
 
 export default {
   data() {
@@ -208,13 +211,14 @@ export default {
     "map-node": Map,
     InputBox,
     "quote-node": Quote,
-    About
+    About,
+    ChangeLog
   },
   computed: {
     ...mapState(["checkedFriend", "friendList", "mobileMode"])
   },
   methods: {
-    ...mapMutations(["setFriends"]),
+    ...mapMutations(["setFriends", "setChangeLog"]),
     exit() {
       this.$confirm("退出后数据仍在，是否确定退出?", "提示", {
         confirmButtonText: "确定",
@@ -264,6 +268,9 @@ export default {
     },
     showAbout() {
       this.$refs.about.show()
+    },
+    showChangeLog() {
+      this.$refs.changeLog.show()
     }
   },
   watch: {
@@ -304,8 +311,11 @@ export default {
     }
 
     checkVersion().then(result => {
-      if (result && result.newVersion) {
-        this.newVersion = result
+      if (result) {
+        if (result.newVersion) {
+          this.newVersion = result.newVersion
+        }
+        this.setChangeLog(result.changeLog)
       }
     })
   }
