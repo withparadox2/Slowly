@@ -66,7 +66,7 @@
         </el-col>
         <el-col :span="12"
                 v-if="isShowLetter && checkedFriend.letters"
-                class="letter-list">
+                class="edit-letter-list soft-scrollable">
           <letter-item v-for="item in renderLetters"
                        :key="item.id"
                        :dialogMode="true"
@@ -96,13 +96,13 @@
   background transparent
   width 100%
   box-sizing border-box
-.letter-list
+.edit-letter-list
   overflow-y auto
   height calc(100vh - 124px)
   min-height 250px
   overflow-x hidden
   padding 10px
-.letter-list > div
+.edit-letter-list > div
   margin-bottom 50px
 .editor-left-section
   display flex
@@ -195,7 +195,7 @@
     right 0
     display flex
     flex-direction column
-  .editor-left-section, .editor-content, .letter-list
+  .editor-left-section, .editor-content, .edit-letter-list
     height 100%
     max-height 100%
     flex 1
@@ -377,7 +377,7 @@ export default {
     },
     scrollLetterListToTop() {
       if (this.isShowLetter) {
-        scrollToTop(this, ".letter-list")
+        scrollToTop(this, ".edit-letter-list")
       }
     },
     addImage() {

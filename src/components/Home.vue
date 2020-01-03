@@ -32,7 +32,7 @@
              :class="{'el-icon-arrow-right': leftSectionExited, 'el-icon-arrow-left': !leftSectionExited}"
              @click="leftSectionExited = !leftSectionExited"></i>
         </div>
-        <div class="sidebar-content">
+        <div class="sidebar-content soft-scrollable">
           <friends :isExpand="!leftSectionExited" />
         </div>
       </div>

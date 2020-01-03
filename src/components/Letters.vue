@@ -4,7 +4,7 @@
           :class="{'mobile-mode': mobileMode}">
     <el-col :span="checkedLetter ? 12 : 24"
             class="left-section">
-      <div class="letter-list">
+      <div class="letter-list soft-scrollable">
         <div v-for="(letter, index) in renderLetters"
              :class="{'letter-checked': letter == checkedLetter, 'letter-highlight': highlightDate && letter.highlight}"
              class="letter-item"
@@ -79,10 +79,12 @@
         <span class="nav-item el-icon-arrow-up"></span>
         <span class="nav-item el-icon-arrow-down"></span>
       </div>
-      <div class="scroll-container">
+      <div class="scroll-container-wrapper">
+        <div class="scroll-container soft-scrollable">
+          <letter-item ref="letterItem"
+                       :letter="checkedLetter"></letter-item>
+        </div>
 
-        <letter-item ref="letterItem"
-                     :letter="checkedLetter"></letter-item>
         <div class="letter-nav">
           <span class="last-letter"
                 :style="{opacity: this.checkedLetterIndex > 0 ? 1 : 0}"
@@ -208,6 +210,11 @@
   height 100%
   position relative
   background rgb(245, 245, 245)
+  .scroll-container-wrapper
+    width 100%
+    height 100%
+    overflow-y hidden
+    overflow-x hidden
   .scroll-container
     box-sizing border-box
     width 100%
