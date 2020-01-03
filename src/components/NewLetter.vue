@@ -43,8 +43,10 @@
                      multiple
                      accept="image/png, image/jpeg" />
             </form>
-            <div class="tip-add-image">添加图片<span v-show="rawImageList.length">({{rawImageList.length}})</span></div>
-            <div class="image-container">
+            <div class="tip-add-image"
+                 @click="isShowAddMedia = !isShowAddMedia"><span v-show="mobileMode && !isShowAddMedia">点击</span>添加图片<span v-show="rawImageList.length">({{rawImageList.length}})</span></div>
+            <div class="image-container"
+                 v-if="!mobileMode || isShowAddMedia">
               <div class="btn-add-image"
                    @click="addImage()">
                 <i class="el-icon-plus"></i>
@@ -145,6 +147,8 @@
 .tip-add-image
   font-size 13px
   color #666
+  padding-bottom 10px
+  cursor pointer
 .image-item
   position relative
 .image-item img
@@ -168,7 +172,6 @@
   height 100px
   white-space nowrap
   padding-bottom 20px
-  padding-top 10px
   > div
     display inline-block
     width 100px
@@ -223,7 +226,9 @@ export default {
       isAutoSaving: false,
       listRender: createListRender({
         preloadCount: 5
-      })
+      }),
+      // active in mobile mode
+      isShowAddMedia: false
     }
   },
   components: {
@@ -231,7 +236,7 @@ export default {
     GridView
   },
   computed: {
-    ...mapState(["checkedFriend"]),
+    ...mapState(["checkedFriend", "mobileMode"]),
     renderLetters() {
       return this.listRender.renderedList()
     },
