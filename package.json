@@ -13,6 +13,7 @@
     "location": "0.0.1",
     "navigator": "^1.0.1",
     "svg.js": "^2.7.1",
+    "vconsole": "^3.3.4",
     "vue": "^2.6.6",
     "vue-infinite-loading": "^2.4.3",
     "vue-lazyload": "^1.3.2",

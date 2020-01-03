@@ -16,6 +16,9 @@ import { showError } from './util'
 import { store } from './store'
 import { redirectUrl } from './update.js'
 
+// import VConsole from 'vconsole'
+// new VConsole()
+
 updateMobileMode()
 window.addEventListener('resize', updateMobileMode)
 
