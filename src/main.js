@@ -40,7 +40,6 @@ if (!redirectUrl()) {
   }
 
   Vue.prototype.$errorHandler = function ({ message }) {
-    debugger
     showError(this, message)
     if (message == 'token_expired' || message == 'token_invalid') {
       setToken('')

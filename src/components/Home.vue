@@ -242,7 +242,7 @@ export default {
             this.setFriends(sortFriends(data.friends))
             friendStore.insertFriends(this.friendList)
           })
-          .catch(this.$errorHandler)
+          .catch(err => this.$errorHandler(err))
       }
       friendStore
         .getFriends()
@@ -295,7 +295,7 @@ export default {
           account.setAccount(this.accountInfo)
           this.loadFriends()
         })
-        .catch(this.$errorHandler)
+        .catch(err => this.$errorHandler(err))
     } else {
       this.loadFriends()
       api.getMe().then(response => {
@@ -303,7 +303,7 @@ export default {
       })
     }
 
-    checkVersion().then((result) => {
+    checkVersion().then(result => {
       if (result && result.newVersion) {
         this.newVersion = result
       }
