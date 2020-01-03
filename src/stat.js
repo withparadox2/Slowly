@@ -1,7 +1,7 @@
 import { offsetTimezoneDate, getDaysCount } from "./util"
 import { getAccount } from './persist/account'
 import SVG from 'svg.js'
-import { formatDateYMD } from './util'
+import { formatDateYMD, dateTextToDate } from './util'
 
 const COLOR_BLUE = ['#C6E2FF', '#3296FC', '#036CD9']
 const COLOR_GREEN = ['#C9ECB4', '#86D666', '#11AE2B']
@@ -183,7 +183,7 @@ function getCellList(letterList) {
     if (!letter.deliver_at) {
       continue
     }
-    let date = offsetTimezoneDate(new Date(letter.deliver_at))
+    let date = offsetTimezoneDate(dateTextToDate(letter.deliver_at))
     let isFrom = letter.user != accountInfo.id
     if (lastDate && compareDate(lastDate, date) == 0) {
       lastCell.num++
