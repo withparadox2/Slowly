@@ -12,12 +12,13 @@ export const store = new Vuex.Store({
   },
   mutations: {
     setFriends(state, list) {
-      const account = getAccount()
-      if (account && account.id == '679951') {
-        state.friendList = list.slice(0, 4)
-      } else {
-        state.friendList = list
-      }
+      // const account = getAccount()
+      // if (account && account.id == '679951') {
+      //   state.friendList = list.slice(0, 4)
+      // } else {
+      //   state.friendList = list
+      // }
+      state.friendList = list
     },
     checkFriend(state, friend) {
       state.checkedFriend = friend
