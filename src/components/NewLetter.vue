@@ -199,6 +199,8 @@
     height 100%
     max-height 100%
     flex 1
+  .editor-wrapper, .editor-header
+    border-radius 0
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
