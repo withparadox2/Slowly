@@ -34,12 +34,13 @@ function showWarning(vue, message) {
 }
 
 function offsetAndFormatDate(time) {
-  return formateDate(offsetTimezoneDate(time))
+  let date = offsetTimezoneDate(time)
+  return formateDate(date)
 }
 
 function offsetTimezoneDate(d) {
   if (!(d instanceof Date)) {
-    d = new Date(d)
+    return dateTextToDate(d)
   }
   return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
 }
@@ -147,6 +148,11 @@ function getRequestParam(val, def = null) {
   return result ? decodeURIComponent(result[1]) : def
 }
 
+function dateTextToDate(d) {
+  let formatStr = d.substring(5, 10).replace('-', '/') + '/' + d.substring(0, 4) + d.substring(10)
+  return new Date(formatStr)
+}
+
 export {
   validateEmail,
   showError,
@@ -159,5 +165,6 @@ export {
   formatDateYMD,
   offsetAndFormatDate,
   copyToClipboard,
-  getRequestParam
+  getRequestParam,
+  dateTextToDate
 }

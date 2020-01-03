@@ -118,17 +118,22 @@
   margin-top 3px
 </style>
 <script>
-import { formateDate, offsetTimezoneDate, getDaysCount } from '../util'
-import { getAccount } from '../persist/account'
-import { drawSvg } from '../stat'
-import { setTimeout, clearTimeout } from 'timers'
+import {
+  formateDate,
+  offsetTimezoneDate,
+  getDaysCount,
+  dateTextToDate
+} from "../util"
+import { getAccount } from "../persist/account"
+import { drawSvg } from "../stat"
+import { setTimeout, clearTimeout } from "timers"
 export default {
   data() {
     return {
       cellDataList: [],
       stat: null,
       account: getAccount(),
-      hoverDateStr: '',
+      hoverDateStr: "",
       hideDateStr: false
     }
   },
@@ -144,7 +149,7 @@ export default {
         totalDays: 0,
         perday: {
           count: 0,
-          dateStr: ''
+          dateStr: ""
         },
         totalCount: 0,
         totalWordCount: 0,
@@ -170,18 +175,18 @@ export default {
           stat.totalFromWordCount += letter.body.length
         }
 
-        let date = offsetTimezoneDate(new Date(letter.deliver_at))
+        let date = offsetTimezoneDate(dateTextToDate(letter.deliver_at))
         let fullDateStr = formateDate(date)
         let dateStr = fullDateStr.substring(0, 10)
         if (i == letterList.length - 1) {
           stat.firstLetter.dateStr = dateStr
           stat.firstLetter.date = date
           if (isSendLetter) {
-            stat.firstLetter.from = '你'
+            stat.firstLetter.from = "你"
             stat.firstLetter.to = `“${friend.name}”`
           } else {
             stat.firstLetter.from = `“${friend.name}”`
-            stat.firstLetter.to = '你'
+            stat.firstLetter.to = "你"
           }
         }
         if (i == 0) {
@@ -207,14 +212,14 @@ export default {
 
       this.stat = stat
       this.$nextTick(() => {
-        drawSvg('svg-container', letterList, {
+        drawSvg("svg-container", letterList, {
           onHover: (date, fromNum, toNum) => {
             if (!date) {
               this.dateTimeoutId = setTimeout(() => {
                 // start hide transition
                 this.hideDateStr = true
                 this.dateTimeoutId = setTimeout(() => {
-                  this.hoverDateStr = ''
+                  this.hoverDateStr = ""
                 }, 300)
               }, 500)
             } else {
@@ -225,7 +230,7 @@ export default {
           },
           onClick: date => {
             this.close()
-            this.$emit('scrollToDate', date)
+            this.$emit("scrollToDate", date)
           }
         })
       })
