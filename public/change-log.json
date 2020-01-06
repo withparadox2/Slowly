@@ -1,5 +1,10 @@
 [
     {
+        "versionName": "1.8.11",
+        "versionCode": 36,
+        "content": "1，减少页面中不必要的渲染\n2，根据时区计算信件状态时间"
+    },
+    {
         "versionName": "1.8.10",
         "versionCode": 35,
         "content": "1，显示change log"
