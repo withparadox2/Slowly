@@ -2,51 +2,51 @@
     {
         "versionName": "1.8.11",
         "versionCode": 36,
-        "content": "1，减少页面中不必要的渲染\n2，根据时区计算信件状态时间"
+        "content": "减少页面中不必要的渲染\n根据时区计算信件状态时间"
     },
     {
         "versionName": "1.8.10",
         "versionCode": 35,
-        "content": "1，显示change log"
+        "content": "显示change log"
     },
     {
         "versionName": "1.8.9",
         "versionCode": 34,
-        "content": "1，设置默认字体"
+        "content": "设置默认字体"
     },
     {
         "versionName": "1.8.8",
         "versionCode": 33,
-        "content": "1，默认隐藏图片上传控件\n2，兼容safari\n3，修复token过期不提示问题"
+        "content": "默认隐藏图片上传控件\n兼容safari\n修复token过期不提示问题"
     },
     {
         "versionName": "1.8.7",
         "versionCode": 32,
-        "content": "1，显示信件阅读状态\n2，自动填入上次使用的邮件"
+        "content": "显示信件阅读状态\n自动填入上次使用的邮件"
     },
     {
         "versionName": "1.8.6",
         "versionCode": 31,
-        "content": "1，修改显示效果"
+        "content": "修改显示效果"
     },
     {
         "versionName": "1.8.5",
         "versionCode": 30,
-        "content": "1，移动端增加写信功能"
+        "content": "移动端增加写信功能"
     },
     {
         "versionName": "1.8.4",
         "versionCode": 29,
-        "content": "1，更新信件阅读状态"
+        "content": "更新信件阅读状态"
     },
     {
         "versionName": "1.8.3",
         "versionCode": 28,
-        "content": "1，缓存邮箱地址"
+        "content": "缓存邮箱地址"
     },
     {
         "versionName": "1.8.2",
         "versionCode": 27,
-        "content": "1，增加更新内容提示"
+        "content": "增加更新内容提示"
     }
 ]

@@ -7,6 +7,15 @@ window.appVersion = SLOWLY_VERSION
 const KEY_TIMESTAMP = "key_url_timestamp"
 const PARAM_TIMESTAMP = "t"
 
+function formatChangeLog(changeLog) {
+  if (changeLog && changeLog.length > 0) {
+    changeLog.forEach(item => {
+      item.contentItems = item.content.split('\n')
+    })
+  }
+  return changeLog
+}
+
 export function checkVersion() {
   return new Promise((resolve, reject) => {
     axios({
@@ -19,7 +28,7 @@ export function checkVersion() {
           newVersion: remoteVersion && remoteVersion.versionCode > localVersion.versionCode ? {
             content: remoteVersion.content
           } : null,
-          changeLog: response.data
+          changeLog: formatChangeLog(response.data)
         })
       } else {
         resolve(false)

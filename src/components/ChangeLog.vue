@@ -9,7 +9,12 @@
           <div class="version-name">
             {{log.versionName}}
           </div>
-          <div class="version-content">{{log.content}}</div>
+          <div class="version-content">
+            <li v-for="item in log.contentItems"
+                :key="item">
+              {{item}}
+            </li>
+          </div>
         </div>
       </template>
       <div v-else>
@@ -29,7 +34,6 @@
   font-size 14px
   overflow-y auto
   .version-content
-    white-space pre-line
     line-height 22px
   .version-name
     white-space nowrap
@@ -49,7 +53,6 @@ export default {
   methods: {
     show() {
       this.visible = true
-      console.log(this.changeLog)
     },
     hide() {
       this.visible = false
