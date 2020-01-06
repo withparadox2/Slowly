@@ -40,7 +40,7 @@ function offsetAndFormatDate(time) {
 
 function offsetTimezoneDate(d) {
   if (!(d instanceof Date)) {
-    return dateTextToDate(d)
+    d = dateTextToDate(d)
   }
   return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
 }
