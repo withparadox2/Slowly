@@ -1,6 +1,6 @@
 <template>
   <div class="modal"
-       v-show="visible"
+       v-if="visible"
        @click="visible = false">
     <div class="content soft-scrollable">
       子夜的灯

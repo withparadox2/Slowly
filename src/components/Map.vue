@@ -1,6 +1,6 @@
 <template>
   <div class="modal"
-       v-show="mapVisible">
+       v-if="mapVisible">
     <div class="map-wrapper">
       <div id="map"></div>
     </div>
@@ -66,7 +66,7 @@
   .btn-close
     margin-top 10px
   .btn-update-location
-    margin-top 70px    
+    margin-top 70px
 </style>
 
 <script>
@@ -118,13 +118,11 @@ export default {
       this.mapVisible = true
       return new Promise(fullfill => {
         this.$nextTick(() => {
-          if (!this.map) {
-            this.map = new BMap.Map("map")
-            this.map.enableScrollWheelZoom(true)
-            this.map.addEventListener("click", e => {
-              this.onMapClick(e)
-            })
-          }
+          this.map = new BMap.Map("map")
+          this.map.enableScrollWheelZoom(true)
+          this.map.addEventListener("click", e => {
+            this.onMapClick(e)
+          })
           fullfill(this.map)
         })
       })

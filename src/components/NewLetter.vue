@@ -1,6 +1,6 @@
 <template>
   <div class="modal"
-       v-show="editorVisible">
+       v-if="editorVisible">
     <div class="editor-wrapper"
          :class="{large:isShowLetter}">
       <div class="editor-header">
