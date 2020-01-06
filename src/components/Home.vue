@@ -38,8 +38,8 @@
         </div>
       </div>
       <div class="left-section-overlay"
-           @click="leftSectionExited = true"
-           v-if="mobileMode && !leftSectionExited"></div>
+           :class="{entered: mobileMode && !leftSectionExited}"
+           @click="leftSectionExited = true"></div>
       <div class="right-section">
         <letters v-on:showMap="showMap($event)"
                  v-show="checkedFriend" />
@@ -116,6 +116,7 @@
   overflow hidden
   z-index 60
   border-right 1px solid #eaeaea
+  transition width 180ms ease
   &.left-section-exited
     width 50px
   .sidebar-header
@@ -148,8 +149,12 @@
   left 0
   background #333
   z-index 50
-  pointer-events all
-  opacity 0.4
+  opacity 0
+  transition opacity 180ms ease
+  pointer-events none
+  &.entered
+    pointer-events all
+    opacity 0.4
 .mobile-mode .left-section
   position absolute
   top 0
