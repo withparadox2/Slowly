@@ -9,12 +9,12 @@
           <div class="version-name">
             {{log.versionName}}
           </div>
-          <div class="version-content">
+          <ul class="version-content">
             <li v-for="item in log.contentItems"
                 :key="item">
-              {{item}}
+              <span>{{item}}</span>
             </li>
-          </div>
+          </ul>
         </div>
       </template>
       <div v-else>
@@ -35,6 +35,12 @@
   overflow-y auto
   .version-content
     line-height 22px
+    margin 0
+    list-style-position inside
+    padding-left 0
+    span
+      position relative
+      left -8px
   .version-name
     white-space nowrap
     margin-top 20px
