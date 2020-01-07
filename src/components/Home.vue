@@ -47,7 +47,15 @@
       </div>
       <div class="new-version"
            @click="updateNewVersion()"
-           v-show="newVersion">点击更新{{newVersion.content ? '\n' +newVersion.content : '' }}</div>
+           v-if="newVersion">
+        <div>点击更新</div>
+        <ul v-if="newVersion.content && newVersion.content.length > 0">
+          <li v-for="item in newVersion.content"
+              :key="item">
+            <span>{{item}}</span>
+          </li>
+        </ul>
+      </div>
     </div>
     <map-node ref="map" />
     <about ref="about" />
@@ -178,6 +186,13 @@
   cursor pointer
   white-space pre-line
   max-width 200px
+  ul
+    margin 0
+    list-style-position inside
+    padding-left 0
+    span
+      position relative
+      left -8px
 #account-loading
   z-index 1000
   position fixed

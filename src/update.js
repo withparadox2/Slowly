@@ -23,12 +23,14 @@ export function checkVersion() {
       url: `./change-log.json?t=${Date.now()}`,
     }).then(response => {
       if (response.data && response.data.length > 0) {
+        formatChangeLog(response.data)
+
         let remoteVersion = response.data[0]
         resolve({
           newVersion: remoteVersion && remoteVersion.versionCode > localVersion.versionCode ? {
-            content: remoteVersion.content
+            content: remoteVersion.contentItems
           } : null,
-          changeLog: formatChangeLog(response.data)
+          changeLog: response.data
         })
       } else {
         resolve(false)
