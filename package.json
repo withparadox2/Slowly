@@ -12,6 +12,7 @@
     "element-ui": "^2.6.1",
     "location": "0.0.1",
     "navigator": "^1.0.1",
+    "string.prototype.matchall": "^4.0.2",
     "svg.js": "^2.7.1",
     "vconsole": "^3.3.4",
     "vue": "^2.6.6",

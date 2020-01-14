@@ -309,6 +309,7 @@ import {
   createListRender
 } from "../helper"
 import { getAccount } from "../persist/account"
+import matchAll from "string.prototype.matchall"
 
 import NewLetter from "./NewLetter.vue"
 import Stat from "./Stat.vue"
@@ -341,7 +342,7 @@ export default {
       const regExp = new RegExp(this.searchValue, "g")
       let resultList = this.searchValue
         ? tempList.filter(letter => {
-            const matchResult = [...letter.body.matchAll(regExp)]
+            const matchResult = [...matchAll(letter.body, regExp)]
             if (matchResult.length == 0) {
               return false
             }
@@ -361,9 +362,7 @@ export default {
               }
               resultStr +=
                 letter.body.substr(startIndex, val.index - startIndex) +
-                '<span style="color: red">' +
-                this.searchValue +
-                "</span>"
+                this.searchValue
 
               let endIndex =
                 val.index + this.searchValue.length + sideWordLength
@@ -390,6 +389,8 @@ export default {
             }
 
             letter.searchHtml = resultStr
+              .split(this.searchValue)
+              .join('<span style="color: red">' + this.searchValue + "</span>")
 
             return true
           })
