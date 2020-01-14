@@ -1,5 +1,10 @@
 [
     {
+        "versionName": "1.8.13",
+        "versionCode": 38,
+        "content": "增大写信编辑区域\n在列表中高亮搜索结果"
+    },
+    {
         "versionName": "1.8.12",
         "versionCode": 37,
         "content": "调整change log显示样式\n当信件收到后才修改阅读状态\n展开好友列表增加动画"
