@@ -26,7 +26,11 @@
               </span>
             </div>
             <div class="letter-body">
-              <span class="letter-content">{{letter.body.substring(0, 150)}}</span>
+              <span class="letter-content"
+                    v-if="!searchValue">{{letter.body.substring(0, 150)}}</span>
+              <span class="letter-content"
+                    v-else
+                    v-html="letter.searchHtml"></span>
               <img class="letter-attacments"
                    v-show="letter.attachments && isLetterArrive(letter)"
                    src="../../images/ic_attachments.png" />
@@ -334,9 +338,60 @@ export default {
     },
     renderLetters() {
       let tempList = this.listRender.renderedList()
+      const regExp = new RegExp(this.searchValue, "g")
       let resultList = this.searchValue
         ? tempList.filter(letter => {
-            return letter.body.indexOf(this.searchValue) >= 0
+            const matchResult = [...letter.body.matchAll(regExp)]
+            if (matchResult.length == 0) {
+              return false
+            }
+
+            let resultStr = ""
+            let preIndex = -1
+
+            // Only show first five match result
+            const matchResultSize = Math.min(matchResult.length, 5)
+            for (let index = 0; index < matchResultSize; index++) {
+              const sideWordLength = 6
+              let val = matchResult[index]
+              let startIndex = preIndex + 1
+              if (val.index - startIndex > sideWordLength) {
+                resultStr += "..."
+                startIndex = val.index - sideWordLength
+              }
+              resultStr +=
+                letter.body.substr(startIndex, val.index - startIndex) +
+                '<span style="color: red">' +
+                this.searchValue +
+                "</span>"
+
+              let endIndex =
+                val.index + this.searchValue.length + sideWordLength
+              if (matchResultSize - 1 > index) {
+                let nextMatchVal = matchResult[index + 1]
+                endIndex = Math.min(nextMatchVal.index - 1, endIndex)
+              }
+
+              resultStr += letter.body.substring(
+                val.index + this.searchValue.length,
+                endIndex
+              )
+
+              preIndex = endIndex
+
+              if (matchResultSize - 1 == index) {
+                if (resultStr.length < 150) {
+                  resultStr += letter.body.substr(
+                    preIndex,
+                    150 - resultStr.length
+                  )
+                }
+              }
+            }
+
+            letter.searchHtml = resultStr
+
+            return true
           })
         : tempList
 
@@ -477,7 +532,11 @@ export default {
       if (!stickPosition) {
         scrollToTop(this, ".right-section .scroll-container")
       }
-      if (!letter.read_at && !this.isLetterOut(letter) && isLetterArrive(letter)) {
+      if (
+        !letter.read_at &&
+        !this.isLetterOut(letter) &&
+        isLetterArrive(letter)
+      ) {
         api
           .readLetter(letter.id)
           .then(response => {})
