@@ -201,6 +201,13 @@
     flex 1
   .editor-wrapper, .editor-header
     border-radius 0
+  .editor-body
+    padding 10px
+  .large .editor-body
+    padding-right 0
+  .letter-detail.dialog-mode
+    padding-left 10px
+    padding-right 10px
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
