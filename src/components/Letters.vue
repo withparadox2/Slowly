@@ -373,7 +373,7 @@ export default {
 
               resultStr += letter.body.substring(
                 val.index + this.searchValue.length,
-                endIndex
+                endIndex + 1
               )
 
               preIndex = endIndex
