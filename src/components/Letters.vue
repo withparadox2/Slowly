@@ -536,7 +536,7 @@ export default {
       if (
         !letter.read_at &&
         !this.isLetterOut(letter) &&
-        isLetterArrive(letter)
+        this.isLetterArrive(letter)
       ) {
         api
           .readLetter(letter.id)
