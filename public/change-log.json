@@ -1,5 +1,10 @@
 [
     {
+        "versionName": "1.8.14",
+        "versionCode": 39,
+        "content": "修复阅读信件问题"
+    },
+    {
         "versionName": "1.8.13",
         "versionCode": 38,
         "content": "增大写信编辑区域\n在列表中高亮搜索结果"
