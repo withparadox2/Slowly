@@ -11,6 +11,9 @@ var LocationUtil = (function () {
     }
   };
   LocationUtil.wgs2bd = function (lat, lon) {
+    if (LocationUtil.outOfChina(lat, lon)) {
+      return [lat, lon]
+    }
     var wgs2gcj = LocationUtil.wgs2gcj(lat, lon);
     var gcj2bd = LocationUtil.gcj2bd(wgs2gcj[0], wgs2gcj[1]);
     return gcj2bd;
