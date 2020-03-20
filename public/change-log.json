@@ -1,5 +1,9 @@
 [
     {
+        "versionName": "1.8.15",
+        "versionCode": 40,
+        "content": "修复海外位置显示偏移问题"
+    },{
         "versionName": "1.8.14",
         "versionCode": 39,
         "content": "修复阅读信件问题"
