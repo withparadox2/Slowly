@@ -19,6 +19,9 @@ import { redirectUrl } from './update.js'
 // import VConsole from 'vconsole'
 // new VConsole()
 
+function updateMobileMode() {
+  store.commit('setMobileMode', window.innerWidth <= 850)
+}
 updateMobileMode()
 window.addEventListener('resize', updateMobileMode)
 
@@ -66,8 +69,4 @@ if (!redirectUrl()) {
     router,
     store
   }).$mount('#app')
-}
-
-function updateMobileMode() {
-  store.commit('setMobileMode', window.innerWidth <= 850)
 }
