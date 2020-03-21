@@ -33,7 +33,7 @@ if (!redirectUrl()) {
 
   Vue.config.productionTip = false
 
-  if (true) {
+  {
     let url = new URL(window.location.href)
     let token = url.searchParams.get('token')
     if (token) {
