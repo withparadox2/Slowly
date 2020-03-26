@@ -21,7 +21,7 @@
     </div>
     <div class="letter-info"
          v-if="letter">
-      <div><span class="title-label">字数</span>{{letter.body.length}}</div>
+      <div><span class="title-label">字数</span>{{wordCount}}</div>
       <div><span class="title-label">发信人</span>{{letter.name}}</div>
       <div><span class="title-label">发送时间</span>{{formatTime(letter.created_at)}}</div>
       <div><span class="title-label">送达时间</span>{{formatTime(letter.deliver_at)}}</div>
@@ -102,6 +102,9 @@ export default {
           ? l.attachments.split(",").map(name => api.buildAttachmentUrl(name))
           : null
         : null
+    },
+    wordCount() {
+      return util.countWords(this.letter.body)
     }
   },
   methods: {

@@ -122,7 +122,8 @@ import {
   formateDate,
   offsetTimezoneDate,
   getDaysCount,
-  dateTextToDate
+  dateTextToDate,
+  countWords
 } from "../util"
 import { getAccount } from "../persist/account"
 import { drawSvg } from "../stat"
@@ -164,15 +165,16 @@ export default {
         let letter = letterList[i]
         let isSendLetter = letter.user == this.account.id
 
+        const wordCount = countWords(letter.body)
         stat.totalCount++
-        stat.totalWordCount += letter.body.length
+        stat.totalWordCount += wordCount
 
         if (isSendLetter) {
           stat.totalToCount++
-          stat.totalToWordCount += letter.body.length
+          stat.totalToWordCount += wordCount
         } else {
           stat.totalFromCount++
-          stat.totalFromWordCount += letter.body.length
+          stat.totalFromWordCount += wordCount
         }
 
         let date = offsetTimezoneDate(dateTextToDate(letter.deliver_at))

@@ -6,7 +6,7 @@
       <div class="editor-header">
         <span>To {{checkedFriend && checkedFriend.name}}</span>
         <span class="word-count"
-              v-show="inputData">{{inputData.length}}</span>
+              v-show="wordCount">{{wordCount}}</span>
         <span class="sending-state"
               v-show="letterState">{{letterState}}</span>
         <span class="el-icon-close"
@@ -213,7 +213,7 @@
 import { mapState, mapMutations } from "vuex"
 
 import * as api from "../api"
-import { showError, showSuccess } from "../util"
+import { showError, showSuccess, countWords } from "../util"
 import * as draft from "../persist/draft"
 import * as account from "../persist/account"
 import { scrollToTop, createListRender } from "../helper"
@@ -258,6 +258,9 @@ export default {
           : "正在保存草稿..."
       }
       return ""
+    },
+    wordCount() {
+      return countWords(this.inputData)
     }
   },
   watch: {

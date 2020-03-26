@@ -153,6 +153,41 @@ function dateTextToDate(d) {
   return new Date(formatStr)
 }
 
+function countWords(content) {
+  if (!content) {
+    return 0
+  }
+
+  //𠮷 count as two words
+  let wordCount = 0
+  let isAscallWord = false
+
+  for (let i = 0; i < content.length; i++) {
+    const code = content.charCodeAt(i)
+    if (48 <= code && code <= 57 || 65 <= code && code <= 90 || 97 <= code && code <= 122) {
+      isAscallWord = true
+      continue
+    }
+
+    if(isAscallWord) {
+      isAscallWord = false
+      wordCount++
+    }
+
+
+    if (code >= 128 || code < 0) {
+      wordCount++
+    }
+
+  }
+
+  if (isAscallWord) {
+    wordCount++
+  }
+
+  return wordCount
+}
+
 export {
   validateEmail,
   showError,
@@ -166,5 +201,6 @@ export {
   offsetAndFormatDate,
   copyToClipboard,
   getRequestParam,
-  dateTextToDate
+  dateTextToDate,
+  countWords
 }
