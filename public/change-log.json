@@ -1,4 +1,9 @@
-[
+[   
+    {
+        "versionName": "1.8.16",
+        "versionCode": 41,
+        "content": "修改字数统计方法\n日历样式调整"
+    },
     {
         "versionName": "1.8.15",
         "versionCode": 40,
