@@ -136,7 +136,7 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
         add.tspan(`${loopDate.getMonth() + 1}月`).dy(0)
       })
         .font({
-          fill: nowDate.getMonth() == loopDate.getMonth() ? 'rgba(0,0,0, 0.9)' : '#ccc',
+          fill: nowDate.getMonth() == loopDate.getMonth() && nowDate.getFullYear() == loopDate.getFullYear() ? 'rgba(0,0,0, 0.9)' : '#ccc',
           size: 11
         })
         .attr('x', cellX)
