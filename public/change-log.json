@@ -1,5 +1,10 @@
 [   
     {
+        "versionName": "1.8.17",
+        "versionCode": 42,
+        "content": "增加删除缓存邮箱按钮\n当位置信息不可用时隐藏地图图标"
+    }, 
+    {
         "versionName": "1.8.16",
         "versionCode": 41,
         "content": "修改字数统计方法\n日历样式调整"
