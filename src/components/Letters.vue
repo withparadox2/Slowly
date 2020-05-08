@@ -47,6 +47,7 @@
                     @click="showFriendInfo"
                     class="name">{{checkedFriend.name}}<span title="信件数量">({{searchValue ? renderLetters.length : letters.length}})</span></span>
               <i class="el-icon-location"
+                 v-show="checkedFriend.user_location"
                  title="查看位置"
                  @click="$emit('showMap', checkedFriend)"></i>
               <i class="el-icon-date"
