@@ -279,6 +279,9 @@ export default {
       if (friend) {
         this.listRender.dataList = friend.letters || []
       }
+    },
+    inputData() {
+      this.contentHasChanged = true
     }
   },
   methods: {
@@ -300,7 +303,11 @@ export default {
         })
         .catch(e => showError(this, "加载草稿失败：" + e))
       this.intervalId = setInterval(() => {
+        if (!this.contentHasChanged) {
+          return
+        }
         this.saveDraft(this.inputData)
+        this.contentHasChanged = false
         this.isAutoSaving = true
         setTimeout(() => {
           this.isAutoSaving = false
