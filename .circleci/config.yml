@@ -22,5 +22,3 @@ jobs:
       - run:
           name: build
           command: npm run build
-      - store_artifacts:
-          path: dist/dist.zip
