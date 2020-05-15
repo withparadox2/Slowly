@@ -12,7 +12,7 @@
              @click="checkEmail(email)">
           <el-row type="flex">
             <el-col :span="20">{{email}}</el-col>
-            <el-col :span="3" title="删除" class="el-remove-email" @click.native.stop="removeEmail(email)">
+            <el-col :span="4" title="删除" class="el-remove-email" @click.native.stop="removeEmail(email)">
               <i class="el-icon-delete"></i>
             </el-col>
           </el-row>
