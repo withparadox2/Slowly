@@ -1,4 +1,9 @@
-[   
+[  
+    {
+        "versionName": "1.9.0",
+        "versionCode": 43,
+        "content": "兼容新的登陆接口（旧的已被限制）\n登陆失败自动重定位到登陆页面\n只有当编辑文字变化时才自动保存"
+    },
     {
         "versionName": "1.8.17",
         "versionCode": 42,
