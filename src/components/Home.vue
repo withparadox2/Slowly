@@ -209,6 +209,7 @@ import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
 import { checkVersion, updateVersion } from "../update"
+import getOtp from '../genOtp'
 import Friends from "./Friends.vue"
 import Letters from "./Letters.vue"
 import Map from "./Map.vue"
@@ -316,7 +317,12 @@ export default {
     this.accountInfo = account.getAccount()
     if (!this.accountInfo) {
       api
-        .getMe()
+        .getTime()
+        .then(response => {
+          let curTime = response.data.now
+          const otp = getOtp(curTime)
+          return api.getMe(otp)
+        })
         .then(response => {
           this.accountInfo = response.data
           account.setAccount(this.accountInfo)

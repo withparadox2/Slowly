@@ -42,9 +42,12 @@ export function getLetters(id, page) {
   })
 }
 
-export function getMe() {
-  return get({
-    path: '/users/me'
+export function getMe(otp) {
+  return post({
+    path: '/users/me/v2',
+    params: {
+      otp
+    }
   })
 }
 
@@ -111,5 +114,11 @@ export function readLetter(ids) {
     params: {
       ids,
     }
+  })
+}
+
+export function getTime() {
+  return get({
+    path: '/timestamp'
   })
 }
