@@ -14,4 +14,6 @@ A lite web version of [Slowly](https://www.getslowly.com/en/). Through it one ca
 **Note:** All data is fetched from Slowly's server and stored in browser's local storage. You should never leak any sensitive data like token or sms code to others.
 
 ## Build
-`npm run serve` or `npm run build`
+Install dependencies: `npm install`
+
+Then start server `npm run serve` or build to generate bundles `npm run build`
