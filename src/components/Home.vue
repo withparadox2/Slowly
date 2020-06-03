@@ -322,7 +322,10 @@ export default {
           account.setAccount(this.accountInfo)
           this.loadFriends()
         })
-        .catch(err => this.$errorHandler(err))
+        .catch(err => this.$errorHandler({
+          ...err,
+          exitLogin: true
+        }))
     } else {
       this.loadFriends()
       api.getMe().then(response => {

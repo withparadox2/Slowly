@@ -45,9 +45,9 @@ if (!redirectUrl()) {
     useCache: false
   }
 
-  Vue.prototype.$errorHandler = function ({ message }) {
+  Vue.prototype.$errorHandler = function ({ message, exitLogin }) {
     showError(this, message)
-    if (message == 'token_expired' || message == 'token_invalid') {
+    if (message == 'token_expired' || message == 'token_invalid' || exitLogin) {
       setToken('')
       this.$router.replace({
         name: 'login'
