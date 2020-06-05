@@ -6,7 +6,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>Slowly</title>
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=VdT4cYze05sjP9Z7zNGoDU9FuL48pggH"></script>
+    <script type="text/javascript">
+      window.HOST_TYPE = "2"; 
+      window.BMap_loadScriptTime = (new Date).getTime();
+    </script>
+    <script type="text/javascript" src="https://api.map.baidu.com/getscript?v=2.0&ak=VdT4cYze05sjP9Z7zNGoDU9FuL48pggH&services=&t=20200327103013"></script>
   </head>
   <body>
     <noscript>
