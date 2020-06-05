@@ -1,5 +1,10 @@
 [  
     {
+        "versionName": "2.0.1",
+        "versionCode": 45,
+        "content": "修复地图不显示问题"
+    },  
+    {
         "versionName": "2.0.0",
         "versionCode": 44,
         "content": "自动部署页面"
