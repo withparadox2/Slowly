@@ -1,4 +1,4 @@
-## ShowSlowly
+## Slowly
 
 A lite web version of [Slowly](https://www.getslowly.com/en/). Through it one can send or receive letters, check and update location. Since the official web version has also been released, I'd like to introduce some unique features embeded inside ShowSlowly:
 
