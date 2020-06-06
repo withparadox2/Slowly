@@ -177,7 +177,7 @@ import * as friendStore from "../persist/friend-store"
 import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
-import getOtp from "../genOtp"
+import getOtp from "../otp"
 
 import Friends from "../components/Friends.vue"
 import Letters from "../components/Letters.vue"
