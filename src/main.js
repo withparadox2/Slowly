@@ -5,8 +5,8 @@ import "element-ui/lib/theme-chalk/index.css"
 
 import "./main.styl"
 
-import Login from "./components/Login.vue"
-import Home from "./components/Home.vue"
+import Login from "./pages/Login.vue"
+import Home from "./pages/Home.vue"
 
 import InfiniteLoading from "vue-infinite-loading"
 import VueLazyload from "vue-lazyload"

@@ -99,8 +99,8 @@
 import { validateEmail, showError, showSuccess } from "../util"
 import { sendEmailPasscode, verifyPasscode } from "../api"
 import { setToken, getToken } from "../persist/account"
-import EmailInput from "./EmailInput.vue"
-import Version from "./Version.vue"
+import EmailInput from "../components/EmailInput.vue"
+import Version from "../components/Version.vue"
 
 export default {
   data() {

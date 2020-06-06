@@ -312,8 +312,8 @@ import {
 import { getAccount } from "../persist/account"
 import matchAll from "string.prototype.matchall"
 
-import NewLetter from "./NewLetter.vue"
-import Stat from "./Stat.vue"
+import NewLetter from "../pages/NewLetter.vue"
+import Stat from "../pages/Stat.vue"
 import LetterItem from "./LetterItem.vue"
 
 import iconLetterOut from "../../images/ic_mail_out.png"

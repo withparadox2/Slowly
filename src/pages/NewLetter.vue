@@ -219,8 +219,8 @@ import * as account from "../persist/account"
 import { scrollToTop, createListRender } from "../helper"
 import { setTimeout, setInterval, clearInterval } from "timers"
 
-import LetterItem from "./LetterItem.vue"
-import GridView from "./common/GridView.vue"
+import LetterItem from "../components/LetterItem.vue"
+import GridView from "../components/common/GridView.vue"
 
 export default {
   data() {

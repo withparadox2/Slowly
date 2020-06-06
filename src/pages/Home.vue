@@ -178,14 +178,16 @@ import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
 import getOtp from "../genOtp"
-import Friends from "./Friends.vue"
-import Letters from "./Letters.vue"
+
+import Friends from "../components/Friends.vue"
+import Letters from "../components/Letters.vue"
+import InputBox from "../components/InputBox.vue"
+import Quote from "../components/Quote.vue"
+import Version from "../components/Version.vue"
+
 import Map from "./Map.vue"
-import InputBox from "./InputBox.vue"
-import Quote from "./Quote.vue"
-import About from "./About.vue"
 import ChangeLog from "./ChangeLog.vue"
-import Version from "./Version.vue"
+import About from "./About.vue"
 
 export default {
   data() {
