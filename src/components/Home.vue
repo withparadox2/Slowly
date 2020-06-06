@@ -45,18 +45,8 @@
                  v-show="checkedFriend" />
         <quote-node v-show="!checkedFriend"></quote-node>
       </div>
-      <div class="new-version"
-           @click="updateNewVersion()"
-           v-if="newVersion">
-        <div>点击更新</div>
-        <ul v-if="newVersion.content && newVersion.content.length > 0">
-          <li v-for="item in newVersion.content"
-              :key="item">
-            <span>{{item}}</span>
-          </li>
-        </ul>
-      </div>
     </div>
+    <version />
     <map-node ref="map" />
     <about ref="about" />
     <change-log ref="changeLog" />
@@ -172,27 +162,6 @@
   flex 1
   overflow hidden
   position relative
-.new-version
-  position absolute
-  right 30px
-  bottom 30px
-  font-size 13px
-  color white
-  border-radius 5px
-  white-space nowrap
-  background $main-color
-  box-shadow 0 2px 12px 0 rgba(0, 0, 0, 0.4)
-  padding 5px 10px
-  cursor pointer
-  white-space pre-line
-  max-width 200px
-  ul
-    margin 0
-    list-style-position inside
-    padding-left 0
-    span
-      position relative
-      left -8px
 #account-loading
   z-index 1000
   position fixed
@@ -201,49 +170,49 @@
   background white
 </style>
 <script>
-import { mapState, mapMutations } from "vuex"
-import * as api from "../api"
-import { showError, showSuccess } from "../util"
-import * as friendStore from "../persist/friend-store"
-import * as account from "../persist/account"
-import { getDataManager } from "../persist/letter-store"
-import { sortFriends } from "../helper"
-import { checkVersion, updateVersion } from "../update"
+import { mapState, mapMutations } from 'vuex'
+import * as api from '../api'
+import { showError, showSuccess } from '../util'
+import * as friendStore from '../persist/friend-store'
+import * as account from '../persist/account'
+import { getDataManager } from '../persist/letter-store'
+import { sortFriends } from '../helper'
 import getOtp from '../genOtp'
-import Friends from "./Friends.vue"
-import Letters from "./Letters.vue"
-import Map from "./Map.vue"
-import InputBox from "./InputBox.vue"
-import Quote from "./Quote.vue"
-import About from "./About.vue"
-import ChangeLog from "./ChangeLog.vue"
+import Friends from './Friends.vue'
+import Letters from './Letters.vue'
+import Map from './Map.vue'
+import InputBox from './InputBox.vue'
+import Quote from './Quote.vue'
+import About from './About.vue'
+import ChangeLog from './ChangeLog.vue'
+import Version from './Version.vue'
 
 export default {
   data() {
     return {
       accountInfo: null,
-      newVersion: false,
       leftSectionExited: true
     }
   },
   components: {
     Friends,
     Letters,
-    "map-node": Map,
+    'map-node': Map,
     InputBox,
-    "quote-node": Quote,
+    'quote-node': Quote,
     About,
-    ChangeLog
+    ChangeLog,
+    Version
   },
   computed: {
-    ...mapState(["checkedFriend", "friendList", "mobileMode"])
+    ...mapState(['checkedFriend', 'friendList', 'mobileMode'])
   },
   methods: {
-    ...mapMutations(["setFriends", "setChangeLog"]),
+    ...mapMutations(['setFriends']),
     exit() {
-      this.$confirm("退出后数据仍在，是否确定退出?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
+      this.$confirm('退出后数据仍在，是否确定退出?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
       })
         .then(() => {
           account.clear()
@@ -253,7 +222,7 @@ export default {
     },
     goLogin() {
       this.$router.replace({
-        name: "login"
+        name: 'login'
       })
     },
     showMap(friend) {
@@ -283,9 +252,6 @@ export default {
     },
     editLocation() {
       this.$refs.map.editLocation()
-    },
-    updateNewVersion() {
-      updateVersion()
     },
     showAbout() {
       this.$refs.about.show()
@@ -328,13 +294,16 @@ export default {
           account.setAccount(this.accountInfo)
           this.loadFriends()
         })
-        .catch(err => this.$errorHandler({
-          ...err,
-          exitLogin: true
-        }))
+        .catch(err =>
+          this.$errorHandler({
+            ...err,
+            exitLogin: true
+          })
+        )
     } else {
       this.loadFriends()
-      api.getTime()
+      api
+        .getTime()
         .then(response => {
           let curTime = response.data.now
           const otp = getOtp(curTime, this.accountInfo.id)
@@ -347,15 +316,6 @@ export default {
           console.log(e)
         })
     }
-
-    checkVersion().then(result => {
-      if (result) {
-        if (result.newVersion) {
-          this.newVersion = result.newVersion
-        }
-        this.setChangeLog(result.changeLog)
-      }
-    })
   }
 }
 </script>
