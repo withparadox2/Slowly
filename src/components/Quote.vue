@@ -38,10 +38,12 @@
       color #777
 </style>
 <script>
-import { quotes } from "../quote"
+import axios from 'axios'
+
 export default {
   data() {
     return {
+      quotes: [],
       currentQuote: null
     }
   },
@@ -52,15 +54,28 @@ export default {
       return first ? `——${first}${second ? " · " : ""}${second}` : ""
     },
     changeQuote() {
-      let item = quotes[parseInt(Math.random() * quotes.length)]
+      let item = this.quotes[parseInt(Math.random() * this.quotes.length)]
       this.currentQuote = {
         content: item.content,
         quoteInfo: this.getQuoteInfo(item)
       }
-    }
+    },
+    fetchQuotes() {
+      axios({
+        method: 'get',
+        url: './quotes.json',
+      }).then(response => {
+        if (response.data && response.data.length > 0) {
+          this.quotes = response.data
+          this.changeQuote()
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
   },
   mounted() {
-    this.changeQuote()
+    this.fetchQuotes()
   }
 }
 </script>
