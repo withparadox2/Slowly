@@ -11,7 +11,6 @@
       "singleQuote": false
     }
   },
-  "files.autoSave": "afterDelay",
   "stylusSupremacy.insertColons": false, // 是否插入冒号
   "stylusSupremacy.insertSemicolons": false, // 是否插入分好
   "stylusSupremacy.insertBraces": false, // 是否插入大括号
