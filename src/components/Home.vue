@@ -334,9 +334,18 @@ export default {
         }))
     } else {
       this.loadFriends()
-      api.getMe().then(response => {
-        account.setAccount(response.data)
-      })
+      api.getTime()
+        .then(response => {
+          let curTime = response.data.now
+          const otp = getOtp(curTime, this.accountInfo.id)
+          return api.getMe(otp)
+        })
+        .then(response => {
+          account.setAccount(response.data)
+        })
+        .catch(e => {
+          console.log(e)
+        })
     }
 
     checkVersion().then(result => {
