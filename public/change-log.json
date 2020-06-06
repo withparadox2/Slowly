@@ -1,5 +1,10 @@
 [  
     {
+        "versionName": "2.0.2",
+        "versionCode": 46,
+        "content": "登陆页面增加版本检测功能"
+    },
+    {
         "versionName": "2.0.1",
         "versionCode": 45,
         "content": "修复地图不显示问题"
