@@ -1,29 +1,29 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import Vue from "vue"
+import VueRouter from "vue-router"
+import ElementUI from "element-ui"
+import "element-ui/lib/theme-chalk/index.css"
 
-import './main.styl'
+import "./main.styl"
 
-import Login from './components/Login.vue'
-import Home from './components/Home.vue'
+import Login from "./components/Login.vue"
+import Home from "./components/Home.vue"
 
-import InfiniteLoading from 'vue-infinite-loading'
-import VueLazyload from 'vue-lazyload'
+import InfiniteLoading from "vue-infinite-loading"
+import VueLazyload from "vue-lazyload"
 
-import { setToken } from './persist/account'
-import { showError } from './util'
-import { store } from './store'
-import { redirectUrl } from './update.js'
+import { setToken } from "./persist/account"
+import { showError } from "./util"
+import { store } from "./store"
+import { redirectUrl } from "./update.js"
 
 // import VConsole from 'vconsole'
 // new VConsole()
 
 function updateMobileMode() {
-  store.commit('setMobileMode', window.innerWidth <= 850)
+  store.commit("setMobileMode", window.innerWidth <= 850)
 }
 updateMobileMode()
-window.addEventListener('resize', updateMobileMode)
+window.addEventListener("resize", updateMobileMode)
 
 if (!redirectUrl()) {
   Vue.use(ElementUI)
@@ -35,38 +35,38 @@ if (!redirectUrl()) {
 
   {
     let url = new URL(window.location.href)
-    let token = url.searchParams.get('token')
+    let token = url.searchParams.get("token")
     if (token) {
       setToken(token)
     }
   }
 
   window.__CONFIG__ = {
-    useCache: false
+    useCache: false,
   }
 
-  Vue.prototype.$errorHandler = function ({ message, exitLogin }) {
+  Vue.prototype.$errorHandler = function({ message, exitLogin }) {
     showError(this, message)
-    if (message == 'token_expired' || message == 'token_invalid' || exitLogin) {
-      setToken('')
+    if (message == "token_expired" || message == "token_invalid" || exitLogin) {
+      setToken("")
       this.$router.replace({
-        name: 'login'
+        name: "login",
       })
     }
   }
 
   const routes = [
-    { path: '/login', name: 'login', component: Login },
-    { path: '/home', name: 'home', component: Home },
-    { path: '/', redirect: '/home' }
+    { path: "/login", name: "login", component: Login },
+    { path: "/home", name: "home", component: Home },
+    { path: "/", redirect: "/home" },
   ]
 
   const router = new VueRouter({
-    routes
+    routes,
   })
 
   new Vue({
     router,
-    store
-  }).$mount('#app')
+    store,
+  }).$mount("#app")
 }

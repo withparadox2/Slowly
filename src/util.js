@@ -1,4 +1,4 @@
-Date.prototype.addDays = function (days) {
+Date.prototype.addDays = function(days) {
   let date = new Date(this.valueOf())
   date.setDate(date.getDate() + days)
   return date
@@ -13,7 +13,7 @@ function showError(vue, message) {
   vue.$message({
     showClose: true,
     message: message,
-    type: "error"
+    type: "error",
   })
 }
 
@@ -21,7 +21,7 @@ function showSuccess(vue, message) {
   vue.$message({
     showClose: true,
     message: message,
-    type: "success"
+    type: "success",
   })
 }
 
@@ -29,7 +29,7 @@ function showWarning(vue, message) {
   vue.$message({
     showClose: true,
     message: message,
-    type: "warning"
+    type: "warning",
   })
 }
 
@@ -48,13 +48,11 @@ function offsetTimezoneDate(d) {
 function formateDate(date) {
   let aaaa = date.getFullYear()
   let gg = date.getDate()
-  let mm = (date.getMonth() + 1)
+  let mm = date.getMonth() + 1
 
-  if (gg < 10)
-    gg = "0" + gg
+  if (gg < 10) gg = "0" + gg
 
-  if (mm < 10)
-    mm = "0" + mm
+  if (mm < 10) mm = "0" + mm
 
   let cur_day = aaaa + "-" + mm + "-" + gg
 
@@ -62,25 +60,25 @@ function formateDate(date) {
   let minutes = date.getMinutes()
   let seconds = date.getSeconds()
 
-  if (hours < 10)
-    hours = "0" + hours
+  if (hours < 10) hours = "0" + hours
 
-  if (minutes < 10)
-    minutes = "0" + minutes
+  if (minutes < 10) minutes = "0" + minutes
 
-  if (seconds < 10)
-    seconds = "0" + seconds
+  if (seconds < 10) seconds = "0" + seconds
 
   return cur_day + " " + hours + ":" + minutes + ":" + seconds
 }
 
 function formatDateYMD(d) {
-  return `${d.getFullYear()}-${d.getMonth() < 9 ? '0' : ''}${d.getMonth() + 1}-${d.getDate() < 10 ? '0' : ''}${d.getDate()}`
+  return `${d.getFullYear()}-${d.getMonth() < 9 ? "0" : ""}${d.getMonth() +
+    1}-${d.getDate() < 10 ? "0" : ""}${d.getDate()}`
 }
 
 function getDaysCount(firstDate, secondDate) {
   let oneDay = 24 * 60 * 60 * 1000 // hours*minutes*seconds*milliseconds
-  return Math.round(Math.abs((firstDate.getTime() - secondDate.getTime()) / (oneDay)))
+  return Math.round(
+    Math.abs((firstDate.getTime() - secondDate.getTime()) / oneDay)
+  )
 }
 
 function formatDateReadable(date) {
@@ -98,9 +96,9 @@ function formatDateReadable(date) {
   let monthDate
   if (m == nowDate.getMonth() + 1) {
     if (d == nowDate.getDate()) {
-      monthDate = '今天'
+      monthDate = "今天"
     } else if (d == nowDate.getDate() - 1) {
-      monthDate = '昨天'
+      monthDate = "昨天"
     }
   }
 
@@ -108,7 +106,9 @@ function formatDateReadable(date) {
     monthDate = `${m}月${d}日`
   }
 
-  let hourMinute = `${hour > 12 ? hour - 12 : hour}:${minute < 10 ? '0' + minute : minute}`
+  let hourMinute = `${hour > 12 ? hour - 12 : hour}:${
+    minute < 10 ? "0" + minute : minute
+  }`
   return `${monthDate} ${hourMinute} ${getHourDesc(hour)}`
 }
 
@@ -133,11 +133,11 @@ function getHourDesc(hour) {
 }
 
 function copyToClipboard(str) {
-  const el = document.createElement('textarea')
+  const el = document.createElement("textarea")
   el.value = str
   document.body.appendChild(el)
   el.select()
-  document.execCommand('copy')
+  document.execCommand("copy")
   document.body.removeChild(el)
 }
 
@@ -149,7 +149,11 @@ function getRequestParam(val, def = null) {
 }
 
 function dateTextToDate(d) {
-  let formatStr = d.substring(5, 10).replace('-', '/') + '/' + d.substring(0, 4) + d.substring(10)
+  let formatStr =
+    d.substring(5, 10).replace("-", "/") +
+    "/" +
+    d.substring(0, 4) +
+    d.substring(10)
   return new Date(formatStr)
 }
 
@@ -164,21 +168,23 @@ function countWords(content) {
 
   for (let i = 0; i < content.length; i++) {
     const code = content.charCodeAt(i)
-    if (48 <= code && code <= 57 || 65 <= code && code <= 90 || 97 <= code && code <= 122) {
+    if (
+      (48 <= code && code <= 57) ||
+      (65 <= code && code <= 90) ||
+      (97 <= code && code <= 122)
+    ) {
       isAscallWord = true
       continue
     }
 
-    if(isAscallWord) {
+    if (isAscallWord) {
       isAscallWord = false
       wordCount++
     }
 
-
     if (code >= 128 || code < 0) {
       wordCount++
     }
-
   }
 
   if (isAscallWord) {
@@ -202,5 +208,5 @@ export {
   copyToClipboard,
   getRequestParam,
   dateTextToDate,
-  countWords
+  countWords,
 }

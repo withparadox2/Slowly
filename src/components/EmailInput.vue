@@ -12,13 +12,16 @@
              @click="checkEmail(email)">
           <el-row type="flex">
             <el-col :span="20">{{email}}</el-col>
-            <el-col :span="4" title="删除" class="el-remove-email" @click.native.stop="removeEmail(email)">
+            <el-col :span="4"
+                    title="删除"
+                    class="el-remove-email"
+                    @click.native.stop="removeEmail(email)">
               <i class="el-icon-delete"></i>
             </el-col>
           </el-row>
         </div>
       </div>
-      
+
       <el-input v-bind:value="value"
                 v-on:input="$emit('input', $event)"
                 slot="reference"
@@ -35,7 +38,7 @@
   .item
     cursor pointer
 .el-remove-email
-  text-align right    
+  text-align right
 </style>
 <script>
 export default {
@@ -83,7 +86,7 @@ export default {
       this.setPopupState()
     },
     setPopupState() {
-       this.cachedEmails = this.loadEmails().filter(
+      this.cachedEmails = this.loadEmails().filter(
         item => item.indexOf(this.value) >= 0
       )
       this.visible = !!(this.value && this.cachedEmails.length > 0)

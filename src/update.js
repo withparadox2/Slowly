@@ -1,5 +1,5 @@
-import axios from 'axios'
-import { getRequestParam } from './util'
+import axios from "axios"
+import { getRequestParam } from "./util"
 
 const localVersion = SLOWLY_VERSION
 window.appVersion = SLOWLY_VERSION
@@ -9,8 +9,8 @@ const PARAM_TIMESTAMP = "t"
 
 function formatChangeLog(changeLog) {
   if (changeLog && changeLog.length > 0) {
-    changeLog.forEach(item => {
-      item.contentItems = item.content.split('\n')
+    changeLog.forEach((item) => {
+      item.contentItems = item.content.split("\n")
     })
   }
   return changeLog
@@ -19,25 +19,31 @@ function formatChangeLog(changeLog) {
 export function checkVersion() {
   return new Promise((resolve, reject) => {
     axios({
-      method: 'get',
+      method: "get",
       url: `./change-log.json?t=${Date.now()}`,
-    }).then(response => {
-      if (response.data && response.data.length > 0) {
-        formatChangeLog(response.data)
-
-        let remoteVersion = response.data[0]
-        resolve({
-          newVersion: remoteVersion && remoteVersion.versionCode > localVersion.versionCode ? {
-            content: remoteVersion.contentItems
-          } : null,
-          changeLog: response.data
-        })
-      } else {
-        resolve(false)
-      }
-    }).catch((error) => {
-      resolve(false)
     })
+      .then((response) => {
+        if (response.data && response.data.length > 0) {
+          formatChangeLog(response.data)
+
+          let remoteVersion = response.data[0]
+          resolve({
+            newVersion:
+              remoteVersion &&
+              remoteVersion.versionCode > localVersion.versionCode
+                ? {
+                    content: remoteVersion.contentItems,
+                  }
+                : null,
+            changeLog: response.data,
+          })
+        } else {
+          resolve(false)
+        }
+      })
+      .catch((error) => {
+        resolve(false)
+      })
   })
 }
 
@@ -46,14 +52,16 @@ function buildUrlWithTimestamp(stamp) {
 
   let search = `${PARAM_TIMESTAMP}=${stamp}`
   if (location.search) {
-    const result = location.search.match(new RegExp(`[&?](${PARAM_TIMESTAMP}=[^&?]*)`))
+    const result = location.search.match(
+      new RegExp(`[&?](${PARAM_TIMESTAMP}=[^&?]*)`)
+    )
     if (result) {
       search = location.search.replace(result[1], search)
     } else {
-      search = location.search + '&' + search
+      search = location.search + "&" + search
     }
   } else {
-    search = '?' + search
+    search = "?" + search
   }
 
   return location.origin + location.pathname + search + location.hash

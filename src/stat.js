@@ -1,11 +1,11 @@
 import { offsetTimezoneDate, getDaysCount } from "./util"
-import { getAccount } from './persist/account'
-import SVG from 'svg.js'
-import { formatDateYMD, dateTextToDate } from './util'
+import { getAccount } from "./persist/account"
+import SVG from "svg.js"
+import { formatDateYMD, dateTextToDate } from "./util"
 
-const COLOR_BLUE = ['#C6E2FF', '#3296FC', '#036CD9']
-const COLOR_GREEN = ['#C9ECB4', '#86D666', '#11AE2B']
-const COLOR_YELLOW = ['#FFE2D4', '#FFAB81', '#FC7536']
+const COLOR_BLUE = ["#C6E2FF", "#3296FC", "#036CD9"]
+const COLOR_GREEN = ["#C9ECB4", "#86D666", "#11AE2B"]
+const COLOR_YELLOW = ["#FFE2D4", "#FFAB81", "#FC7536"]
 
 function getColorIndex(num) {
   return num - 1 > 2 ? 2 : num - 1
@@ -31,7 +31,8 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
   let nowDate = new Date()
   let nowDateIndex = calDateIndex(nowDate)
 
-  let row = 6, col = 0;
+  let row = 6,
+    col = 0
   let loopDate = new Date(cellList[0].date.valueOf())
   let cellIndex = 0
   let lastYear = -1
@@ -43,11 +44,14 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
     let loopDateStr = formatDateYMD(loopDate)
     let loopDateIndex = calDateIndex(loopDate)
     let cp = loopDateIndex - curDateIndex
-    let drawColor = ['#F7F7F7']
+    let drawColor = ["#F7F7F7"]
     if (cp == 0) {
       if (cellIndex != 0 || cell.num > 0) {
         if (cell.fromNum > 0 && cell.toNum > 0) {
-          drawColor = [COLOR_BLUE[getColorIndex(cell.fromNum)], COLOR_GREEN[getColorIndex(cell.toNum)]]
+          drawColor = [
+            COLOR_BLUE[getColorIndex(cell.fromNum)],
+            COLOR_GREEN[getColorIndex(cell.toNum)],
+          ]
         } else if (cell.fromNum > 0) {
           drawColor = [COLOR_BLUE[getColorIndex(cell.fromNum)]]
         } else {
@@ -56,7 +60,7 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
       }
       cellIndex++
     } else if (cp < 0) {
-      console.log('order is wrong')
+      console.log("order is wrong")
       break
     }
 
@@ -64,33 +68,52 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
     let cellY = startY + row * cellSize
     let group = draw.group().transform({ x: cellX, y: cellY })
     if (drawColor.length == 1) {
-      let rect = draw.rect(cellSize - 2, cellSize - 2)
+      let rect = draw
+        .rect(cellSize - 2, cellSize - 2)
         .attr({
-          fill: drawColor[0]
+          fill: drawColor[0],
         })
         .radius(4)
       group.add(rect)
       if (nowDateIndex == loopDateIndex) {
         group.add(
-          draw.rect(cellSize, cellSize)
-            .attr({ fill: "rgba(0,0,0,0)", stroke: "rgba(0,0,0,0.70)", x: -1, y: -1 })
+          draw
+            .rect(cellSize, cellSize)
+            .attr({
+              fill: "rgba(0,0,0,0)",
+              stroke: "rgba(0,0,0,0.70)",
+              x: -1,
+              y: -1,
+            })
             .radius(4)
         )
       }
     } else {
-      let path1 = draw.path('M0 7 V4 Q0 0 4 0 H10 Q14 0 14 4 V7 Z').attr({ fill: drawColor[0], 'stroke-width': 0 })
-      let path2 = draw.path('M0 7 V10 Q0 14 4 14 H10 Q14 14 14 10 V7 Z').attr({ fill: drawColor[1], 'stroke-width': 0 })
-      let strokePath = draw.rect(cellSize - 2, cellSize - 2).attr({
-        fill: "rgba(0,0,0,0)"
-      })
+      let path1 = draw
+        .path("M0 7 V4 Q0 0 4 0 H10 Q14 0 14 4 V7 Z")
+        .attr({ fill: drawColor[0], "stroke-width": 0 })
+      let path2 = draw
+        .path("M0 7 V10 Q0 14 4 14 H10 Q14 14 14 10 V7 Z")
+        .attr({ fill: drawColor[1], "stroke-width": 0 })
+      let strokePath = draw
+        .rect(cellSize - 2, cellSize - 2)
+        .attr({
+          fill: "rgba(0,0,0,0)",
+        })
         .radius(4)
       group.add(path1)
       group.add(path2)
       group.add(strokePath)
       if (nowDateIndex == loopDateIndex) {
         group.add(
-          draw.rect(cellSize, cellSize)
-            .attr({ fill: "rgba(0,0,0,0)", stroke: "rgba(0,0,0,0.70)", x: -1, y: -1 })
+          draw
+            .rect(cellSize, cellSize)
+            .attr({
+              fill: "rgba(0,0,0,0)",
+              stroke: "rgba(0,0,0,0.70)",
+              x: -1,
+              y: -1,
+            })
             .radius(4)
         )
       }
@@ -98,50 +121,62 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
     group.dateStr = loopDateStr
     group.fromNum = cell.fromNum
     group.toNum = cell.toNum
-    group.mouseover(function () {
+    group.mouseover(function() {
       onHover && onHover(this.dateStr, this.fromNum, this.toNum)
       this.stroke({
-        color: "rgba(0,0,0,0.3)"
+        color: "rgba(0,0,0,0.3)",
       })
     })
-    group.mouseout(function () {
-      onHover && onHover('')
+    group.mouseout(function() {
+      onHover && onHover("")
       this.stroke({
-        color: "rgba(0,0,0,0)"
+        color: "rgba(0,0,0,0)",
       })
     })
-    group.click(function () {
+    group.click(function() {
       onClick && onClick(this.dateStr)
     })
 
     // draw year
     if (lastYear < 0 || lastYear != loopDate.getFullYear()) {
-      draw.text(function (add) {
-        add.tspan(`${loopDate.getFullYear()}年`).dy(0)
-      })
-        .font({
-          fill: nowDate.getFullYear() == loopDate.getFullYear() ? 'rgba(0,0,0, 0.9)' : '#ccc',
-          size: 15
+      draw
+        .text(function(add) {
+          add.tspan(`${loopDate.getFullYear()}年`).dy(0)
         })
-        .attr('x', cellX)
-        .attr('y', 10)
-        .attr('dominant-baseline', "hanging")
+        .font({
+          fill:
+            nowDate.getFullYear() == loopDate.getFullYear()
+              ? "rgba(0,0,0, 0.9)"
+              : "#ccc",
+          size: 15,
+        })
+        .attr("x", cellX)
+        .attr("y", 10)
+        .attr("dominant-baseline", "hanging")
     }
     lastYear = loopDate.getFullYear()
 
     // draw month
-    if ((lastMonth < 0 || lastMonth != loopDate.getMonth()) &&
-      loopDate.getFullYear() * 100 + loopDate.getMonth() <= nowDate.getFullYear() * 100 + nowDate.getMonth()) {
-      draw.text(function (add) {
-        add.tspan(`${loopDate.getMonth() + 1}月`).dy(0)
-      })
-        .font({
-          fill: nowDate.getMonth() == loopDate.getMonth() && nowDate.getFullYear() == loopDate.getFullYear() ? 'rgba(0,0,0, 0.9)' : '#ccc',
-          size: 11
+    if (
+      (lastMonth < 0 || lastMonth != loopDate.getMonth()) &&
+      loopDate.getFullYear() * 100 + loopDate.getMonth() <=
+        nowDate.getFullYear() * 100 + nowDate.getMonth()
+    ) {
+      draw
+        .text(function(add) {
+          add.tspan(`${loopDate.getMonth() + 1}月`).dy(0)
         })
-        .attr('x', cellX)
-        .attr('y', 31)
-        .attr('dominant-baseline', "hanging")
+        .font({
+          fill:
+            nowDate.getMonth() == loopDate.getMonth() &&
+            nowDate.getFullYear() == loopDate.getFullYear()
+              ? "rgba(0,0,0, 0.9)"
+              : "#ccc",
+          size: 11,
+        })
+        .attr("x", cellX)
+        .attr("y", 31)
+        .attr("dominant-baseline", "hanging")
     }
     lastMonth = loopDate.getMonth()
 
@@ -153,9 +188,13 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
     }
   }
 
-  const weekDays = ['日', '二', '四', '六']
+  const weekDays = ["日", "二", "四", "六"]
   weekDays.forEach((day, index) => {
-    draw.text(day).font({ fill: 'rgba(0,0,0,0.25)', size: 8 }).attr('x', 10).attr('y', 51 + index * 32)
+    draw
+      .text(day)
+      .font({ fill: "rgba(0,0,0,0.25)", size: 8 })
+      .attr("x", 10)
+      .attr("y", 51 + index * 32)
   })
 }
 
@@ -176,8 +215,8 @@ function getCellList(letterList) {
     return l2.deliver_at.localeCompare(l1.deliver_at)
   })
   let cellList = []
-  let lastDate;
-  let lastCell;
+  let lastDate
+  let lastCell
   for (let i = 0; i < letterList.length; i++) {
     let letter = letterList[i]
     if (!letter.deliver_at) {
@@ -209,14 +248,18 @@ function getCellList(letterList) {
 
   cellList.splice(0, 0, {
     date: firstDateToAdd,
-    num: 0
+    num: 0,
   })
   return cellList
 }
 
 function getNearestSaturdayAfterThisMonth() {
   let nowDate = new Date()
-  let lastDayOfThisMonth = new Date(nowDate.getFullYear(), nowDate.getMonth() + 1, 0)
+  let lastDayOfThisMonth = new Date(
+    nowDate.getFullYear(),
+    nowDate.getMonth() + 1,
+    0
+  )
   let lastDayInWeek = lastDayOfThisMonth.getDay()
   let moreDays = 6 - lastDayInWeek
   return lastDayOfThisMonth.addDays(moreDays)

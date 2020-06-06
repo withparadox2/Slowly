@@ -38,7 +38,7 @@
       color #777
 </style>
 <script>
-import axios from 'axios'
+import axios from "axios"
 
 export default {
   data() {
@@ -62,17 +62,19 @@ export default {
     },
     fetchQuotes() {
       axios({
-        method: 'get',
-        url: './quotes.json',
-      }).then(response => {
-        if (response.data && response.data.length > 0) {
-          this.quotes = response.data
-          this.changeQuote()
-        }
-      }).catch((error) => {
-        console.log(error)
+        method: "get",
+        url: "./quotes.json"
       })
-    },
+        .then(response => {
+          if (response.data && response.data.length > 0) {
+            this.quotes = response.data
+            this.changeQuote()
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
   },
   mounted() {
     this.fetchQuotes()

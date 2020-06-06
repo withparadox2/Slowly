@@ -1,7 +1,11 @@
-import { VERSION, upgradeVersion } from './versions'
-import { getAccount } from './account'
+import { VERSION, upgradeVersion } from "./versions"
+import { getAccount } from "./account"
 
-const DB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB
+const DB =
+  window.indexedDB ||
+  window.mozIndexedDB ||
+  window.webkitIndexedDB ||
+  window.msIndexedDB
 
 let database = null
 
@@ -11,7 +15,7 @@ function isSupported() {
 
 function getDbName() {
   let account = getAccount()
-  return account ? `${account.id}-slowly` : 'slowly'
+  return account ? `${account.id}-slowly` : "slowly"
 }
 
 function open() {
@@ -19,12 +23,12 @@ function open() {
     close()
     const request = DB.open(getDbName(), VERSION)
     request.onupgradeneeded = upgradeVersion
-    request.onerror = e => {
+    request.onerror = (e) => {
       database = null
       reject(e.target.error)
     }
-    request.onsuccess = e => {
-      database = e.target.result;
+    request.onsuccess = (e) => {
+      database = e.target.result
       resolve(database)
     }
   })
@@ -45,13 +49,13 @@ function get(store, key = null) {
   return new Promise(async (resolve, reject) => {
     try {
       await open()
-      const transaction = database.transaction([store], 'readonly')
+      const transaction = database.transaction([store], "readonly")
       const objectStore = transaction.objectStore(store)
       const request = key ? objectStore.get(key) : objectStore.getAll()
-      request.onsuccess = e => {
+      request.onsuccess = (e) => {
         resolve(e.target.result)
       }
-      request.onerror = e => {
+      request.onerror = (e) => {
         reject(e.target.error)
       }
     } catch (err) {
@@ -64,14 +68,14 @@ function getAll(store, indexName, indexValue) {
   return new Promise(async (resolve, reject) => {
     try {
       await open()
-      const transaction = database.transaction([store], 'readonly')
+      const transaction = database.transaction([store], "readonly")
       const objectStore = transaction.objectStore(store)
       const index = objectStore.index(indexName)
       const request = index.getAll(indexValue)
-      request.onsuccess = e => {
+      request.onsuccess = (e) => {
         resolve(e.target.result)
       }
-      request.onerror = e => {
+      request.onerror = (e) => {
         reject(e.target.error)
       }
     } catch (err) {
@@ -92,15 +96,15 @@ function insert(store, dataList = []) {
   return new Promise(async (resolve, reject) => {
     try {
       await open()
-      const transaction = database.transaction([store], 'readwrite')
+      const transaction = database.transaction([store], "readwrite")
       const objectStore = transaction.objectStore(store)
-      dataList.forEach(item => {
+      dataList.forEach((item) => {
         objectStore.add(item)
       })
-      transaction.oncomplete = e => {
+      transaction.oncomplete = (e) => {
         resolve(e.target.result)
       }
-      transaction.onerror = e => {
+      transaction.onerror = (e) => {
         reject(e.target.error)
       }
     } catch (err) {
@@ -114,15 +118,15 @@ function update(store, dataList) {
   return new Promise(async (resolve, reject) => {
     try {
       await open()
-      const transaction = database.transaction([store], 'readwrite')
+      const transaction = database.transaction([store], "readwrite")
       const objectStore = transaction.objectStore(store)
-      transaction.oncomplete = e => {
+      transaction.oncomplete = (e) => {
         resolve(e.target.result)
       }
-      transaction.onerror = e => {
+      transaction.onerror = (e) => {
         reject(e.target.error)
       }
-      dataList.forEach(item => {
+      dataList.forEach((item) => {
         objectStore.put(item)
       })
     } catch (err) {
@@ -135,21 +139,21 @@ function insertOrUpdate(store, obj, key) {
   return new Promise(async (resolve, reject) => {
     try {
       await open()
-      const transaction = database.transaction([store], 'readwrite')
+      const transaction = database.transaction([store], "readwrite")
       const objectStore = transaction.objectStore(store)
 
-      transaction.oncomplete = e => {
+      transaction.oncomplete = (e) => {
         resolve(e.target.result)
       }
-      transaction.onerror = e => {
+      transaction.onerror = (e) => {
         reject(e.target.error)
       }
 
-      let req = objectStore.openCursor(key);
-      req.onsuccess = function (e) {
-        var cursor = e.target.result;
+      let req = objectStore.openCursor(key)
+      req.onsuccess = function(e) {
+        var cursor = e.target.result
         if (cursor) {
-          cursor.update(obj);
+          cursor.update(obj)
         } else {
           objectStore.add(obj)
         }
@@ -165,15 +169,15 @@ function remove(store, dataList, key = null) {
   return new Promise(async (resolve, reject) => {
     try {
       await open()
-      const transaction = database.transaction([store], 'readwrite')
+      const transaction = database.transaction([store], "readwrite")
       const objectStore = transaction.objectStore(store)
-      transaction.oncomplete = e => {
+      transaction.oncomplete = (e) => {
         resolve(e.target.result)
       }
-      transaction.onerror = e => {
+      transaction.onerror = (e) => {
         reject(e.target.error)
       }
-      dataList.forEach(item => {
+      dataList.forEach((item) => {
         objectStore.delete(key ? item[key] : item)
       })
     } catch (err) {
@@ -186,16 +190,15 @@ function clear(store) {
   return new Promise(async (resolve, reject) => {
     try {
       await open()
-      const transaction = database.transaction([store], 'readwrite')
+      const transaction = database.transaction([store], "readwrite")
       const objectStore = transaction.objectStore(store)
       const request = objectStore.clear()
-      request.onsuccess = e => {
+      request.onsuccess = (e) => {
         resolve(e.target.readyState)
       }
-      request.onerror = e => {
+      request.onerror = (e) => {
         reject(e.target.error)
       }
-
     } catch (err) {
       reject(err)
     }
@@ -211,5 +214,5 @@ export {
   update,
   remove,
   clear,
-  insertOrUpdate
+  insertOrUpdate,
 }

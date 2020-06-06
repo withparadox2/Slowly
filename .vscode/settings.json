@@ -1,5 +1,5 @@
 {
-  "prettier.singleQuote": true,
+  "prettier.singleQuote": false,
   "prettier.semi": false,
   "vetur.format.defaultFormatter.html": "js-beautify-html",
   "vetur.format.defaultFormatterOptions": {
@@ -8,7 +8,7 @@
     },
     "prettier": {
       "semi": false,
-      "singleQuote": true
+      "singleQuote": false
     }
   },
   "files.autoSave": "afterDelay",

@@ -96,17 +96,17 @@
 </style>
 
 <script>
-import { validateEmail, showError, showSuccess } from '../util'
-import { sendEmailPasscode, verifyPasscode } from '../api'
-import { setToken, getToken } from '../persist/account'
-import EmailInput from './EmailInput.vue'
-import Version from './Version.vue'
+import { validateEmail, showError, showSuccess } from "../util"
+import { sendEmailPasscode, verifyPasscode } from "../api"
+import { setToken, getToken } from "../persist/account"
+import EmailInput from "./EmailInput.vue"
+import Version from "./Version.vue"
 
 export default {
   data() {
     return {
-      email: '',
-      passcode: '',
+      email: "",
+      passcode: "",
       fullscreenLoading: false,
       showPasscode: false
     }
@@ -117,13 +117,13 @@ export default {
   },
   computed: {
     fadeName() {
-      return this.showPasscode ? 'slide-in' : 'slide-out'
+      return this.showPasscode ? "slide-in" : "slide-out"
     }
   },
   methods: {
     sendEmail() {
       if (!validateEmail(this.email)) {
-        showError(this, '请输入正确的邮箱格式')
+        showError(this, "请输入正确的邮箱格式")
         return
       }
 
@@ -144,7 +144,7 @@ export default {
     },
     login() {
       if (!this.passcode) {
-        showError(this, '请输入验证码')
+        showError(this, "请输入验证码")
         return
       }
       this.fullscreenLoading = true
@@ -154,7 +154,7 @@ export default {
           if (response && response.data && response.data.token) {
             setToken(response.data.token)
             this.$router.replace({
-              name: 'home'
+              name: "home"
             })
           }
         })
@@ -170,7 +170,7 @@ export default {
   mounted() {
     if (getToken()) {
       this.$router.replace({
-        name: 'home'
+        name: "home"
       })
     }
   }

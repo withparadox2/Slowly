@@ -1,5 +1,5 @@
-import { insert, clear, get } from './database'
-import { STORE_FRIENDS } from './versions'
+import { insert, clear, get } from "./database"
+import { STORE_FRIENDS } from "./versions"
 
 export function getFriends() {
   return get(STORE_FRIENDS)

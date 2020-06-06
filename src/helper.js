@@ -1,17 +1,15 @@
-import { formateDate, offsetAndFormatDate } from './util'
+import { formateDate, offsetAndFormatDate } from "./util"
 export function sortFriends(friends) {
   friends = friends || []
-  friends.sort(
-    (first, second) => {
-      if (!first.latest_comment) {
-        return 1
-      } else if (!second.latest_comment) {
-        return -1
-      } else  {
-        return -first.latest_comment.localeCompare(second.latest_comment)
-      }
+  friends.sort((first, second) => {
+    if (!first.latest_comment) {
+      return 1
+    } else if (!second.latest_comment) {
+      return -1
+    } else {
+      return -first.latest_comment.localeCompare(second.latest_comment)
     }
-  )
+  })
   return friends
 }
 
@@ -38,10 +36,10 @@ export function onScrollEnd(el, endCallback) {
 
 export function exportLetters(frinend, letters) {
   let file = new Blob(
-    [(letters || []).map(letter => getLetteText(letter)).join('\n\n\n\n')],
-    { type: 'text/plain' }
+    [(letters || []).map((letter) => getLetteText(letter)).join("\n\n\n\n")],
+    { type: "text/plain" }
   )
-  const a = document.createElement('a')
+  const a = document.createElement("a")
   const url = URL.createObjectURL(file)
   a.href = url
   a.download = `${frinend.name}.txt`
@@ -87,7 +85,7 @@ export function createListRender({ preloadCount = 5, dataList = [] }) {
       return this.fastRender
         ? this.dataList.slice(0, this.preloadCount)
         : this.dataList
-    }
+    },
   }
   return new Factory()
 }

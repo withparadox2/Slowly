@@ -42,7 +42,7 @@ export default {
     }
     // 当前没有宽度，渲染空的div
     if (this.width == 0) {
-        return createElement("div", { class: "grid-view" }, [])
+      return createElement("div", { class: "grid-view" }, [])
     }
 
     let parentWidth = this.width - this.getPadding() - 1

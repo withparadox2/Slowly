@@ -7,11 +7,11 @@ export const STORE_DRAFT = "draft"
 function upgradeVersion(event) {
   let db = event.target.result
   if (event.oldVersion < 1) {
-    createStore(db, STORE_FRIENDS, 'user_id')
-    createStore(db, STORE_LETTERS, 'id', {
-      owner_id: false
+    createStore(db, STORE_FRIENDS, "user_id")
+    createStore(db, STORE_LETTERS, "id", {
+      owner_id: false,
     })
-    createStore(db, STORE_DRAFT, 'user_id')
+    createStore(db, STORE_DRAFT, "user_id")
   }
 }
 
@@ -23,7 +23,7 @@ function createStore(db, name, key, indexes) {
   let objectStore = key
     ? db.createObjectStore(name, { keyPath: key })
     : db.createObjectStore(name, { autoIncrement: true })
-  if (indexes && typeof indexes == 'object') {
+  if (indexes && typeof indexes == "object") {
     for (let key in indexes) {
       if (indexes.hasOwnProperty(key)) {
         objectStore.createIndex(key, key, { unique: !!indexes[key] })
@@ -32,7 +32,4 @@ function createStore(db, name, key, indexes) {
   }
 }
 
-export {
-  VERSION,
-  upgradeVersion
-}
+export { VERSION, upgradeVersion }

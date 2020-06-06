@@ -21,7 +21,7 @@ function getAccount() {
     try {
       account = str ? JSON.parse(str) : null
     } catch (e) {
-      setAccount('')
+      setAccount("")
       account = null
     }
   }
@@ -34,14 +34,8 @@ function setAccount(user) {
 }
 
 function clear() {
-  setToken('')
-  setAccount('')
+  setToken("")
+  setAccount("")
 }
 
-export {
-  setToken,
-  getToken,
-  getAccount,
-  setAccount,
-  clear
-}
+export { setToken, getToken, getAccount, setAccount, clear }

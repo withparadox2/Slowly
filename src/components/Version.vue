@@ -38,8 +38,8 @@
 </style>
 
 <script>
-import { mapMutations } from 'vuex'
-import { checkVersion, updateVersion } from '../update'
+import { mapMutations } from "vuex"
+import { checkVersion, updateVersion } from "../update"
 
 export default {
   data() {
@@ -48,7 +48,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setChangeLog']),
+    ...mapMutations(["setChangeLog"]),
     updateNewVersion() {
       updateVersion()
     }

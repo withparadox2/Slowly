@@ -170,22 +170,22 @@
   background white
 </style>
 <script>
-import { mapState, mapMutations } from 'vuex'
-import * as api from '../api'
-import { showError, showSuccess } from '../util'
-import * as friendStore from '../persist/friend-store'
-import * as account from '../persist/account'
-import { getDataManager } from '../persist/letter-store'
-import { sortFriends } from '../helper'
-import getOtp from '../genOtp'
-import Friends from './Friends.vue'
-import Letters from './Letters.vue'
-import Map from './Map.vue'
-import InputBox from './InputBox.vue'
-import Quote from './Quote.vue'
-import About from './About.vue'
-import ChangeLog from './ChangeLog.vue'
-import Version from './Version.vue'
+import { mapState, mapMutations } from "vuex"
+import * as api from "../api"
+import { showError, showSuccess } from "../util"
+import * as friendStore from "../persist/friend-store"
+import * as account from "../persist/account"
+import { getDataManager } from "../persist/letter-store"
+import { sortFriends } from "../helper"
+import getOtp from "../genOtp"
+import Friends from "./Friends.vue"
+import Letters from "./Letters.vue"
+import Map from "./Map.vue"
+import InputBox from "./InputBox.vue"
+import Quote from "./Quote.vue"
+import About from "./About.vue"
+import ChangeLog from "./ChangeLog.vue"
+import Version from "./Version.vue"
 
 export default {
   data() {
@@ -197,22 +197,22 @@ export default {
   components: {
     Friends,
     Letters,
-    'map-node': Map,
+    "map-node": Map,
     InputBox,
-    'quote-node': Quote,
+    "quote-node": Quote,
     About,
     ChangeLog,
     Version
   },
   computed: {
-    ...mapState(['checkedFriend', 'friendList', 'mobileMode'])
+    ...mapState(["checkedFriend", "friendList", "mobileMode"])
   },
   methods: {
-    ...mapMutations(['setFriends']),
+    ...mapMutations(["setFriends"]),
     exit() {
-      this.$confirm('退出后数据仍在，是否确定退出?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消'
+      this.$confirm("退出后数据仍在，是否确定退出?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消"
       })
         .then(() => {
           account.clear()
@@ -222,7 +222,7 @@ export default {
     },
     goLogin() {
       this.$router.replace({
-        name: 'login'
+        name: "login"
       })
     },
     showMap(friend) {

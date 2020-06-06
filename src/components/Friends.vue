@@ -31,14 +31,14 @@
   background #fafafa
 </style>
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations } from "vuex"
 
 export default {
   computed: {
-    ...mapState(['checkedFriend', 'friendList'])
+    ...mapState(["checkedFriend", "friendList"])
   },
   methods: {
-    ...mapMutations(['checkFriend'])
+    ...mapMutations(["checkFriend"])
   },
   props: {
     isExpand: false

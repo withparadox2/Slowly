@@ -1,5 +1,5 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
+import Vuex from "vuex"
+import Vue from "vue"
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
@@ -8,7 +8,7 @@ export const store = new Vuex.Store({
     friendList: [],
     searchValue: "",
     mobileMode: false,
-    changeLog: null
+    changeLog: null,
   },
   mutations: {
     setFriends(state, list) {
@@ -25,6 +25,6 @@ export const store = new Vuex.Store({
     },
     setChangeLog(state, changeLog) {
       state.changeLog = changeLog
-    }
-  }
+    },
+  },
 })

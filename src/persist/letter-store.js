@@ -1,8 +1,13 @@
-
-import { insert, remove, getAll, insertOrUpdate, remove as removeLetter } from './database'
-import { STORE_LETTERS } from './versions'
-import { getLetters } from '../api'
-import Vue from 'vue'
+import {
+  insert,
+  remove,
+  getAll,
+  insertOrUpdate,
+  remove as removeLetter,
+} from "./database"
+import { STORE_LETTERS } from "./versions"
+import { getLetters } from "../api"
+import Vue from "vue"
 
 const STATE_DEFAULT = 0
 const STATE_START = 1
@@ -27,12 +32,13 @@ export class DataManager {
   }
 
   doCallback() {
-    this.callback && this.callback(this, {
-      isRefresh: this.syncState == STATE_REFRESH,
-      isSync: this.syncState == STATE_SYNC,
-      isSuccess: this.syncState == STATE_SUCCESS,
-      dataList: this.dataList
-    })
+    this.callback &&
+      this.callback(this, {
+        isRefresh: this.syncState == STATE_REFRESH,
+        isSync: this.syncState == STATE_SYNC,
+        isSuccess: this.syncState == STATE_SUCCESS,
+        dataList: this.dataList,
+      })
   }
 
   requestData() {
@@ -44,29 +50,33 @@ export class DataManager {
     this.syncPage = 1
     this.dataList = []
     this.syncDataList = []
-    loadLocalLetters(this.userId).then(data => {
-      if (!data || data.length == 0) {
-        this.syncState = STATE_SYNC
-        this.doCallback()
-        this.loadServerLetters(this.syncPage)
-      } else {
-        this.dataList = this.sortList(data)
-
-        let useCache = window.__CONFIG__.useCache ||
-          this.friend.lastRefreshTime && (Date.now() - this.friend.lastRefreshTime < 10 * 60 * 1000)
-
-        if (useCache) {
-          this.syncState = STATE_SUCCESS
+    loadLocalLetters(this.userId)
+      .then((data) => {
+        if (!data || data.length == 0) {
+          this.syncState = STATE_SYNC
           this.doCallback()
+          this.loadServerLetters(this.syncPage)
         } else {
-          this.syncState = STATE_REFRESH
-          this.doCallback()
-          this.loadServerLetters(1)
+          this.dataList = this.sortList(data)
+
+          let useCache =
+            window.__CONFIG__.useCache ||
+            (this.friend.lastRefreshTime &&
+              Date.now() - this.friend.lastRefreshTime < 10 * 60 * 1000)
+
+          if (useCache) {
+            this.syncState = STATE_SUCCESS
+            this.doCallback()
+          } else {
+            this.syncState = STATE_REFRESH
+            this.doCallback()
+            this.loadServerLetters(1)
+          }
         }
-      }
-    }).catch(e => {
-      console.error(e)
-    })
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   }
 
   bindThis(fun) {
@@ -86,7 +96,7 @@ export class DataManager {
   getResultHandler(page) {
     function handleResult({ data }) {
       if (data.user) {
-        Vue.set(this.friend, 'last_login', data.user.last_login)
+        Vue.set(this.friend, "last_login", data.user.last_login)
       }
       let list = this.sortList(data.comments.data || [])
       let hasMore = !!data.comments.next_page_url
@@ -101,7 +111,7 @@ export class DataManager {
           this.friend.lastRefreshTime = Date.now()
           this.syncState = STATE_SUCCESS
 
-          loadLocalLetters(this.userId).then(data => {
+          loadLocalLetters(this.userId).then((data) => {
             this.dataList = this.sortList(data)
             this.doCallback()
           })
@@ -117,7 +127,7 @@ export class DataManager {
         } else {
           this.syncState = STATE_SUCCESS
           this.dataList = this.sortList(this.syncDataList)
-          removeLetter(STORE_LETTERS, this.syncDataList, 'id')
+          removeLetter(STORE_LETTERS, this.syncDataList, "id")
           this.insertLetters(this.dataList)
           this.doCallback()
         }
@@ -141,17 +151,17 @@ export class DataManager {
   }
 
   clearLetters(list) {
-    return remove(STORE_LETTERS, list, 'letter_id')
+    return remove(STORE_LETTERS, list, "letter_id")
   }
 
   insertLetters(list) {
-    list.forEach(element => {
+    list.forEach((element) => {
       element.owner_id = this.userId
     })
     return insert(STORE_LETTERS, list)
   }
   updateLetters(list) {
-    list.forEach(element => {
+    list.forEach((element) => {
       element.owner_id = this.userId
       insertOrUpdate(STORE_LETTERS, element, element.id)
     })
@@ -168,5 +178,5 @@ export function getDataManager(friend) {
 }
 
 export function loadLocalLetters(userId) {
-  return getAll(STORE_LETTERS, 'owner_id', userId)
+  return getAll(STORE_LETTERS, "owner_id", userId)
 }
