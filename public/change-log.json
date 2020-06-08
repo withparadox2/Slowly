@@ -1,5 +1,10 @@
 [  
     {
+        "versionName": "2.0.3",
+        "versionCode": 47,
+        "content": "增加错误收集功能\n在好友信息中显示国家"
+    },
+    {
         "versionName": "2.0.2",
         "versionCode": 46,
         "content": "登陆页面增加版本检测功能"
