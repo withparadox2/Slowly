@@ -6,7 +6,7 @@ const distPath = process.env.PUBLISH_PAGES ? 'docs' : 'dist'
 
 module.exports = {
   outputDir: distPath,
-  productionSourceMap: false,
+  productionSourceMap: true,
   runtimeCompiler: true,
   publicPath: process.env.NODE_ENV === 'production' && !process.env.PUBLISH_PAGES
     ? '/Slowly/'
