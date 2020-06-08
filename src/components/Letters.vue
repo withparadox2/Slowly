@@ -311,6 +311,7 @@ import {
 } from "../helper"
 import { getAccount } from "../persist/account"
 import matchAll from "string.prototype.matchall"
+import { countries } from "country-data"
 
 import NewLetter from "../pages/NewLetter.vue"
 import Stat from "../pages/Stat.vue"
@@ -420,24 +421,29 @@ export default {
     },
     checkedFriendInfo() {
       if (this.checkedFriend) {
-        return (
-          `姓名：${this.checkedFriend.name}\n` +
-          `生日：${
-            this.checkedFriend.dob ? this.checkedFriend.dob : "保密"
-          }\n` +
-          `回复时间：${offsetAndFormatDate(
-            this.checkedFriend.latest_comment
-          )}\n` +
-          // last_login is set in letter-store.js
-          (this.checkedFriend.last_login
-            ? `登录时间：${offsetAndFormatDate(
-                this.checkedFriend.last_login
-              )}\n`
-            : "")
-        )
-      } else {
-        return ""
+        const infoList = []
+        infoList.push(["姓名", this.checkedFriend.name])
+        infoList.push(["生日", this.checkedFriend.dob || "保密"])
+        {
+          const locationCode = this.checkedFriend.location_code
+          const country = countries[locationCode]
+          infoList.push(["位置", (country && country.name) || locationCode])
+        }
+        if (this.checkedFriend.latest_comment) {
+          infoList.push([
+            "回复时间",
+            offsetAndFormatDate(this.checkedFriend.latest_comment)
+          ])
+        }
+        if (this.checkedFriend.last_login) {
+          infoList.push([
+            "登录时间",
+            offsetAndFormatDate(this.checkedFriend.last_login)
+          ])
+        }
+        return infoList.map(item => item.join("：")).join("\n")
       }
+      return ""
     },
     searchNav() {
       if (!this.checkedFriend || !this.searchValue || !this.refs.letterItem) {
