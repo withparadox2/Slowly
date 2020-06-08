@@ -5,7 +5,6 @@ import { formatDateYMD, dateTextToDate } from "./util"
 
 const COLOR_BLUE = ["#C6E2FF", "#3296FC", "#036CD9"]
 const COLOR_GREEN = ["#C9ECB4", "#86D666", "#11AE2B"]
-const COLOR_YELLOW = ["#FFE2D4", "#FFAB81", "#FC7536"]
 
 function getColorIndex(num) {
   return num - 1 > 2 ? 2 : num - 1
