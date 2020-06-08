@@ -10,7 +10,10 @@ const PARAM_TIMESTAMP = "t"
 function formatChangeLog(changeLog) {
   if (changeLog && changeLog.length > 0) {
     changeLog.forEach((item) => {
-      item.contentItems = item.content.split("\n")
+      item.contentItems =
+        typeof item.content === "string"
+          ? item.content.split("\n")
+          : item.content
     })
   }
   return changeLog

@@ -1,106 +1,115 @@
-[  
-    {
-        "versionName": "2.0.3",
-        "versionCode": 47,
-        "content": "增加错误收集功能\n在好友信息中显示国家"
-    },
-    {
-        "versionName": "2.0.2",
-        "versionCode": 46,
-        "content": "登陆页面增加版本检测功能"
-    },
-    {
-        "versionName": "2.0.1",
-        "versionCode": 45,
-        "content": "修复地图不显示问题"
-    },  
-    {
-        "versionName": "2.0.0",
-        "versionCode": 44,
-        "content": "自动部署页面"
-    },
-    {
-        "versionName": "1.9.0",
-        "versionCode": 43,
-        "content": "兼容新的登陆接口（旧的已被限制）\n登陆失败自动重定位到登陆页面\n只有当编辑文字变化时才自动保存"
-    },
-    {
-        "versionName": "1.8.17",
-        "versionCode": 42,
-        "content": "增加删除缓存邮箱按钮\n当位置信息不可用时隐藏地图图标"
-    }, 
-    {
-        "versionName": "1.8.16",
-        "versionCode": 41,
-        "content": "修改字数统计方法\n日历样式调整"
-    },
-    {
-        "versionName": "1.8.15",
-        "versionCode": 40,
-        "content": "修复海外位置显示偏移问题"
-    },{
-        "versionName": "1.8.14",
-        "versionCode": 39,
-        "content": "修复阅读信件问题"
-    },
-    {
-        "versionName": "1.8.13",
-        "versionCode": 38,
-        "content": "增大写信编辑区域\n在列表中高亮搜索结果"
-    },
-    {
-        "versionName": "1.8.12",
-        "versionCode": 37,
-        "content": "调整change log显示样式\n当信件收到后才修改阅读状态\n展开好友列表增加动画"
-    },
-    {
-        "versionName": "1.8.11",
-        "versionCode": 36,
-        "content": "减少页面中不必要的渲染\n根据时区计算信件状态时间"
-    },
-    {
-        "versionName": "1.8.10",
-        "versionCode": 35,
-        "content": "显示change log"
-    },
-    {
-        "versionName": "1.8.9",
-        "versionCode": 34,
-        "content": "设置默认字体"
-    },
-    {
-        "versionName": "1.8.8",
-        "versionCode": 33,
-        "content": "默认隐藏图片上传控件\n兼容safari\n修复token过期不提示问题"
-    },
-    {
-        "versionName": "1.8.7",
-        "versionCode": 32,
-        "content": "显示信件阅读状态\n自动填入上次使用的邮件"
-    },
-    {
-        "versionName": "1.8.6",
-        "versionCode": 31,
-        "content": "修改显示效果"
-    },
-    {
-        "versionName": "1.8.5",
-        "versionCode": 30,
-        "content": "移动端增加写信功能"
-    },
-    {
-        "versionName": "1.8.4",
-        "versionCode": 29,
-        "content": "更新信件阅读状态"
-    },
-    {
-        "versionName": "1.8.3",
-        "versionCode": 28,
-        "content": "缓存邮箱地址"
-    },
-    {
-        "versionName": "1.8.2",
-        "versionCode": 27,
-        "content": "增加更新内容提示"
-    }
+[
+  {
+    "versionName": "2.0.3",
+    "versionCode": 47,
+    "content": ["增加错误收集功能", "在好友信息中显示国家"]
+  },
+  {
+    "versionName": "2.0.2",
+    "versionCode": 46,
+    "content": ["登陆页面增加版本检测功能"]
+  },
+  {
+    "versionName": "2.0.1",
+    "versionCode": 45,
+    "content": ["修复地图不显示问题"]
+  },
+  {
+    "versionName": "2.0.0",
+    "versionCode": 44,
+    "content": ["自动部署页面"]
+  },
+  {
+    "versionName": "1.9.0",
+    "versionCode": 43,
+    "content": [
+      "兼容新的登陆接口（旧的已被限制）",
+      "登陆失败自动重定位到登陆页面",
+      "只有当编辑文字变化时才自动保存"
+    ]
+  },
+  {
+    "versionName": "1.8.17",
+    "versionCode": 42,
+    "content": ["增加删除缓存邮箱按钮", "当位置信息不可用时隐藏地图图标"]
+  },
+  {
+    "versionName": "1.8.16",
+    "versionCode": 41,
+    "content": ["修改字数统计方法", "日历样式调整"]
+  },
+  {
+    "versionName": "1.8.15",
+    "versionCode": 40,
+    "content": ["修复海外位置显示偏移问题"]
+  },
+  {
+    "versionName": "1.8.14",
+    "versionCode": 39,
+    "content": ["修复阅读信件问题"]
+  },
+  {
+    "versionName": "1.8.13",
+    "versionCode": 38,
+    "content": ["增大写信编辑区域", "在列表中高亮搜索结果"]
+  },
+  {
+    "versionName": "1.8.12",
+    "versionCode": 37,
+    "content": [
+      "调整change log显示样式",
+      "当信件收到后才修改阅读状态",
+      "展开好友列表增加动画"
+    ]
+  },
+  {
+    "versionName": "1.8.11",
+    "versionCode": 36,
+    "content": ["减少页面中不必要的渲染", "根据时区计算信件状态时间"]
+  },
+  {
+    "versionName": "1.8.10",
+    "versionCode": 35,
+    "content": ["显示change log"]
+  },
+  {
+    "versionName": "1.8.9",
+    "versionCode": 34,
+    "content": ["设置默认字体"]
+  },
+  {
+    "versionName": "1.8.8",
+    "versionCode": 33,
+    "content": ["默认隐藏图片上传控件", "兼容safari", "修复token过期不提示问题"]
+  },
+  {
+    "versionName": "1.8.7",
+    "versionCode": 32,
+    "content": ["显示信件阅读状态", "自动填入上次使用的邮件"]
+  },
+  {
+    "versionName": "1.8.6",
+    "versionCode": 31,
+    "content": ["修改显示效果"]
+  },
+  {
+    "versionName": "1.8.5",
+    "versionCode": 30,
+    "content": ["移动端增加写信功能"]
+  },
+  {
+    "versionName": "1.8.4",
+    "versionCode": 29,
+    "content": ["更新信件阅读状态"]
+  },
+  {
+    "versionName": "1.8.3",
+    "versionCode": 28,
+    "content": ["缓存邮箱地址"]
+  },
+  {
+    "versionName": "1.8.2",
+    "versionCode": 27,
+    "content": ["增加更新内容提示"]
+  }
 ]
