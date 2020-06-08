@@ -9,7 +9,7 @@
     "start": "npm run serve"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "country-data": "0.0.31",
     "element-ui": "^2.6.1",
     "location": "0.0.1",
