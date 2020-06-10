@@ -284,33 +284,22 @@ export default {
 
     this.accountInfo = account.getAccount()
     if (!this.accountInfo) {
-      api
-        .getTime()
-        .then(response => {
-          let curTime = response.data.now
-          const otp = getOtp(curTime)
-          return api.getMe(otp)
-        })
+      api.getMe()
         .then(response => {
           this.accountInfo = response.data
           account.setAccount(this.accountInfo)
           this.loadFriends()
         })
         .catch(err =>
-          this.$errorHandler({
-            ...err,
-            exitLogin: true
-          })
+          console.log(err)
+          // this.$errorHandler({
+          //   ...err,
+          //   exitLogin: true
+          // })
         )
     } else {
       this.loadFriends()
-      api
-        .getTime()
-        .then(response => {
-          let curTime = response.data.now
-          const otp = getOtp(curTime, this.accountInfo.id)
-          return api.getMe(otp)
-        })
+      api.getMe()
         .then(response => {
           account.setAccount(response.data)
         })

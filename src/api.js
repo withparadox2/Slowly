@@ -1,4 +1,6 @@
 import { get, post, buildUrl } from "./http"
+import * as account from "./persist/account"
+import getOtp from "./otp"
 
 export function sendEmailPasscode(email) {
   return post({
@@ -43,11 +45,8 @@ export function getLetters(id, page) {
 }
 
 export function getMe(otp) {
-  return post({
-    path: "/users/me/v2",
-    params: {
-      otp,
-    },
+  return getMeOtp({
+    params: {}
   })
 }
 
@@ -65,16 +64,30 @@ export function sendLetter(id, letter, isHost, attachments) {
 }
 
 export function updateLocation(lat, lng) {
+  return getCountryCode(lat, lng)
+  .then(countryCode => {
+    return getMeOtp({
+      content: {
+        language: null,
+        location: `${lat},${lng}`,
+        location_code: countryCode,
+        device: "web",
+        ver: 30200,
+        includes: null
+      }
+    })
+  })
+  
+}
+
+export function getCountryCode(lat, lng) {
   return post({
-    path: "/users/me",
+    path: "/geocode",
     content: {
-      language: null,
-      location: `${lat},${lng}`,
-      location_code: "CN",
-      device: "web",
-      ver: 30200,
-      includes: null,
+      lat, lng
     },
+  }).then(response => {
+    return response.data[0].properties.countryCode
   })
 }
 
@@ -121,5 +134,25 @@ export function readLetter(ids) {
 export function getTime() {
   return get({
     path: "/timestamp",
+  })
+}
+
+export function getMeOtp({params, content}) {
+  return getTime().then((response) => {
+    const curTime = response.data.now
+    const accountInfo = account.getAccount()
+    const otp = getOtp(curTime, accountInfo && accountInfo.id)
+
+    if (params) {
+      params.otp = otp
+    } else if (content) {
+      content.otp = otp
+    }
+
+    return post({
+      path: "/users/me/v2",
+      content,
+      params
+    })
   })
 }
