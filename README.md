@@ -4,9 +4,9 @@ A lite web version of [Slowly](https://www.getslowly.com/en/). Through it one ca
 
 - Check letters before arrival
 - ~~Show locations of your friends who allow to update location~~ (Not available right now due to the banning from slowly)
-- Change your location to reduce the travel time of sending a letter
+- Change your location to reduce the travel time of sending a letter (For some reasons, new location is restricted to the same country as you sign in)
 - Check past letters conveniently while writing a letter
-- Search across all letters of a target friend
+- Search across all letters under a specified friend
 - Send images as attachement without any permissions
 - Show statistics of letters in different styles
 - Backup all letters by downloading a txt file
