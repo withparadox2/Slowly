@@ -24,7 +24,7 @@
                        type="primary"
                        icon="el-icon-message"
                        v-loading.fullscreen.lock="fullscreenLoading"
-                       @click.native="sendEmail">透过电邮登入</el-button>
+                       @click.native="sendEmail">{{$t('login_with_email')}}</el-button>
           </div>
           <div class="content-wrapper"
                :key="2"

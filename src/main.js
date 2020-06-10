@@ -17,6 +17,7 @@ import { setToken } from "./persist/account"
 import { showError } from "./util"
 import { store } from "./store"
 import { redirectUrl } from "./update.js"
+import i18n from "./i18n"
 
 // import VConsole from 'vconsole'
 // new VConsole()
@@ -70,5 +71,6 @@ if (!redirectUrl()) {
   new Vue({
     router,
     store,
+    i18n,
   }).$mount("#app")
 }
