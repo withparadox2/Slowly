@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.0.4",
+    "versionCode": 48,
+    "content": ["修复无法更新位置问题"]
+  },
+  {
     "versionName": "2.0.3",
     "versionCode": 47,
     "content": ["增加错误收集功能", "在好友信息中显示国家"]
