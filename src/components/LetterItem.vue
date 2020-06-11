@@ -56,7 +56,7 @@
   img
     width 100px
     float right
-  div
+  > div
     clear both
     padding-top 10px
   .attachments a
