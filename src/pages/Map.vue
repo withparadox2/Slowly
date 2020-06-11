@@ -8,14 +8,14 @@
                icon="el-icon-close"
                circle
                class="btn-close"
-               title="关闭地图"
+               :title="$t('close_map')"
                @click="mapVisible = false"></el-button>
 
     <el-button type="primary"
                icon="el-icon-edit"
                class="btn-update-location"
                @click="updateToSelectLocation"
-               title="更新为选中的位置"
+               :title="$t('update_location')"
                circle></el-button>
 
     <el-button type="primary"
@@ -23,7 +23,7 @@
                icon="el-icon-location-outline"
                class="btn-locate"
                @click="locate"
-               title="定位当前位置"
+               :title="$t('locate_current_location')"
                circle></el-button>
   </div>
 </template>
@@ -86,13 +86,13 @@ export default {
     editLocation() {
       if (account.getAccount()) {
         if (!account.getAccount().location) {
-          showError(this, "当前账户坐标信息不存在")
+          showError(this, $t("err_location_not_exist"))
           this.showGpsLocation(0, 0)
         } else {
           this.showGpsLocationStr(account.getAccount().location)
         }
       } else {
-        showError(this, "账户不存在")
+        showError(this, $("err_account_not_exist"))
       }
     },
     onMapClick(e) {
@@ -154,27 +154,27 @@ export default {
         }
       }
       if (!marker) {
-        showError(this, "未选中点")
+        showError(this, $t("err_not_select_correct"))
       } else {
         let latlng = bd2wgs(marker.point.lat, marker.point.lng)
 
-        this.$confirm("确定修改位置？", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消"
+        this.$confirm($t("warn_update_location"), $t("tip"), {
+          confirmButtonText: $t("confirm"),
+          cancelButtonText: $t("cancel")
         })
           .then(() => {
             return updateLocation(latlng[0], latlng[1]).then(() => {
               let accountInfo = account.getAccount()
               accountInfo.location = `${latlng[0]},${latlng[1]}`
               account.setAccount(accountInfo)
-              showSuccess(this, "修改成功")
+              showSuccess(this, $t("update_location_success"))
             })
           })
           .catch(error => {
             if (error.message) {
               showError(this, error.message)
             } else if (error != "cancel") {
-              showError(this, "修改位置失败：" + error)
+              showError(this, `${$t("update_location_fail")}: ${error}`)
             }
           })
       }

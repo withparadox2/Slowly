@@ -18,7 +18,7 @@
         </div>
       </template>
       <div v-else>
-        正在加载...
+        {{$t('loading')}}
       </div>
     </div>
   </div>

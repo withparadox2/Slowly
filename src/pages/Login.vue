@@ -31,12 +31,12 @@
                v-show="showPasscode">
             <el-input v-model="passcode"
                       spellcheck="false"
-                      placeholder="验证码" />
+                      :placeholder="$t('verify_code')" />
             <el-button class="login-button"
                        type="primary"
                        icon="el-icon-message"
                        v-loading.fullscreen.lock="fullscreenLoading"
-                       @click.native="login">登入</el-button>
+                       @click.native="login">{{$t('sign_in')}}</el-button>
           </div>
         </transition-group>
       </div>
@@ -123,7 +123,7 @@ export default {
   methods: {
     sendEmail() {
       if (!validateEmail(this.email)) {
-        showError(this, "请输入正确的邮箱格式")
+        showError(this, $t("error_email"))
         return
       }
 
@@ -132,7 +132,7 @@ export default {
         .then(response => {
           this.fullscreenLoading = false
           if (response && response.data && response.data.success) {
-            showSuccess(this, `验证码已发送至${this.email}`)
+            showSuccess(this, `${$t("send_code_to")}${this.email}`)
             this.showPasscode = true
             this.$refs.emailInput.save()
           }
@@ -144,7 +144,7 @@ export default {
     },
     login() {
       if (!this.passcode) {
-        showError(this, "请输入验证码")
+        showError(this, $t("input_code"))
         return
       }
       this.fullscreenLoading = true

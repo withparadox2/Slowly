@@ -4,7 +4,7 @@
     <div id="account-loading"
          v-if="!accountInfo"
          v-loading="!accountInfo"
-         element-loading-text="加载个人信息...">
+         :element-loading-text="$t('loading_profile')">
     </div>
     <div class="nav-header">
       <img class="logo"
@@ -17,10 +17,10 @@
                    trigger="click">
         <i class="el-icon-more"></i>`
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="editLocation">修改位置</el-dropdown-item>
-          <el-dropdown-item @click.native="showAbout">关于</el-dropdown-item>
-          <el-dropdown-item @click.native="showChangeLog">更新内容</el-dropdown-item>
-          <el-dropdown-item @click.native="exit">退出</el-dropdown-item>
+          <el-dropdown-item @click.native="editLocation">{{$t('change_location')}}</el-dropdown-item>
+          <el-dropdown-item @click.native="showAbout">{{$t('about')}}</el-dropdown-item>
+          <el-dropdown-item @click.native="showChangeLog">{{$t('change_log')}}</el-dropdown-item>
+          <el-dropdown-item @click.native="exit">{{$t('exit')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -212,9 +212,9 @@ export default {
   methods: {
     ...mapMutations(["setFriends"]),
     exit() {
-      this.$confirm("退出后数据仍在，是否确定退出?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
+      this.$confirm($t("warn_exit"), $("tip"), {
+        confirmButtonText: $t("confirm"),
+        cancelButtonText: $t("cancel")
       })
         .then(() => {
           account.clear()
@@ -284,14 +284,15 @@ export default {
 
     this.accountInfo = account.getAccount()
     if (!this.accountInfo) {
-      api.getMe()
+      api
+        .getMe()
         .then(response => {
           this.accountInfo = response.data
           account.setAccount(this.accountInfo)
           this.loadFriends()
         })
-        .catch(err =>
-          console.log(err)
+        .catch(
+          err => console.log(err)
           // this.$errorHandler({
           //   ...err,
           //   exitLogin: true
@@ -299,7 +300,8 @@ export default {
         )
     } else {
       this.loadFriends()
-      api.getMe()
+      api
+        .getMe()
         .then(response => {
           account.setAccount(response.data)
         })

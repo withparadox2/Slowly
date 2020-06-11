@@ -10,13 +10,13 @@
         <span class="sending-state"
               v-show="letterState">{{letterState}}</span>
         <span class="el-icon-close"
-              title="关闭"
+              :title="$t('close')"
               @click="close()" />
         <span class="el-icon-tickets"
-              title="历史信件"
+              :title="$t('history_letter')"
               @click="toggleShowLetter()" />
         <span class="el-icon-message"
-              title="发送"
+              :title="$t('send')"
               @click="send()" />
       </div>
       <el-row class="editor-content">
@@ -24,7 +24,7 @@
                 class="editor-left-section">
           <textarea class="editor-body"
                     name="text"
-                    placeholder="请写下文字"
+                    :placeholder="$t('write_words')"
                     spellcheck="false"
                     v-model="inputData"
                     oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
@@ -252,10 +252,10 @@ export default {
     letterState() {
       if (this.isSending || this.isUploading || this.isAutoSaving) {
         return this.isUploading
-          ? "正在上传图片..."
+          ? $t("uploading_photo")
           : this.isSending
-          ? "正在发送..."
-          : "正在保存草稿..."
+          ? $t("sending")
+          : $t("saving_draft")
       }
       return ""
     },
@@ -301,7 +301,7 @@ export default {
             this.inputData = draftItem.content
           }
         })
-        .catch(e => showError(this, "加载草稿失败：" + e))
+        .catch(e => showError(this, $t("err_load_draft_fail") + e))
       this.intervalId = setInterval(() => {
         if (!this.contentHasChanged) {
           return
@@ -320,7 +320,7 @@ export default {
           user_id: this.checkedFriend.id,
           content: content
         })
-        .catch(e => showError(this, "保存草稿失败：" + e))
+        .catch(e => showError(this, $t("err_save_draft_fail") + e))
     },
     close() {
       if (!this.inputData) {
@@ -328,13 +328,14 @@ export default {
         return
       }
       this.$confirm(
-        `关闭后将会保存为草稿，${
-          this.rawImageList.length > 0 ? "但图片会丢失，" : ""
-        }是否关闭？`,
-        "提示",
+        $t("warn_close_new_letter").replace(
+          "#",
+          (this.rawImageList.length && $t("warn_lose_of_photo")) || ""
+        ),
+        $t("tip"),
         {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消"
+          confirmButtonText: $t("confirm"),
+          cancelButtonText: $t("cancel")
         }
       )
         .then(() => {
@@ -346,13 +347,17 @@ export default {
     },
     send() {
       if (!this.inputData) {
-        showError(this, "请输入内容")
+        showError(this, $t("input_content"))
         return
       }
-      this.$confirm(`是否发送给${this.checkedFriend.name}？`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消"
-      })
+      this.$confirm(
+        $("warn_is_sending_to").replace("%s", this.checkedFriend.name),
+        $t("tip"),
+        {
+          confirmButtonText: $t("confirm"),
+          cancelButtonText: $t("cancel")
+        }
+      )
         .then(() => {
           if (this.rawImageList.length > 0) {
             this.uploadImages()

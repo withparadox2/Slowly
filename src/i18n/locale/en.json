@@ -1,3 +1,5 @@
 {
-  "login_with_email": "Login with email"
+  "login_with_email": "Login With Email",
+  "verify_code": "Verification code",
+  "sign_in": "sign_in"
 }
