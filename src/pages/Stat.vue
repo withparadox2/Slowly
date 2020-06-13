@@ -185,9 +185,9 @@ export default {
           stat.firstLetter.date = date
           if (isSendLetter) {
             stat.firstLetter.from = this.$t("you")
-            stat.firstLetter.to = `“${friend.name}”`
+            stat.firstLetter.to = friend.name
           } else {
-            stat.firstLetter.from = `“${friend.name}”`
+            stat.firstLetter.from = friend.name
             stat.firstLetter.to = this.$t("you")
           }
         }
