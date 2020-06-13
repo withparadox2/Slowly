@@ -1,6 +1,6 @@
-String.prototype.format = () => {
+String.prototype.format = function() {
   let str = this
-  for (k in arguments) {
+  for (let k in arguments) {
     str = str.replace("{" + k + "}", arguments[k])
   }
   return str

@@ -21,11 +21,11 @@
     </div>
     <div class="letter-info"
          v-if="letter">
-      <div><span class="title-label">字数</span>{{wordCount}}</div>
-      <div><span class="title-label">发信人</span>{{letter.name}}</div>
-      <div><span class="title-label">发送时间</span>{{formatTime(letter.created_at)}}</div>
-      <div><span class="title-label">送达时间</span>{{formatTime(letter.deliver_at)}}</div>
-      <div v-if="letter.read_at"><span class="title-label">阅读时间</span>{{formatTime(letter.read_at)}}</div>
+      <div><span class="title-label">{{$t("word_count")}}</span>{{wordCount}}</div>
+      <div><span class="title-label">{{$t("sender_name")}}</span>{{letter.name}}</div>
+      <div><span class="title-label">{{$t("send_time")}}</span>{{formatTime(letter.created_at)}}</div>
+      <div><span class="title-label">{{$t("arrive_time")}}</span>{{formatTime(letter.deliver_at)}}</div>
+      <div v-if="letter.read_at"><span class="title-label">{{$t("read_time")}}</span>{{formatTime(letter.read_at)}}</div>
     </div>
   </div>
 </template>

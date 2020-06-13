@@ -11,24 +11,24 @@
       <div class="stat-content">
         <div class="stat-detail">
           <div>
-            {{stat.firstLetter.dateStr}}这一天{{stat.firstLetter.from}}给{{stat.firstLetter.to}}写了第一封信
+            {{$t('stat_line1').format(stat.firstLetter.dateStr, stat.firstLetter.from, stat.firstLetter.to)}}
           </div>
           <div>
-            距离现在已有<span>{{stat.totalDays}}天了</span>
+            {{$t('stat_line2').format(stat.totalDays)}}
           </div>
           <div>
-            你们一共写了{{stat.totalCount}}封信，包含整整{{stat.totalWordCount}}个字
+            {{$t('stat_line3').format(stat.totalCount, stat.totalWordCount)}}
           </div>
           <div>
-            你给“{{stat.name}}”写了{{stat.totalToCount}}封信，包含{{stat.totalToWordCount}}个字
+            {{$t('stat_line4').format(stat.name, stat.totalToCount, stat.totalToWordCount)}}
           </div>
           <div>
-            “{{stat.name}}”给你写了{{stat.totalFromCount}}封信，包含{{stat.totalFromWordCount}}个字
+            {{$t('stat_line5').format(stat.name, stat.totalFromCount, stat.totalFromWordCount)}}
           </div>
           <div v-show="stat.perday.count > 2">
-            特别的，在{{stat.perday.dateStr}}这天，你们往来了{{stat.perday.count}}封信
+            {{$t('stat_line6').format(stat.perday.dateStr, stat.perday.count)}}
           </div>
-          <div v-show="stat.sinLastDays > 1">你们有{{stat.sinLastDays}}天没有联系了</div>
+          <div v-show="stat.sinLastDays > 1">{{$t('stat_line7').format(stat.sinLastDays)}}</div>
         </div>
 
         <div class="date-map-section">
@@ -184,11 +184,11 @@ export default {
           stat.firstLetter.dateStr = dateStr
           stat.firstLetter.date = date
           if (isSendLetter) {
-            stat.firstLetter.from = "你"
+            stat.firstLetter.from = this.$t("you")
             stat.firstLetter.to = `“${friend.name}”`
           } else {
             stat.firstLetter.from = `“${friend.name}”`
-            stat.firstLetter.to = "你"
+            stat.firstLetter.to = this.$t("you")
           }
         }
         if (i == 0) {
@@ -227,7 +227,11 @@ export default {
             } else {
               clearTimeout(this.dateTimeoutId)
               this.hideDateStr = false
-              this.hoverDateStr = `${date} 来${fromNum || 0} 往${toNum || 0}`
+              this.hoverDateStr = this.$t("stat_hover_date_str").format(
+                date,
+                fromNum || 0,
+                toNum || 0
+              )
             }
           },
           onClick: date => {

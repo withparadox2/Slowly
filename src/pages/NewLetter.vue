@@ -44,7 +44,7 @@
                      accept="image/png, image/jpeg" />
             </form>
             <div class="tip-add-image"
-                 @click="isShowAddMedia = !isShowAddMedia"><span v-show="mobileMode && !isShowAddMedia">点击</span>添加图片<span v-show="rawImageList.length">({{rawImageList.length}})</span></div>
+                 @click="isShowAddMedia = !isShowAddMedia">{{$t('add_photos')}}<span v-show="rawImageList.length">({{rawImageList.length}})</span></div>
             <div class="image-container"
                  v-if="!mobileMode || isShowAddMedia">
               <div class="btn-add-image"
@@ -252,10 +252,10 @@ export default {
     letterState() {
       if (this.isSending || this.isUploading || this.isAutoSaving) {
         return this.isUploading
-          ? $t("uploading_photo")
+          ? this.$t("uploading_photo")
           : this.isSending
-          ? $t("sending")
-          : $t("saving_draft")
+          ? this.$t("sending")
+          : this.$t("saving_draft")
       }
       return ""
     },
@@ -301,7 +301,7 @@ export default {
             this.inputData = draftItem.content
           }
         })
-        .catch(e => showError(this, $t("err_load_draft_fail") + e))
+        .catch(e => showError(this, this.$t("err_load_draft_fail") + e))
       this.intervalId = setInterval(() => {
         if (!this.contentHasChanged) {
           return
@@ -320,7 +320,7 @@ export default {
           user_id: this.checkedFriend.id,
           content: content
         })
-        .catch(e => showError(this, $t("err_save_draft_fail") + e))
+        .catch(e => showError(this, this.$t("err_save_draft_fail") + e))
     },
     close() {
       if (!this.inputData) {
@@ -328,13 +328,13 @@ export default {
         return
       }
       this.$confirm(
-        $t("warn_close_new_letter").format(
-          (this.rawImageList.length && $t("warn_lose_of_photo")) || ""
+        this.$t("warn_close_new_letter").format(
+          (this.rawImageList.length && this.$t("warn_lose_of_photo")) || ""
         ),
-        $t("tip"),
+        this.$t("tip"),
         {
-          confirmButtonText: $t("confirm"),
-          cancelButtonText: $t("cancel")
+          confirmButtonText: this.$t("confirm"),
+          cancelButtonText: this.$t("cancel")
         }
       )
         .then(() => {
@@ -346,15 +346,15 @@ export default {
     },
     send() {
       if (!this.inputData) {
-        showError(this, $t("input_content"))
+        showError(this, this.$t("input_content"))
         return
       }
       this.$confirm(
         $("warn_is_sending_to").format(this.checkedFriend.name),
-        $t("tip"),
+        this.$t("tip"),
         {
-          confirmButtonText: $t("confirm"),
-          cancelButtonText: $t("cancel")
+          confirmButtonText: this.$t("confirm"),
+          cancelButtonText: this.$t("cancel")
         }
       )
         .then(() => {

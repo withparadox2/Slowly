@@ -123,7 +123,7 @@ export default {
   methods: {
     sendEmail() {
       if (!validateEmail(this.email)) {
-        showError(this, $t("error_email"))
+        showError(this, this.$t("error_email"))
         return
       }
 
@@ -132,7 +132,7 @@ export default {
         .then(response => {
           this.fullscreenLoading = false
           if (response && response.data && response.data.success) {
-            showSuccess(this, `${$t("send_code_to")}${this.email}`)
+            showSuccess(this, `${this.$t("send_code_to")}${this.email}`)
             this.showPasscode = true
             this.$refs.emailInput.save()
           }
@@ -144,7 +144,7 @@ export default {
     },
     login() {
       if (!this.passcode) {
-        showError(this, $t("input_code"))
+        showError(this, this.$t("input_code"))
         return
       }
       this.fullscreenLoading = true

@@ -2,7 +2,7 @@
   <div class="new-version"
        @click="updateNewVersion()"
        v-if="newVersion">
-    <div>点击更新</div>
+    <div>{{$t("click_to_update")}}</div>
     <ul v-if="newVersion.content && newVersion.content.length > 0">
       <li v-for="item in newVersion.content"
           :key="item">

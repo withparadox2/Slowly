@@ -86,7 +86,7 @@ export default {
     editLocation() {
       if (account.getAccount()) {
         if (!account.getAccount().location) {
-          showError(this, $t("err_location_not_exist"))
+          showError(this, this.$t("err_location_not_exist"))
           this.showGpsLocation(0, 0)
         } else {
           this.showGpsLocationStr(account.getAccount().location)
@@ -154,27 +154,27 @@ export default {
         }
       }
       if (!marker) {
-        showError(this, $t("err_not_select_correct"))
+        showError(this, this.$t("err_not_select_correct"))
       } else {
         let latlng = bd2wgs(marker.point.lat, marker.point.lng)
 
-        this.$confirm($t("warn_update_location"), $t("tip"), {
-          confirmButtonText: $t("confirm"),
-          cancelButtonText: $t("cancel")
+        this.$confirm(this.$t("warn_update_location"), this.$t("tip"), {
+          confirmButtonText: this.$t("confirm"),
+          cancelButtonText: this.$t("cancel")
         })
           .then(() => {
             return updateLocation(latlng[0], latlng[1]).then(() => {
               let accountInfo = account.getAccount()
               accountInfo.location = `${latlng[0]},${latlng[1]}`
               account.setAccount(accountInfo)
-              showSuccess(this, $t("update_location_success"))
+              showSuccess(this, this.$t("update_location_success"))
             })
           })
           .catch(error => {
             if (error.message) {
               showError(this, error.message)
             } else if (error != "cancel") {
-              showError(this, `${$t("update_location_fail")}: ${error}`)
+              showError(this, `${this.$t("update_location_fail")}: ${error}`)
             }
           })
       }

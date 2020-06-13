@@ -212,9 +212,9 @@ export default {
   methods: {
     ...mapMutations(["setFriends"]),
     exit() {
-      this.$confirm($t("warn_exit"), $("tip"), {
-        confirmButtonText: $t("confirm"),
-        cancelButtonText: $t("cancel")
+      this.$confirm(this.$t("warn_exit"), $("tip"), {
+        confirmButtonText: this.$t("confirm"),
+        cancelButtonText: this.$t("cancel")
       })
         .then(() => {
           account.clear()

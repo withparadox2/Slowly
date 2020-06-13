@@ -8,7 +8,7 @@
            @blur="inputFocus = false" />
     <span v-if="checkedFriend && !content && !inputFocus"
           class="placeholder">
-      搜索<span class="name">{{checkedFriend.name}}</span>的信...
+      {{$t('search_placeholder_prefix')}}<span class="name">{{checkedFriend.name}}</span>{{$t('search_placeholder_suffix')}}
     </span>
     <i class="el-icon-search"></i>
     <i class="el-icon-close"

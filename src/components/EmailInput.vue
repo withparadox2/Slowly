@@ -13,7 +13,7 @@
           <el-row type="flex">
             <el-col :span="20">{{email}}</el-col>
             <el-col :span="4"
-                    title="删除"
+                    :title="$t('delete')"
                     class="el-remove-email"
                     @click.native.stop="removeEmail(email)">
               <i class="el-icon-delete"></i>
@@ -27,7 +27,7 @@
                 slot="reference"
                 spellcheck="false"
                 :clearable="true"
-                placeholder="电邮" />
+                :placeholder="$t('email_placeholder')" />
     </el-popover>
   </div>
 </template>

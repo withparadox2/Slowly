@@ -48,16 +48,16 @@
                     class="name">{{checkedFriend.name}}<span title="信件数量">({{searchValue ? renderLetters.length : letters.length}})</span></span>
               <i class="el-icon-location"
                  v-show="checkedFriend.user_location"
-                 title="查看位置"
+                 :title="$t('view_location')"
                  @click="$emit('showMap', checkedFriend)"></i>
               <i class="el-icon-date"
                  @click="showStat"
-                 title="统计"></i>
+                 :title="$t('view_stat')"></i>
               <i class="el-icon-plus"
-                 title="新建"
+                 :title="$t('new_letter')"
                  @click="newLetter"></i>
               <i class="el-icon-download"
-                 title="导出信件"
+                 :title="$t('export_letters')"
                  @click="doExport"></i>
             </div>
           </div>
@@ -71,7 +71,7 @@
           </div>
         </div>
         <span v-show="searchValue">
-          <span class="name">搜索"{{searchValue}}"({{renderLetters.length}})</span>
+          <span class="name">{{$t('search_placeholder_prefix')}}"{{searchValue}}"({{renderLetters.length}})</span>
         </span>
       </div>
     </el-col>
@@ -93,10 +93,10 @@
         <div class="letter-nav">
           <span class="last-letter"
                 :style="{opacity: this.checkedLetterIndex > 0 ? 1 : 0}"
-                @click="lastLetter">上一封</span>
+                @click="lastLetter">{{$t('last_letter')}}</span>
           <span class="next-letter"
                 :style="{opacity: this.checkedLetterIndex < this.renderLetters.length - 1 ? 1 : 0}"
-                @click="nextLetter">下一封</span>
+                @click="nextLetter">{{$t('next_letter')}}</span>
           <i class="el-icon-close btn-close-letter"
              @click="checkedLetter = null" />
         </div>
@@ -422,22 +422,28 @@ export default {
     checkedFriendInfo() {
       if (this.checkedFriend) {
         const infoList = []
-        infoList.push(["姓名", this.checkedFriend.name])
-        infoList.push(["生日", this.checkedFriend.dob || "保密"])
+        infoList.push([this.$t("name"), this.checkedFriend.name])
+        infoList.push([
+          this.$t("birthday"),
+          this.checkedFriend.dob || this.$t("keep_secret")
+        ])
         {
           const locationCode = this.checkedFriend.location_code
           const country = countries[locationCode]
-          infoList.push(["位置", (country && country.name) || locationCode])
+          infoList.push([
+            this.$t("location"),
+            (country && country.name) || locationCode
+          ])
         }
         if (this.checkedFriend.latest_comment) {
           infoList.push([
-            "回复时间",
+            this.$t("reply_time"),
             offsetAndFormatDate(this.checkedFriend.latest_comment)
           ])
         }
         if (this.checkedFriend.last_login) {
           infoList.push([
-            "登录时间",
+            this.$t("login_time"),
             offsetAndFormatDate(this.checkedFriend.last_login)
           ])
         }
@@ -501,7 +507,7 @@ export default {
           if (mgr.userId == this.checkedFriend.id) {
             if (isSync) {
               this.showSyncIcon = false
-              this.letterState = `正在同步第${mgr.syncPage}页`
+              this.letterState = this.$t("tip_sync_page").format(mgr.syncPage)
             } else if (isRefresh) {
               this.letterState = null
               this.showSyncIcon = true
@@ -509,7 +515,7 @@ export default {
               this.showSyncIcon = false
               this.letterState = null
               if (!isSuccess) {
-                showError(this, "同步失败，请检查网络或重新登录")
+                showError(this, this.$t("err_sync_fail"))
               }
             }
             if (this.letters.length == 0) {
@@ -558,7 +564,7 @@ export default {
     },
     showStat() {
       if (this.letters.length == 0) {
-        showWarning(this, "没有信件")
+        showWarning(this, this.$t("warn_no_letter"))
       } else {
         this.$refs.stat.showStat(this.checkedFriend, this.letters)
       }
