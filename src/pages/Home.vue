@@ -212,7 +212,7 @@ export default {
   methods: {
     ...mapMutations(["setFriends"]),
     exit() {
-      this.$confirm(this.$t("warn_exit"), $("tip"), {
+      this.$confirm(this.$t("warn_exit"), this.$t("tip"), {
         confirmButtonText: this.$t("confirm"),
         cancelButtonText: this.$t("cancel")
       })

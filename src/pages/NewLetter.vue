@@ -350,7 +350,7 @@ export default {
         return
       }
       this.$confirm(
-        $("warn_is_sending_to").format(this.checkedFriend.name),
+        this.$t("warn_is_sending_to").format(this.checkedFriend.name),
         this.$t("tip"),
         {
           confirmButtonText: this.$t("confirm"),

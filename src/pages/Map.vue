@@ -92,7 +92,7 @@ export default {
           this.showGpsLocationStr(account.getAccount().location)
         }
       } else {
-        showError(this, $("err_account_not_exist"))
+        showError(this, this.$t("err_account_not_exist"))
       }
     },
     onMapClick(e) {
