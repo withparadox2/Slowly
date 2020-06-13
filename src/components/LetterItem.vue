@@ -70,7 +70,9 @@
   float right
   .title-label
     display inline-block
-    width 60px
+    width 200px
+    text-align right
+    margin-right 10px
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
