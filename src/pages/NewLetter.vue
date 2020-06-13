@@ -328,8 +328,7 @@ export default {
         return
       }
       this.$confirm(
-        $t("warn_close_new_letter").replace(
-          "#",
+        $t("warn_close_new_letter").format(
           (this.rawImageList.length && $t("warn_lose_of_photo")) || ""
         ),
         $t("tip"),
@@ -351,7 +350,7 @@ export default {
         return
       }
       this.$confirm(
-        $("warn_is_sending_to").replace("%s", this.checkedFriend.name),
+        $("warn_is_sending_to").format(this.checkedFriend.name),
         $t("tip"),
         {
           confirmButtonText: $t("confirm"),

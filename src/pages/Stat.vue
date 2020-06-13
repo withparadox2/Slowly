@@ -5,7 +5,7 @@
       <div class="stat-header">
         <span>{{stat.name}}</span>
         <span class="el-icon-close"
-              title="关闭"
+              :title="$t('close')"
               @click="close()"></span>
       </div>
       <div class="stat-content">

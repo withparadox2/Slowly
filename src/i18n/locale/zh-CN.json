@@ -33,8 +33,8 @@
   "saving_draft": "正在保存草稿...",
   "err_load_draft_fail": "加载草稿失败：",
   "err_save_draft_fail": "保存草稿失败：",
-  "warn_close_new_letter": "关闭后将会保存为草稿，%s是否关闭？",
+  "warn_close_new_letter": "关闭后将会保存为草稿，{0}是否关闭？",
   "warn_lose_of_photo": "但图片会丢失，",
   "input_content": "请输入内容",
-  "warn_is_sending_to": "是否发送给%s？"
+  "warn_is_sending_to": "是否发送给{0}？"
 }
