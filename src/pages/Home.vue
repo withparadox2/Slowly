@@ -291,13 +291,13 @@ export default {
           account.setAccount(this.accountInfo)
           this.loadFriends()
         })
-        .catch(
-          err => console.log(err)
-          // this.$errorHandler({
-          //   ...err,
-          //   exitLogin: true
-          // })
-        )
+        .catch(err => {
+          console.log(e)
+          this.$errorHandler({
+            ...err,
+            exitLogin: true
+          })
+        })
     } else {
       this.loadFriends()
       api
@@ -307,6 +307,10 @@ export default {
         })
         .catch(e => {
           console.log(e)
+           this.$errorHandler({
+            ...err,
+            exitLogin: true
+          })
         })
     }
   }
