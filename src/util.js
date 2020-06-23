@@ -1,3 +1,5 @@
+import i18n from "./i18n"
+
 Date.prototype.addDays = function(days) {
   let date = new Date(this.valueOf())
   date.setDate(date.getDate() + days)
@@ -81,7 +83,19 @@ function getDaysCount(firstDate, secondDate) {
   )
 }
 
+const dateFormatter = new Intl.DateTimeFormat("en", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour12: true,
+  hour: "numeric",
+  minute: "numeric",
+})
+
 function formatDateReadable(date) {
+  if (i18n.locale === 'en') {
+    return dateFormatter.format(date)
+  }
   let y = date.getFullYear()
   let m = date.getMonth() + 1
   let d = date.getDate()

@@ -31,7 +31,11 @@ function getPreferLang() {
   return "en"
 }
 
-export default new VueI18n({
+const vueI18n = new VueI18n({
   locale: getPreferLang(),
   messages,
 })
+
+debugger
+
+export default vueI18n
