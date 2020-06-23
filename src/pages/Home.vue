@@ -13,16 +13,30 @@
       <div class="middle">
         <input-box v-if="checkedFriend"></input-box>
       </div>
+      <el-dropdown class="menu-locale-list"
+                   ref="localeList"
+                   trigger="click">
+        <i class="el-icon-more"
+           style="{width: 0}"></i>`
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="changeLocale(locale)"
+                            :key="locale.name"
+                            :style="{'font-weight': locale.selected ? 'bold' : ''}"
+                            v-for="locale in localeList">{{locale.text}}</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
       <el-dropdown class="menu-more"
                    trigger="click">
         <i class="el-icon-more"></i>`
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item @click.native="editLocation">{{$t('change_location')}}</el-dropdown-item>
-          <el-dropdown-item @click.native="showAbout">{{$t('about')}}</el-dropdown-item>
+          <el-dropdown-item @click.native="$refs.localeList.show()">{{$t('change_locale')}}</el-dropdown-item>
           <el-dropdown-item @click.native="showChangeLog">{{$t('change_log')}}</el-dropdown-item>
+          <el-dropdown-item @click.native="showAbout">{{$t('about')}}</el-dropdown-item>
           <el-dropdown-item @click.native="exit">{{$t('exit')}}</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+
     </div>
     <div class="main-content">
       <div class="left-section"
@@ -83,6 +97,10 @@
     background-color $main-color-dark
   .menu-more
     cursor pointer
+  .menu-locale-list
+    position absolute
+    right 0
+    height 48px
   .el-icon-more
     color white
     line-height 48px
@@ -178,6 +196,7 @@ import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
 import getOtp from "../otp"
+import { getLocaleList, setLocale } from "../i18n"
 
 import Friends from "../components/Friends.vue"
 import Letters from "../components/Letters.vue"
@@ -193,7 +212,8 @@ export default {
   data() {
     return {
       accountInfo: null,
-      leftSectionExited: true
+      leftSectionExited: true,
+      localeList: getLocaleList()
     }
   },
   components: {
@@ -260,6 +280,10 @@ export default {
     },
     showChangeLog() {
       this.$refs.changeLog.show()
+    },
+    changeLocale(locale) {
+      setLocale(locale.name)
+      window.location.reload()
     }
   },
   watch: {
@@ -280,6 +304,7 @@ export default {
       return
     }
 
+    window.test = this.$refs.localeList
     this.leftSectionExited = this.mobileMode
 
     this.accountInfo = account.getAccount()
@@ -307,7 +332,7 @@ export default {
         })
         .catch(e => {
           console.log(e)
-           this.$errorHandler({
+          this.$errorHandler({
             ...err,
             exitLogin: true
           })
