@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.1",
+    "versionCode": 50,
+    "content": ["Small fixes"]
+  },
+  {
     "versionName": "2.1.0",
     "versionCode": 49,
     "content": ["Support multiple languages"]
