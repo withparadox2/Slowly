@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.2",
+    "versionCode": 51,
+    "content": ["Show about text according to locale"]
+  },
+  {
     "versionName": "2.1.1",
     "versionCode": 50,
     "content": ["Small fixes"]
