@@ -172,6 +172,7 @@
   height 100px
   white-space nowrap
   padding-bottom 20px
+  padding-top 10px
   > div
     display inline-block
     width 100px
