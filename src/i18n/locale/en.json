@@ -72,5 +72,6 @@
   "tip_sync_page": "Synchronizing page {0}",
   "err_sync_fail": "Synchronization failed, please check internet and relogin",
   "warn_no_letter": "No letters",
-  "click_to_update": "Click to update"
+  "click_to_update": "Click to update",
+  "about_poem": "When I am dead, my dearest,\nSing no sad songs for me;\nPlant thou no roses at my head,\nNor shady cypress tree:\nBe the green grass above me\nWith showers and dewdrops wet;\nAnd if thou wilt, remember,\nAnd if thou wilt, forget.\n\nI shall not see the shadows,\nI shall not feel the rain;\nI shall not hear the nightingale\nSing on, as if in pain:\nAnd dreaming through the twilight\nThat doth not rise nor set,\nHaply I may remember,\nAnd haply may forget.\n\n— Christina Georgina Rossetti"
 }

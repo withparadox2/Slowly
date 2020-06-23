@@ -72,5 +72,6 @@
   "tip_sync_page": "正在同步第{0}頁",
   "err_sync_fail": "同步失敗，請檢查網絡或重新登錄",
   "warn_no_letter": "沒有信件",
-  "click_to_update": "點擊更新"
+  "click_to_update": "點擊更新",
+  "about_poem": "子夜的燈\n是一條未穿衣裳的\n小河\n\n你的信像一尾魚游來\n讀水的溫暖\n讀你額上動人的鱗片\n\n讀江河如讀一面鏡\n讀鏡中你的笑\n如讀泡沫\n\n— 子夜讀信·洛夫"
 }
