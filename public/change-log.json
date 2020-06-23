@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.0",
+    "versionCode": 49,
+    "content": ["Support multiple languages"]
+  },
+  {
     "versionName": "2.0.4",
     "versionCode": 48,
     "content": ["修复无法更新位置问题"]
