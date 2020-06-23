@@ -423,10 +423,6 @@ export default {
       if (this.checkedFriend) {
         const infoList = []
         infoList.push([this.$t("name"), this.checkedFriend.name])
-        infoList.push([
-          this.$t("birthday"),
-          this.checkedFriend.dob || this.$t("keep_secret")
-        ])
         {
           const locationCode = this.checkedFriend.location_code
           const country = countries[locationCode]
