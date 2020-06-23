@@ -195,16 +195,6 @@ export default {
       } else {
         console.log("Location is not avaiable")
       }
-      // const geolocation = new BMap.Geolocation()
-      // geolocation.enableSDKLocation()
-      // geolocation.getCurrentPosition(position => {
-      //   if (position && position.point) {
-      //     this.showGpsLocation(position.point.lat, position.point.lng)
-      //   } else {
-      //     console.log("Locate error")
-      //   }
-      //   console.log(position.point)
-      // })
     }
   }
 }
