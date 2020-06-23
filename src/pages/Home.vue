@@ -317,7 +317,6 @@ export default {
           this.loadFriends()
         })
         .catch(err => {
-          console.log(e)
           this.$errorHandler({
             ...err,
             exitLogin: true
@@ -331,7 +330,6 @@ export default {
           account.setAccount(response.data)
         })
         .catch(e => {
-          console.log(e)
           this.$errorHandler({
             ...err,
             exitLogin: true
