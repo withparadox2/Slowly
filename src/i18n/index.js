@@ -36,7 +36,7 @@ function getPreferLang() {
   return "en"
 }
 
-const vueI18n = new VueI18n({
+export default new VueI18n({
   locale: getPreferLang(),
   messages,
 })
@@ -72,5 +72,3 @@ export function setLocale(locale) {
 export function getLocalLocale() {
   return localStorage.getItem("local_select_locale")
 }
-
-export default vueI18n
