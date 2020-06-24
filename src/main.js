@@ -39,7 +39,7 @@ if (!redirectUrl()) {
 
   {
     let url = new URL(window.location.href)
-    let token = url.searchParams.get("token")
+    let token = url.searchParams && url.searchParams.get("token")
     if (token) {
       setToken(token)
     }
