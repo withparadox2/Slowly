@@ -36,7 +36,7 @@ export function getFriends() {
 
 export function getLetters(id, page) {
   return get({
-    path: `/posts/${id}`,
+    path: `/friend/${id}/all`,
     params: {
       ver: 2,
       page,
