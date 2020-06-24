@@ -32,6 +32,7 @@
           <el-dropdown-item @click.native="editLocation">{{$t('change_location')}}</el-dropdown-item>
           <el-dropdown-item @click.native="$refs.localeList.show()">{{$t('change_locale')}}</el-dropdown-item>
           <el-dropdown-item @click.native="showChangeLog">{{$t('change_log')}}</el-dropdown-item>
+          <el-dropdown-item @click.native="showFeedback">{{$t('feedback')}}</el-dropdown-item>
           <el-dropdown-item @click.native="showAbout">{{$t('about')}}</el-dropdown-item>
           <el-dropdown-item @click.native="exit">{{$t('exit')}}</el-dropdown-item>
         </el-dropdown-menu>
@@ -284,6 +285,11 @@ export default {
     changeLocale(locale) {
       setLocalLocale(locale.name)
       window.location.reload()
+    },
+    showFeedback() {
+      this.$alert(this.$t("feedback_msg"), this.$t("feedback"), {
+        confirmButtonText: this.$t("soft_confirm")
+      })
     }
   },
   watch: {
