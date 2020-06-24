@@ -57,7 +57,7 @@ export function getLocaleList() {
     },
     {
       name: LOCALE_ZH_TW,
-      text: "中文-簡體",
+      text: "中文-繁體",
     },
     {
       name: LOCALE_EN,
