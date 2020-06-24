@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.3",
+    "versionCode": 52,
+    "content": ["Add feedback menu"]
+  },
+  {
     "versionName": "2.1.2",
     "versionCode": 51,
     "content": ["Show about text according to locale"]
