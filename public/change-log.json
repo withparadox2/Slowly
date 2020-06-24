@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.5",
+    "versionCode": 54,
+    "content": ["Small fixes"]
+  },
+  {
     "versionName": "2.1.4",
     "versionCode": 53,
     "content": ["Collect crash with fontjs"]
