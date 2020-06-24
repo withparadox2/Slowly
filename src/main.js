@@ -1,4 +1,3 @@
-import "./bugsnag"
 import "./pollyfill"
 
 import Vue from "vue"

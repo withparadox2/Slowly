@@ -9,8 +9,6 @@
     "start": "npm run serve"
   },
   "dependencies": {
-    "@bugsnag/js": "^7.1.1",
-    "@bugsnag/plugin-vue": "^7.1.1",
     "axios": "^0.18.1",
     "country-data": "0.0.31",
     "element-ui": "^2.6.1",
