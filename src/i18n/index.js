@@ -5,13 +5,19 @@ import en from "./locale/en.json"
 import zhCN from "./locale/zh-CN.json"
 import zhTW from "./locale/zh-TW.json"
 
-Vue.use(VueI18n)
+const KEY_SELECTED_LOCALE = "local_select_locale"
 
-const messages = {
-  en,
-  "zh-CN": zhCN,
-  "zh-TW": zhTW,
+const LOCALE_EN = "en"
+const LOCALE_ZH_CN = "zh-CN"
+const LOCALE_ZH_TW = "zh-TW"
+
+const localeMap = {
+  [LOCALE_EN]: en,
+  [LOCALE_ZH_CN]: zhCN,
+  [LOCALE_ZH_TW]: zhTW,
 }
+
+Vue.use(VueI18n)
 
 function getPreferLang() {
   const localLocale = getLocalLocale()
@@ -22,53 +28,53 @@ function getPreferLang() {
   const navigatorLang =
     navigator && (navigator.language || navigator.userLanguage)
 
-  if (navigatorLang & messages[navigatorLang]) {
+  if (navigatorLang & localeMap[navigatorLang]) {
     return navigatorLang
   }
 
   if (navigatorLang && navigatorLang.startsWith("zh")) {
-    if (navigatorLang === "zh-CN") {
-      return "zh-CN"
+    if (navigatorLang === LOCALE_ZH_CN) {
+      return LOCALE_ZH_CN
     } else {
-      return "zh-TW"
+      return LOCALE_ZH_TW
     }
   }
-  return "en"
+
+  return LOCALE_EN
 }
 
 export default new VueI18n({
   locale: getPreferLang(),
-  messages,
+  messages: localeMap,
 })
 
 export function getLocaleList() {
-  const prefLocale = getPreferLang()
-  debugger
+  const preferLocale = getPreferLang()
   return [
     {
-      name: "en",
-      text: "English",
-    },
-    {
-      name: "zh-CN",
+      name: LOCALE_ZH_CN,
       text: "中文-简体",
     },
     {
-      name: "zh-TW",
+      name: LOCALE_ZH_TW,
       text: "中文-簡體",
     },
+    {
+      name: LOCALE_EN,
+      text: "English",
+    },
   ].map((item) => {
-    if (item.name === prefLocale) {
+    if (item.name === preferLocale) {
       item.selected = true
     }
     return item
   })
 }
 
-export function setLocale(locale) {
-  locale && localStorage.setItem("local_select_locale", locale)
+export function setLocalLocale(locale) {
+  locale && localStorage.setItem(KEY_SELECTED_LOCALE, locale)
 }
 
 export function getLocalLocale() {
-  return localStorage.getItem("local_select_locale")
+  return localStorage.getItem(KEY_SELECTED_LOCALE)
 }

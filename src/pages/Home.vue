@@ -196,7 +196,7 @@ import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
 import getOtp from "../otp"
-import { getLocaleList, setLocale } from "../i18n"
+import { getLocaleList, setLocalLocale } from "../i18n"
 
 import Friends from "../components/Friends.vue"
 import Letters from "../components/Letters.vue"
@@ -282,7 +282,7 @@ export default {
       this.$refs.changeLog.show()
     },
     changeLocale(locale) {
-      setLocale(locale.name)
+      setLocalLocale(locale.name)
       window.location.reload()
     }
   },
