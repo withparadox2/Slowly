@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.6",
+    "versionCode": 55,
+    "content": ["Change API to load latest letters"]
+  },
+  {
     "versionName": "2.1.5",
     "versionCode": 54,
     "content": ["Small fixes"]
