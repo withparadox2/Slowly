@@ -96,7 +96,6 @@ export default {
       }
     },
     onMapClick(e) {
-      console.log(e.point)
       this.removeOverlays()
       this.addMarker(e.point, false)
     },

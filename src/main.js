@@ -19,9 +19,6 @@ import { store } from "./store"
 import { redirectUrl } from "./update.js"
 import i18n from "./i18n"
 
-// import VConsole from 'vconsole'
-// new VConsole()
-
 function updateMobileMode() {
   store.commit("setMobileMode", window.innerWidth <= 850)
 }

@@ -310,7 +310,6 @@ export default {
       return
     }
 
-    window.test = this.$refs.localeList
     this.leftSectionExited = this.mobileMode
 
     this.accountInfo = account.getAccount()
