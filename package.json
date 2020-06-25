@@ -6,7 +6,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "start": "npm run serve"
+    "start": "npm run serve",
+    "ar": "npm run build -- -analyzer"
   },
   "dependencies": {
     "axios": "^0.18.1",
@@ -37,6 +38,7 @@
     "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.5.21",
     "walk": "^2.3.14",
+    "webpack-bundle-analyzer": "^3.8.0",
     "zip-webpack-plugin": "^3.0.0"
   },
   "eslintConfig": {
