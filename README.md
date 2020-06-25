@@ -7,7 +7,7 @@ A lite web version of [Slowly](https://www.getslowly.com/en/). Through it one ca
 - Change your location to reduce the travel time of sending a letter (For some reasons, new location is restricted to the same country as you sign in)
 - Check past letters conveniently while writing a letter
 - Search across all letters under a specified friend
-- Send images as attachement without any permissions
+- ~~Send images as attachement without any permissions~~ (Not available anymore)
 - Show statistics of letters in different styles
 - Backup all letters by downloading a txt file
 - All functions work well on mobile broswers
