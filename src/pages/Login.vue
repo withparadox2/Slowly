@@ -18,7 +18,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="changeLocale(locale)"
                               :key="locale.name"
-                              :style="{'font-weight': locale.selected ? 'bold' : ''}"
+                              :style="{'font-weight': locale.name === $i18n.locale ? 'bold' : ''}"
                               v-for="locale in localeList">{{locale.text}}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -144,7 +144,6 @@ export default {
   methods: {
     changeLocale(locale) {
       setLocalLocale(locale.name)
-      window.location.reload()
     },
     sendEmail() {
       if (!validateEmail(this.email)) {

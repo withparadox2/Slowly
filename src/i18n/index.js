@@ -11,11 +11,28 @@ const LOCALE_EN = "en"
 const LOCALE_ZH_CN = "zh-CN"
 const LOCALE_ZH_TW = "zh-TW"
 
-const localeMap = {
-  [LOCALE_EN]: en,
-  [LOCALE_ZH_CN]: zhCN,
-  [LOCALE_ZH_TW]: zhTW,
-}
+const LOCALE_LIST = [
+  {
+    name: LOCALE_EN,
+    text: "English",
+    message: en,
+  },
+  {
+    name: LOCALE_ZH_CN,
+    text: "中文-简体",
+    message: zhCN,
+  },
+  {
+    name: LOCALE_ZH_TW,
+    text: "中文-繁體",
+    message: zhTW,
+  },
+]
+
+const LOCALE_MAP = LOCALE_LIST.reduce(
+  (map, item) => ((map[item.name] = item.message), map),
+  {}
+)
 
 Vue.use(VueI18n)
 
@@ -28,7 +45,7 @@ function getPreferLang() {
   const navigatorLang =
     navigator && (navigator.language || navigator.userLanguage)
 
-  if (navigatorLang & localeMap[navigatorLang]) {
+  if (navigatorLang & LOCALE_MAP[navigatorLang]) {
     return navigatorLang
   }
 
@@ -43,36 +60,20 @@ function getPreferLang() {
   return LOCALE_EN
 }
 
-export default new VueI18n({
+const i18n = new VueI18n({
   locale: getPreferLang(),
-  messages: localeMap,
+  messages: LOCALE_MAP,
 })
 
+export default i18n
+
 export function getLocaleList() {
-  const preferLocale = getPreferLang()
-  return [
-    {
-      name: LOCALE_ZH_CN,
-      text: "中文-简体",
-    },
-    {
-      name: LOCALE_ZH_TW,
-      text: "中文-繁體",
-    },
-    {
-      name: LOCALE_EN,
-      text: "English",
-    },
-  ].map((item) => {
-    if (item.name === preferLocale) {
-      item.selected = true
-    }
-    return item
-  })
+  return LOCALE_LIST
 }
 
 export function setLocalLocale(locale) {
   locale && localStorage.setItem(KEY_SELECTED_LOCALE, locale)
+  i18n.locale = locale
 }
 
 export function getLocalLocale() {
