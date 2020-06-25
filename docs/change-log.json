@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.7",
+    "versionCode": 56,
+    "content": ["Display incoming letters", "Disable photo sharing without requested permissions", "Chnage some styles"]
+  },
+  {
     "versionName": "2.1.6",
     "versionCode": 55,
     "content": ["Change API to load latest letters"]
