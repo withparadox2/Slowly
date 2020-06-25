@@ -335,7 +335,7 @@ export default {
         .then(response => {
           account.setAccount(response.data)
         })
-        .catch(e => {
+        .catch(err => {
           this.$errorHandler({
             ...err,
             exitLogin: true
