@@ -40,6 +40,9 @@
   .highlight
     color red
     font-weight bold
+.tablet-mode.mobile-mode .letter-detail
+  border none
+  border-radius 0px
 </style>
 
 <style lang="stylus" scoped>

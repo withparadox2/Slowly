@@ -20,7 +20,8 @@ import { redirectUrl } from "./update.js"
 import i18n from "./i18n"
 
 function updateMobileMode() {
-  store.commit("setMobileMode", window.innerWidth <= 850)
+  store.commit("setTabletMode", window.innerWidth <= 850)
+  store.commit("setMobileMode", window.innerWidth <= 550)
 }
 updateMobileMode()
 window.addEventListener("resize", updateMobileMode)

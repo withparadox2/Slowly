@@ -1,7 +1,6 @@
 <template>
   <el-row v-if="checkedFriend"
-          class="component-wrapper"
-          :class="{'mobile-mode': mobileMode}">
+          class="component-wrapper">
     <el-col :span="checkedLetter ? 12 : 24"
             class="left-section">
       <div class="letter-list soft-scrollable">
@@ -265,26 +264,21 @@
     cursor pointer
     display inline-block
     padding 0 5px
-.mobile-mode
-  .right-section
-    position absolute
-    top 0
-    left 0
-    width 100%
-    height 100%
-    z-index 40
 </style>
 
 <style lang="stylus">
 .dialog-friend-info .el-message__content
   white-space pre
   line-height 20px
-@media screen and (max-width: 550px)
-  .mobile-mode .right-section .scroll-container
-    padding 0 0 40px 0
-    .letter-detail
-      border none
-      border-radius 0px
+.tablet-mode .right-section
+    position absolute
+    top 0
+    left 0
+    width 100%
+    height 100%
+    z-index 40
+.tablet-mode.mobile-mode .right-section .scroll-container
+  padding 0 0 40px 0
 </style>
 
 
@@ -326,7 +320,7 @@ export default {
     LetterItem
   },
   computed: {
-    ...mapState(["checkedFriend", "searchValue", "mobileMode"]),
+    ...mapState(["checkedFriend", "searchValue"]),
     attachments() {
       let l = this.checkedLetter
       return l

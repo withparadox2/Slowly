@@ -1,6 +1,6 @@
 <template>
   <div class="container"
-       :class="{'mobile-mode' : mobileMode}">
+       :class="{'mobile-mode': mobileMode, 'tablet-mode': tabletMode}">
     <div id="account-loading"
          v-if="!accountInfo"
          v-loading="!accountInfo"
@@ -43,7 +43,7 @@
       <div class="left-section"
            :class="{'left-section-exited' : leftSectionExited}">
         <div class="sidebar-header"
-             v-if="mobileMode">
+             v-if="tabletMode">
           <i class="icon-nav"
              :class="{'el-icon-arrow-right': leftSectionExited, 'el-icon-arrow-left': !leftSectionExited}"
              @click="leftSectionExited = !leftSectionExited"></i>
@@ -53,7 +53,7 @@
         </div>
       </div>
       <div class="left-section-overlay"
-           :class="{entered: mobileMode && !leftSectionExited}"
+           :class="{entered: tabletMode && !leftSectionExited}"
            @click="leftSectionExited = true"></div>
       <div class="right-section">
         <letters v-on:showMap="showMap($event)"
@@ -119,7 +119,7 @@
   flex 1 1 0px
   box-sizing border-box
   overflow hidden
-.mobile-mode
+.tablet-mode
   .main-content
     padding-left 50px
 .left-section
@@ -172,7 +172,7 @@
   &.entered
     pointer-events all
     opacity 0.4
-.mobile-mode .left-section
+.tablet-mode .left-section
   position absolute
   top 0
   bottom 0
@@ -228,7 +228,7 @@ export default {
     Version
   },
   computed: {
-    ...mapState(["checkedFriend", "friendList", "mobileMode"])
+    ...mapState(["checkedFriend", "friendList", "mobileMode", "tabletMode"])
   },
   methods: {
     ...mapMutations(["setFriends"]),
@@ -269,7 +269,7 @@ export default {
             loadFromServer()
           }
         })
-        .catch((e) => {
+        .catch(e => {
           console.error(e)
           loadFromServer()
         })
@@ -295,12 +295,12 @@ export default {
   },
   watch: {
     checkedFriend(val) {
-      if (this.mobileMode) {
+      if (this.tabletMode) {
         this.leftSectionExited = true
       }
     },
-    mobileMode() {
-      if (!this.mobileMode) {
+    tabletMode() {
+      if (!this.tabletMode) {
         this.leftSectionExited = false
       }
     }
@@ -311,7 +311,7 @@ export default {
       return
     }
 
-    this.leftSectionExited = this.mobileMode
+    this.leftSectionExited = this.tabletMode
 
     this.accountInfo = account.getAccount()
     if (!this.accountInfo) {

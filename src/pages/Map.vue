@@ -60,7 +60,7 @@
   cursor pointer
 </style>
 <style lang="stylus">
-.mobile-mode
+.tablet-mode
   .btn-close, .btn-update-location
     margin-right 10px
   .btn-close
