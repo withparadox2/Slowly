@@ -13,18 +13,8 @@
       <div class="middle">
         <input-box v-if="checkedFriend"></input-box>
       </div>
-      <el-dropdown class="menu-locale-list"
-                   ref="localeList"
-                   trigger="click">
-        <i class="el-icon-more"
-           style="{width: 0}"></i>`
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="changeLocale(locale)"
-                            :key="locale.name"
-                            :style="{'font-weight': locale.name === $i18n.locale ? 'bold' : ''}"
-                            v-for="locale in localeList">{{locale.text}}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+      <locale-switch class="menu-locale-list"
+                     ref="localeList" />
       <el-dropdown class="menu-more"
                    trigger="click">
         <i class="el-icon-more"></i>`
@@ -102,6 +92,7 @@
     position absolute
     right 0
     height 48px
+    color transparent
   .el-icon-more
     color white
     line-height 48px
@@ -197,13 +188,13 @@ import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
 import { sortFriends } from "../helper"
 import getOtp from "../otp"
-import { getLocaleList, setLocalLocale } from "../i18n"
 
 import Friends from "../components/Friends.vue"
 import Letters from "../components/Letters.vue"
 import InputBox from "../components/InputBox.vue"
 import Quote from "../components/Quote.vue"
 import Version from "../components/Version.vue"
+import LocaleSwitch from "../components/common/LocaleSwitch.vue"
 
 import Map from "./Map.vue"
 import ChangeLog from "./ChangeLog.vue"
@@ -213,8 +204,7 @@ export default {
   data() {
     return {
       accountInfo: null,
-      leftSectionExited: true,
-      localeList: getLocaleList()
+      leftSectionExited: true
     }
   },
   components: {
@@ -225,7 +215,8 @@ export default {
     "quote-node": Quote,
     About,
     ChangeLog,
-    Version
+    Version,
+    LocaleSwitch
   },
   computed: {
     ...mapState(["checkedFriend", "friendList", "mobileMode", "tabletMode"])
@@ -282,9 +273,6 @@ export default {
     },
     showChangeLog() {
       this.$refs.changeLog.show()
-    },
-    changeLocale(locale) {
-      setLocalLocale(locale.name)
     },
     showFeedback() {
       this.$alert(this.$t("feedback_msg"), this.$t("feedback"), {
