@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.10",
+    "versionCode": 59,
+    "content": ["Support changing language dynamically", "Pretty calendar style"]
+  },
+  {
     "versionName": "2.1.9",
     "versionCode": 58,
     "content": ["Support changing language on login page"]
