@@ -49,6 +49,8 @@
   "stat_line5": "{0} has written {1} letters to you，containing {2} words in total",
   "stat_line6": "On {0}, specially, you wrote {1} letters to each other",
   "stat_line7": "You haven't been in touch for {0} days",
+  "stat_month_list": "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sept,Oct,Nov,Dec",
+  "stat_week_list": "Sun,Tue,Thu,Sat",
   "you": "you",
   "stat_hover_date_str": "{0} From {1} To {2}",
   "delete": "Delete",

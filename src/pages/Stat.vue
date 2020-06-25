@@ -214,7 +214,12 @@ export default {
 
       this.stat = stat
       this.$nextTick(() => {
-        drawSvg("svg-container", letterList, {
+        drawSvg({
+          id: "svg-container",
+          isLatin: this.$i18n.locale === "en",
+          monthList: this.$t("stat_month_list").split(","),
+          weekList: this.$t("stat_week_list").split(","),
+          dataList: letterList,
           onHover: (date, fromNum, toNum) => {
             if (!date) {
               this.dateTimeoutId = setTimeout(() => {

@@ -10,8 +10,16 @@ function getColorIndex(num) {
   return num - 1 > 2 ? 2 : num - 1
 }
 
-export function drawSvg(id, dataList, { onHover, onClick }) {
-  const startX = 22
+export function drawSvg({
+  id,
+  isLatin,
+  dataList,
+  monthList,
+  weekList,
+  onHover,
+  onClick,
+}) {
+  const startX = isLatin ? 35 : 26
   const startY = 48
   const cellSize = 16
 
@@ -140,7 +148,7 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
     if (lastYear < 0 || lastYear != loopDate.getFullYear()) {
       draw
         .text(function(add) {
-          add.tspan(`${loopDate.getFullYear()}年`).dy(0)
+          add.tspan(`${loopDate.getFullYear()}`).dy(0)
         })
         .font({
           fill:
@@ -163,7 +171,7 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
     ) {
       draw
         .text(function(add) {
-          add.tspan(`${loopDate.getMonth() + 1}月`).dy(0)
+          add.tspan(monthList[loopDate.getMonth()]).dy(0)
         })
         .font({
           fill:
@@ -187,13 +195,12 @@ export function drawSvg(id, dataList, { onHover, onClick }) {
     }
   }
 
-  const weekDays = ["日", "二", "四", "六"]
-  weekDays.forEach((day, index) => {
+  weekList.forEach((day, index) => {
     draw
       .text(day)
-      .font({ fill: "rgba(0,0,0,0.25)", size: 8 })
-      .attr("x", 10)
-      .attr("y", 51 + index * 32)
+      .font({ fill: "rgba(0,0,0,0.25)", size: 11 })
+      .attr("x", 8)
+      .attr("y", 43 + index * 32)
   })
 }
 
