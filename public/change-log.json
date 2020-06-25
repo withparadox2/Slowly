@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.8",
+    "versionCode": 57,
+    "content": ["New quotes in English!", "Long press to copy quote"]
+  },
+  {
     "versionName": "2.1.7",
     "versionCode": 56,
     "content": ["Display incoming letters", "Disable photo sharing without requested permissions", "Chnage some styles"]
