@@ -108,6 +108,7 @@
   </el-row>
 </template>
 <style lang="stylus" scoped>
+@require ('../styles/var.styl')
 .component-wrapper
   height 100%
 .left-section
@@ -189,7 +190,7 @@
     text-overflow ellipsis
     overflow hidden
     white-space nowrap
-    font-size 13px
+    font-size $font-letter
     color #666
   .letter-attacments
     margin-left 4px

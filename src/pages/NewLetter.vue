@@ -77,6 +77,7 @@
   </div>
 </template>
 <style lang="stylus" scoped>
+@require ('../styles/var.styl')
 .editor-wrapper
   position absolute
   top 5%
@@ -116,7 +117,7 @@
   min-height 250px
   box-sizing border-box
   border none
-  font-size 13px
+  font-size $font-letter
   line-height 24px
   resize none
   outline 0
