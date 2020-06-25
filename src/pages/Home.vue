@@ -68,7 +68,7 @@
   </div>
 </template>
 <style lang="stylus" scoped>
-@require ('../var.styl')
+@require ('../styles/var.styl')
 .nav-header
   background-color $main-color
   height 48px

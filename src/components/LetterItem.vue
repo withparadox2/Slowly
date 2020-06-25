@@ -43,7 +43,7 @@
 </style>
 
 <style lang="stylus" scoped>
-@require ('../var.styl')
+@require ('../styles/var.styl')
 .letter-detail-wrapper
   width 100%
   max-width 500px

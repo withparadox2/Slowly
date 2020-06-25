@@ -13,7 +13,7 @@
 </template>
 
 <style lang="stylus" scoped>
-@require ('../var.styl')
+@require ('../styles/var.styl')
 .new-version
   position fixed
   right 30px

@@ -5,7 +5,7 @@ import VueRouter from "vue-router"
 import ElementUI from "element-ui"
 import "element-ui/lib/theme-chalk/index.css"
 
-import "./main.styl"
+import "./styles/main.styl"
 
 import Login from "./pages/Login.vue"
 import Home from "./pages/Home.vue"
