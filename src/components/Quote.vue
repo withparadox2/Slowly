@@ -26,6 +26,7 @@
   width 100%
   .quote-item
     padding 10px 10px
+    user-select none
     .content
       font-size 20px
       color #555
@@ -67,6 +68,9 @@ export default {
       return first ? `——${first}${second ? " · " : ""}${second}` : ""
     },
     changeQuote() {
+      if (this.quotes.length === 0) {
+        return
+      }
       let item = this.quotes[parseInt(Math.random() * this.quotes.length)]
       this.currentQuote = {
         content: item.content,
