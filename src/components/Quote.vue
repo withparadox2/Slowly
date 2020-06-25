@@ -61,6 +61,7 @@ export default {
       eventConsumed: false
     }
   },
+  computed: {},
   methods: {
     getQuoteInfo(quote) {
       let first = quote.ref_name || quote.au_name
@@ -109,6 +110,14 @@ export default {
   },
   mounted() {
     this.fetchQuotes()
+    this.$watch("$i18n.locale", (newVal, oldVal) => {
+      if (
+        (newVal === "en" && oldVal !== "en") ||
+        (oldVal === "en" && newVal !== "en")
+      ) {
+        this.fetchQuotes()
+      }
+    })
   }
 }
 </script>
