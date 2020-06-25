@@ -551,7 +551,7 @@ export default {
           .readLetter(letter.id)
           .then(response => {})
           .catch(e => {
-            console.log(e)
+            console.error(e)
           })
       }
     },

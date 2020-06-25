@@ -448,7 +448,7 @@ export default {
         })
         .catch(result => {
           this.isUploading = false
-          console.log(result)
+          console.error(result)
           showError(this, result)
         })
     },

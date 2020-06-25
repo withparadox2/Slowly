@@ -269,7 +269,8 @@ export default {
             loadFromServer()
           }
         })
-        .catch(() => {
+        .catch((e) => {
+          console.error(e)
           loadFromServer()
         })
     },

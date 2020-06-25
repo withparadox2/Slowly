@@ -45,6 +45,7 @@ export function checkVersion() {
         }
       })
       .catch((error) => {
+        console.error(error)
         resolve(false)
       })
   })
