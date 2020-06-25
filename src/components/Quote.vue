@@ -1,6 +1,7 @@
 <template>
   <div class="no-scroll-bar">
-    <div @click="changeQuote"
+    <div @click="clickQuote"
+         v-longpress="handlongPress"
          class="quote-section">
       <div class="quote-item"
            v-if="currentQuote">
@@ -39,6 +40,7 @@
 </style>
 <script>
 import axios from "axios"
+import { copyToClipboard, showSuccess } from "../util"
 
 const quotesSourceMap = {
   en: {
@@ -55,7 +57,8 @@ export default {
   data() {
     return {
       quotes: [],
-      currentQuote: null
+      currentQuote: null,
+      eventConsumed: false
     }
   },
   methods: {
@@ -64,11 +67,28 @@ export default {
       let second = quote.ref_name ? quote.au_name : ""
       return first ? `——${first}${second ? " · " : ""}${second}` : ""
     },
+    clickQuote() {
+      if (!this.eventConsumed) {
+        this.changeQuote()
+      }
+    },
     changeQuote() {
       let item = this.quotes[parseInt(Math.random() * this.quotes.length)]
       this.currentQuote = {
         content: item.content,
         quoteInfo: this.getQuoteInfo(item)
+      }
+    },
+    handlongPress(s) {
+      if (s === "start") {
+        this.eventConsumed = false
+        return
+      }
+      this.eventConsumed = true
+      if (this.currentQuote) {
+        const text = this.currentQuote.content + this.currentQuote.quoteInfo
+        copyToClipboard(text)
+        showSuccess(this, this.$t("tip_copy_quote"))
       }
     },
     fetchQuotes() {
