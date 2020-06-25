@@ -11,6 +11,17 @@
            class="title-link">
           <span class="title">Slowly</span>
         </a>
+        <el-dropdown class="locale-list"
+                     ref="localeList"
+                     trigger="click">
+          <span class="">{{activeLocale}}</span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item @click.native="changeLocale(locale)"
+                              :key="locale.name"
+                              :style="{'font-weight': locale.selected ? 'bold' : ''}"
+                              v-for="locale in localeList">{{locale.text}}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </div>
       <div class="form-wrapper">
         <transition-group :name="fadeName"
@@ -67,6 +78,11 @@
   margin-top 7px
   margin-left -50px
   cursor pointer
+.locale-list
+  cursor pointer
+  color #66b1ff
+  float right
+  margin-top 12px
 .form-wrapper
   position relative
   height 200px
@@ -99,6 +115,7 @@
 import { validateEmail, showError, showSuccess } from "../util"
 import { sendEmailPasscode, verifyPasscode } from "../api"
 import { setToken, getToken } from "../persist/account"
+import { getLocaleList, setLocalLocale } from "../i18n"
 import EmailInput from "../components/EmailInput.vue"
 import Version from "../components/Version.vue"
 
@@ -108,7 +125,8 @@ export default {
       email: "",
       passcode: "",
       fullscreenLoading: false,
-      showPasscode: false
+      showPasscode: false,
+      localeList: getLocaleList()
     }
   },
   components: {
@@ -118,9 +136,16 @@ export default {
   computed: {
     fadeName() {
       return this.showPasscode ? "slide-in" : "slide-out"
+    },
+    activeLocale() {
+      return this.localeList.filter(item => item.selected)[0].text
     }
   },
   methods: {
+    changeLocale(locale) {
+      setLocalLocale(locale.name)
+      window.location.reload()
+    },
     sendEmail() {
       if (!validateEmail(this.email)) {
         showError(this, this.$t("error_email"))
