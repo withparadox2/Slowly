@@ -37,7 +37,10 @@ export class DataManager {
         isRefresh: this.syncState == STATE_REFRESH,
         isSync: this.syncState == STATE_SYNC,
         isSuccess: this.syncState == STATE_SUCCESS,
-        dataList: this.dataList,
+        dataList: this.dataList.map((letter) => {
+          letter.body = letter.body || ""
+          return letter
+        }),
       })
   }
 
@@ -98,7 +101,10 @@ export class DataManager {
       if (data.user) {
         Vue.set(this.friend, "last_login", data.user.last_login)
       }
-      let list = this.sortList(data.comments.data || [])
+      let list = this.sortList([
+        ...(data.incoming || []),
+        ...(data.comments.data || []),
+      ])
       let hasMore = !!data.comments.next_page_url
 
       if (this.syncState == STATE_REFRESH) {
