@@ -29,7 +29,7 @@
                     v-model="inputData"
                     oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
           </textarea>
-          <div class="form-section">
+          <div class="form-section" v-if="checkedFriend.share_photos">
             <form id='formSumbit'
                   style="width:0;height:0;"
                   :action='formUploadUrl()'

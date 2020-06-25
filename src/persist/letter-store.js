@@ -101,6 +101,9 @@ export class DataManager {
       if (data.user) {
         Vue.set(this.friend, "last_login", data.user.last_login)
       }
+      if (data.post) {
+        Vue.set(this.friend, "share_photos", data.post.user_photos)
+      }
       let list = this.sortList([
         ...(data.incoming || []),
         ...(data.comments.data || []),
