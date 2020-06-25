@@ -15,27 +15,26 @@ Vue.directive("longpress", {
     }
 
     let pressTimer = null
+    let consumed = false
 
     let start = (e) => {
-      if (e.type === "click" && e.button !== 0) {
-        return
-      }
-
-      handler('start')
-
-      if (pressTimer === null) {
-        pressTimer = setTimeout(() => {
-          handler()
-        }, 500)
-      }
+      consumed = false
+      pressTimer = setTimeout(() => {
+        consumed = true
+        handler(false)
+      }, 500)
     }
 
     let cancel = (e) => {
+      if (!consumed && e && e.type != 'mouseout') {
+        handler(true)
+      }
       if (pressTimer !== null) {
         clearTimeout(pressTimer)
         pressTimer = null
       }
     }
+
     const handler = (e) => {
       binding.value(e)
     }

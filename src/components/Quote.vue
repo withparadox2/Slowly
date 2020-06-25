@@ -1,7 +1,6 @@
 <template>
   <div class="no-scroll-bar">
-    <div @click="clickQuote"
-         v-longpress="handlongPress"
+    <div v-longpress="handlongPress"
          class="quote-section">
       <div class="quote-item"
            v-if="currentQuote">
@@ -67,11 +66,6 @@ export default {
       let second = quote.ref_name ? quote.au_name : ""
       return first ? `——${first}${second ? " · " : ""}${second}` : ""
     },
-    clickQuote() {
-      if (!this.eventConsumed) {
-        this.changeQuote()
-      }
-    },
     changeQuote() {
       let item = this.quotes[parseInt(Math.random() * this.quotes.length)]
       this.currentQuote = {
@@ -79,16 +73,15 @@ export default {
         quoteInfo: this.getQuoteInfo(item)
       }
     },
-    handlongPress(s) {
-      if (s === "start") {
-        this.eventConsumed = false
-        return
-      }
-      this.eventConsumed = true
-      if (this.currentQuote) {
-        const text = this.currentQuote.content + this.currentQuote.quoteInfo
-        copyToClipboard(text)
-        showSuccess(this, this.$t("tip_copy_quote"))
+    handlongPress(isClick) {
+      if (isClick) {
+        this.changeQuote()
+      } else {
+        if (this.currentQuote) {
+          const text = this.currentQuote.content + this.currentQuote.quoteInfo
+          copyToClipboard(text)
+          showSuccess(this, this.$t("tip_copy_quote"))
+        }
       }
     },
     fetchQuotes() {
