@@ -40,6 +40,17 @@
 <script>
 import axios from "axios"
 
+const quotesSourceMap = {
+  en: {
+    file: "quotes-en.json",
+    version: 1
+  },
+  default: {
+    file: "quotes.json",
+    version: 1
+  }
+}
+
 export default {
   data() {
     return {
@@ -61,9 +72,12 @@ export default {
       }
     },
     fetchQuotes() {
+      const quoteItem =
+        quotesSourceMap[this.$i18n.locale] || quotesSourceMap.default
+
       axios({
         method: "get",
-        url: "./quotes.json"
+        url: `./${quoteItem.file}?v=${quoteItem.version}`
       })
         .then(response => {
           if (response.data && response.data.length > 0) {
