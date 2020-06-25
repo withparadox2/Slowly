@@ -21,6 +21,9 @@
   -ms-overflow-style none
   &::-webkit-scrollbar
     display none
+.mobile-mode .content
+  font-size 18px
+  line-height 30px
 </style>
 <script>
 export default {

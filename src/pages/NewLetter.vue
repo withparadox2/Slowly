@@ -186,7 +186,7 @@
   cursor pointer
 </style>
 <style lang="stylus">
-.mobile-mode
+.tablet-mode
   .editor-wrapper, .editor-wrapper.large
     width 100%
     max-width 100%

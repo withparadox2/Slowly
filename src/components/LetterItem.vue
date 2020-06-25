@@ -19,18 +19,20 @@
         </grid-view>
       </div>
     </div>
-    <div class="letter-info">
-      <div class="key">
-        <span v-for="text in letterInfos[0]"
-              :key="text">
-          {{text}}
-        </span>
-      </div>
-      <div class="value">
-        <span v-for="text in letterInfos[1]"
-              :key="text">
-          {{text}}
-        </span>
+    <div class="letter-info-wrapper">
+      <div class="letter-info">
+        <div class="key">
+          <span v-for="text in letterInfos[0]"
+                :key="text">
+            {{text}}
+          </span>
+        </div>
+        <div class="value">
+          <span v-for="text in letterInfos[1]"
+                :key="text">
+            {{text}}
+          </span>
+        </div>
       </div>
     </div>
   </div>
@@ -40,9 +42,6 @@
   .highlight
     color red
     font-weight bold
-.tablet-mode.mobile-mode .letter-detail
-  border none
-  border-radius 0px
 </style>
 
 <style lang="stylus" scoped>
@@ -71,12 +70,15 @@
   .attachments a
     background-size cover
     background-repeat no-repeat
+.letter-info-wrapper
+  overflow-y hidden
+  overflow-x auto
+  max-width 100%
 .letter-info
   font-size $font-tiny
   margin-top 10px
   color #666
   padding-right 10px
-  float right
   display flex
   .key
     flex 1
@@ -85,6 +87,7 @@
   span
     display block
     white-space nowrap
+    line-height 18px
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
