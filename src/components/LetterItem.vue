@@ -19,13 +19,19 @@
         </grid-view>
       </div>
     </div>
-    <div class="letter-info"
-         v-if="letter">
-      <div><span class="title-label">{{$t("word_count")}}</span>{{wordCount}}</div>
-      <div><span class="title-label">{{$t("sender_name")}}</span>{{letter.name}}</div>
-      <div><span class="title-label">{{$t("send_time")}}</span>{{formatTime(letter.created_at)}}</div>
-      <div><span class="title-label">{{$t("arrive_time")}}</span>{{formatTime(letter.deliver_at)}}</div>
-      <div v-if="letter.read_at"><span class="title-label">{{$t("read_time")}}</span>{{formatTime(letter.read_at)}}</div>
+    <div class="letter-info">
+      <div class="key">
+        <span v-for="text in letterInfos[0]"
+              :key="text">
+          {{text}}
+        </span>
+      </div>
+      <div class="value">
+        <span v-for="text in letterInfos[1]"
+              :key="text">
+          {{text}}
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -68,11 +74,14 @@
   color #666
   padding-right 10px
   float right
-  .title-label
-    display inline-block
-    width 200px
+  display flex
+  .key
+    flex 1
     text-align right
     margin-right 10px
+  span
+    display block
+    white-space nowrap
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
@@ -105,8 +114,16 @@ export default {
           : null
         : null
     },
-    wordCount() {
-      return util.countWords(this.letter.body)
+    letterInfos() {
+      const map = Object.create(null)
+      map[this.$t("word_count")] = util.countWords(this.letter.body)
+      map[this.$t("sender_name")] = this.letter.name
+      map[this.$t("send_time")] = this.formatTime(this.letter.created_at)
+      map[this.$t("arrive_time")] = this.formatTime(this.letter.deliver_at)
+      if (this.letter.read_at) {
+        map[this.$t("read_time")] = this.formatTime(this.letter.read_at)
+      }
+      return [Object.keys(map), Object.values(map)]
     }
   },
   methods: {
