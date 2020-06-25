@@ -271,12 +271,12 @@
   white-space pre
   line-height 20px
 .tablet-mode .right-section
-    position absolute
-    top 0
-    left 0
-    width 100%
-    height 100%
-    z-index 40
+  position absolute
+  top 0
+  left 0
+  width 100%
+  height 100%
+  z-index 40
 .tablet-mode.mobile-mode .right-section .scroll-container
   padding 0 0 40px 0
 </style>
@@ -530,6 +530,9 @@ export default {
       this.$refs.newLetter.showEditor()
     },
     checkLetter(letter, index, stickPosition) {
+      if (index < 0 || index >= this.renderLetters.length) {
+        return
+      }
       this.checkedLetter = letter
       this.checkedLetterIndex = index
       if (!stickPosition) {
