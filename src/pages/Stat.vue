@@ -10,25 +10,10 @@
       </div>
       <div class="stat-content">
         <div class="stat-detail">
-          <div>
-            {{$t('stat_line1').format(stat.firstLetter.dateStr, stat.firstLetter.from, stat.firstLetter.to)}}
+          <div v-for="statLine in statList"
+               :key="statLine">
+            {{statLine}}
           </div>
-          <div>
-            {{$t('stat_line2').format(stat.totalDays)}}
-          </div>
-          <div>
-            {{$t('stat_line3').format(stat.totalCount, stat.totalWordCount)}}
-          </div>
-          <div>
-            {{$t('stat_line4').format(stat.name, stat.totalToCount, stat.totalToWordCount)}}
-          </div>
-          <div>
-            {{$t('stat_line5').format(stat.name, stat.totalFromCount, stat.totalFromWordCount)}}
-          </div>
-          <div v-show="stat.perday.count > 2">
-            {{$t('stat_line6').format(stat.perday.dateStr, stat.perday.count)}}
-          </div>
-          <div v-show="stat.sinLastDays > 1">{{$t('stat_line7').format(stat.sinLastDays)}}</div>
         </div>
 
         <div class="date-map-section">
@@ -139,6 +124,44 @@ export default {
       account: getAccount(),
       hoverDateStr: "",
       hideDateStr: false
+    }
+  },
+  computed: {
+    statList() {
+      const list = [
+        this.$t("stat_line1").format(
+          this.stat.firstLetter.dateStr,
+          this.stat.firstLetter.from,
+          this.stat.firstLetter.to
+        ),
+        this.$t("stat_line2").format(this.stat.totalDays),
+        this.$t("stat_line3").format(
+          this.stat.totalCount,
+          this.stat.totalWordCount
+        ),
+        this.$t("stat_line4").format(
+          this.stat.name,
+          this.stat.totalToCount,
+          this.stat.totalToWordCount
+        ),
+        this.$t("stat_line5").format(
+          this.stat.name,
+          this.stat.totalFromCount,
+          this.stat.totalFromWordCount
+        )
+      ]
+      if (this.stat.perday.count > 2) {
+        list.push(
+          this.$t("stat_line6").format(
+            this.stat.perday.dateStr,
+            this.stat.perday.count
+          )
+        )
+      }
+      if (this.stat.sinLastDays > 1) {
+        list.push(this.$t("stat_line7").format(this.stat.sinLastDays))
+      }
+      return list
     }
   },
   methods: {
