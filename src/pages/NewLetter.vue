@@ -9,15 +9,18 @@
               v-show="wordCount">{{wordCount}}</span>
         <span class="sending-state"
               v-show="letterState">{{letterState}}</span>
-        <span class="el-icon-close"
-              :title="$t('close')"
-              @click="close()" />
-        <span class="el-icon-tickets"
-              :title="$t('history_letter')"
-              @click="toggleShowLetter()" />
-        <span class="el-icon-message"
-              :title="$t('send')"
-              @click="send()" />
+        <div class="right-btn-group">
+          <span class="el-icon-message"
+                :title="$t('send')"
+                @click="send()" />
+          <span class="el-icon-tickets"
+                :title="$t('history_letter')"
+                @click="toggleShowLetter()" />
+          <span class="el-icon-close"
+                :title="$t('close')"
+                @click="close()" />
+        </div>
+
       </div>
       <el-row class="editor-content">
         <el-col :span="isShowLetter ? 12 : 24"
@@ -29,7 +32,8 @@
                     v-model="inputData"
                     oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
           </textarea>
-          <div class="form-section" v-if="checkedFriend.share_photos">
+          <div class="form-section"
+               v-if="checkedFriend.share_photos">
             <form id='formSumbit'
                   style="width:0;height:0;"
                   :action='formUploadUrl()'
@@ -132,6 +136,7 @@
   color white
   border-top-left-radius 6px
   border-top-right-radius 6px
+  position relative
 .word-count
   font-size 12px
   margin-left 10px
@@ -140,8 +145,12 @@
   font-size 12px
   margin-left 10px
   color rgba(255, 255, 255, 0.7)
+.right-btn-group
+  right 0
+  top 10px
+  background #0078d7
+  position absolute
 .el-icon-tickets, .el-icon-close, .el-icon-message
-  float right
   padding 0 10px
   cursor pointer
   margin-top 3px
