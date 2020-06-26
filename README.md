@@ -2,12 +2,12 @@
 
 A lite web version of [Slowly](https://www.getslowly.com/en/). Through it one can send or receive letters, check and update location. Since the official web version has also been released, I'd like to introduce some unique features embeded inside this web version of Slowly and more are coming:
 
-- Check letters before arrival
+- ~~Check letters before arrival~~ (Not available anymore since 2020-06-26)
 - ~~Show locations of your friends who allow to update location~~ (Not available right now due to the banning from slowly)
 - Change your location to reduce the travel time of sending a letter (For some reasons, new location is restricted to the same country as you sign in)
 - Check past letters conveniently while writing a letter
 - Search across all letters under a specified friend
-- ~~Send images as attachement without any permissions~~ (Not available anymore)
+- ~~Send images as attachement without any permissions~~ (Not available anymore since 2020-06-25)
 - Show statistics of letters in different styles
 - Backup all letters by downloading a txt file
 - All functions work well on mobile broswers
@@ -17,7 +17,14 @@ A lite web version of [Slowly](https://www.getslowly.com/en/). Through it one ca
 ## Build
 Install dependencies: `npm install`
 
-Then start server `npm run serve` or build to generate bundles `npm run build`
+Then start server by executing command: `npm run serve`
+
+## Other commands
+
+- `npm run build`: build to generate bundles
+- `npm run ar`: build and run bundle size analyzer
+
+An enviroment variable `PUBLISH_PAGES` is provided in file `/.env` to control whether to publish build result to `/doc` directory. The value is true by default, but you can overwrite it by defining it in a file named `/.env.local`, which is ignored by git and needs to be created manually.
 
 ## License
 ```
