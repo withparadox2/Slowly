@@ -141,7 +141,7 @@ export function drawSvg({
       })
     })
     group.click(function() {
-      onClick && onClick(this.dateStr)
+      onClick && onClick(this.dateStr, this.fromNum, this.toNum)
     })
 
     // draw year

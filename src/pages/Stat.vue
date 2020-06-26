@@ -23,7 +23,8 @@
             <span class="to">{{$t("stat_to")}}</span>
           </div>
           <span class="hover-text"
-                :class="{'hide': hideDateStr}">{{hoverDateStr}}</span>
+                @click="scrollToLetter(lastSelectedDate)"
+                :class="{'hide': hideDateStr, 'link': isMobile}">{{hoverDateStr}}</span>
           <div id="svg-container"></div>
         </div>
       </div>
@@ -73,8 +74,11 @@
   color #666
   font-size 12px
   transition all 0.3s
-.hover-text.hide
-  opacity 0
+  &.hide
+    opacity 0
+  &.link
+    text-decoration underline
+    color #3296fc
 #svg-container
   background white
   padding 0 10px
@@ -111,7 +115,8 @@ import {
   offsetTimezoneDate,
   getDaysCount,
   dateTextToDate,
-  countWords
+  countWords,
+  isMobile
 } from "../util"
 import { getAccount } from "../persist/account"
 import { drawSvg } from "../stat"
@@ -123,7 +128,10 @@ export default {
       stat: null,
       account: getAccount(),
       hoverDateStr: "",
-      hideDateStr: false
+      hideDateStr: false,
+      // click to select in mobile
+      lastSelectedDate: null,
+      isMobile: isMobile()
     }
   },
   computed: {
@@ -265,12 +273,27 @@ export default {
               )
             }
           },
-          onClick: date => {
-            this.close()
-            this.$emit("scrollToDate", date)
+          onClick: (date, fromNum, toNum) => {
+            if (this.isMobile) {
+              this.lastSelectedDate = date
+              this.hideDateStr = false
+              this.hoverDateStr = this.$t("stat_hover_date_str").format(
+                date,
+                fromNum || 0,
+                toNum || 0
+              )
+            } else {
+              this.scrollToLetter(date)
+            }
           }
         })
       })
+    },
+    scrollToLetter(date) {
+      if (date) {
+        this.close()
+        this.$emit("scrollToDate", date)
+      }
     }
   }
 }

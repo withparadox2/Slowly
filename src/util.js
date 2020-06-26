@@ -93,7 +93,7 @@ const dateFormatter = new Intl.DateTimeFormat("en", {
 })
 
 function formatDateReadable(date) {
-  if (i18n.locale === 'en') {
+  if (i18n.locale === "en") {
     return dateFormatter.format(date)
   }
   let y = date.getFullYear()
@@ -208,6 +208,24 @@ function countWords(content) {
   return wordCount
 }
 
+function isMobile() {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera
+
+  if (/windows phone/i.test(userAgent)) {
+    return true //"Windows Phone"
+  }
+
+  if (/android/i.test(userAgent)) {
+    return true //"Android"
+  }
+
+  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    return true //"iOS"
+  }
+
+  return false
+}
+
 export {
   validateEmail,
   showError,
@@ -223,4 +241,5 @@ export {
   getRequestParam,
   dateTextToDate,
   countWords,
+  isMobile
 }
