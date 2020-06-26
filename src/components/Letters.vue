@@ -50,7 +50,7 @@
                  :title="$t('view_location')"
                  @click="$emit('showMap', checkedFriend)"></i>
               <i class="el-icon-date"
-                 @click="showStat"
+                 @click="showStat = true"
                  :title="$t('view_stat')"></i>
               <i class="el-icon-plus"
                  :title="$t('new_letter')"
@@ -104,6 +104,9 @@
     <new-letter ref="newLetter"
                 v-on:sendSuccess="loadLetters(checkedFriend)" />
     <stat ref="stat"
+          v-if="showStat"
+          :friend="checkedFriend"
+          v-on:close="showStat = false"
           v-on:scrollToDate="scrollToDate($event)"></stat>
   </el-row>
 </template>
@@ -270,7 +273,7 @@
   top 0
   left 0
   width 100%
-  height 100%    
+  height 100%
 </style>
 
 <style lang="stylus">
@@ -478,7 +481,8 @@ export default {
       highlightDate: null,
       listRender: createListRender({
         preloadCount: 25
-      })
+      }),
+      showStat: false
     }
   },
   methods: {
@@ -556,13 +560,6 @@ export default {
     },
     formatReadableTime(time) {
       return formatDateReadable(offsetTimezoneDate(time))
-    },
-    showStat() {
-      if (this.letters.length == 0) {
-        showWarning(this, this.$t("warn_no_letter"))
-      } else {
-        this.$refs.stat.showStat(this.checkedFriend, this.letters)
-      }
     },
     isLetterArrive(letter) {
       return offsetTimezoneDate(letter.deliver_at) < Date.now()

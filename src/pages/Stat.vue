@@ -122,6 +122,12 @@ import { getAccount } from "../persist/account"
 import { drawSvg } from "../stat"
 import { setTimeout, clearTimeout } from "timers"
 export default {
+  props: {
+    friend: {
+      type: Object,
+      required: true
+    }
+  },
   data() {
     return {
       cellDataList: [],
@@ -129,7 +135,7 @@ export default {
       account: getAccount(),
       hoverDateStr: "",
       hideDateStr: false,
-      // click to select in mobile
+      // click cell to select in mobile
       lastSelectedDate: null,
       isMobile: isMobile()
     }
@@ -174,9 +180,60 @@ export default {
   },
   methods: {
     close() {
-      this.stat = null
+      this.$emit("close")
     },
-    showStat(friend, letterList) {
+    showStat() {
+      this.$nextTick(() => {
+        drawSvg({
+          id: "svg-container",
+          isLatin: this.$i18n.locale === "en",
+          monthList: this.$t("stat_month_list").split(","),
+          weekList: this.$t("stat_week_list").split(","),
+          dataList: this.friend.letters,
+          onHover: (date, fromNum, toNum) => {
+            if (!date) {
+              this.dateTimeoutId = setTimeout(() => {
+                // start hide transition
+                this.hideDateStr = true
+                this.dateTimeoutId = setTimeout(() => {
+                  this.hoverDateStr = ""
+                }, 300)
+              }, 500)
+            } else {
+              clearTimeout(this.dateTimeoutId)
+              this.hideDateStr = false
+              this.hoverDateStr = this.$t("stat_hover_date_str").format(
+                date,
+                fromNum || 0,
+                toNum || 0
+              )
+            }
+          },
+          onClick: (date, fromNum, toNum) => {
+            if (this.isMobile) {
+              this.lastSelectedDate = date
+              this.hideDateStr = false
+              this.hoverDateStr = this.$t("stat_hover_date_str").format(
+                date,
+                fromNum || 0,
+                toNum || 0
+              )
+            } else {
+              this.scrollToLetter(date)
+            }
+          }
+        })
+      })
+    },
+    scrollToLetter(date) {
+      if (date) {
+        this.close()
+        this.$emit("scrollToDate", date)
+      }
+    },
+    calculateStat(friend) {
+      const letterList = friend.letters || []
+
       let stat = {
         name: friend.name,
         firstLetter: {},
@@ -194,7 +251,7 @@ export default {
         totalToWordCount: 0
       }
 
-      let perday = {}
+      const perday = {}
       for (let i = 0; i < letterList.length; i++) {
         let letter = letterList[i]
         let isSendLetter = letter.user == this.account.id
@@ -246,55 +303,12 @@ export default {
       stat.totalDays = getDaysCount(new Date(), stat.firstLetter.date)
       stat.sinLastDays = getDaysCount(new Date(), stat.lastLetter.date)
 
-      this.stat = stat
-      this.$nextTick(() => {
-        drawSvg({
-          id: "svg-container",
-          isLatin: this.$i18n.locale === "en",
-          monthList: this.$t("stat_month_list").split(","),
-          weekList: this.$t("stat_week_list").split(","),
-          dataList: letterList,
-          onHover: (date, fromNum, toNum) => {
-            if (!date) {
-              this.dateTimeoutId = setTimeout(() => {
-                // start hide transition
-                this.hideDateStr = true
-                this.dateTimeoutId = setTimeout(() => {
-                  this.hoverDateStr = ""
-                }, 300)
-              }, 500)
-            } else {
-              clearTimeout(this.dateTimeoutId)
-              this.hideDateStr = false
-              this.hoverDateStr = this.$t("stat_hover_date_str").format(
-                date,
-                fromNum || 0,
-                toNum || 0
-              )
-            }
-          },
-          onClick: (date, fromNum, toNum) => {
-            if (this.isMobile) {
-              this.lastSelectedDate = date
-              this.hideDateStr = false
-              this.hoverDateStr = this.$t("stat_hover_date_str").format(
-                date,
-                fromNum || 0,
-                toNum || 0
-              )
-            } else {
-              this.scrollToLetter(date)
-            }
-          }
-        })
-      })
-    },
-    scrollToLetter(date) {
-      if (date) {
-        this.close()
-        this.$emit("scrollToDate", date)
-      }
+      return stat
     }
+  },
+  mounted() {
+    this.stat = this.calculateStat(this.friend)
+    this.showStat()
   }
 }
 </script>
