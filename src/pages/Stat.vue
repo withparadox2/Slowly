@@ -184,7 +184,7 @@ export default {
     },
     showStat() {
       this.$nextTick(() => {
-        drawSvg({
+        this.destroySvg = drawSvg({
           id: "svg-container",
           isLatin: this.$i18n.locale === "en",
           monthList: this.$t("stat_month_list").split(","),
@@ -305,6 +305,9 @@ export default {
 
       return stat
     }
+  },
+  beforeDestroy() {
+    this.destroySvg && this.destroySvg()
   },
   mounted() {
     this.stat = this.calculateStat(this.friend)

@@ -33,7 +33,7 @@ export function drawSvg({
     svgWidth = (totalDays / 7 + 3) * cellSize + startX
   }
 
-  let draw = SVG(id).size(svgWidth, 168)
+  const draw = SVG(id).size(svgWidth, 168)
 
   let nowDate = new Date()
   let nowDateIndex = calDateIndex(nowDate)
@@ -202,6 +202,16 @@ export function drawSvg({
       .attr("x", 8)
       .attr("y", 43 + index * 32)
   })
+  return function() {
+    onHover = null
+    onClick = null
+    if (draw.node) {
+      ;[...draw.node.children, draw.node].map((child) => {
+        child.instance = null
+        child.remove()
+      })
+    }
+  }
 }
 
 function compareDate(d1, d2) {
