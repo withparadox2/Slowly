@@ -15,7 +15,6 @@
             {{statLine}}
           </div>
         </div>
-
         <div class="date-map-section">
           <div class="svg-info"
                :class="{latin: $i18n.locale === 'en'}">
@@ -135,7 +134,7 @@ export default {
       account: getAccount(),
       hoverDateStr: "",
       hideDateStr: false,
-      // click cell to select in mobile
+      // Click calendar cell to select in mobile
       lastSelectedDate: null,
       isMobile: isMobile()
     }
@@ -201,29 +200,27 @@ export default {
               }, 500)
             } else {
               clearTimeout(this.dateTimeoutId)
-              this.hideDateStr = false
-              this.hoverDateStr = this.$t("stat_hover_date_str").format(
-                date,
-                fromNum || 0,
-                toNum || 0
-              )
+              this.showSelectedDate(date, fromNum, toNum)
             }
           },
           onClick: (date, fromNum, toNum) => {
             if (this.isMobile) {
               this.lastSelectedDate = date
-              this.hideDateStr = false
-              this.hoverDateStr = this.$t("stat_hover_date_str").format(
-                date,
-                fromNum || 0,
-                toNum || 0
-              )
+              this.showSelectedDate(date, fromNum, toNum)
             } else {
               this.scrollToLetter(date)
             }
           }
         })
       })
+    },
+    showSelectedDate(date, fromNum, toNum) {
+      this.hideDateStr = false
+      this.hoverDateStr = this.$t("stat_hover_date_str").format(
+        date,
+        fromNum || 0,
+        toNum || 0
+      )
     },
     scrollToLetter(date) {
       if (date) {
