@@ -1,8 +1,10 @@
-## Slowly
+# Slowly
+A lite web version of [Slowly](https://www.getslowly.com/en/).
 
-A lite web version of [Slowly](https://www.getslowly.com/en/). Through it one can send or receive letters, check and update location. Since the official web version has also been released, I'd like to introduce some unique features embeded inside this web version of Slowly and more are coming:
+## Overview
+Through this website one can send or receive letters, check and update location. Since the official web version has also been released, I'd like to introduce some unique features embeded inside this web version of Slowly and more are coming:
 
-- ~~Check incoming letters~~ (Not available anymore since 2020-06-26)
+- ~~Snoop incoming letters~~ (Not available anymore since 2020-06-26)
 - ~~Show location of your friends who has allowed to update location~~ (Not available anymore)
 - Change your location to reduce the travel time of sending a letter (For some reasons, new location is restricted to the same country as you sign in, which can be solved by using a VPN)
 - Check previous letters conveniently while writing a new one
@@ -12,14 +14,17 @@ A lite web version of [Slowly](https://www.getslowly.com/en/). Through it one ca
 - Backup all letters of a certain friend by downloading a single text file, excluding photos
 - All functions work well on mobile broswers
 
-**Note:** All data is fetched from Slowly's server and stored in browser's local storage. You should never leak any sensitive data like token or verification code to others.
+### Note:
+- All data is fetched from Slowly's server and stored in browser's local storage. You should never leak any sensitive data like token or verification code to others. 
+- The purpose of this website is to be a companion to official app, instead of replacing it thoroughly.
+
 
 ## Build
 Install dependencies: `npm install`
 
 Then start server by executing command: `npm run serve`
 
-## Other commands
+### Other commands
 
 - `npm run build`: build to generate bundles
 - `npm run ar`: build and run bundle size analyzer
