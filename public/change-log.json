@@ -1,11 +1,17 @@
 [
   {
+    "versionName": "2.1.12",
+    "versionCode": 61,
+    "content": [
+      "Display stamp attached to a letter",
+      "Scroll to date checked in calendar on mobile",
+      "Fix memory leaks"
+    ]
+  },
+  {
     "versionName": "2.1.11",
     "versionCode": 60,
-    "content": [
-      "Export letters correctly according to language",
-      "Small fixes"
-    ]
+    "content": ["Export letters correctly according to language", "Small fixes"]
   },
   {
     "versionName": "2.1.10",
