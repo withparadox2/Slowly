@@ -3,7 +3,7 @@
        class="letter-detail-wrapper">
     <div class="letter-detail"
          :class="{'dialog-mode': dialogMode}">
-      <img src="../../images/pen.png"
+      <img :src="stamp"
            alt="">
       <div v-html="highlightBody(letter)"></div>
       <div class="attachments"
@@ -94,6 +94,8 @@ import { mapState, mapMutations } from "vuex"
 import * as util from "../util"
 import * as api from "../api"
 import GridView from "./common/GridView.vue"
+import Pen from "../../images/pen.png"
+
 export default {
   components: {
     GridView
@@ -130,6 +132,11 @@ export default {
         map[this.$t("read_time")] = this.formatTime(this.letter.read_at)
       }
       return [Object.keys(map), Object.values(map)]
+    },
+    stamp() {
+      return this.letter.stamp
+        ? `https://cdn.getslowly.com/assets/images/stamp/${this.letter.stamp}.png`
+        : Pen
     }
   },
   methods: {
