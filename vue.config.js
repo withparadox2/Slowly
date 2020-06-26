@@ -3,6 +3,8 @@ const path = require("path")
 const ZipPlugin = require("zip-webpack-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
   .BundleAnalyzerPlugin
+const HtmlReplaceWebpackPlugin = require("html-replace-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
 
 const distPath = process.env.PUBLISH_PAGES === "true" ? "docs" : "dist"
 
@@ -23,7 +25,18 @@ module.exports = {
     })
   },
   configureWebpack: (_) => {
-    let plugins = []
+    let plugins = [
+      new HtmlWebpackPlugin({
+        filename: "public/index.html",
+      }),
+      new HtmlReplaceWebpackPlugin([
+        {
+          pattern: "NODE_ENV",
+          replacement: `"${process.env.NODE_ENV}"`,
+        },
+      ]),
+    ]
+
     if (enableAnalyzer) {
       plugins.push(new BundleAnalyzerPlugin())
     }
