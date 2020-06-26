@@ -52,6 +52,8 @@
   "stat_month_list": "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sept,Oct,Nov,Dec",
   "stat_week_list": "Sun,Tue,Thu,Sat",
   "you": "you",
+  "stat_from": "From",
+  "stat_to": "To",
   "stat_hover_date_str": "{0} From {1} To {2}",
   "delete": "Delete",
   "email_placeholder": "Email",

@@ -32,9 +32,10 @@
         </div>
 
         <div class="date-map-section">
-          <div class="svg-info">
-            <span class="from">来</span>
-            <span class="to">往</span>
+          <div class="svg-info"
+               :class="{latin: $i18n.locale === 'en'}">
+            <span class="from">{{$t("stat_from")}}</span>
+            <span class="to">{{$t("stat_to")}}</span>
           </div>
           <span class="hover-text"
                 :class="{'hide': hideDateStr}">{{hoverDateStr}}</span>
@@ -106,6 +107,8 @@
   color white
   line-height 18px
   text-align center
+.svg-info.latin span
+  width 40px
 .svg-info .from
   margin-right 5px
   background #3296fc

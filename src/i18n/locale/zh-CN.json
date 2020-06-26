@@ -52,6 +52,8 @@
   "stat_month_list": "1月,2月,3月,4月,5月,6月,7月,8月,9月,10月,11月,12月",
   "stat_week_list": "日,二,四,六",
   "you": "你",
+  "stat_from": "来",
+  "stat_to": "往",
   "stat_hover_date_str": "{0} 来{1} 往{2}",
   "delete": "删除",
   "email_placeholder": "邮箱",
