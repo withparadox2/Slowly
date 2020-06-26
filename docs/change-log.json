@@ -1,8 +1,19 @@
 [
   {
+    "versionName": "2.1.11",
+    "versionCode": 60,
+    "content": [
+      "Export letters correctly according to language",
+      "Small fixes"
+    ]
+  },
+  {
     "versionName": "2.1.10",
     "versionCode": 59,
-    "content": ["Support changing language dynamically", "Pretty calendar style"]
+    "content": [
+      "Support changing language dynamically",
+      "Pretty calendar style"
+    ]
   },
   {
     "versionName": "2.1.9",
