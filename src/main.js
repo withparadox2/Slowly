@@ -67,9 +67,10 @@ if (!redirectUrl()) {
     routes,
   })
 
-  new Vue({
+  window.$rootVue = new Vue({
     router,
     store,
     i18n,
-  }).$mount("#app")
+  })
+  window.$rootVue.$mount("#app")
 }

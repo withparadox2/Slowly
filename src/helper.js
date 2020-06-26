@@ -1,4 +1,6 @@
-import { formateDate, offsetAndFormatDate } from "./util"
+import { offsetAndFormatDate } from "./util"
+import i18n from "./i18n"
+
 export function sortFriends(friends) {
   friends = friends || []
   friends.sort((first, second) => {
@@ -53,11 +55,11 @@ export function exportLetters(frinend, letters) {
 
 function getLetteText(letter) {
   let content = letter.body
-  content += `\n发信人：${letter.name}`
-  content += `\n字数：${letter.body.length}`
-  content += `\n发送时间：${offsetAndFormatDate(letter.created_at)}`
+  content += `\n${$rootVue.$t("sender_name")}: ${letter.name}`
+  content += `\n${$rootVue.$t("word_count")}: ${letter.body.length}`
+  content += `\n${$rootVue.$t("send_time")}: ${offsetAndFormatDate(letter.created_at)}`
   if (letter.read_at) {
-    content += `\n阅读时间：${offsetAndFormatDate(letter.read_at)}`
+    content += `\n${$rootVue.$t("read_time")}: ${offsetAndFormatDate(letter.read_at)}`
   }
   return content
 }
