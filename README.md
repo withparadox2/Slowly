@@ -1,4 +1,5 @@
-# Slowly
+# Slowly [![withparadox2](https://circleci.com/gh/withparadox2/Slowly.svg?style=shield)](https://circleci.com/gh/withparadox2/Slowly.svg?style=shield)
+
 A lite web version of [Slowly](https://www.getslowly.com/en/).
 
 ## Overview
@@ -14,7 +15,7 @@ Through this website one can send or receive letters, check and update location.
 - Backup all letters of a certain friend by downloading a single text file, excluding photos
 - All functions work well on mobile broswers
 
-### Note:
+### Note
 - All data is fetched from Slowly's server and stored in browser's local storage. You should never leak any sensitive data like token or verification code to others. 
 - The purpose of this website is to be a companion to official app, instead of replacing it thoroughly.
 
