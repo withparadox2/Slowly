@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown ref="localeList"
+  <el-dropdown ref="dropdown"
                trigger="click">
     <span>{{activeLocale}}</span>
     <el-dropdown-menu slot="dropdown">
@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     show() {
-      this.$refs.localeList.show()
+      this.$refs.dropdown.show()
     },
     changeLocale(locale) {
       setLocalLocale(locale.name)
