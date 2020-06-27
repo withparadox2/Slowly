@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.15",
+    "versionCode": 64,
+    "content": ["Correct letter count of a calendar cell"]
+  },
+  {
     "versionName": "2.1.14",
     "versionCode": 63,
     "content": ["Fix errors on displaying letters"]
