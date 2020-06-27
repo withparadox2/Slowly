@@ -52,6 +52,7 @@ export function drawSvg({
     let loopDateIndex = calDateIndex(loopDate)
     let cp = loopDateIndex - curDateIndex
     let drawColor = ["#F7F7F7"]
+    let hasData = false
     if (cp == 0) {
       if (cellIndex != 0 || cell.num > 0) {
         if (cell.fromNum > 0 && cell.toNum > 0) {
@@ -65,6 +66,7 @@ export function drawSvg({
           drawColor = [COLOR_GREEN[getColorIndex(cell.toNum)]]
         }
       }
+      hasData = true
       cellIndex++
     } else if (cp < 0) {
       console.log("order is wrong")
@@ -126,8 +128,8 @@ export function drawSvg({
       }
     }
     group.dateStr = loopDateStr
-    group.fromNum = cell.fromNum
-    group.toNum = cell.toNum
+    group.fromNum = hasData ? cell.fromNum : 0
+    group.toNum = hasData ? cell.toNum : 0
     group.mouseover(function() {
       onHover && onHover(this.dateStr, this.fromNum, this.toNum)
       this.stroke({
