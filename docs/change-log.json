@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.14",
+    "versionCode": 63,
+    "content": ["Fix errors on displaying letters"]
+  },
+  {
     "versionName": "2.1.13",
     "versionCode": 62,
     "content": ["Fix network error while signing in"]
