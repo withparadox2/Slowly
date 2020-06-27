@@ -31,7 +31,7 @@ jobs:
               git config user.email "botcircleci@gmail.com"
               git config user.name "bot-never-sleep"
               git add .
-              git commit --allow-empty -m "Trigger deployment[skip ci]"
+              git commit --allow-empty -m "Trigger deployment"
               # Push quietly to prevent showing the token in log
               git push -q https://$GITHUB_PERSONAL_TOKEN@github.com/withparadox2/ShowSlowly.git master
             fi
