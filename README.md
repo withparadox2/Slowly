@@ -2,6 +2,8 @@
 
 A lite web version of [Slowly](https://www.getslowly.com/en/).
 
+Slowly has blocked this website and I won't publish a new replacement. However, you can choose to clone this project and run it locally on your computer. 
+
 ## Overview
 Through this website one can send or receive letters, check and update location. Since the official web version has also been released, I'd like to introduce some unique features embeded inside this web version of Slowly and more are coming:
 
@@ -18,7 +20,6 @@ Through this website one can send or receive letters, check and update location.
 ### Note
 - All data is fetched from Slowly's server and stored in browser's local storage. You should never leak any sensitive data like token or verification code to others. 
 - The purpose of this website is to be a companion to official app, instead of replacing it thoroughly.
-
 
 ## Build
 Install dependencies: `npm install`
