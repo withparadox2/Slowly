@@ -6,55 +6,57 @@
          v-loading="!accountInfo"
          :element-loading-text="$t('loading_profile')">
     </div>
-    <div class="nav-header">
-      <img class="logo"
-           src="../../images/ic_logo.svg" />
-      <span class="title">Slowly</span>
-      <div class="middle">
-        <input-box v-if="checkedFriend"></input-box>
-      </div>
-      <locale-switch class="menu-locale-list"
-                     ref="localeList" />
-      <el-dropdown class="menu-more"
-                   trigger="click">
-        <i class="el-icon-more"></i>`
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="editLocation">{{$t('change_location')}}</el-dropdown-item>
-          <el-dropdown-item @click.native="$refs.localeList.show()">{{$t('change_locale')}}</el-dropdown-item>
-          <el-dropdown-item @click.native="showChangeLog">{{$t('change_log')}}</el-dropdown-item>
-          <el-dropdown-item @click.native="showFeedback">{{$t('feedback')}}</el-dropdown-item>
-          <el-dropdown-item @click.native="showAbout">{{$t('about')}}</el-dropdown-item>
-          <el-dropdown-item @click.native="exit">{{$t('exit')}}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+    <template v-else>
+      <div class="nav-header">
+        <img class="logo"
+             src="../../images/ic_logo.svg" />
+        <span class="title">Slowly</span>
+        <div class="middle">
+          <input-box v-if="checkedFriend"></input-box>
+        </div>
+        <locale-switch class="menu-locale-list"
+                       ref="localeList" />
+        <el-dropdown class="menu-more"
+                     trigger="click">
+          <i class="el-icon-more"></i>`
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item @click.native="editLocation">{{$t('change_location')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="$refs.localeList.show()">{{$t('change_locale')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="showChangeLog">{{$t('change_log')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="showFeedback">{{$t('feedback')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="showAbout">{{$t('about')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="exit">{{$t('exit')}}</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
 
-    </div>
-    <div class="main-content">
-      <div class="left-section"
-           :class="{'left-section-exited' : leftSectionExited}">
-        <div class="sidebar-header"
-             v-if="tabletMode">
-          <i class="icon-nav"
-             :class="{'el-icon-arrow-right': leftSectionExited, 'el-icon-arrow-left': !leftSectionExited}"
-             @click="leftSectionExited = !leftSectionExited"></i>
+      </div>
+      <div class="main-content">
+        <div class="left-section"
+             :class="{'left-section-exited' : leftSectionExited}">
+          <div class="sidebar-header"
+               v-if="tabletMode">
+            <i class="icon-nav"
+               :class="{'el-icon-arrow-right': leftSectionExited, 'el-icon-arrow-left': !leftSectionExited}"
+               @click="leftSectionExited = !leftSectionExited"></i>
+          </div>
+          <div class="sidebar-content soft-scrollable">
+            <friends :isExpand="!leftSectionExited" />
+          </div>
         </div>
-        <div class="sidebar-content soft-scrollable">
-          <friends :isExpand="!leftSectionExited" />
+        <div class="left-section-overlay"
+             :class="{entered: tabletMode && !leftSectionExited}"
+             @click="leftSectionExited = true"></div>
+        <div class="right-section">
+          <letters v-on:showMap="showMap($event)"
+                   v-show="checkedFriend" />
+          <quote-node v-show="!checkedFriend"></quote-node>
         </div>
       </div>
-      <div class="left-section-overlay"
-           :class="{entered: tabletMode && !leftSectionExited}"
-           @click="leftSectionExited = true"></div>
-      <div class="right-section">
-        <letters v-on:showMap="showMap($event)"
-                 v-show="checkedFriend" />
-        <quote-node v-show="!checkedFriend"></quote-node>
-      </div>
-    </div>
-    <version />
-    <map-node ref="map" />
-    <about ref="about" />
-    <change-log ref="changeLog" />
+      <version />
+      <map-node ref="map" />
+      <about ref="about" />
+      <change-log ref="changeLog" />
+    </template>
   </div>
 </template>
 <style lang="stylus" scoped>
