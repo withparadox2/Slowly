@@ -9,6 +9,11 @@
     "start": "npm run serve",
     "ar": "npm run build -- -analyzer"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "node i18n.js"
+    }
+  },
   "dependencies": {
     "axios": "^0.18.1",
     "country-data": "0.0.31",
@@ -36,6 +41,7 @@
     "ftp": "^0.3.10",
     "html-replace-webpack-plugin": "^2.5.6",
     "html-webpack-plugin": "^4.3.0",
+    "husky": "^4.2.5",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.5.21",
