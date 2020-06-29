@@ -4,7 +4,8 @@
     <div class="letter-detail"
          :class="{'dialog-mode': dialogMode}">
       <img :src="stamp"
-           alt="">
+           class="stamp"
+           alt="Stamp">
       <div v-html="highlightBody(letter)"></div>
       <div class="attachments"
            v-if="attachments">
@@ -60,10 +61,11 @@
   font-size $font-letter
   box-sizing border-box
   border-radius 6px
-  border 1px solid #eaeaea
-  img
+  border 1px solid #eaeaea    
+  .stamp
     width 100px
     float right
+    margin-right -15px
   > div
     clear both
     padding-top 10px
