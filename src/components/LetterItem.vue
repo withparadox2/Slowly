@@ -132,6 +132,11 @@ export default {
       }
     }
   },
+  watch: {
+    letter() {
+      this.zoomInImage = false
+    }
+  },
   computed: {
     ...mapState(["checkedFriend", "searchValue"]),
     attachments() {
