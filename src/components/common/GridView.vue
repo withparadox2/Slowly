@@ -3,7 +3,6 @@
   width 100%
   display flex
   flex-wrap wrap
-  justify-content space-between
 .grid-view .grid-child-box
   position relative
 .grid-view .grid-child
@@ -34,7 +33,8 @@ export default {
             width: `calc(${100 / this.numColumns}% - ${(this.spaceX *
               (this.numColumns - 1)) /
               this.numColumns}px`,
-            marginTop: childIndex < this.numColumns ? 0 : `${this.spaceY}px`
+            marginTop: childIndex < this.numColumns ? 0 : `${this.spaceY}px`,
+            marginLeft: childIndex % this.numColumns ? `${this.spaceX}px` : 0
           }
         },
         [
