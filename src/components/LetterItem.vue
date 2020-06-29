@@ -9,14 +9,21 @@
       <div v-html="highlightBody(letter)"></div>
       <div class="attachments"
            v-if="attachments">
-        <grid-view :numColumns="attachments.length > 2 ? 3 : 2"
+        <div v-if="zoomInImage"
+             class="zoom-in">
+          <img :key="url"
+               @click="zoomInImage = !zoomInImage"
+               v-lazy="url"
+               v-for="url in attachments" />
+        </div>
+        <grid-view v-else
+                   :numColumns="attachments.length > 2 ? 3 : 2"
                    :spaceX="10"
                    :spaceY="10">
-          <a :key="url"
-             :href="url"
-             target="_blank"
-             v-lazy:background-image="url"
-             v-for="url in attachments"></a>
+          <img :key="url"
+               @click="zoomInImage = !zoomInImage"
+               v-lazy="url"
+               v-for="url in attachments" />
         </grid-view>
       </div>
     </div>
@@ -61,7 +68,7 @@
   font-size $font-letter
   box-sizing border-box
   border-radius 6px
-  border 1px solid #eaeaea    
+  border 1px solid #eaeaea
   .stamp
     width 100px
     float right
@@ -69,9 +76,15 @@
   > div
     clear both
     padding-top 10px
-  .attachments a
-    background-size cover
-    background-repeat no-repeat
+  .attachments
+    img
+      width 100%
+      display block
+      object-fit cover
+      cursor pointer
+    .zoom-in
+      img
+        margin-top 10px
 .letter-info-wrapper
   overflow-y hidden
   overflow-x auto
@@ -101,6 +114,11 @@ import Pen from "../../images/pen.png"
 export default {
   components: {
     GridView
+  },
+  data() {
+    return {
+      zoomInImage: false
+    }
   },
   props: {
     letter: {
