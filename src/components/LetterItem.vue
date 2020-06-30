@@ -61,6 +61,7 @@
   overflow hidden
 .letter-detail
   white-space pre-line
+  word-break break-word
   width 100%
   background white
   padding 40px 20px 20px 20px
