@@ -11,10 +11,15 @@
            v-if="attachments">
         <div v-if="zoomInImage"
              class="zoom-in">
-          <img :key="url"
-               @click="zoomInImage = !zoomInImage"
-               v-lazy="url"
-               v-for="url in attachments" />
+          <div :key="url"
+               v-for="url in attachments"
+               class="image-wrapper"
+               @click="zoomInImage = !zoomInImage">
+            <img v-lazy="url" />
+            <a :href="url"
+               target="_blank" />
+          </div>
+
         </div>
         <grid-view v-else
                    :numColumns="attachments.length > 2 ? 3 : 2"
@@ -84,8 +89,19 @@
       object-fit cover
       cursor pointer
     .zoom-in
-      img
+      .image-wrapper
         margin-top 10px
+        position relative
+      img
+        width 100%
+      a
+        background url('../../images/icon_zoom_in.png')
+        width 32px
+        height 32px
+        opacity 0.8
+        position absolute
+        right 0
+        bottom 0
 .letter-info-wrapper
   overflow-y hidden
   overflow-x auto
