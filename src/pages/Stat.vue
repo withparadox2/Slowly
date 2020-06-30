@@ -142,37 +142,43 @@ export default {
   computed: {
     statList() {
       const list = [
-        this.$t("stat_line1").format(
-          this.stat.firstLetter.dateStr,
-          this.stat.firstLetter.from,
-          this.stat.firstLetter.to
-        ),
-        this.$t("stat_line2").format(this.stat.totalDays),
-        this.$t("stat_line3").format(
-          this.stat.totalCount,
-          this.stat.totalWordCount
-        ),
-        this.$t("stat_line4").format(
-          this.stat.name,
-          this.stat.totalToCount,
-          this.stat.totalToWordCount
-        ),
-        this.$t("stat_line5").format(
-          this.stat.name,
-          this.stat.totalFromCount,
-          this.stat.totalFromWordCount
-        )
+        this.$t("stat_line1", {
+          date: this.stat.firstLetter.dateStr,
+          fromUser: this.stat.firstLetter.from,
+          toUser: this.stat.firstLetter.to
+        }),
+        this.$t("stat_line2", {
+          dayCount: this.stat.totalDays
+        }),
+        this.$t("stat_line3", {
+          letterCount: this.stat.totalCount,
+          wordCount: this.stat.totalWordCount
+        }),
+        this.$t("stat_line4", {
+          friend: this.stat.name,
+          letterCount: this.stat.totalToCount,
+          wordCount: this.stat.totalToWordCount
+        }),
+        this.$t("stat_line5", {
+          friend: this.stat.name,
+          letterCount: this.stat.totalFromCount,
+          wordCount: this.stat.totalFromWordCount
+        })
       ]
       if (this.stat.perday.count > 2) {
         list.push(
-          this.$t("stat_line6").format(
-            this.stat.perday.dateStr,
-            this.stat.perday.count
-          )
+          this.$t("stat_line6", {
+            date: this.stat.perday.dateStr,
+            letterCount: this.stat.perday.count
+          })
         )
       }
       if (this.stat.sinLastDays > 1) {
-        list.push(this.$t("stat_line7").format(this.stat.sinLastDays))
+        list.push(
+          this.$t("stat_line7", {
+            dayCount: this.stat.sinLastDays
+          })
+        )
       }
       return list
     }
@@ -216,11 +222,11 @@ export default {
     },
     showSelectedDate(date, fromNum, toNum) {
       this.hideDateStr = false
-      this.hoverDateStr = this.$t("stat_hover_date_str").format(
+      this.hoverDateStr = this.$t("stat_hover_date_str", {
         date,
-        fromNum || 0,
-        toNum || 0
-      )
+        fromCount: fromNum || 0,
+        toCount: toNum || 0
+      })
     },
     scrollToLetter(date) {
       if (date) {

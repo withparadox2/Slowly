@@ -1,4 +1,3 @@
-import "./pollyfill"
 import "./directives"
 
 import Vue from "vue"

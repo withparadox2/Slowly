@@ -503,7 +503,9 @@ export default {
           if (mgr.userId == this.checkedFriend.id) {
             if (isSync) {
               this.showSyncIcon = false
-              this.letterState = this.$t("tip_sync_page").format(mgr.syncPage)
+              this.letterState = this.$t("tip_sync_page", {
+                pageIndex: mgr.syncPage
+              })
             } else if (isRefresh) {
               this.letterState = null
               this.showSyncIcon = true

@@ -339,9 +339,10 @@ export default {
         return
       }
       this.$confirm(
-        this.$t("warn_close_new_letter").format(
-          (this.rawImageList.length && this.$t("warn_lose_of_photo")) || ""
-        ),
+        this.$t("warn_close_new_letter", {
+          photoWarn:
+            (this.rawImageList.length && this.$t("warn_lose_of_photo")) || ""
+        }),
         this.$t("tip"),
         {
           confirmButtonText: this.$t("confirm"),
@@ -361,7 +362,9 @@ export default {
         return
       }
       this.$confirm(
-        this.$t("warn_is_sending_to").format(this.checkedFriend.name),
+        this.$t("warn_is_sending_to", {
+          friend: this.checkedFriend.name
+        }),
         this.$t("tip"),
         {
           confirmButtonText: this.$t("confirm"),
