@@ -10,7 +10,6 @@ import "./styles/main.styl"
 import Login from "./pages/Login.vue"
 import Home from "./pages/Home.vue"
 
-import InfiniteLoading from "vue-infinite-loading"
 import VueLazyload from "vue-lazyload"
 
 import { setToken } from "./persist/account"
@@ -29,7 +28,6 @@ window.addEventListener("resize", updateMobileMode)
 if (!redirectUrl()) {
   Vue.use(ElementUI)
   Vue.use(VueRouter)
-  Vue.use(InfiniteLoading)
   Vue.use(VueLazyload)
 
   Vue.config.productionTip = false
