@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.19",
+    "versionCode": 68,
+    "content": ["Display user head"]
+  },
+  {
     "versionName": "2.1.18",
     "versionCode": 67,
     "content": ["Bug fixes"]
