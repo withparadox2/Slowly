@@ -12,6 +12,10 @@
     </div>
   </div>
 </template>
+<style lang="stylus">
+.left-section-exited .friend-item .header
+  overflow initial
+</style>
 <style lang="stylus" scoped>
 .friend-item
   cursor pointer
@@ -30,6 +34,7 @@
 .header
   display flex
   align-items center
+  overflow hidden
   img
     width 30px
     height 30px
