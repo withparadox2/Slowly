@@ -128,7 +128,7 @@
   border-right 1px solid #eaeaea
   transition width 180ms ease
   &.left-section-exited
-    width 50px
+    width 60px
   .sidebar-header
     display flex
     align-items center

@@ -5,19 +5,17 @@
          :class="{checked: friend == checkedFriend}"
          @click="checkFriend(friend)"
          :key="friend.user_id">
-      <template v-if="!isExpand">
-        <div class="header">{{friend.name.length > 0 && friend.name[0]}}</div>
-      </template>
-      <template v-else>
-        {{friend.name}}
-      </template>
+      <div class="header">
+        <img :src="getUserAvatar(friend)" />
+        <span v-show="isExpand">{{friend.name}}</span>
+      </div>
     </div>
   </div>
 </template>
 <style lang="stylus" scoped>
 .friend-item
   cursor pointer
-  padding 10px 10px 10px 16px
+  padding 10px 10px 10px 10px
   color #34373d
   font-size 14px
   transition background-color 200ms linear
@@ -29,6 +27,14 @@
 .friend-item:hover
   background-color #f5f5f5
   background #fafafa
+.header
+  display flex
+  align-items center
+  img
+    width 30px
+    height 30px
+    border-radius 30px
+    margin-right 10px
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
@@ -38,7 +44,10 @@ export default {
     ...mapState(["checkedFriend", "friendList"])
   },
   methods: {
-    ...mapMutations(["checkFriend"])
+    ...mapMutations(["checkFriend"]),
+    getUserAvatar(friend) {
+      return `https://cdn.getslowly.com/assets/images/avatar/${friend.gender}/${friend.avatar}.png`
+    }
   },
   props: {
     isExpand: false
