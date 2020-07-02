@@ -1,6 +1,6 @@
 <template>
   <div class="container"
-       :class="{'mobile-mode': mobileMode, 'tablet-mode': tabletMode}">
+       :class="{'mobile-mode': mobileMode, 'tablet-mode': tabletMode, 'mobile': isMobileEnv}">
     <div id="account-loading"
          v-if="!accountInfo"
          v-loading="!accountInfo"
@@ -40,7 +40,7 @@
                @click="leftSectionExited = !leftSectionExited"></i>
           </div>
           <div class="sidebar-content soft-scrollable">
-            <friends :isExpand="!leftSectionExited" />
+            <friends />
           </div>
         </div>
         <div class="left-section-overlay"
@@ -115,6 +115,8 @@
 .tablet-mode
   .main-content
     padding-left 50px
+.mobile .left-section.left-section-exited
+  width 50px
 .left-section
   background #f4f4f4
   width 200px
@@ -184,7 +186,7 @@
 <script>
 import { mapState, mapMutations } from "vuex"
 import * as api from "../api"
-import { showError, showSuccess } from "../util"
+import { showError, showSuccess, isMobile } from "../util"
 import * as friendStore from "../persist/friend-store"
 import * as account from "../persist/account"
 import { getDataManager } from "../persist/letter-store"
@@ -206,7 +208,8 @@ export default {
   data() {
     return {
       accountInfo: null,
-      leftSectionExited: true
+      leftSectionExited: true,
+      isMobileEnv: isMobile()
     }
   },
   components: {
