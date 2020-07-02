@@ -2,7 +2,7 @@
 
 A lite web version of [Slowly](https://www.getslowly.com/en/).
 
-Slowly has blocked this website and I won't publish a new replacement. However, you can choose to clone this project and run it locally on your computer. 
+Thirdparty softwares naturally lack an ability to claim the safety of their services. I give you my promise, the rest depends on whether you believe or not. Another choice for you is that you can inspect source code, clone this project and build on your own.
 
 ## Overview
 Through this website one can send or receive letters, check and update location. Since the official web version has also been released, I'd like to introduce some unique features embeded inside this web version of Slowly and more are coming:
@@ -24,7 +24,7 @@ Through this website one can send or receive letters, check and update location.
 ## Build
 Install dependencies: `npm install`
 
-Then start server by executing command: `npm run serve`
+Then start server by executing command: `npm start`
 
 ### Other commands
 
