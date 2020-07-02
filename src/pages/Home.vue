@@ -40,7 +40,7 @@
                @click="leftSectionExited = !leftSectionExited"></i>
           </div>
           <div class="sidebar-content soft-scrollable">
-            <friends />
+            <friends :isExpand="!leftSectionExited" />
           </div>
         </div>
         <div class="left-section-overlay"

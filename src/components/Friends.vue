@@ -7,7 +7,7 @@
          :key="friend.user_id">
       <div class="header">
         <img :src="getUserAvatar(friend)" />
-        <span>{{friend.name}}</span>
+        <span v-show="isExpand">{{friend.name}}</span>
       </div>
     </div>
   </div>
@@ -53,6 +53,9 @@ export default {
     getUserAvatar(friend) {
       return `https://cdn.getslowly.com/assets/images/avatar/${friend.gender}/${friend.avatar}.png`
     }
+  },
+  props: {
+    isExpand: false
   }
 }
 </script>
