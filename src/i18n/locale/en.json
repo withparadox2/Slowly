@@ -43,7 +43,7 @@
   "warn_is_sending_to": "Is sending to {friend}?",
   "add_photos": "Add photos",
   "stat_line1": "On {date} {fromUser} sent the first letter to {toUser}",
-  "stat_line2": "{dayCount} days has past since then",
+  "stat_line2": "{dayCount} days has passed since then",
   "stat_line3": "You two have written {letterCount} letters to each other, containing {wordCount} words in total",
   "stat_line4": "You have written {letterCount} letters to {friend}，containing {wordCount} words in total",
   "stat_line5": "{friend} has written {letterCount} letters to you，containing {wordCount} words in total",
