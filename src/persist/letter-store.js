@@ -189,3 +189,8 @@ export function getDataManager(friend) {
 export function loadLocalLetters(userId) {
   return getAll(STORE_LETTERS, "owner_id", userId)
 }
+
+export function updateLetter(friend, letter) {
+  letter.owner_id = friend.user_id
+  insertOrUpdate(STORE_LETTERS, letter, letter.id)
+}

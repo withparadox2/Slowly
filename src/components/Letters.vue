@@ -290,7 +290,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex"
-import { getDataManager } from "../persist/letter-store"
+import { getDataManager, updateLetter } from "../persist/letter-store"
 import * as api from "../api"
 import {
   showError,
@@ -554,7 +554,14 @@ export default {
       ) {
         api
           .readLetter(letter.id)
-          .then(response => {})
+          .then(response => {
+            debugger
+            if (response && response.data.success) {
+              const time = formateDate(offsetTimezoneDate(new Date(), true))
+              this.$set(letter, 'read_at', time)
+              updateLetter(this.checkedFriend, letter)
+            }
+          })
           .catch(e => {
             console.error(e)
           })

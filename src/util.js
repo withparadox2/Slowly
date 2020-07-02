@@ -40,11 +40,17 @@ function offsetAndFormatDate(time) {
   return formateDate(date)
 }
 
-function offsetTimezoneDate(d) {
+function offsetTimezoneDate(d, back) {
   if (!(d instanceof Date)) {
     d = dateTextToDate(d)
   }
-  return new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+  let time
+  if (back) {
+    time = d.getTime() + d.getTimezoneOffset() * 60000
+  } else {
+    time = d.getTime() - d.getTimezoneOffset() * 60000
+  }
+  return new Date(time)
 }
 
 function formateDate(date) {
