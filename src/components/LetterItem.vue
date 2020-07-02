@@ -41,8 +41,8 @@
           </span>
         </div>
         <div class="value">
-          <span v-for="text in letterInfos[1]"
-                :key="text">
+          <span v-for="(text, i) in letterInfos[1]"
+                :key="text + i">
             {{text}}
           </span>
         </div>

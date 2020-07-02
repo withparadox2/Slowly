@@ -555,7 +555,6 @@ export default {
         api
           .readLetter(letter.id)
           .then(response => {
-            debugger
             if (response && response.data.success) {
               const time = formateDate(offsetTimezoneDate(new Date(), true))
               this.$set(letter, 'read_at', time)
