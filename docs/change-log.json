@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.22",
+    "versionCode": 71,
+    "content": ["Bug fixes"]
+  },
+  {
     "versionName": "2.1.21",
     "versionCode": 70,
     "content": ["Support choosing stamp while writting a letter"]
