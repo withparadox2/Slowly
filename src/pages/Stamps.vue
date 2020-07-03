@@ -1,5 +1,5 @@
 <template>
-  <div class="modal">
+  <div class="modal soft-scrollable">
     <div class="content">
       <div class="stamp-wrapper"
            @click="selectStamp(stamp.item_slug)"
