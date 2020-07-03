@@ -26,11 +26,10 @@
   white-space nowrap
   overflow hidden
   text-overflow ellipsis
-.friend-item.checked
-  background-color #ededed
 .friend-item:hover
   background-color #f5f5f5
-  background #fafafa
+.friend-item.checked
+  background-color #ffffff  
 .header
   display flex
   align-items center
