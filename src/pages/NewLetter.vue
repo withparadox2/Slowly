@@ -127,7 +127,9 @@
   overflow-x hidden
   flex 1
   .placeholder
-    float left
+    position absolute
+    top 0
+    left 0
     padding 20px
     font-size $font-letter
     color #aaa
