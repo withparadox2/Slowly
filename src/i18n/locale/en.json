@@ -1,10 +1,10 @@
 {
   "login_with_email": "Login with email",
-  "verify_code": "Verification code",
+  "verify_code": "Passcode",
   "sign_in": "Sign in",
   "error_email": "Invalid email address ",
-  "send_code_to": "Verificaton code has been sent to ",
-  "input_code": "Please input verification code",
+  "send_code_to": "Passcode has been sent to ",
+  "input_code": "Please input passcode",
   "loading_profile": "Loading personal profile...",
   "change_location": "Change location",
   "change_locale": "Change language",

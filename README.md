@@ -18,7 +18,7 @@ Through this website one can send or receive letters, check and update location.
 - All functions work well on mobile broswers
 
 ### Note
-- All data is fetched from Slowly's server and stored in browser's local storage. You should never leak any sensitive data like token or verification code to others. 
+- All data is fetched from Slowly's server and stored in browser's local storage. You should never leak any sensitive data like token or passcode to others. 
 - The purpose of this website is to be a companion to official app, instead of replacing it thoroughly.
 
 ## Build
