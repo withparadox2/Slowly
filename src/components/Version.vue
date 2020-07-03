@@ -27,14 +27,13 @@
   padding 5px 10px
   cursor pointer
   white-space pre-line
-  max-width 200px
+  max-width 300px
   ul
     margin 0
     list-style-position inside
     padding-left 0
     span
       position relative
-      left -8px
 </style>
 
 <script>
