@@ -1,5 +1,7 @@
 <template>
   <div class="modal soft-scrollable">
+    <i class="el-icon-close btn-close-stamps"
+       @click="selectStamp()" />
     <div class="content">
       <div class="stamp-wrapper"
            @click="selectStamp(stamp.item_slug)"
@@ -19,11 +21,19 @@
   background #f5f5f5
   overflow-y auto
   padding 20px 0
+.btn-close-stamps
+  display block
+  float right
+  color #333
+  font-size 20px
+  margin-right 20px
+  cursor pointer
 .content
   max-width 1000px
   margin 0px auto
   display flex
   flex-wrap wrap
+  clear both
 .stamp-wrapper
   width 16.66666%
   text-align center
