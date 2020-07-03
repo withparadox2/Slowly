@@ -228,8 +228,8 @@ export default {
   },
   methods: {
     ...mapMutations(["setFriends"]),
-    exit() {
-      this.$confirm(this.$t("warn_exit"), this.$t("tip"), {
+    exit(message) {
+      this.$confirm(message || this.$t("warn_exit"), this.$t("tip"), {
         confirmButtonText: this.$t("confirm"),
         cancelButtonText: this.$t("cancel")
       })
@@ -283,7 +283,7 @@ export default {
       this.$alert(this.$t("feedback_msg"), this.$t("feedback"), {
         confirmButtonText: this.$t("soft_confirm")
       })
-    }
+    },
   },
   watch: {
     checkedFriend(val) {
@@ -329,9 +329,9 @@ export default {
         })
         .catch(err => {
           this.$errorHandler({
-            ...err,
-            exitLogin: true
+            ...err
           })
+          this.exit(this.$t("fail_to_load_profile"))
         })
     }
   }
