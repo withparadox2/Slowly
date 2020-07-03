@@ -1,4 +1,10 @@
-[{
+[
+  {
+    "versionName": "2.1.21",
+    "versionCode": 70,
+    "content": ["Support choosing stamp while writting a letter"]
+  },
+  {
     "versionName": "2.1.20",
     "versionCode": 69,
     "content": ["Update read status", "Small fixes"]
