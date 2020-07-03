@@ -357,7 +357,7 @@ export default {
       return draft
         .setDraft({
           user_id: this.checkedFriend.id,
-          content: content
+          content: this.formatContent(content)
         })
         .catch(e => showError(this, this.$t("err_save_draft_fail") + e))
     },
@@ -414,13 +414,19 @@ export default {
         })
         .catch(() => {})
     },
+    formatContent(content) {
+      if (!content) {
+        return content
+      }
+      return content.replace(/\n\n\n/g, '\n\n')
+    },
     sendImpl() {
       this.isSending = true
       let accountInfo = account.getAccount()
       api
         .sendLetter(
           this.checkedFriend.id,
-          this.inputData,
+          this.formatContent(this.inputData),
           this.checkedFriend.joined != accountInfo.id,
           this.attachments,
           this.stamp
