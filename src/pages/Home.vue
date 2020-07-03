@@ -25,7 +25,7 @@
             <el-dropdown-item @click.native="showChangeLog">{{$t('change_log')}}</el-dropdown-item>
             <el-dropdown-item @click.native="showFeedback">{{$t('feedback')}}</el-dropdown-item>
             <el-dropdown-item @click.native="showAbout">{{$t('about')}}</el-dropdown-item>
-            <el-dropdown-item @click.native="exit">{{$t('exit')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="exit()">{{$t('exit')}}</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
 
