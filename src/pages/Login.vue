@@ -32,6 +32,7 @@
                v-show="showSecondStage">
             <el-input v-model="passcode"
                       spellcheck="false"
+                      :show-password="this.showPassword"
                       :placeholder="this.showPassword ? $t('input_password') : $t('input_code')" />
             <el-button class="login-button"
                        type="primary"
