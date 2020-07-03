@@ -5,6 +5,8 @@
   "error_email": "請輸入正確的電郵格式",
   "send_code_to": "驗證碼已發送至",
   "input_code": "請輸入驗證碼",
+  "input_password": "請輸入密碼",
+  "send_passcode": "發送驗證碼",
   "loading_profile": "加載個人信息...",
   "change_location": "修改位置",
   "change_locale": "切換語言",

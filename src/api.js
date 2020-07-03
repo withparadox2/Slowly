@@ -2,13 +2,14 @@ import { get, post, buildUrl } from "./http"
 import * as account from "./persist/account"
 import getOtp from "./otp"
 
-export function sendEmailPasscode(email) {
+export function sendEmailPasscode(email, checkpass = true) {
   return post({
     path: "/auth/email/passcode",
     noAuth: true,
     content: {
       email,
       device: "web",
+      checkpass
     },
   })
 }
@@ -21,6 +22,18 @@ export function verifyPasscode(email, passcode) {
       email,
       device: "web",
       passcode,
+    },
+  })
+}
+
+export function verifyPassword(email, password) {
+  return post({
+    path: "/auth/email/password",
+    noAuth: true,
+    content: {
+      email,
+      device: "web",
+      password,
     },
   })
 }

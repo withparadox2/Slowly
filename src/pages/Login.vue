@@ -4,7 +4,7 @@
       <div class="header">
         <transition name="fade">
           <i class="el-icon-back back-to-email"
-             v-show="showPasscode"
+             v-show="showSecondStage"
              @click="backToEmail"></i>
         </transition>
         <a href="https://www.getslowly.com/en/"
@@ -18,26 +18,29 @@
                           mode="out-in">
           <div class="content-wrapper"
                :key="1"
-               v-show="!showPasscode">
+               v-show="!showSecondStage">
             <email-input v-model="email"
                          ref="emailInput" />
             <el-button class="login-button"
                        type="primary"
                        icon="el-icon-message"
                        v-loading.fullscreen.lock="fullscreenLoading"
-                       @click.native="sendEmail">{{$t('login_with_email')}}</el-button>
+                       @click.native="sendEmail(true)">{{$t('login_with_email')}}</el-button>
           </div>
           <div class="content-wrapper"
                :key="2"
-               v-show="showPasscode">
+               v-show="showSecondStage">
             <el-input v-model="passcode"
                       spellcheck="false"
-                      :placeholder="$t('verify_code')" />
+                      :placeholder="this.showPassword ? $t('input_password') : $t('input_code')" />
             <el-button class="login-button"
                        type="primary"
                        icon="el-icon-message"
                        v-loading.fullscreen.lock="fullscreenLoading"
                        @click.native="login">{{$t('sign_in')}}</el-button>
+            <div @click="sendEmail(false)"
+                 class="btn-send-passcode"
+                 v-show="showPassword">{{$t('send_passcode')}}</div>
           </div>
         </transition-group>
       </div>
@@ -82,6 +85,11 @@
 .login-button
   margin 30px auto 0 auto
   width 100%
+.btn-send-passcode
+  margin-top 10px
+  color #66b1ff
+  cursor pointer
+  font-size 14px
 .tip-text
   text-align center
   margin-top 40px
@@ -103,7 +111,7 @@
 
 <script>
 import { validateEmail, showError, showSuccess } from "../util"
-import { sendEmailPasscode, verifyPasscode } from "../api"
+import { sendEmailPasscode, verifyPasscode, verifyPassword } from "../api"
 import { setToken, getToken } from "../persist/account"
 import EmailInput from "../components/EmailInput.vue"
 import Version from "../components/Version.vue"
@@ -115,7 +123,8 @@ export default {
       email: "",
       passcode: "",
       fullscreenLoading: false,
-      showPasscode: false
+      showPasscode: false,
+      showPassword: false
     }
   },
   components: {
@@ -125,22 +134,30 @@ export default {
   },
   computed: {
     fadeName() {
-      return this.showPasscode ? "slide-in" : "slide-out"
+      return this.showSecondStage ? "slide-in" : "slide-out"
+    },
+    showSecondStage() {
+      return this.showPassword || this.showPasscode
     }
   },
   methods: {
-    sendEmail() {
+    sendEmail(checkPass) {
       if (!validateEmail(this.email)) {
         showError(this, this.$t("error_email"))
         return
       }
 
       this.fullscreenLoading = true
-      sendEmailPasscode(this.email)
+      sendEmailPasscode(this.email, checkPass)
         .then(response => {
           this.fullscreenLoading = false
-          if (response && response.data && response.data.success) {
+          if (response.data && response.data.hasPassword) {
+            this.showPassword = true
+            this.showPasscode = false
+            this.$refs.emailInput.save()
+          } else if (response.data && response.data.success) {
             showSuccess(this, `${this.$t("send_code_to")}${this.email}`)
+            this.showPassword = false
             this.showPasscode = true
             this.$refs.emailInput.save()
           }
@@ -152,11 +169,12 @@ export default {
     },
     login() {
       if (!this.passcode) {
-        showError(this, this.$t("input_code"))
+        showError(this, this.showPassword ? this.$t("input_password") : this.$t("input_code"))
         return
       }
       this.fullscreenLoading = true
-      verifyPasscode(this.email, this.passcode)
+      const verifyFun = this.showPassword ? verifyPassword : verifyPasscode
+      verifyFun(this.email, this.passcode)
         .then(response => {
           this.fullscreenLoading = false
           if (response && response.data && response.data.token) {
@@ -173,6 +191,7 @@ export default {
     },
     backToEmail() {
       this.showPasscode = false
+      this.showPassword = false
     }
   },
   mounted() {

@@ -5,6 +5,8 @@
   "error_email": "Invalid email address ",
   "send_code_to": "Passcode has been sent to ",
   "input_code": "Please input passcode",
+  "input_password": "Please input password",
+  "send_passcode": "Send one-time passcode",
   "loading_profile": "Loading personal profile...",
   "change_location": "Change location",
   "change_locale": "Change language",

@@ -5,6 +5,8 @@
   "error_email": "请输入正确的邮箱格式",
   "send_code_to": "验证码已发送至",
   "input_code": "请输入验证码",
+  "input_password": "请输入密码",
+  "send_passcode": "发送验证码",
   "loading_profile": "加载个人信息...",
   "change_location": "修改位置",
   "change_locale": "切换语言",
