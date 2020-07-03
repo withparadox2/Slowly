@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.23",
+    "versionCode": 72,
+    "content": ["Add close button to stamps page", "Show description of a stamp"]
+  },
+  {
     "versionName": "2.1.22",
     "versionCode": 71,
     "content": ["Bug fixes"]
