@@ -7,6 +7,7 @@
            :key="stamp.slug">
         <img :src="stamp.item_slug | stampUrl"
              class="stamp" />
+        <div class="stamp-desc">{{stamp.item_name}}</div>
       </div>
     </div>
   </div>
@@ -37,6 +38,9 @@
   margin 0px auto
   cursor pointer
   padding-top 15px
+.stamp-desc
+  color #333
+  font-size 13px
 </style>
 <script>
 import * as account from "../persist/account"
