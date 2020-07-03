@@ -127,7 +127,6 @@
   box-sizing border-box
   overflow hidden
   z-index 60
-  border-right 1px solid #eaeaea
   transition width 180ms ease
   &.left-section-exited
     width 60px
