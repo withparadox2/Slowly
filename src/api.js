@@ -46,11 +46,11 @@ export function getLetters(id, page) {
 
 export function getMe(otp) {
   return getMeOtp({
-    params: {}
+    params: {},
   })
 }
 
-export function sendLetter(id, letter, isHost, attachments, stamp) {
+export function sendLetter({ id, letter, isHost, attachments, stamp }) {
   return post({
     path: `/posts/${id}/reply`,
     content: {
@@ -64,8 +64,7 @@ export function sendLetter(id, letter, isHost, attachments, stamp) {
 }
 
 export function updateLocation(lat, lng) {
-  return getCountryCode(lat, lng)
-  .then(countryCode => {
+  return getCountryCode(lat, lng).then((countryCode) => {
     return getMeOtp({
       content: {
         language: null,
@@ -73,20 +72,20 @@ export function updateLocation(lat, lng) {
         location_code: countryCode,
         device: "web",
         ver: 30200,
-        includes: null
-      }
+        includes: null,
+      },
     })
   })
-  
 }
 
 export function getCountryCode(lat, lng) {
   return post({
     path: "/geocode",
     content: {
-      lat, lng
+      lat,
+      lng,
     },
-  }).then(response => {
+  }).then((response) => {
     return response.data[0].properties.countryCode
   })
 }
@@ -137,7 +136,7 @@ export function getTime() {
   })
 }
 
-export function getMeOtp({params, content}) {
+export function getMeOtp({ params, content }) {
   return getTime().then((response) => {
     const curTime = response.data.now
     const accountInfo = account.getAccount()
@@ -152,7 +151,7 @@ export function getMeOtp({params, content}) {
     return post({
       path: "/users/me/v2",
       content,
-      params
+      params,
     })
   })
 }

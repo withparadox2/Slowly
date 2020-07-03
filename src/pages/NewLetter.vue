@@ -427,13 +427,13 @@ export default {
       this.isSending = true
       let accountInfo = account.getAccount()
       api
-        .sendLetter(
-          this.checkedFriend.id,
-          this.formatContent(this.inputData),
-          this.checkedFriend.joined != accountInfo.id,
-          this.attachments,
-          this.stamp
-        )
+        .sendLetter({
+          id: this.checkedFriend.id,
+          letter: this.formatContent(this.inputData),
+          isHost: this.checkedFriend.joined != accountInfo.id,
+          attachments: this.attachments,
+          stamp: this.stamp
+        })
         .then(response => {
           this.editorVisible = false
           this.isSending = false
