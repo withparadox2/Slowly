@@ -25,15 +25,22 @@
       <el-row class="editor-content">
         <el-col :span="isShowLetter ? 12 : 24"
                 class="editor-left-section">
-          <textarea class="editor-body"
-                    name="text"
-                    :placeholder="$t('write_words')"
-                    spellcheck="false"
-                    v-model="inputData"
-                    oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'>
-          </textarea>
-          <div class="form-section"
-               v-if="checkedFriend.share_photos">
+          <div class="editor-body-wrapper">
+            <img :src="stamp | stampUrl"
+                 @click="showStampCollection = true"
+                 class="stamp" />
+            <span v-show="!inputData.length"
+                  @click="$refs.editor.$el.focus()"
+                  class="placeholder">{{$t("write_words")}}</span>
+
+            <contenteditable tag="div"
+                             ref="editor"
+                             class="editor-body"
+                             :contenteditable="true"
+                             v-model="inputData" />
+          </div>
+
+          <div class="form-section">
             <form id='formSumbit'
                   style="width:0;height:0;"
                   :action='formUploadUrl()'
@@ -78,6 +85,8 @@
         </el-col>
       </el-row>
     </div>
+    <stamps v-if="showStampCollection"
+            v-on:select="onSelectStamp" />
   </div>
 </template>
 <style lang="stylus" scoped>
@@ -113,11 +122,26 @@
   display flex
   flex-direction column
   height calc(100vh - 124px)
+.editor-body-wrapper
+  width 100%
+  overflow-x hidden
+  flex 1
+  .placeholder
+    float left
+    padding 20px
+    font-size $font-letter
+    color #aaa
+    margin-top 3px
+  .stamp
+    float right
+    width 100px
+    display block
+    margin-right -8px
+    margin-top 3px
+    cursor pointer
 .editor-body
   padding 20px
   width 100%
-  overflow-y auto
-  flex 1
   min-height 250px
   box-sizing border-box
   border none
@@ -212,7 +236,7 @@
     flex 1
   .editor-wrapper, .editor-header
     border-radius 0
-  .editor-body
+  .editor-body, .editor-body-wrapper .placeholder
     padding 10px
   .large .editor-body
     padding-right 0
@@ -232,6 +256,7 @@ import { setTimeout, setInterval, clearInterval } from "timers"
 
 import LetterItem from "../components/LetterItem.vue"
 import GridView from "../components/common/GridView.vue"
+import Stamps from "./Stamps.vue"
 
 export default {
   data() {
@@ -248,12 +273,15 @@ export default {
         preloadCount: 5
       }),
       // active in mobile mode
-      isShowAddMedia: false
+      isShowAddMedia: false,
+      stamp: "free",
+      showStampCollection: false
     }
   },
   components: {
     LetterItem,
-    GridView
+    GridView,
+    Stamps
   },
   computed: {
     ...mapState(["checkedFriend", "mobileMode"]),
@@ -291,7 +319,7 @@ export default {
         this.listRender.dataList = friend.letters || []
       }
     },
-    inputData() {
+    inputData(val) {
       this.contentHasChanged = true
     }
   },
@@ -332,6 +360,12 @@ export default {
           content: content
         })
         .catch(e => showError(this, this.$t("err_save_draft_fail") + e))
+    },
+    onSelectStamp(stamp) {
+      if (stamp) {
+        this.stamp = stamp
+      }
+      this.showStampCollection = false
     },
     close() {
       if (!this.inputData) {
@@ -388,7 +422,8 @@ export default {
           this.checkedFriend.id,
           this.inputData,
           this.checkedFriend.joined != accountInfo.id,
-          this.attachments
+          this.attachments,
+          this.stamp
         )
         .then(response => {
           this.editorVisible = false

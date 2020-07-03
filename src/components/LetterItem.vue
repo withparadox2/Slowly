@@ -3,7 +3,7 @@
        class="letter-detail-wrapper">
     <div class="letter-detail"
          :class="{'dialog-mode': dialogMode}">
-      <img :src="stamp"
+      <img :src="this.letter.stamp | stampUrl"
            class="stamp"
            alt="Stamp">
       <div v-html="highlightBody(letter)"></div>
@@ -174,11 +174,6 @@ export default {
         map[this.$t("read_time")] = this.formatTime(this.letter.read_at)
       }
       return [Object.keys(map), Object.values(map)]
-    },
-    stamp() {
-      return this.letter.stamp
-        ? `https://cdn.getslowly.com/assets/images/stamp/${this.letter.stamp}.png`
-        : Pen
     }
   },
   methods: {

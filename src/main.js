@@ -11,6 +11,7 @@ import Login from "./pages/Login.vue"
 import Home from "./pages/Home.vue"
 
 import VueLazyload from "vue-lazyload"
+import ContentEditable from 'vue-contenteditable'
 
 import { setToken } from "./persist/account"
 import { showError } from "./util"
@@ -29,6 +30,7 @@ if (!redirectUrl()) {
   Vue.use(ElementUI)
   Vue.use(VueRouter)
   Vue.use(VueLazyload)
+  Vue.use(ContentEditable)
 
   Vue.config.productionTip = false
 

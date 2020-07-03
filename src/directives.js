@@ -26,7 +26,7 @@ Vue.directive("longpress", {
     }
 
     let cancel = (e) => {
-      if (!consumed && e && e.type != 'mouseout') {
+      if (!consumed && e && e.type != "mouseout") {
         handler(true)
       }
       if (pressTimer !== null) {
@@ -46,4 +46,8 @@ Vue.directive("longpress", {
     el.addEventListener("touchend", cancel)
     el.addEventListener("touchcancel", cancel)
   },
+})
+
+Vue.filter("stampUrl", function(slug) {
+  return `https://cdn.getslowly.com/assets/images/stamp/${slug}.png`
 })

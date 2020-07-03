@@ -50,14 +50,14 @@ export function getMe(otp) {
   })
 }
 
-export function sendLetter(id, letter, isHost, attachments) {
+export function sendLetter(id, letter, isHost, attachments, stamp) {
   return post({
     path: `/posts/${id}/reply`,
     content: {
       body: letter,
       attachments,
       style: {},
-      stamp: "free",
+      stamp: stamp || "free",
       host: isHost,
     },
   })
