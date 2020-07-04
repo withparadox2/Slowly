@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.26",
+    "versionCode": 75,
+    "content": ["Change some styles"]
+  },
+  {
     "versionName": "2.1.25",
     "versionCode": 74,
     "content": [
