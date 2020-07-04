@@ -1,5 +1,14 @@
 [
   {
+    "versionName": "2.1.25",
+    "versionCode": 74,
+    "content": [
+      "Show locations extracted from incoming letters(not accurate)",
+      "Stop user heads being squashed on loading",
+      "Display left time of incoming letters"
+    ]
+  },
+  {
     "versionName": "2.1.24",
     "versionCode": 73,
     "content": ["Support signing in using password", "Bug fixes"]
@@ -7,7 +16,10 @@
   {
     "versionName": "2.1.23",
     "versionCode": 72,
-    "content": ["Add close button to stamps page", "Show description of a stamp"]
+    "content": [
+      "Add close button to stamps page",
+      "Show description of a stamp"
+    ]
   },
   {
     "versionName": "2.1.22",
