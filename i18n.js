@@ -29,8 +29,6 @@ function main() {
       })
     }
   })
-
-  console.log("Check i18n pass")
 }
 
 function loadFile(jsonFile) {
