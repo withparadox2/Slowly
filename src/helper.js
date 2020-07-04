@@ -1,5 +1,4 @@
 import { offsetAndFormatDate } from "./util"
-import i18n from "./i18n"
 
 export function sortFriends(friends) {
   friends = friends || []
