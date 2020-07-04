@@ -26,7 +26,7 @@
             </div>
             <div class="letter-body">
               <span class="letter-content"
-                    v-if="!searchValue">{{letter.body.substring(0, 150)}}</span>
+                    v-if="!searchValue">{{letter.body.substring(0, 150) || getLeftTime(letter)}}</span>
               <span class="letter-content"
                     v-else
                     v-html="letter.searchHtml"></span>
@@ -557,7 +557,7 @@ export default {
           .then(response => {
             if (response && response.data.success) {
               const time = formateDate(offsetTimezoneDate(new Date(), true))
-              this.$set(letter, 'read_at', time)
+              this.$set(letter, "read_at", time)
               updateLetter(this.checkedFriend, letter)
             }
           })
@@ -571,6 +571,19 @@ export default {
     },
     isLetterArrive(letter) {
       return offsetTimezoneDate(letter.deliver_at) < Date.now()
+    },
+    getLeftTime(letter) {
+      const timeLeft = offsetTimezoneDate(letter.deliver_at) - Date.now()
+      if (timeLeft > 0) {
+        const minutes = timeLeft / (60 * 1000)
+        if (minutes < 30) {
+          return this.$tc("arrive_in_minutes", parseInt(minutes))
+        } else {
+          const hours = minutes / 60
+          return this.$tc("arrive_in_hours", parseInt(hours) + 1)
+        }
+      }
+      return ""
     },
     isLetterOut(letter) {
       return letter.user == this.account.id

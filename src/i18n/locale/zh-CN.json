@@ -84,5 +84,7 @@
   "click_to_update": "点击更新",
   "about_poem": "子夜的灯\n是一条未穿衣裳的\n小河\n\n你的信像一尾鱼游来\n读水的温暖\n读你额上动人的鳞片\n\n读江河如读一面镜\n读镜中你的笑\n如读泡沫\n\n— 子夜读信·洛夫",
   "tip_copy_quote": "已复制到剪贴板",
-  "fail_to_load_profile": "加载个人信息失败，是否要退出？"
+  "fail_to_load_profile": "加载个人信息失败，是否要退出？",
+  "arrive_in_minutes": "{count}分钟后送达",
+  "arrive_in_hours": "{count}小时后送达"
 }
