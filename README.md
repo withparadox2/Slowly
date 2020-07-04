@@ -8,7 +8,7 @@ Thirdparty softwares naturally lack an ability to claim the safety of their serv
 Through this website one can send or receive letters, check and update location. Since the official web version has also been released, I'd like to introduce some unique features embeded inside this web version of Slowly and more are coming:
 
 - ~~Snoop incoming letters~~ (Not available anymore since 2020-06-26)
-- ~~Show location of your friends who has allowed to update location~~ (Not available anymore)
+- Show locations extracted from incoming letters, which are not that accurate
 - Change your location to reduce the travel time of sending a letter (For some reasons, new location is restricted to the same country as you sign in, which can be solved by using a VPN)
 - Check previous letters conveniently while writing a new one
 - Search across all letters of a certain friend
