@@ -241,8 +241,6 @@
     border-radius 0
   .editor-body, .editor-body-wrapper .placeholder
     padding 10px
-  .large .editor-body
-    padding-right 0
   .letter-detail.dialog-mode
     padding-left 10px
     padding-right 10px
