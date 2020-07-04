@@ -7,7 +7,8 @@
          :key="friend.user_id">
       <div class="header">
         <img :src="getUserAvatar(friend)" />
-        <span v-show="isExpand">{{friend.name}}</span>
+        <span v-show="isExpand"
+              class="name">{{friend.name}}</span>
       </div>
     </div>
   </div>
@@ -19,7 +20,7 @@
 <style lang="stylus" scoped>
 .friend-item
   cursor pointer
-  padding 10px 10px 10px 10px
+  padding 10px
   color #34373d
   font-size 14px
   transition background-color 200ms linear
@@ -29,7 +30,7 @@
 .friend-item:hover
   background-color #f5f5f5
 .friend-item.checked
-  background-color #ffffff  
+  background-color #ffffff
 .header
   display flex
   align-items center
@@ -38,7 +39,8 @@
     width 30px
     height 30px
     border-radius 30px
-    margin-right 10px
+  .name 
+    margin-left 10px
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
