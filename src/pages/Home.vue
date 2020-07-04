@@ -195,11 +195,11 @@ import getOtp from "../otp"
 import Friends from "../components/Friends.vue"
 import Letters from "../components/Letters.vue"
 import InputBox from "../components/InputBox.vue"
-import Quote from "../components/Quote.vue"
+import QuoteNode from "../components/Quote.vue"
 import Version from "../components/Version.vue"
 import LocaleSwitch from "../components/common/LocaleSwitch.vue"
 
-import Map from "./Map.vue"
+import MapNode from "./Map.vue"
 import ChangeLog from "./ChangeLog.vue"
 import About from "./About.vue"
 
@@ -214,9 +214,9 @@ export default {
   components: {
     Friends,
     Letters,
-    "map-node": Map,
+    MapNode,
     InputBox,
-    "quote-node": Quote,
+    QuoteNode,
     About,
     ChangeLog,
     Version,
@@ -282,7 +282,7 @@ export default {
       this.$alert(this.$t("feedback_msg"), this.$t("feedback"), {
         confirmButtonText: this.$t("soft_confirm")
       })
-    },
+    }
   },
   watch: {
     checkedFriend(val) {
