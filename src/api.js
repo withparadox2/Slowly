@@ -9,7 +9,7 @@ export function sendEmailPasscode(email, checkpass = true) {
     content: {
       email,
       device: "web",
-      checkpass
+      checkpass,
     },
   })
 }
@@ -166,5 +166,11 @@ export function getMeOtp({ params, content }) {
       content,
       params,
     })
+  })
+}
+
+export function getIncomingLetters() {
+  return get({
+    path: "/letter/incoming",
   })
 }

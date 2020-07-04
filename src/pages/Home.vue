@@ -247,12 +247,36 @@ export default {
       this.$refs.map.showMap(friend)
     },
     loadFriends() {
-      let loadFromServer = () => {
+      const updateLastPosition = () => {
+        const POSITION_KEY = `position-${this.accountInfo.id}`
+        const localObj = JSON.parse(localStorage.getItem(POSITION_KEY) || "{}")
+        api
+          .getIncomingLetters()
+          .then(response => {
+            const list = (response.data && response.data.comments.data) || []
+            list.forEach(item => {
+              if (item.avatar) {
+                const matchResult = item.avatar.match(/user\/(.*)\/.*/)
+                if (matchResult.length > 1) {
+                  localObj[matchResult[1]] = item.user_location
+                }
+              }
+            })
+
+            localStorage.setItem(POSITION_KEY, JSON.stringify(localObj))
+            this.friendList.forEach(friend => {
+              friend.user_location = localObj[friend.user_id]
+            })
+          })
+          .catch(_ => {})
+      }
+      const loadFromServer = () => {
         api
           .getFriends()
           .then(({ data }) => {
             this.setFriends(sortFriends(data.friends))
             friendStore.insertFriends(this.friendList)
+            updateLastPosition()
           })
           .catch(err => this.$errorHandler(err))
       }
