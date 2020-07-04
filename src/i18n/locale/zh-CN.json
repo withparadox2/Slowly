@@ -86,5 +86,5 @@
   "tip_copy_quote": "已复制到剪贴板",
   "fail_to_load_profile": "加载个人信息失败，是否要退出？",
   "arrive_in_minutes": "{count}分钟后送达",
-  "arrive_in_hours": "{count}小时后送达"
+  "arrive_in_hours": "{count}小时内送达"
 }
