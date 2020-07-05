@@ -59,7 +59,7 @@
   "stat_hover_date_str": "{date} From {fromCount} To {toCount}",
   "delete": "Delete",
   "email_placeholder": "Email",
-  "search_placeholder_prefix": "Search ",
+  "search_placeholder_prefix": "Search in ",
   "search_placeholder_suffix": "'s letters...",
   "word_count": "Word count",
   "sender_name": "Sender",
