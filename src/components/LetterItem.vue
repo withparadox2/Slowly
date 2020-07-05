@@ -95,7 +95,7 @@
       img
         width 100%
       a
-        background url('../../images/icon_zoom_in.png')
+        background url('../images/icon_zoom_in.png')
         width 32px
         height 32px
         opacity 0.8
@@ -126,7 +126,7 @@ import { mapState, mapMutations } from "vuex"
 import * as util from "../util"
 import * as api from "../api"
 import GridView from "./common/GridView.vue"
-import Pen from "../../images/pen.png"
+import Pen from "../images/pen.png"
 
 export default {
   components: {

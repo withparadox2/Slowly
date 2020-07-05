@@ -32,7 +32,7 @@
                     v-html="letter.searchHtml"></span>
               <img class="letter-attacments"
                    v-show="letter.attachments && isLetterArrive(letter)"
-                   src="../../images/ic_attachments.png" />
+                   src="../images/ic_attachments.png" />
             </div>
           </div>
         </div>
@@ -316,8 +316,8 @@ import NewLetter from "../pages/NewLetter.vue"
 import Stat from "../pages/Stat.vue"
 import LetterItem from "./LetterItem.vue"
 
-import iconLetterOut from "../../images/ic_mail_out.png"
-import iconLetterIn from "../../images/ic_mail_in.png"
+import iconLetterOut from "../images/ic_mail_out.png"
+import iconLetterIn from "../images/ic_mail_in.png"
 
 export default {
   components: {

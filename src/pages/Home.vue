@@ -9,7 +9,7 @@
     <template v-else>
       <div class="nav-header">
         <img class="logo"
-             src="../../images/ic_logo.svg" />
+             src="../images/ic_logo.svg" />
         <span class="title">Slowly</span>
         <div class="middle">
           <input-box v-if="checkedFriend"></input-box>
