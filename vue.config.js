@@ -27,10 +27,10 @@ module.exports = {
     let plugins = [
       new HtmlWebpackPlugin({
         templateParameters: {
-          NODE_ENV: process.env.NODE_ENV
+          NODE_ENV: process.env.NODE_ENV,
         },
         template: "public/index.html",
-        filename: "index.html"
+        filename: "index.html",
       }),
     ]
 
@@ -47,6 +47,12 @@ module.exports = {
     }
     return {
       plugins,
+      resolve: {
+        alias: {
+          "@": path.resolve(__dirname, "./src"),
+        },
+        extensions: [".js", ".vue", ".json"],
+      },
     }
   },
 }
