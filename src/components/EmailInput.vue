@@ -37,6 +37,7 @@
   box-sizing border-box
   .item
     cursor pointer
+    padding 5px 0
 .el-remove-email
   text-align right
 </style>
