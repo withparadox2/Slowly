@@ -64,15 +64,15 @@ export default {
   computed: {},
   methods: {
     getQuoteInfo(quote) {
-      let first = quote.ref_name || quote.au_name
-      let second = quote.ref_name ? quote.au_name : ""
+      const first = quote.ref_name || quote.au_name
+      const second = quote.ref_name ? quote.au_name : ""
       return first ? `——${first}${second ? " · " : ""}${second}` : ""
     },
     changeQuote() {
       if (this.quotes.length === 0) {
         return
       }
-      let item = this.quotes[parseInt(Math.random() * this.quotes.length)]
+      const item = this.quotes[parseInt(Math.random() * this.quotes.length)]
       this.currentQuote = {
         content: item.content,
         quoteInfo: this.getQuoteInfo(item)

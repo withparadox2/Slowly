@@ -488,7 +488,6 @@ export default {
   methods: {
     ...mapMutations(["checkFriend"]),
     showFriendInfo() {
-      const h = this.$createElement
       this.$message({
         dangerouslyUseHTMLString: true,
         message: this.checkedFriendInfo,
