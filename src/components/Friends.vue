@@ -39,8 +39,10 @@
     width 30px
     height 30px
     border-radius 30px
-  .name 
+  .name
     margin-left 10px
+    text-overflow ellipsis
+    overflow hidden
 </style>
 <script>
 import { mapState, mapMutations } from "vuex"
