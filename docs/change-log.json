@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.27",
+    "versionCode": 76,
+    "content": ["Add ellipsis to overflowed name"]
+  },
+  {
     "versionName": "2.1.26",
     "versionCode": 75,
     "content": ["Change some styles"]
