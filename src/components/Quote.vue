@@ -84,7 +84,7 @@ export default {
       if (isClick) {
         this.changeQuote()
         this.times++
-        if (this.times > 10) {
+        if (this.times > 5) {
           getCoin().then(result => {
             showSuccess(this, result.data)
           })
