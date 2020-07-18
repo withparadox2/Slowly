@@ -136,8 +136,8 @@ export function uploadImage(postId, file) {
 
 export function readLetter(ids) {
   return post({
-    path: "/comments/read",
-    params: {
+    path: "/letter/read",
+    content: {
       ids,
     },
   })
