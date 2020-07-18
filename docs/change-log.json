@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.1.29",
+    "versionCode": 78,
+    "content": ["New api to mark letter being read"]
+  },
+  {
     "versionName": "2.1.28",
     "versionCode": 77,
     "content": ["Easter egg"]
