@@ -53,7 +53,9 @@ if (!redirectUrl()) {
       this.$router.replace({
         name: "login",
       })
+      return true
     }
+    return false
   }
 
   const routes = [

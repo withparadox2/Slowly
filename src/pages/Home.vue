@@ -351,10 +351,12 @@ export default {
           account.setAccount(response.data)
         })
         .catch(err => {
-          this.$errorHandler({
+          const showLogin = this.$errorHandler({
             ...err
           })
-          this.exit(this.$t("fail_to_load_profile"))
+          if (!showLogin) {
+            this.exit(this.$t("fail_to_load_profile"))
+          }
         })
     }
   }
