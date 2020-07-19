@@ -351,7 +351,7 @@ export default {
             let resultStr = ""
             let preIndex = -1
 
-            // Only show first five match result
+            // Only show first five matched result
             const matchResultSize = Math.min(matchResult.length, 5)
             for (let index = 0; index < matchResultSize; index++) {
               const sideWordLength = 6
@@ -561,6 +561,7 @@ export default {
             }
           })
           .catch(e => {
+            this.$errorHandler(e)
             console.error(e)
           })
       }
