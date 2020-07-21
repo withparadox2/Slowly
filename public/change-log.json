@@ -1,8 +1,16 @@
 [
   {
+    "versionName": "2.2.0",
+    "versionCode": 80,
+    "content": ["Support night mode"]
+  },
+  {
     "versionName": "2.1.30",
     "versionCode": 79,
-    "content": ["Dispay all locations extracted from incoming letters", "Hide warning dialog if token is expired"]
+    "content": [
+      "Dispay all locations extracted from incoming letters",
+      "Hide warning dialog if token is expired"
+    ]
   },
   {
     "versionName": "2.1.29",
