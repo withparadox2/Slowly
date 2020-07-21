@@ -112,7 +112,7 @@ export default {
       }
     },
     showGpsLocationStr(location) {
-      this.showGpsLocation(this.parseLocationStr(Location))
+      this.showGpsLocation(this.parseLocationStr(location))
     },
     showGpsLocation(lat, lng) {
       showGpsLocationList([
