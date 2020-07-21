@@ -50,6 +50,21 @@
     <version />
   </div>
 </template>
+<style lang="stylus">
+@require ('../styles/var.styl')
+.night-mode.page-wrapper
+  .el-input__inner
+    background rgb(12, 11, 9)
+    border-color rgb(36, 32, 29)
+    color #606266
+    &::placeholder
+      color #606266
+      opacity 1
+  .el-button--primary
+    background-color rgb(0, 72, 105)
+    border-color rgb(20, 65, 86)
+    color rgb(181, 159, 134)
+</style>
 <style lang="stylus" scoped>
 .night-mode
   background rgb(12, 11, 9)
@@ -60,6 +75,11 @@
     color rgb(75, 110, 130)
 .page-wrapper
   overflow-x hidden
+  position absolute
+  top 0
+  left 0
+  right 0
+  bottom 0
 .container
   width 50%
   margin 10% auto 0 auto
