@@ -14,6 +14,10 @@
 
 <style lang="stylus" scoped>
 @require ('../styles/var.styl')
+.night-mode
+  .new-version
+    color $color-white-night
+    background $main-color-night
 .new-version
   position fixed
   right 30px

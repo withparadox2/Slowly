@@ -2,6 +2,8 @@ import Vuex from "vuex"
 import Vue from "vue"
 Vue.use(Vuex)
 
+const KEY_NIGHT_MODE = "is_night_mode"
+
 export const store = new Vuex.Store({
   state: {
     checkedFriend: null,
@@ -10,6 +12,7 @@ export const store = new Vuex.Store({
     mobileMode: false,
     tabletMode: false,
     changeLog: null,
+    nightMode: localStorage.getItem(KEY_NIGHT_MODE, false),
   },
   mutations: {
     setFriends(state, list) {
@@ -29,6 +32,10 @@ export const store = new Vuex.Store({
     },
     setTabletMode(state, value) {
       state.tabletMode = value
+    },
+    setTheme(state, isNightMode) {
+      state.nightMode = isNightMode
+      localStorage.setItem(KEY_NIGHT_MODE, isNightMode)
     },
   },
 })

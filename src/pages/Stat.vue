@@ -31,6 +31,15 @@
   </div>
 </template>
 <style lang="stylus" scoped>
+@require ('../styles/var.styl')
+.night-mode
+  .stat-header
+    background-color $main-color-night
+    color $color-white-night
+  .stat-info-content
+    background rgb(22, 21, 19)
+  #svg-container
+    background rgb(12, 11, 9)
 .stat-info-content
   position absolute
   top 5%
@@ -43,7 +52,7 @@
 .stat-header
   padding 10px 0 10px 10px
   font-size 16px
-  background-color #0078d7
+  background-color $main-color
   color white
   border-top-left-radius 6px
   border-top-right-radius 6px

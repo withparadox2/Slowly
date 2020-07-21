@@ -112,6 +112,22 @@
 </template>
 <style lang="stylus" scoped>
 @require ('../styles/var.styl')
+.night-mode
+  .letter-item
+    box-shadow 0 17px 0 -16px #211C18
+  .letter-checked
+    background rgb(35, 40, 40)
+    box-shadow 0 17px 0 -16px rbg(35, 40, 40)
+  .letter-highlight
+    background rgb(35, 40, 40)
+  .right-section
+    background #222119
+  .letter-nav
+    background rgb(26, 23, 18)
+    border-top-color rgb(31, 28, 23)
+  .letter-body
+    .letter-content
+      color rgb(117, 99, 85)
 .component-wrapper
   height 100%
 .left-section
@@ -120,7 +136,6 @@
   position relative
 .friend-info
   position absolute
-  background white
   left 0
   right 0
   top 0
@@ -171,7 +186,6 @@
 .letter-item
   font-size 15px
   line-height 25px
-  -webkit-box-shadow 0 17px 0 -16px #e5e5e5
   box-shadow 0 17px 0 -16px #e5e5e5
   cursor pointer
   padding 5px 16px
@@ -179,7 +193,6 @@
   transition background-color 400ms linear
 .letter-checked
   background #f4f6ff
-  -webkit-box-shadow 0 17px 0 -16px #f4f6ff
   box-shadow 0 17px 0 -16px #f4f6ff
 .letter-highlight
   background #f4f6ff

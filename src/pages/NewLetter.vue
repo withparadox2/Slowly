@@ -92,6 +92,21 @@
 </template>
 <style lang="stylus" scoped>
 @require ('../styles/var.styl')
+.night-mode
+  .editor-wrapper
+    background rgb(22, 21, 19)
+    .placeholder
+      color rgb(123, 105, 89)
+  .editor-header
+    background-color $main-color-night
+    color $color-white-night
+  .word-count, .sending-state
+    color $color-white-night
+  .btn-add-image
+    background #292621
+    color rgb(161, 137, 113)
+  .tip-add-image
+    color rgb(117, 101, 87)
 .editor-wrapper
   position absolute
   top 5%
@@ -159,7 +174,7 @@
 .editor-header
   padding 10px 0 10px 10px
   font-size 16px
-  background-color #0078d7
+  background-color $main-color
   color white
   border-top-left-radius 6px
   border-top-right-radius 6px
@@ -175,7 +190,6 @@
 .right-btn-group
   right 0
   top 10px
-  background #0078d7
   position absolute
 .el-icon-tickets, .el-icon-close, .el-icon-message
   padding 0 10px

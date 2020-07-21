@@ -17,6 +17,17 @@
   </div>
 </template>
 <style lang="stylus" scoped>
+@require ('../styles/var.styl')
+.night-mode .input-container
+  input
+    background #132026
+    color $color-white-night
+    &:hover, &:focus, &.has-content
+      background #161513
+  .placeholder
+    color #47597F
+  i
+    color #47597F
 .input-container
   width 100%
   max-width 400px
