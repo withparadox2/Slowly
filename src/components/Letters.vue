@@ -112,6 +112,17 @@
 </template>
 <style lang="stylus" scoped>
 @require ('../styles/var.styl')
+.night-mode
+  .letter-item
+    box-shadow 0 17px 0 -16px #211C18
+  .letter-checked
+    background #354040
+    box-shadow 0 17px 0 -16px #354040
+  .right-section
+    background #222119
+  .letter-nav
+    background #262318
+    border-top-color #312823
 .component-wrapper
   height 100%
 .left-section
@@ -170,7 +181,6 @@
 .letter-item
   font-size 15px
   line-height 25px
-  -webkit-box-shadow 0 17px 0 -16px #e5e5e5
   box-shadow 0 17px 0 -16px #e5e5e5
   cursor pointer
   padding 5px 16px
@@ -178,7 +188,6 @@
   transition background-color 400ms linear
 .letter-checked
   background #f4f6ff
-  -webkit-box-shadow 0 17px 0 -16px #f4f6ff
   box-shadow 0 17px 0 -16px #f4f6ff
 .letter-highlight
   background #f4f6ff

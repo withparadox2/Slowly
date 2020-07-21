@@ -59,6 +59,10 @@
 
 <style lang="stylus" scoped>
 @require ('../styles/var.styl')
+.night-mode
+  .letter-detail
+    background #121109
+    border-color #312823
 .letter-detail-wrapper
   width 100%
   max-width 500px
