@@ -10,7 +10,7 @@
     <template v-else>
       <div class="nav-header">
         <img class="logo"
-             src="../images/ic_logo.svg" />
+             :src="logo" />
         <span class="title">Slowly</span>
         <div class="middle">
           <input-box v-if="checkedFriend"></input-box>
@@ -215,6 +215,9 @@ import MapNode from "./Map.vue"
 import ChangeLog from "./ChangeLog.vue"
 import About from "./About.vue"
 
+import LogoNight from "../images/ic_logo_night.svg"
+import Logo from "../images/ic_logo.svg"
+
 export default {
   data() {
     return {
@@ -241,7 +244,10 @@ export default {
       "mobileMode",
       "tabletMode",
       "nightMode"
-    ])
+    ]),
+    logo() {
+      return this.nightMode ? LogoNight : Logo
+    }
   },
   methods: {
     ...mapMutations(["setFriends", "setTheme"]),
