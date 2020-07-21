@@ -123,7 +123,6 @@ export default {
       ])
     },
     showGpsLocationList(locationList) {
-      debugger
       this.initMap().then(() => {
         this.removeOverlays()
         locationList.forEach(location => {
