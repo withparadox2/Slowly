@@ -100,17 +100,36 @@ export default {
       this.addMarker(e.point, false)
     },
     showMap(friend) {
-      this.showGpsLocationStr(friend.user_location)
+      this.showGpsLocationList(
+        friend.user_location.map(location => this.parseLocationStr(location))
+      )
+    },
+    parseLocationStr(location) {
+      let locations = location.split(",")
+      return {
+        lat: parseFloat(locations[0]),
+        lng: parseFloat(locations[1])
+      }
     },
     showGpsLocationStr(location) {
-      let locations = location.split(",")
-      this.showGpsLocation(parseFloat(locations[0]), parseFloat(locations[1]))
+      this.showGpsLocation(this.parseLocationStr(Location))
     },
     showGpsLocation(lat, lng) {
+      showGpsLocationList([
+        {
+          lat,
+          lng
+        }
+      ])
+    },
+    showGpsLocationList(locationList) {
+      debugger
       this.initMap().then(() => {
         this.removeOverlays()
-        let latlng = wgs2bd(lat, lng)
-        this.addMarker(new BMap.Point(latlng[1], latlng[0]), true)
+        locationList.forEach(location => {
+          let latlng = wgs2bd(location.lat, location.lng)
+          this.addMarker(new BMap.Point(latlng[1], latlng[0]), true)
+        })
       })
     },
     initMap() {

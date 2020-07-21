@@ -250,6 +250,19 @@ export default {
       const updateLastPosition = () => {
         const POSITION_KEY = `position-${this.accountInfo.id}`
         const localObj = JSON.parse(localStorage.getItem(POSITION_KEY) || "{}")
+        Object.keys(localObj).forEach(key => {
+          let val = localObj[key]
+          if (val && typeof val !== "object") {
+            localObj[key] = [val]
+          }
+        })
+
+        const setLocationOfFriends = () => {
+          localStorage.setItem(POSITION_KEY, JSON.stringify(localObj))
+          this.friendList.forEach(friend => {
+            friend.user_location = localObj[friend.user_id]
+          })
+        }
         api
           .getIncomingLetters()
           .then(response => {
@@ -258,17 +271,17 @@ export default {
               if (item.avatar) {
                 const matchResult = item.avatar.match(/user\/(.*)\/.*/)
                 if (matchResult.length > 1) {
-                  localObj[matchResult[1]] = item.user_location
+                  if (!localObj[matchResult[1]]) {
+                    localObj[matchResult[1]] = []
+                  }
+                  localObj[matchResult[1]].push(item.user_location)
                 }
               }
             })
-
-            localStorage.setItem(POSITION_KEY, JSON.stringify(localObj))
-            this.friendList.forEach(friend => {
-              friend.user_location = localObj[friend.user_id]
-            })
+            setLocationOfFriends()
           })
           .catch(_ => {})
+        setLocationOfFriends()
       }
       const loadFromServer = () => {
         api
