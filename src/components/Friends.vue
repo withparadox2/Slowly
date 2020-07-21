@@ -18,6 +18,12 @@
   overflow initial
 </style>
 <style lang="stylus" scoped>
+.night-mode
+  .friend-item:hover
+    background-color #0C0B09
+  .friend-item.checked
+    background-color #0C0B09
+
 .friend-item
   cursor pointer
   padding 10px

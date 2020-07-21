@@ -1,6 +1,6 @@
 <template>
   <div class="container"
-       :class="{'mobile-mode': mobileMode, 'tablet-mode': tabletMode, 'mobile': isMobileEnv}">
+       :class="{'mobile-mode': mobileMode, 'tablet-mode': tabletMode, 'mobile': isMobileEnv, 'night-mode': nightMode}">
     <div id="account-loading"
          v-if="!accountInfo"
          v-loading="!accountInfo"
@@ -22,6 +22,7 @@
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="editLocation">{{$t('change_location')}}</el-dropdown-item>
             <el-dropdown-item @click.native="$refs.localeList.show()">{{$t('change_locale')}}</el-dropdown-item>
+            <el-dropdown-item @click.native="setTheme(!nightMode)">{{$t('change_theme')}}</el-dropdown-item>
             <el-dropdown-item @click.native="showChangeLog">{{$t('change_log')}}</el-dropdown-item>
             <el-dropdown-item @click.native="showFeedback">{{$t('feedback')}}</el-dropdown-item>
             <el-dropdown-item @click.native="showAbout">{{$t('about')}}</el-dropdown-item>
@@ -61,6 +62,24 @@
 </template>
 <style lang="stylus" scoped>
 @require ('../styles/var.styl')
+.night-mode
+  .nav-header
+    background-color $main-color-night
+    color $color-white-night
+    .el-icon-more
+      color $color-white-night
+    .el-icon-more:hover
+      background-color $main-color-night-dark
+  .left-section
+    background #1A1712
+    .sidebar-header
+      .icon-nav
+        color #5F587A
+        box-shadow 0 0 0 1px #1B1A16
+        background-color #0C0B09
+  .main-content
+    background #0C0B09
+    color $color-white-night
 .nav-header
   background-color $main-color
   height 48px
@@ -80,14 +99,6 @@
     align-items center
     justify-content center
     flex-direction row
-  .btn-exit
-    font-size 14px
-    line-height 48px
-    float right
-    padding 0 20px
-    cursor pointer
-  .btn-exit:hover
-    background-color $main-color-dark
   .menu-more
     cursor pointer
   .menu-locale-list
@@ -223,10 +234,16 @@ export default {
     LocaleSwitch
   },
   computed: {
-    ...mapState(["checkedFriend", "friendList", "mobileMode", "tabletMode"])
+    ...mapState([
+      "checkedFriend",
+      "friendList",
+      "mobileMode",
+      "tabletMode",
+      "nightMode"
+    ])
   },
   methods: {
-    ...mapMutations(["setFriends"]),
+    ...mapMutations(["setFriends", "setTheme"]),
     exit(message) {
       this.$confirm(message || this.$t("warn_exit"), this.$t("tip"), {
         confirmButtonText: this.$t("confirm"),
