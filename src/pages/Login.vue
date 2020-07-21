@@ -1,5 +1,6 @@
 <template>
-  <div class="page-wrapper">
+  <div class="page-wrapper"
+       :class="{'night-mode': nightMode}">
     <div class="container">
       <div class="header">
         <transition name="fade">
@@ -50,6 +51,13 @@
   </div>
 </template>
 <style lang="stylus" scoped>
+.night-mode
+  background rgb(12, 11, 9)
+  .title
+    color rgb(75, 110, 130)
+    text-shadow none
+  .locale-list
+    color rgb(75, 110, 130)
 .page-wrapper
   overflow-x hidden
 .container
@@ -111,6 +119,7 @@
 </style>
 
 <script>
+import { mapState } from "vuex"
 import { validateEmail, showError, showSuccess } from "../util"
 import { sendEmailPasscode, verifyPasscode, verifyPassword } from "../api"
 import { setToken, getToken } from "../persist/account"
@@ -139,7 +148,8 @@ export default {
     },
     showSecondStage() {
       return this.showPassword || this.showPasscode
-    }
+    },
+    ...mapState(["nightMode"])
   },
   methods: {
     sendEmail(checkPass) {
@@ -170,7 +180,10 @@ export default {
     },
     login() {
       if (!this.passcode) {
-        showError(this, this.showPassword ? this.$t("input_password") : this.$t("input_code"))
+        showError(
+          this,
+          this.showPassword ? this.$t("input_password") : this.$t("input_code")
+        )
         return
       }
       this.fullscreenLoading = true

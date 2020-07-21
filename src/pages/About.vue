@@ -6,6 +6,10 @@
   </div>
 </template>
 <style lang="stylus" scoped>
+@require ('../styles/var.styl')
+.night-mode
+  .content
+    color $color-white-night
 .content
   position absolute
   top 5%

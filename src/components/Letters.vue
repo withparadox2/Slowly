@@ -125,6 +125,9 @@
   .letter-nav
     background rgb(26, 23, 18)
     border-top-color rgb(31, 28, 23)
+  .letter-body
+    .letter-content
+      color rgb(117, 99, 85)
 .component-wrapper
   height 100%
 .left-section

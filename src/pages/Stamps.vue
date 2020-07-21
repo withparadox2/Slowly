@@ -16,6 +16,11 @@
 </template>
 <style lang="stylus" scoped>
 @require ('../styles/var.styl')
+.night-mode
+  .modal
+    background rgb(25, 22, 17)
+  .btn-close-stamps, .stamp-desc
+    color rgb(163, 139, 115)
 .modal
   color white
   background #f5f5f5

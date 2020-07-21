@@ -11,6 +11,12 @@
   </div>
 </template>
 <style lang="stylus" scoped>
+.night-mode
+  .quote-section .quote-item
+    .content
+      color rgb(133, 112, 93)
+    .author
+      color rgb(133, 112, 93)
 .no-scroll-bar
   max-width 600px
   width 90%
