@@ -56,9 +56,13 @@ function getLetteText(letter) {
   let content = letter.body
   content += `\n${$rootVue.$t("sender_name")}: ${letter.name}`
   content += `\n${$rootVue.$t("word_count")}: ${letter.body.length}`
-  content += `\n${$rootVue.$t("send_time")}: ${offsetAndFormatDate(letter.created_at)}`
+  content += `\n${$rootVue.$t("send_time")}: ${offsetAndFormatDate(
+    letter.created_at
+  )}`
   if (letter.read_at) {
-    content += `\n${$rootVue.$t("read_time")}: ${offsetAndFormatDate(letter.read_at)}`
+    content += `\n${$rootVue.$t("read_time")}: ${offsetAndFormatDate(
+      letter.read_at
+    )}`
   }
   return content
 }
@@ -89,4 +93,21 @@ export function createListRender({ preloadCount = 5, dataList = [] }) {
     },
   }
   return new Factory()
+}
+
+export function configTheme(isNightMode) {
+  const body = document.querySelector("body")
+  if (isNightMode) {
+    if (body.className) {
+      if (body.className.indexOf("night-mode") < 0) {
+        body.className = body.className + " night-mode"
+      }
+    } else {
+      body.className = "night-mode"
+    }
+  } else {
+    if (body.className) {
+      body.className = body.className.replace(/\s?night-mode/, "")
+    }
+  }
 }

@@ -247,5 +247,5 @@ export {
   getRequestParam,
   dateTextToDate,
   countWords,
-  isMobile
+  isMobile,
 }

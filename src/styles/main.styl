@@ -1,3 +1,4 @@
+@require ('../styles/var.styl')
 html, body
   font-family 'Segoe', 'Segoe UI', 'Arial', 'sans-serif'
   padding 0
@@ -16,3 +17,51 @@ html, body
   -webkit-overflow-scrolling touch
 .fontbold
   font-weight bold
+.night-mode
+  .page-wrapper // Login-Page
+    .el-input__inner
+      background $color-bg-night
+      border-color rgb(36, 32, 29)
+      color #606266
+      &::placeholder
+        color #606266
+        opacity 1
+    .el-button--primary
+      background-color rgb(0, 72, 105)
+      border-color rgb(20, 65, 86)
+      color rgb(181, 159, 134)
+  .el-loading-mask // Background of loading page
+    background $color-bg-night
+  .el-dropdown-menu // Popup menu
+    background $color-bg-night
+    border-color rgb(29, 25, 22)
+    .el-dropdown-menu__item
+      &:not(.is-disabled):hover
+        background rgb(21, 23, 22)
+  .el-message-box // Dialog
+    background $color-bg-night
+    border-color rgb(29, 25, 22)
+    .el-message-box__title
+      color rgb(161, 140, 118)
+    .el-message-box__message
+      color rgb(119, 102, 88)
+    .el-message-box__btns
+      .el-button
+        background $color-bg-night
+        border-color rgb(36, 32, 29)
+        color rgb(184, 159, 131)
+        &:hover
+          border-color rgb(47, 87, 112)
+          color rgb(47, 87, 112)
+          background rgb(21, 23, 22)
+        &.el-button--primary
+          background rgb(43, 88, 117)
+          border-color rgb(43, 88, 117)
+          &:hover
+            color rgb(184, 159, 131)
+            background rgb(0, 72, 105)
+  .el-message--success, .el-message--error, .el-message--warning // Message
+    background rgb(21, 22, 14)
+    border-color rgb(23, 27, 12)
+    .el-message__closeBtn
+      color rgb(139, 122, 106)

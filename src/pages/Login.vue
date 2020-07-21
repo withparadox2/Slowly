@@ -1,6 +1,5 @@
 <template>
-  <div class="page-wrapper"
-       :class="{'night-mode': nightMode}">
+  <div class="page-wrapper">
     <div class="container">
       <div class="header">
         <transition name="fade">
@@ -26,7 +25,6 @@
                        type="primary"
                        icon="el-icon-message"
                        v-loading.fullscreen.lock="fullscreenLoading"
-                       :element-loading-background="loadingBg"
                        @click.native="sendEmail(true)">{{$t('login_with_email')}}</el-button>
           </div>
           <div class="content-wrapper"
@@ -40,7 +38,6 @@
                        type="primary"
                        icon="el-icon-message"
                        v-loading.fullscreen.lock="fullscreenLoading"
-                       :element-loading-background="loadingBg"
                        @click.native="login">{{$t('sign_in')}}</el-button>
             <div @click="sendEmail(false)"
                  class="btn-send-passcode"
@@ -52,29 +49,15 @@
     <version />
   </div>
 </template>
-<style lang="stylus">
-@require ('../styles/var.styl')
-.night-mode.page-wrapper
-  .el-input__inner
-    background rgb(12, 11, 9)
-    border-color rgb(36, 32, 29)
-    color #606266
-    &::placeholder
-      color #606266
-      opacity 1
-  .el-button--primary
-    background-color rgb(0, 72, 105)
-    border-color rgb(20, 65, 86)
-    color rgb(181, 159, 134)
-</style>
 <style lang="stylus" scoped>
 .night-mode
-  background rgb(12, 11, 9)
-  .title
-    color rgb(75, 110, 130)
-    text-shadow none
-  .locale-list
-    color rgb(75, 110, 130)
+  .page-wrapper
+    background rgb(12, 11, 9)
+    .title
+      color rgb(75, 110, 130)
+      text-shadow none
+    .locale-list
+      color rgb(75, 110, 130)
 .page-wrapper
   overflow-x hidden
   position absolute
@@ -141,7 +124,6 @@
 </style>
 
 <script>
-import { mapState } from "vuex"
 import { validateEmail, showError, showSuccess } from "../util"
 import { sendEmailPasscode, verifyPasscode, verifyPassword } from "../api"
 import { setToken, getToken } from "../persist/account"
@@ -165,16 +147,12 @@ export default {
     LocaleSwitch
   },
   computed: {
-    loadingBg() {
-      return this.nightMode ? "#0c0b09" : "white"
-    },
     fadeName() {
       return this.showSecondStage ? "slide-in" : "slide-out"
     },
     showSecondStage() {
       return this.showPassword || this.showPasscode
-    },
-    ...mapState(["nightMode"])
+    }
   },
   methods: {
     sendEmail(checkPass) {

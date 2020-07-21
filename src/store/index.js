@@ -1,5 +1,7 @@
 import Vuex from "vuex"
 import Vue from "vue"
+import { configTheme } from "../helper"
+
 Vue.use(Vuex)
 
 const KEY_NIGHT_MODE = "is_night_mode"
@@ -36,6 +38,9 @@ export const store = new Vuex.Store({
     setTheme(state, isNightMode) {
       state.nightMode = isNightMode
       localStorage.setItem(KEY_NIGHT_MODE, isNightMode)
+      configTheme(isNightMode)
     },
   },
 })
+
+configTheme(store.state.nightMode)

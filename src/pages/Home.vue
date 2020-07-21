@@ -1,6 +1,6 @@
 <template>
   <div class="container"
-       :class="{'mobile-mode': mobileMode, 'tablet-mode': tabletMode, 'mobile': isMobileEnv, 'night-mode': nightMode}">
+       :class="{'mobile-mode': mobileMode, 'tablet-mode': tabletMode, 'mobile': isMobileEnv}">
     <div id="account-loading"
          v-if="!accountInfo"
          v-loading="!accountInfo"
