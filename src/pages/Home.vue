@@ -4,6 +4,7 @@
     <div id="account-loading"
          v-if="!accountInfo"
          v-loading="!accountInfo"
+         :element-loading-background="nightMode ? '#0c0b09' : 'white'"
          :element-loading-text="$t('loading_profile')">
     </div>
     <template v-else>

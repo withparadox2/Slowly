@@ -26,6 +26,7 @@
                        type="primary"
                        icon="el-icon-message"
                        v-loading.fullscreen.lock="fullscreenLoading"
+                       :element-loading-background="loadingBg"
                        @click.native="sendEmail(true)">{{$t('login_with_email')}}</el-button>
           </div>
           <div class="content-wrapper"
@@ -39,6 +40,7 @@
                        type="primary"
                        icon="el-icon-message"
                        v-loading.fullscreen.lock="fullscreenLoading"
+                       :element-loading-background="loadingBg"
                        @click.native="login">{{$t('sign_in')}}</el-button>
             <div @click="sendEmail(false)"
                  class="btn-send-passcode"
@@ -163,6 +165,9 @@ export default {
     LocaleSwitch
   },
   computed: {
+    loadingBg() {
+      return this.nightMode ? "#0c0b09" : "white"
+    },
     fadeName() {
       return this.showSecondStage ? "slide-in" : "slide-out"
     },
