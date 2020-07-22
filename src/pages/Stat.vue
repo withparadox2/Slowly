@@ -118,6 +118,7 @@
   margin-top 3px
 </style>
 <script>
+import { mapState } from "vuex"
 import {
   formateDate,
   offsetTimezoneDate,
@@ -149,6 +150,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["nightMode"]),
     statList() {
       const list = [
         this.$t("stat_line1", {
@@ -200,6 +202,7 @@ export default {
       this.$nextTick(() => {
         this.destroySvg = drawSvg({
           id: "svg-container",
+          nightMode: this.nightMode,
           isLatin: this.$i18n.locale === "en",
           monthList: this.$t("stat_month_list").split(","),
           weekList: this.$t("stat_week_list").split(","),

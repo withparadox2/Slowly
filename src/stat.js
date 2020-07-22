@@ -18,6 +18,7 @@ export function drawSvg({
   weekList,
   onHover,
   onClick,
+  nightMode,
 }) {
   const startX = isLatin ? 35 : 26
   const startY = 48
@@ -51,7 +52,7 @@ export function drawSvg({
     let loopDateStr = formatDateYMD(loopDate)
     let loopDateIndex = calDateIndex(loopDate)
     let cp = loopDateIndex - curDateIndex
-    let drawColor = ["#F7F7F7"]
+    let drawColor = [nightMode ? "#222222" : "#F7F7F7"]
     let hasData = false
     if (cp == 0) {
       if (cellIndex != 0 || cell.num > 0) {
