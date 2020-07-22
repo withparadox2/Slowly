@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.2.1",
+    "versionCode": 81,
+    "content": ["Change some styles"]
+  },
+  {
     "versionName": "2.2.0",
     "versionCode": 80,
     "content": ["Support night mode"]
