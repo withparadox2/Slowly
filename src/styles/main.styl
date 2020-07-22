@@ -18,6 +18,7 @@ html, body
 .fontbold
   font-weight bold
 .night-mode
+  background $color-bg-night
   .page-wrapper // Login-Page
     .el-input__inner
       background $color-bg-night
@@ -38,6 +39,8 @@ html, body
     .el-dropdown-menu__item
       &:not(.is-disabled):hover
         background rgb(21, 23, 22)
+    .popper__arrow:after
+      border-bottom-color transparent
   .el-message-box // Dialog
     background $color-bg-night
     border-color rgb(29, 25, 22)
