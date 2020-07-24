@@ -1,5 +1,13 @@
 [
   {
+    "versionName": "2.2.2",
+    "versionCode": 82,
+    "content": [
+      "Fix close button of Stamps page to top-right corner",
+      "Restore preference of theme from local storage"
+    ]
+  },
+  {
     "versionName": "2.2.1",
     "versionCode": 81,
     "content": ["Change some styles"]
