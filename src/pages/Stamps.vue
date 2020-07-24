@@ -1,7 +1,10 @@
 <template>
   <div class="modal soft-scrollable">
-    <i class="el-icon-close btn-close-stamps"
-       @click="selectStamp()" />
+    <div class="close-wrapper">
+      <i class="el-icon-close btn-close-stamps"
+         @click="selectStamp()" />
+    </div>
+
     <div class="content">
       <div class="stamp-wrapper"
            @click="selectStamp(stamp.item_slug)"
@@ -17,7 +20,7 @@
 <style lang="stylus" scoped>
 @require ('../styles/var.styl')
 .night-mode
-  .modal
+  .modal, .close-wrapper
     background rgb(25, 22, 17)
   .btn-close-stamps, .stamp-desc
     color rgb(163, 139, 115)
@@ -26,12 +29,21 @@
   background #f5f5f5
   overflow-y auto
   padding 20px 0
+.close-wrapper
+  position fixed
+  top 0
+  right 0
+  left 0
+  height 40px
+  background #f5f5f5
+  display flex
+  justify-content flex-end
+  align-items center
 .btn-close-stamps
   display block
-  float right
   color #333
   font-size 20px
-  margin-right 20px
+  margin-right 40px
   cursor pointer
 .content
   max-width 1000px
@@ -63,13 +75,13 @@ import * as account from "../persist/account"
 export default {
   data() {
     return {
-      stamps: account.getAccount().items || []
+      stamps: account.getAccount().items || [],
     }
   },
   methods: {
     selectStamp(stamp) {
       this.$emit("select", stamp)
-    }
-  }
+    },
+  },
 }
 </script>
