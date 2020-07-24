@@ -6,6 +6,11 @@ Vue.use(Vuex)
 
 const KEY_NIGHT_MODE = "is_night_mode"
 
+function getIsNightMode() {
+  const mode = localStorage.getItem(KEY_NIGHT_MODE, false)
+  return mode === true || mode === "true"
+}
+
 export const store = new Vuex.Store({
   state: {
     checkedFriend: null,
@@ -14,7 +19,7 @@ export const store = new Vuex.Store({
     mobileMode: false,
     tabletMode: false,
     changeLog: null,
-    nightMode: localStorage.getItem(KEY_NIGHT_MODE, false),
+    nightMode: getIsNightMode(),
   },
   mutations: {
     setFriends(state, list) {
