@@ -121,7 +121,7 @@
   right 0
   bottom 0
   display flex
-  flex 1 1 0px
+  flex 1 1 0%
   box-sizing border-box
   overflow hidden
 .tablet-mode
@@ -223,7 +223,7 @@ export default {
     return {
       accountInfo: null,
       leftSectionExited: true,
-      isMobileEnv: isMobile()
+      isMobileEnv: isMobile(),
     }
   },
   components: {
@@ -235,7 +235,7 @@ export default {
     About,
     ChangeLog,
     Version,
-    LocaleSwitch
+    LocaleSwitch,
   },
   computed: {
     ...mapState([
@@ -243,18 +243,18 @@ export default {
       "friendList",
       "mobileMode",
       "tabletMode",
-      "nightMode"
+      "nightMode",
     ]),
     logo() {
       return this.nightMode ? LogoNight : Logo
-    }
+    },
   },
   methods: {
     ...mapMutations(["setFriends", "setTheme"]),
     exit(message) {
       this.$confirm(message || this.$t("warn_exit"), this.$t("tip"), {
         confirmButtonText: this.$t("confirm"),
-        cancelButtonText: this.$t("cancel")
+        cancelButtonText: this.$t("cancel"),
       })
         .then(() => {
           account.clear()
@@ -264,7 +264,7 @@ export default {
     },
     goLogin() {
       this.$router.replace({
-        name: "login"
+        name: "login",
       })
     },
     showMap(friend) {
@@ -272,40 +272,26 @@ export default {
     },
     loadFriends() {
       const updateLastPosition = () => {
-        const POSITION_KEY = `position-${this.accountInfo.id}`
-        const localObj = JSON.parse(localStorage.getItem(POSITION_KEY) || "{}")
-        Object.keys(localObj).forEach(key => {
-          let val = localObj[key]
-          if (val && typeof val !== "object") {
-            localObj[key] = [val]
-          }
-        })
-
-        const setLocationOfFriends = () => {
-          localStorage.setItem(POSITION_KEY, JSON.stringify(localObj))
-          this.friendList.forEach(friend => {
-            friend.user_location = localObj[friend.user_id]
-          })
-        }
+        const LOCATION_KEY = `location-${this.accountInfo.id}`
+        const localObj = JSON.parse(localStorage.getItem(LOCATION_KEY) || "{}")
         api
           .getIncomingLetters()
-          .then(response => {
+          .then((response) => {
             const list = (response.data && response.data.comments.data) || []
-            list.forEach(item => {
+            list.forEach((item) => {
               if (item.avatar) {
                 const matchResult = item.avatar.match(/user\/(.*)\/.*/)
                 if (matchResult.length > 1) {
-                  if (!localObj[matchResult[1]]) {
-                    localObj[matchResult[1]] = []
-                  }
-                  localObj[matchResult[1]].push(item.user_location)
+                  localObj[matchResult[1]] = item.user_location
                 }
               }
             })
-            setLocationOfFriends()
+            localStorage.setItem(LOCATION_KEY, JSON.stringify(localObj))
+            this.friendList.forEach((friend) => {
+              friend.user_location = localObj[friend.user_id]
+            })
           })
-          .catch(_ => {})
-        setLocationOfFriends()
+          .catch((_) => {})
       }
       const loadFromServer = () => {
         api
@@ -315,7 +301,7 @@ export default {
             friendStore.insertFriends(this.friendList)
             updateLastPosition()
           })
-          .catch(err => this.$errorHandler(err))
+          .catch((err) => this.$errorHandler(err))
       }
       friendStore
         .getFriends()
@@ -325,7 +311,7 @@ export default {
             loadFromServer()
           }
         })
-        .catch(e => {
+        .catch((e) => {
           console.error(e)
           loadFromServer()
         })
@@ -341,9 +327,9 @@ export default {
     },
     showFeedback() {
       this.$alert(this.$t("feedback_msg"), this.$t("feedback"), {
-        confirmButtonText: this.$t("soft_confirm")
+        confirmButtonText: this.$t("soft_confirm"),
       })
-    }
+    },
   },
   watch: {
     checkedFriend(val) {
@@ -355,7 +341,7 @@ export default {
       if (!this.tabletMode) {
         this.leftSectionExited = false
       }
-    }
+    },
   },
   mounted() {
     if (!account.getToken()) {
@@ -369,33 +355,33 @@ export default {
     if (!this.accountInfo) {
       api
         .getMe()
-        .then(response => {
+        .then((response) => {
           this.accountInfo = response.data
           account.setAccount(this.accountInfo)
           this.loadFriends()
         })
-        .catch(err => {
+        .catch((err) => {
           this.$errorHandler({
             ...err,
-            exitLogin: true
+            exitLogin: true,
           })
         })
     } else {
       this.loadFriends()
       api
         .getMe()
-        .then(response => {
+        .then((response) => {
           account.setAccount(response.data)
         })
-        .catch(err => {
+        .catch((err) => {
           const showLogin = this.$errorHandler({
-            ...err
+            ...err,
           })
           if (!showLogin) {
             this.exit(this.$t("fail_to_load_profile"))
           }
         })
     }
-  }
+  },
 }
 </script>

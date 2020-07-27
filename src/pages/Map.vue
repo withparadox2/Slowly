@@ -79,7 +79,7 @@ export default {
   data() {
     return {
       map: null,
-      mapVisible: false
+      mapVisible: false,
     }
   },
   methods: {
@@ -100,15 +100,13 @@ export default {
       this.addMarker(e.point, false)
     },
     showMap(friend) {
-      this.showGpsLocationList(
-        friend.user_location.map(location => this.parseLocationStr(location))
-      )
+      this.showGpsLocationStr(friend.user_location)
     },
     parseLocationStr(location) {
       let locations = location.split(",")
       return {
         lat: parseFloat(locations[0]),
-        lng: parseFloat(locations[1])
+        lng: parseFloat(locations[1]),
       }
     },
     showGpsLocationStr(location) {
@@ -118,14 +116,14 @@ export default {
       this.showGpsLocationList([
         {
           lat,
-          lng
-        }
+          lng,
+        },
       ])
     },
     showGpsLocationList(locationList) {
       this.initMap().then(() => {
         this.removeOverlays()
-        locationList.forEach(location => {
+        locationList.forEach((location) => {
           let latlng = wgs2bd(location.lat, location.lng)
           this.addMarker(new BMap.Point(latlng[1], latlng[0]), true)
         })
@@ -133,11 +131,11 @@ export default {
     },
     initMap() {
       this.mapVisible = true
-      return new Promise(fullfill => {
+      return new Promise((fullfill) => {
         this.$nextTick(() => {
           this.map = new BMap.Map("map")
           this.map.enableScrollWheelZoom(true)
-          this.map.addEventListener("click", e => {
+          this.map.addEventListener("click", (e) => {
             this.onMapClick(e)
           })
           fullfill(this.map)
@@ -177,7 +175,7 @@ export default {
 
         this.$confirm(this.$t("warn_update_location"), this.$t("tip"), {
           confirmButtonText: this.$t("confirm"),
-          cancelButtonText: this.$t("cancel")
+          cancelButtonText: this.$t("cancel"),
         })
           .then(() => {
             return updateLocation(latlng[0], latlng[1]).then(() => {
@@ -187,7 +185,7 @@ export default {
               showSuccess(this, this.$t("update_location_success"))
             })
           })
-          .catch(error => {
+          .catch((error) => {
             if (error.message) {
               showError(this, error.message)
             } else if (error != "cancel") {
@@ -199,21 +197,21 @@ export default {
     locate() {
       if ("geolocation" in navigator) {
         navigator.geolocation.getCurrentPosition(
-          position => {
+          (position) => {
             this.showGpsLocation(
               position.coords.latitude,
               position.coords.longitude
             )
           },
-          error => {
+          (error) => {
             console.log(error)
           }
         )
       } else {
         console.log("Location is not avaiable")
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
