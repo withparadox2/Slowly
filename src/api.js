@@ -144,8 +144,14 @@ export function readLetter(ids) {
 }
 
 export function getTime() {
-  return get({
-    path: "/timestamp",
+  // return get({
+  //   path: "/timestamp",
+  //   noAuth: true,
+  // })
+  return Promise.resolve({
+    data: {
+      now: parseInt(Date.now() / 1000 + 60),
+    },
   })
 }
 
