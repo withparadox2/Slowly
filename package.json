@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "axios": "^0.18.1",
-    "country-data": "0.0.31",
     "element-ui": "^2.6.1",
     "location": "0.0.1",
     "navigator": "^1.0.1",

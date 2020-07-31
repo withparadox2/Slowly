@@ -1,4 +1,5 @@
 import { offsetAndFormatDate } from "./util"
+import axios from "axios"
 
 export function sortFriends(friends) {
   friends = friends || []
@@ -109,5 +110,23 @@ export function configTheme(isNightMode) {
     if (body.className) {
       body.className = body.className.replace(/\s?night-mode/, "")
     }
+  }
+}
+
+let countries = null
+export function getCountry(code) {
+  if (countries) {
+    return countries[code]
+  } else {
+    axios({
+      method: "get",
+      url: `https://cdn.getslowly.com/i18n/countries/en.json`,
+    })
+      .then((result) => {
+        countries = result.data
+      })
+      .catch((_) => {
+        countries = {}
+      })
   }
 }

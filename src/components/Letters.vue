@@ -312,17 +312,17 @@ import {
   formateDate,
   formatDateReadable,
   formatDateYMD,
-  offsetAndFormatDate
+  offsetAndFormatDate,
 } from "../util"
 import {
   scrollToTop,
   onScrollEnd,
   exportLetters,
-  createListRender
+  createListRender,
+  getCountry,
 } from "../helper"
 import { getAccount } from "../persist/account"
 import matchAll from "string.prototype.matchall"
-import { countries } from "country-data"
 
 import NewLetter from "../pages/NewLetter.vue"
 import Stat from "../pages/Stat.vue"
@@ -335,7 +335,7 @@ export default {
   components: {
     NewLetter,
     Stat,
-    LetterItem
+    LetterItem,
   },
   computed: {
     ...mapState(["checkedFriend", "searchValue"]),
@@ -343,7 +343,7 @@ export default {
       let l = this.checkedLetter
       return l
         ? l.attachments
-          ? l.attachments.split(",").map(name => api.buildAttachmentUrl(name))
+          ? l.attachments.split(",").map((name) => api.buildAttachmentUrl(name))
           : null
         : null
     },
@@ -354,7 +354,7 @@ export default {
       let tempList = this.listRender.renderedList()
       const regExp = new RegExp(this.searchValue, "g")
       let resultList = this.searchValue
-        ? tempList.filter(letter => {
+        ? tempList.filter((letter) => {
             const matchResult = [...matchAll(letter.body, regExp)]
             if (matchResult.length == 0) {
               return false
@@ -436,38 +436,37 @@ export default {
         infoList.push([this.$t("name"), this.checkedFriend.name])
         {
           const locationCode = this.checkedFriend.location_code
-          const country = countries[locationCode]
-          infoList.push([
-            this.$t("location"),
-            (country && country.name) || locationCode
-          ])
+          const country = getCountry(locationCode)
+          if (country) {
+            infoList.push([this.$t("location"), country])
+          }
         }
         if (this.checkedFriend.latest_comment) {
           infoList.push([
             this.$t("reply_time"),
-            offsetAndFormatDate(this.checkedFriend.latest_comment)
+            offsetAndFormatDate(this.checkedFriend.latest_comment),
           ])
         }
         if (this.checkedFriend.last_login) {
           infoList.push([
             this.$t("login_time"),
-            offsetAndFormatDate(this.checkedFriend.last_login)
+            offsetAndFormatDate(this.checkedFriend.last_login),
           ])
         }
-        return infoList.map(item => item.join("：")).join("\n")
+        return infoList.map((item) => item.join("：")).join("\n")
       }
       return ""
     },
     searchNav() {
       if (!this.checkedFriend || !this.searchValue || !this.refs.letterItem) {
         return {
-          show: false
+          show: false,
         }
       }
       return {
-        show: true
+        show: true,
       }
-    }
+    },
   },
   watch: {
     checkedFriend(newVal, oldVal) {
@@ -478,7 +477,7 @@ export default {
       this.loadLetters(newVal)
       this.checkedLetter = null
       scrollToTop(this, ".letter-list")
-    }
+    },
   },
   data() {
     return {
@@ -492,9 +491,9 @@ export default {
       account: getAccount(),
       highlightDate: null,
       listRender: createListRender({
-        preloadCount: 25
+        preloadCount: 25,
       }),
-      showStat: false
+      showStat: false,
     }
   },
   methods: {
@@ -505,7 +504,7 @@ export default {
         message: this.checkedFriendInfo,
         duration: 10000,
         showClose: true,
-        customClass: "dialog-friend-info"
+        customClass: "dialog-friend-info",
       })
     },
     loadLetters(friend) {
@@ -515,7 +514,7 @@ export default {
             if (isSync) {
               this.showSyncIcon = false
               this.letterState = this.$t("tip_sync_page", {
-                pageIndex: mgr.syncPage
+                pageIndex: mgr.syncPage,
               })
             } else if (isRefresh) {
               this.letterState = null
@@ -565,14 +564,14 @@ export default {
       ) {
         api
           .readLetter(letter.id)
-          .then(response => {
+          .then((response) => {
             if (response && response.data.success) {
               const time = formateDate(offsetTimezoneDate(new Date(), true))
               this.$set(letter, "read_at", time)
               updateLetter(this.checkedFriend, letter)
             }
           })
-          .catch(e => {
+          .catch((e) => {
             this.$errorHandler(e)
             console.error(e)
           })
@@ -615,7 +614,7 @@ export default {
     scrollToDate(date) {
       let index = -1
       let find = false
-      this.renderLetters.forEach(letter => {
+      this.renderLetters.forEach((letter) => {
         let str = formatDateYMD(offsetTimezoneDate(letter.deliver_at))
         if (!find) {
           if (str == date) {
@@ -650,7 +649,7 @@ export default {
     },
     doExport() {
       exportLetters(this.checkedFriend, this.letters)
-    }
-  }
+    },
+  },
 }
 </script>
