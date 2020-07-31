@@ -271,6 +271,7 @@ import { setTimeout, setInterval, clearInterval } from "timers"
 import LetterItem from "../components/LetterItem.vue"
 import GridView from "../components/common/GridView.vue"
 import Stamps from "./Stamps.vue"
+import { MessageBox } from "element-ui"
 
 const TYPE_IMAGE_LOCAL = "local"
 const TYPE_IMAGE_SERVER = "server"
@@ -282,6 +283,7 @@ export default {
       inputData: "",
       isSending: false,
       isUploading: false,
+      isLoadingDraft: false,
       isShowLetter: false,
       rawImageList: [],
       isAutoSaving: false,
@@ -306,8 +308,15 @@ export default {
       return this.listRender.renderedList()
     },
     letterState() {
-      if (this.isSending || this.isUploading || this.isAutoSaving) {
-        return this.isUploading
+      if (
+        this.isSending ||
+        this.isUploading ||
+        this.isAutoSaving ||
+        this.isLoadingDraft
+      ) {
+        return this.isLoadingDraft
+          ? this.$t("loading_draft")
+          : this.isUploading
           ? this.$t("uploading_photo")
           : this.isSending
           ? this.$t("sending")
@@ -349,11 +358,30 @@ export default {
       this.inputData = ""
       this.isSending = false
       this.isUploading = false
+      this.isLoadingDraft = false
       this.rawImageList = []
+      this.draft = null
+
+      this.loadDraft()
+
+      this.intervalId = setInterval(() => {
+        if (!this.contentHasChanged || !this.draft) {
+          return
+        }
+
+        this.saveDraft()
+        this.contentHasChanged = false
+      }, 60000)
+    },
+    loadDraft() {
+      this.isLoadingDraft = true
       api
         .getDraft(this.checkedFriend.id)
         .then(({ data: { draft } }) => {
           this.draft = draft
+          if (!draft) {
+            return
+          }
           if (draft.body) {
             this.inputData = draft.body
           }
@@ -371,15 +399,18 @@ export default {
         })
         .catch((e) => {
           console.error(e)
+          this.$confirm(this.$t("warn_fail_to_load_draft"), this.$t("tip"), {
+            confirmButtonText: this.$t("confirm"),
+            cancelButtonText: this.$t("cancel"),
+          })
+            .then(() => {
+              this.loadDraft()
+            })
+            .catch(() => {})
         })
-      this.intervalId = setInterval(() => {
-        if (!this.contentHasChanged || !this.draft) {
-          return
-        }
-
-        this.saveDraft()
-        this.contentHasChanged = false
-      }, 60000)
+        .then(() => {
+          this.isLoadingDraft = false
+        })
     },
     onSelectStamp(stamp) {
       if (stamp) {
@@ -392,22 +423,15 @@ export default {
         this.editorVisible = false
         return
       }
-      this.$confirm(
-        this.$t("warn_close_new_letter", {
-          photoWarn:
-            (this.rawImageList.length && this.$t("warn_lose_of_photo")) || "",
-        }),
-        this.$t("tip"),
-        {
-          confirmButtonText: this.$t("confirm"),
-          cancelButtonText: this.$t("cancel"),
-        }
-      ).then(() => {
+      this.$confirm(this.$t("warn_close_new_letter"), this.$t("tip"), {
+        confirmButtonText: this.$t("confirm"),
+        cancelButtonText: this.$t("cancel"),
+      }).then(() => {
         this.uploadImages()
           .then((attachments) => this.saveDraft(attachments))
           .then(() => (this.editorVisible = false))
           .catch((e) => {
-            console.error(e)
+            showError(this, e)
           })
       })
     },
@@ -419,11 +443,13 @@ export default {
           friendId: this.checkedFriend.id,
           body: this.inputData,
           stamp: this.stamp,
-          attachments: attachments || this.draft.attachments,
+          attachments:
+            attachments == null
+              ? this.draft && this.draft.attachments
+              : attachments,
         })
         .then((result) => {
           this.isAutoSaving = false
-          return true
         })
         .catch((e) => {
           console.error(e)
@@ -464,7 +490,11 @@ export default {
         }
       )
         .then(() => {
-          this.uploadImages().then((attachments) => this.sendImpl(attachments))
+          this.uploadImages()
+            .then((attachments) => this.sendImpl(attachments))
+            .catch((e) => {
+              showError(this, e)
+            })
         })
         .catch(() => {})
     },
@@ -545,7 +575,6 @@ export default {
       this.rawImageList.splice(index, 1)
     },
     uploadImages() {
-      this.isUploading = true
       const localImageList = this.rawImageList.filter(
         (item) => item.type === TYPE_IMAGE_LOCAL
       )
@@ -557,6 +586,8 @@ export default {
           remoteImageList.map((item) => item.imageName).join(",")
         )
       }
+
+      this.isUploading = true
       return api
         .uploadImages(
           this.checkedFriend.id,
@@ -572,7 +603,6 @@ export default {
         .catch((result) => {
           this.isUploading = false
           console.error(result)
-          showError(this, result)
           return Promise.reject("Failed to upload images")
         })
     },

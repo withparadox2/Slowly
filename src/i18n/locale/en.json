@@ -38,10 +38,10 @@
   "uploading_photo": "Uploading photos...",
   "sending": "Sending...",
   "saving_draft": "Saving draft...",
+  "loading_draft": "Loading draft...",
   "err_load_draft_fail": "Loading draft failed：",
   "err_save_draft_fail": "Saving draft failed：",
-  "warn_close_new_letter": "Draft will be saving after closing, {photoWarn}are you sure to close?",
-  "warn_lose_of_photo": "but photos will be discarded, ",
+  "warn_close_new_letter": "Draft will be saved to cloud after closing, are you sure to close?",
   "input_content": "Please input content",
   "warn_is_sending_to": "Is sending to {friend}?",
   "add_photos": "Add photos",
@@ -87,5 +87,6 @@
   "tip_copy_quote": "Quote has been copied to clipboard",
   "fail_to_load_profile": "Failed to update profile, do you want to exit?",
   "arrive_in_minutes": "Arriving in 1 minute | Arriving in {count} minutes",
-  "arrive_in_hours": "Arriving in an hour | Arriving in {count} hours"
+  "arrive_in_hours": "Arriving in an hour | Arriving in {count} hours",
+  "warn_fail_to_load_draft": "Failed to load draft, do you want to try again?"
 }

@@ -38,10 +38,10 @@
   "uploading_photo": "正在上傳圖片...",
   "sending": "正在發送...",
   "saving_draft": "正在保存草稿...",
+  "loading_draft": "正在加載草稿...",
   "err_load_draft_fail": "加載草稿失敗：",
   "err_save_draft_fail": "保存草稿失敗：",
-  "warn_close_new_letter": "關閉後將會保存為草稿，{photoWarn}是否關閉？",
-  "warn_lose_of_photo": "但圖片會丟失，",
+  "warn_close_new_letter": "關閉後草稿將會保存到服务器，是否關閉？",
   "input_content": "請輸入內容",
   "warn_is_sending_to": "是否發送給{friend}？",
   "add_photos": "添加圖片",
@@ -87,5 +87,6 @@
   "tip_copy_quote": "已復製到剪貼板",
   "fail_to_load_profile": "加載個人信息失敗，是否要退出？",
   "arrive_in_minutes": "{count}分鐘後送達",
-  "arrive_in_hours": "{count}小時內送達"
+  "arrive_in_hours": "{count}小時內送達",
+  "warn_fail_to_load_draft": "草稿加載失敗，是否重試?" 
 }
