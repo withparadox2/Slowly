@@ -70,6 +70,7 @@
   max-width 500px
   margin 0 auto
   overflow hidden
+  margin-bottom 40px
 .letter-detail
   white-space pre-line
   word-break break-word

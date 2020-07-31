@@ -44,7 +44,6 @@
     padding-left 0
     span
       position relative
-      left -8px
   .version-name
     white-space nowrap
     margin-top 20px

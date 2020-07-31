@@ -240,7 +240,7 @@
     box-sizing border-box
     width 100%
     height 100%
-    padding 40px 20px 40px 20px
+    padding 40px 20px 0px 20px
     overflow-y auto
     overflow-x hidden
 .letter-nav
@@ -294,7 +294,6 @@
   white-space pre
   line-height 20px
 .tablet-mode.mobile-mode .right-section .scroll-container
-  padding 0 0 40px 0
   .letter-detail
     border none
     border-radius 0px
