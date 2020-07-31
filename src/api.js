@@ -196,3 +196,27 @@ export function getIncomingLetters() {
     path: "/letter/incoming",
   })
 }
+
+export function getDraft(friendId) {
+  return post({
+    path: "/web/drafts/get",
+    content: {
+      post: friendId,
+    },
+  })
+}
+
+export function saveDraft({ friendId, body, stamp, attachments }) {
+  return post({
+    path: "/web/drafts/save",
+    content: {
+      post: friendId,
+      user_id: null,
+      body,
+      stamp,
+      attachments,
+      channel: "web",
+      audio: null,
+    },
+  })
+}

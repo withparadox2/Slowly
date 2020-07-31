@@ -264,7 +264,6 @@ import { mapState, mapMutations } from "vuex"
 
 import * as api from "../api"
 import { showError, showSuccess, countWords } from "../util"
-import * as draft from "../persist/draft"
 import * as account from "../persist/account"
 import { scrollToTop, createListRender } from "../helper"
 import { setTimeout, setInterval, clearInterval } from "timers"
@@ -272,6 +271,9 @@ import { setTimeout, setInterval, clearInterval } from "timers"
 import LetterItem from "../components/LetterItem.vue"
 import GridView from "../components/common/GridView.vue"
 import Stamps from "./Stamps.vue"
+
+const TYPE_IMAGE_LOCAL = "local"
+const TYPE_IMAGE_SERVER = "server"
 
 export default {
   data() {
@@ -282,21 +284,21 @@ export default {
       isUploading: false,
       isShowLetter: false,
       rawImageList: [],
-      attachments: "",
       isAutoSaving: false,
       listRender: createListRender({
-        preloadCount: 5
+        preloadCount: 5,
       }),
       // active in mobile mode
       isShowAddMedia: false,
       stamp: "free",
-      showStampCollection: false
+      showStampCollection: false,
+      draft: null,
     }
   },
   components: {
     LetterItem,
     GridView,
-    Stamps
+    Stamps,
   },
   computed: {
     ...mapState(["checkedFriend", "mobileMode"]),
@@ -315,7 +317,7 @@ export default {
     },
     wordCount() {
       return countWords(this.inputData)
-    }
+    },
   },
   watch: {
     editorVisible(visible) {
@@ -336,7 +338,7 @@ export default {
     },
     inputData(val) {
       this.contentHasChanged = true
-    }
+    },
   },
   methods: {
     formUploadUrl() {
@@ -348,33 +350,36 @@ export default {
       this.isSending = false
       this.isUploading = false
       this.rawImageList = []
-      draft
+      api
         .getDraft(this.checkedFriend.id)
-        .then(draftItem => {
-          if (draftItem) {
-            this.inputData = draftItem.content
+        .then(({ data: { draft } }) => {
+          this.draft = draft
+          if (draft.body) {
+            this.inputData = draft.body
+          }
+          this.stamp = draft.stamp
+          if (draft.attachments) {
+            draft.attachments
+              .split(",")
+              .map((name) => ({
+                type: TYPE_IMAGE_SERVER,
+                src: api.buildAttachmentUrl(name),
+                imageName: name,
+              }))
+              .forEach((item) => this.rawImageList.push(item))
           }
         })
-        .catch(e => showError(this, this.$t("err_load_draft_fail") + e))
+        .catch((e) => {
+          console.error(e)
+        })
       this.intervalId = setInterval(() => {
-        if (!this.contentHasChanged) {
+        if (!this.contentHasChanged || !this.draft) {
           return
         }
-        this.saveDraft(this.inputData)
+
+        this.saveDraft()
         this.contentHasChanged = false
-        this.isAutoSaving = true
-        setTimeout(() => {
-          this.isAutoSaving = false
-        }, 2000)
-      }, 15000)
-    },
-    saveDraft(content) {
-      return draft
-        .setDraft({
-          user_id: this.checkedFriend.id,
-          content: this.formatContent(content)
-        })
-        .catch(e => showError(this, this.$t("err_save_draft_fail") + e))
+      }, 60000)
     },
     onSelectStamp(stamp) {
       if (stamp) {
@@ -390,20 +395,58 @@ export default {
       this.$confirm(
         this.$t("warn_close_new_letter", {
           photoWarn:
-            (this.rawImageList.length && this.$t("warn_lose_of_photo")) || ""
+            (this.rawImageList.length && this.$t("warn_lose_of_photo")) || "",
         }),
         this.$t("tip"),
         {
           confirmButtonText: this.$t("confirm"),
-          cancelButtonText: this.$t("cancel")
+          cancelButtonText: this.$t("cancel"),
         }
-      )
-        .then(() => {
-          this.saveDraft(this.inputData).then(() => {
-            this.editorVisible = false
+      ).then(() => {
+        this.uploadImages()
+          .then((attachments) => this.saveDraft(attachments))
+          .then(() => (this.editorVisible = false))
+          .catch((e) => {
+            console.error(e)
           })
+      })
+    },
+    saveDraft(attachments) {
+      this.isAutoSaving = true
+
+      return api
+        .saveDraft({
+          friendId: this.checkedFriend.id,
+          body: this.inputData,
+          stamp: this.stamp,
+          attachments: attachments || this.draft.attachments,
         })
-        .catch(() => {})
+        .then((result) => {
+          this.isAutoSaving = false
+          return true
+        })
+        .catch((e) => {
+          console.error(e)
+          this.isAutoSaving = false
+          return Promise.reject("Failed to save draft")
+        })
+    },
+    clearDraft() {
+      this.isAutoSaving = true
+      return api
+        .saveDraft({
+          friendId: this.checkedFriend.id,
+          body: "",
+          stamp: this.stamp,
+          attachments: "",
+        })
+        .then((result) => {
+          this.isAutoSaving = false
+        })
+        .catch((e) => {
+          console.error(e)
+          this.isAutoSaving = false
+        })
     },
     send() {
       if (!this.inputData) {
@@ -412,20 +455,16 @@ export default {
       }
       this.$confirm(
         this.$t("warn_is_sending_to", {
-          friend: this.checkedFriend.name
+          friend: this.checkedFriend.name,
         }),
         this.$t("tip"),
         {
           confirmButtonText: this.$t("confirm"),
-          cancelButtonText: this.$t("cancel")
+          cancelButtonText: this.$t("cancel"),
         }
       )
         .then(() => {
-          if (this.rawImageList.length > 0) {
-            this.uploadImages()
-          } else {
-            this.sendImpl()
-          }
+          this.uploadImages().then((attachments) => this.sendImpl(attachments))
         })
         .catch(() => {})
     },
@@ -435,7 +474,7 @@ export default {
       }
       return content.replace(/\n\n\n/g, "\n\n")
     },
-    sendImpl() {
+    sendImpl(attachments = "") {
       this.isSending = true
       let accountInfo = account.getAccount()
       api
@@ -443,15 +482,17 @@ export default {
           id: this.checkedFriend.id,
           letter: this.formatContent(this.inputData),
           isHost: this.checkedFriend.joined != accountInfo.id,
-          attachments: this.attachments,
-          stamp: this.stamp
+          attachments,
+          stamp: this.stamp,
         })
-        .then(response => {
-          this.editorVisible = false
-          this.isSending = false
+        .then((response) => {
           this.checkedFriend.lastRefreshTime = 0
           this.$emit("sendSuccess")
-          this.saveDraft("")
+          return this.clearDraft()
+        })
+        .then(() => {
+          this.isSending = false
+          this.editorVisible = false
           showSuccess(this, "success")
         })
         .catch(({ message }) => {
@@ -484,11 +525,12 @@ export default {
     },
     loadImage(file) {
       let reader = new FileReader()
-      reader.onload = e => {
+      reader.onload = (e) => {
         this.rawImageList.push({
           src: e.target.result,
           file,
-          key: this.generateImageKey()
+          key: this.generateImageKey(),
+          type: TYPE_IMAGE_LOCAL,
         })
       }
       reader.readAsDataURL(file)
@@ -504,21 +546,34 @@ export default {
     },
     uploadImages() {
       this.isUploading = true
-      api
+      const localImageList = this.rawImageList.filter(
+        (item) => item.type === TYPE_IMAGE_LOCAL
+      )
+      const remoteImageList = this.rawImageList.filter(
+        (item) => item.type === TYPE_IMAGE_SERVER
+      )
+      if (localImageList.length === 0) {
+        return Promise.resolve(
+          remoteImageList.map((item) => item.imageName).join(",")
+        )
+      }
+      return api
         .uploadImages(
           this.checkedFriend.id,
-          this.rawImageList.map(item => item.file)
+          localImageList.map((item) => item.file)
         )
-        .then(result => {
+        .then((result) => {
           this.isUploading = false
-          this.attachments = result.map(item => item.data).join(",")
-          this.sendImpl()
-          console.log(result)
+          const finalAttachmentList = remoteImageList
+            .map((item) => item.imageName)
+            .concat(result.map((item) => item.data))
+          return finalAttachmentList.join(",")
         })
-        .catch(result => {
+        .catch((result) => {
           this.isUploading = false
           console.error(result)
           showError(this, result)
+          return Promise.reject("Failed to upload images")
         })
     },
     viewImage(base64) {
@@ -529,7 +584,7 @@ export default {
             base64 +
             '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
         )
-    }
-  }
+    },
+  },
 }
 </script>
