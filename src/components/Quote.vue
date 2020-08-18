@@ -47,7 +47,6 @@
 <script>
 import axios from "axios"
 import { copyToClipboard, showSuccess } from "../util"
-import { getCoin } from "../api"
 
 const quotesSourceMap = {
   en: {
@@ -89,12 +88,6 @@ export default {
     handlongPress(isClick) {
       if (isClick) {
         this.changeQuote()
-        this.times++
-        if (this.times > 5) {
-          getCoin().then(result => {
-            showSuccess(this, result.data)
-          })
-        }
       } else {
         if (this.currentQuote) {
           const text = this.currentQuote.content + this.currentQuote.quoteInfo
