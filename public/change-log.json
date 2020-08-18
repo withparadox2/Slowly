@@ -1,13 +1,18 @@
 [
   {
+    "versionName": "2.4.2",
+    "versionCode": 88,
+    "content": ["We love Slowly!"]
+  },
+  {
     "versionName": "2.4.1",
     "versionCode": 87,
-    "content": ["We love Slowly!"]
+    "content": ["You love Slowly!"]
   },
   {
     "versionName": "2.4.0",
     "versionCode": 86,
-    "content": ["We love Slowly!"]
+    "content": ["I love Slowly!"]
   },
   {
     "versionName": "2.3.0",
