@@ -175,22 +175,6 @@ export function getMeOtp({ params, content }) {
   })
 }
 
-export function getCoin() {
-  return getTime().then((response) => {
-    const curTime = response.data.now
-    const accountInfo = account.getAccount()
-    const otp = getOtp(curTime, accountInfo && accountInfo.id)
-
-    return post({
-      path: "/users/me/admob/watched",
-      content: {
-        reward: 1,
-        otp,
-      },
-    })
-  })
-}
-
 export function getIncomingLetters() {
   return get({
     path: "/letter/incoming",
