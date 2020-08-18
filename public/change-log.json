@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.4.0",
+    "versionCode": 86,
+    "content": ["We love Slowly!"]
+  },
+  {
     "versionName": "2.3.0",
     "versionCode": 85,
     "content": ["Save draft to cloud"]
