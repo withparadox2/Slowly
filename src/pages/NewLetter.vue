@@ -441,7 +441,7 @@ export default {
       return api
         .saveDraft({
           friendId: this.checkedFriend.id,
-          body: this.inputData,
+          body: this.formatContent(this.inputData),
           stamp: this.stamp,
           attachments:
             attachments == null
