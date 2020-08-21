@@ -63,7 +63,7 @@ export function getMe(otp) {
   })
 }
 
-export function sendLetter({ id, letter, isHost, attachments, stamp }) {
+export function sendLetter({ id, letter, isHost, attachments, stamp, accountId }) {
   return post({
     path: `/posts/${id}/reply`,
     content: {
@@ -72,6 +72,8 @@ export function sendLetter({ id, letter, isHost, attachments, stamp }) {
       style: {},
       stamp: stamp || "free",
       host: isHost,
+      accountId: accountId,
+      friendId: id
     },
   })
 }

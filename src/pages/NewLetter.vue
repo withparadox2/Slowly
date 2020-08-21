@@ -512,6 +512,7 @@ export default {
           id: this.checkedFriend.id,
           letter: this.formatContent(this.inputData),
           isHost: this.checkedFriend.joined != accountInfo.id,
+          accountId: accountInfo.id,
           attachments,
           stamp: this.stamp,
         })
