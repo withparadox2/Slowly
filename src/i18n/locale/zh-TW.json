@@ -85,7 +85,7 @@
   "click_to_update": "點擊更新",
   "about_poem": "子夜的燈\n是一條未穿衣裳的\n小河\n\n你的信像一尾魚游來\n讀水的溫暖\n讀你額上動人的鱗片\n\n讀江河如讀一面鏡\n讀鏡中你的笑\n如讀泡沫\n\n— 子夜讀信·洛夫",
   "tip_copy_quote": "已復製到剪貼板",
-  "fail_to_load_profile": "加載個人信息失敗，是否要退出？",
+  "fail_to_load_profile": "加載個人信息失敗",
   "arrive_in_minutes": "{count}分鐘後送達",
   "arrive_in_hours": "{count}小時內送達",
   "warn_fail_to_load_draft": "草稿加載失敗，是否重試?" 

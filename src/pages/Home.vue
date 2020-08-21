@@ -378,7 +378,7 @@ export default {
             ...err,
           })
           if (!showLogin) {
-            this.exit(this.$t("fail_to_load_profile"))
+            showError(this, this.$t("fail_to_load_profile"))
           }
         })
     }
