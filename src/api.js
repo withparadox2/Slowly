@@ -65,7 +65,7 @@ export function getMe(otp) {
 
 export function sendLetter({ id, letter, isHost, attachments, stamp, accountId }) {
   return post({
-    path: `/posts/${id}/reply`,
+    path: `/friend/${id}/reply`,
     content: {
       body: letter,
       attachments,
