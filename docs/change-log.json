@@ -1,5 +1,10 @@
 [
   {
+    "versionName": "2.4.4",
+    "versionCode": 90,
+    "content": ["Fix reply api"]
+  },
+  {
     "versionName": "2.4.3",
     "versionCode": 89,
     "content": ["Trim duplicate blank lines", "Replace prompt with toast while failing to update profile"]
